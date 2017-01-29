@@ -1,34 +1,39 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
-  devtool: 'eval-source-map',
   entry: [
-    'webpack-hot-middleware/client?reload=true',
-    path.join(__dirname, '..', 'app', 'main.js'),
+    path.join(__dirname, '..', 'src', 'main.js'),
   ],
   output: {
-    path: path.join(__dirname, '..', 'dist'),
-    filename: '[name].js',
+    path: path.join(__dirname, '..', 'dashboard'),
+    filename: '[name]-[hash].min.js',
     publicPath: '/',
   },
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, '..', 'app', 'index.tpl.html'),
+      template: path.join(__dirname, '..', 'src', 'index.tpl.html'),
       inject: 'body',
       filename: 'index.html',
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin('[name]-[hash].min.css'),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false,
+        screw_ie8: true,
+      },
+    }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
     new CopyWebpackPlugin([
       {
-        context: path.join(__dirname, '..', 'app'),
+        context: path.join(__dirname, '..', 'src'),
         from: 'assets',
         to: 'assets',
         ignore: ['fonts/**/*'],
@@ -41,17 +46,15 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel',
       query: {
-        presets: [
-          'react',
-          'es2015',
-          'stage-0',
-          'react-hmre',
-        ],
+        presets: ['es2015', 'stage-0', 'react'],
         plugins: ['transform-runtime'],
       },
     }, {
+      test: /\.json/,
+      loader: 'json',
+    }, {
       test: /\.scss$/,
-      loaders: ['style', 'css', 'resolve-url', 'sass?sourceMap'],
+      loader: ExtractTextPlugin.extract(['css', 'resolve-url-loader', 'sass!postcss?sourceMap']),
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
       loaders: [
@@ -63,4 +66,7 @@ module.exports = {
       loader: 'file?name=assets/fonts/[name].[ext]',
     }],
   },
+  postcss: [
+    autoprefixer,
+  ],
 };

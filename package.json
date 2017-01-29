@@ -6,7 +6,8 @@
   "author": "Jason Etcovitch",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --ignore dashboard index.js"
+    "start": "nodemon --ignore dashboard index.js",
+    "build": "rimraf dashboard && cross-env NODE_ENV=production webpack --config ./config/webpack.production.config.js --progress --profile --colors"
   },
   "babel": {
     "presets": [
@@ -27,11 +28,19 @@
   },
   "dependencies": {
     "autoprefixer": "^6.7.0",
+    "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-runtime": "^6.22.0",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-preset-stage-0": "^6.22.0",
+    "bcrypt-nodejs": "^0.0.3",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^3.1.4",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -42,6 +51,7 @@
     "node-sass": "^4.4.0",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "postcss-loader": "^1.2.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
