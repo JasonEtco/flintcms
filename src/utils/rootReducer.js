@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import io from 'socket.io-client';
-
 
 const socket = io();
 
@@ -11,6 +11,7 @@ const socket = io();
 // recipes: (state = {}) => state,
 const rootReducer = combineReducers({
   socket: (state = socket) => state,
+  routing: routerReducer,
 });
 
 export default rootReducer;

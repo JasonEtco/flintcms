@@ -8,14 +8,14 @@ export default function mapStateToProps(state) {
   return { ...state };
 }
 
-const App = <div>App!</div>;
+const App = () => <div>App!</div>;
 
 const Root = connect(mapStateToProps)(App);
 
 const storeWrapper = (
   <Provider store={store}>
     <Router history={history}>
-      <IndexRoute component={Root} />
+      <Route path="/" component={Root} />
       <Route path="test" component={Root} />
     </Router>
   </Provider>
