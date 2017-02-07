@@ -49,17 +49,6 @@ app.use(userRoutes);
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
 
-const routes = {
-  index: './templates/index.hbs',
-};
-
-app.get('/', (req, res) => compile(routes.index, { name: 'Jason' }).then(r => res.send(r)));
-app.get('/a/:slug', (req, res) => {
-  getEntryData(req.params.slug)
-    .then(data => compile(routes.index, data))
-    .then(r => res.send(r));
-});
-
 if (isDeveloping) {
   console.log('Development mode!');
   const compiler = webpack(config);
@@ -89,5 +78,16 @@ if (isDeveloping) {
     res.sendFile(path.join(__dirname, 'dashboard', 'index.html'));
   });
 }
+
+const routes = {
+  index: './templates/index.hbs',
+};
+
+app.get('/', (req, res) => compile(routes.index, { name: 'Jason' }).then(r => res.send(r)));
+app.get('/:slug', (req, res) => {
+  getEntryData(req.params.slug)
+    .then(data => compile(routes.index, data))
+    .then(r => res.send(r));
+});
 
 http.listen(port, () => console.log(`Running at http://localhost:${port}`));
