@@ -1,7 +1,7 @@
 /* eslint no-console: 0 */
 
 const express = require('express');
-const session = require('express-session');
+const session = require('cookie-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
