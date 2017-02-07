@@ -11,7 +11,9 @@ const config = require('./config/webpack.config');
 require('./utils/database');
 
 const compile = require('./utils/compile');
-const getData = require('./utils/getData');
+require('./utils/registerPartials');
+
+const getEntryData = require('./utils/getEntryData');
 
 const app = express();
 
@@ -33,7 +35,7 @@ const routes = {
 
 app.get('/', (req, res) => compile(routes.index, { name: 'Jason' }).then(r => res.send(r)));
 app.get('/:slug', (req, res) => {
-  getData(req.params.slug)
+  getEntryData(req.params.slug)
     .then(data => compile(routes.index, data))
     .then(r => res.send(r));
 });

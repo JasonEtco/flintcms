@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>{{#if title}}{{title}} | {{/if}}Flint</title>
 </head>
 <body>
   <h1>{{title}}</h1>
 
   {{name}}
+
+  {{> testPartial }}
 </body>
 </html>
