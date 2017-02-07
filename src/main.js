@@ -18,7 +18,7 @@ const App = connect(mapStateToProps)(Main);
 const storeWrapper = (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={App}>
+      <Route path="/admin" component={App}>
         <IndexRoute component={Home} />
         <Route path="users" component={Users} />
       </Route>

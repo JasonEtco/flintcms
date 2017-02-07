@@ -8,6 +8,10 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const config = require('./config/webpack.config');
+require('./utils/database');
+
+const compile = require('./utils/compile');
+const getData = require('./utils/getData');
 
 const app = express();
 
@@ -22,6 +26,17 @@ app.use(compression());
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
+
+const routes = {
+  index: './templates/index.hbs',
+};
+
+app.get('/', (req, res) => compile(routes.index, { name: 'Jason' }).then(r => res.send(r)));
+app.get('/:slug', (req, res) => {
+  getData(req.params.slug)
+    .then(data => compile(routes.index, data))
+    .then(r => res.send(r));
+});
 
 if (isDeveloping) {
   console.log('Development mode!');
@@ -41,15 +56,15 @@ if (isDeveloping) {
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
 
-  app.get('/', (req, res) => {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '../dashboard/index.html')));
+  app.get('/admin', (req, res) => {
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dashboard', 'index.html')));
     res.end();
   });
 } else {
   app.use(express.static(__dirname));
 
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dashboard/index.html'));
+  app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dashboard', 'index.html'));
   });
 }
 

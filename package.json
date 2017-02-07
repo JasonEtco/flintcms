@@ -10,7 +10,7 @@
     "npm": "4.0.5"
   },
   "scripts": {
-    "start": "nodemon --ignore dashboard index.js",
+    "start": "nodemon --harmony --ignore dashboard index.js",
     "build": "rimraf dashboard && cross-env NODE_ENV=production webpack --config ./config/webpack.production.config.js --progress --profile --colors"
   },
   "babel": {
@@ -46,10 +46,13 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^3.1.4",
     "dotenv": "^4.0.0",
+    "es6-promise": "^4.0.5",
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "handlebars": "^4.0.6",
     "html-webpack-plugin": "^2.28.0",
     "immutability-helper": "^2.1.1",
+    "isomorphic-fetch": "^2.2.1",
     "moment": "^2.17.1",
     "mongoose": "^4.8.0",
     "node-sass": "^4.4.0",
