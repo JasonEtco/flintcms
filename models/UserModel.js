@@ -4,17 +4,17 @@ const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  name: {
-    first: {
-      type: String,
-      required: true,
-    },
-    last: {
-      type: String,
-      required: true,
-    },
-  },
-  email: {
+  // name: {
+  //   first: {
+  //     type: String,
+  //     required: true,
+  //   },
+  //   last: {
+  //     type: String,
+  //     required: true,
+  //   },
+  // },
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -23,11 +23,11 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  usergroup: {
-    type: Schema.Types.ObjectId,
-    ref: 'UserGroup',
-    required: true,
-  },
+  // usergroup: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'UserGroup',
+  //   required: true,
+  // },
   image: {
     type: String,
     default: 'assets/default_user.png',
@@ -46,6 +46,8 @@ const UserSchema = new Schema({
 UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync());
 
 // Validate hash
-UserSchema.methods.validateHash = password => bcrypt.compareSync(password, this.password);
+UserSchema.methods.validateHash = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema, 'users');

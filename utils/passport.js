@@ -1,55 +1,51 @@
-const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
 
-// Serialize user
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
+const strategyOptions = {
+  usernameField: 'username',
+  passwordField: 'password',
+  passReqToCallback: true,
+  failureRedirect: '/admin/login',
+};
 
-// Deserialize user
-passport.deserializeUser((id, done) => {
-  User.findById(id, { password: 0 }, (err, user) => {
-    done(err, user);
+module.exports = (passport) => {
+  // Serialize user
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
   });
-});
 
-passport.use('local-signup', new LocalStrategy((req, username, password, done) => {
-  process.nextTick(() => {
-    // Verify that user with that email doesn't already exist
-    User.findOne({ username }, (err, user) => {
-      if (err) return done(err);
-
-      if (user) {
-        return done('It appears that email address has already been used to sign up!', null);
-      }
-
-      const newUser = new User({ username, name });
-
-      // Generate password hash
-      newUser.password = newUser.generateHash(password);
-
-      // Save the user
-      return newUser.save((newUserErr, newSavedUser) => {
-        if (err) return done(err);
-        return done(null, newSavedUser);
-      });
+  // Deserialize user
+  passport.deserializeUser((id, done) => {
+    User.findById(id, { password: 0 }, (err, user) => {
+      done(err, user);
     });
   });
-}));
 
+  passport.use('local-signup', new LocalStrategy(strategyOptions, (req, username, password, done) => {
+    process.nextTick(() => {
+      User.findOne({ username }).then((user) => {
+        if (user) return done(null, false);
+        const newUser = new User();
 
-passport.use('local-login', new LocalStrategy((username, password, done) => {
-  User.findOne({ username }, (err, user) => {
-    if (err) { return done(err); }
-    if (!user) {
-      return done(null, false, { message: 'Incorrect username.' });
-    }
-    if (!user.validateHash(password)) {
-      return done(null, false, { message: 'Incorrect password.' });
-    }
-    return done(null, user);
-  });
-}));
+        newUser.username = username;
+        newUser.password = newUser.generateHash(password);
+        newUser.dateCreated = Date.now();
+
+        return newUser.save().then(u => done(null, u));
+      })
+      .catch(err => console.log(err));
+    });
+  }));
+
+  passport.use('local-login', new LocalStrategy(strategyOptions, (req, username, password, done) => {
+    User.findOne({ username })
+      .then((user) => {
+        if (!user) return done(null, false);
+        if (!user.validateHash(password)) return done(null, false);
+        return done(null, user);
+      })
+      .catch(err => console.log(err));
+  }));
+};

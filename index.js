@@ -1,6 +1,10 @@
 /* eslint no-console: 0 */
 
 const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const morgan = require('morgan');
 const path = require('path');
 const compression = require('compression');
 const webpack = require('webpack');
@@ -10,6 +14,7 @@ const passport = require('passport');
 
 const config = require('./config/webpack.config');
 require('./utils/database');
+require('./utils/passport')(passport);
 
 const compile = require('./utils/compile');
 require('./utils/registerPartials');
@@ -17,7 +22,6 @@ require('./utils/registerPartials');
 const getEntryData = require('./utils/getEntryData');
 
 const app = express();
-
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
@@ -25,10 +29,22 @@ io.on('connection', (socket) => {
   console.log('User connected!', socket.id);
 });
 
-app.use(compression());
-app.use(express.session({ secret: process.env.SECRET }));
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+
+// app.use(morgan('combined'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ secret: process.env.SESSION_SECRET }));
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(compression());
+
+// Application Routes
+app.use(authRoutes);
+app.use(userRoutes);
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
@@ -38,7 +54,7 @@ const routes = {
 };
 
 app.get('/', (req, res) => compile(routes.index, { name: 'Jason' }).then(r => res.send(r)));
-app.get('/:slug', (req, res) => {
+app.get('/a/:slug', (req, res) => {
   getEntryData(req.params.slug)
     .then(data => compile(routes.index, data))
     .then(r => res.send(r));
@@ -62,14 +78,14 @@ if (isDeveloping) {
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
 
-  app.get('/admin', (req, res) => {
+  app.get('/admin*', (req, res) => {
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dashboard', 'index.html')));
     res.end();
   });
 } else {
   app.use(express.static(__dirname));
 
-  app.get('/admin', (req, res) => {
+  app.get('/admin*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dashboard', 'index.html'));
   });
 }
