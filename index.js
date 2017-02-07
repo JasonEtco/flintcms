@@ -6,6 +6,7 @@ const compression = require('compression');
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const passport = require('passport');
 
 const config = require('./config/webpack.config');
 require('./utils/database');
@@ -25,6 +26,9 @@ io.on('connection', (socket) => {
 });
 
 app.use(compression());
+app.use(express.session({ secret: process.env.SECRET }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
