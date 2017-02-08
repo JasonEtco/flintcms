@@ -25,7 +25,7 @@ const storeWrapper = (
         <IndexRoute component={Home} />
         <Route path="users" component={Users} />
       </Route>
-      <Route path="/admin/login" component={LoginContainer}>
+      <Route path="/admin/login" component={LoginApp}>
         <IndexRoute component={Login} />
       </Route>
     </Router>

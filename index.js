@@ -46,6 +46,17 @@ app.use(compression());
 app.use(authRoutes);
 app.use(userRoutes);
 
+const routes = {
+  index: './templates/index.hbs',
+};
+
+app.get('/', (req, res) => compile(routes.index, { name: 'Jason' }).then(r => res.send(r)));
+app.get('/:slug(^((?!admin).)*$)', (req, res) => {
+  getEntryData(req.params.slug)
+    .then(data => compile(routes.index, data))
+    .then(r => res.send(r));
+});
+
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
 
@@ -78,16 +89,5 @@ if (isDeveloping) {
     res.sendFile(path.join(__dirname, 'dashboard', 'index.html'));
   });
 }
-
-const routes = {
-  index: './templates/index.hbs',
-};
-
-app.get('/', (req, res) => compile(routes.index, { name: 'Jason' }).then(r => res.send(r)));
-app.get('/:slug', (req, res) => {
-  getEntryData(req.params.slug)
-    .then(data => compile(routes.index, data))
-    .then(r => res.send(r));
-});
 
 http.listen(port, () => console.log(`Running at http://localhost:${port}`));

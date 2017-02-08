@@ -17,4 +17,9 @@ router.post('/admin/login', passport.authenticate('local-login', strategyOptions
   res.redirect('/admin');
 });
 
+router.get('/admin/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
 module.exports = router;

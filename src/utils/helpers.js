@@ -1,26 +1,16 @@
+import { browserHistory } from 'react-router';
+
 const helpers = {
-  rando(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+  receiveIfAuthed(json) {
+    if (json.status === 401 && json.redirect) {
+      browserHistory.push(json.redirect);
+    }
   },
   filterObj(str, obj) {
     if (str in obj) {
       return false;
     }
     return true;
-  },
-  takeWhile(arr, f) {
-    let ok = true;
-    return arr.filter(e => ok && (ok = f(e)));
-  },
-  dropWhile(arr, f) {
-    let ok = false;
-    return arr.filter(e => ok || (ok = !f(e)));
-  },
-  zip(...arrs) {
-    const resultLength = Math.min(...arrs.map(a => a.length));
-    return new Array(resultLength)
-      .fill(0)
-      .map((_, i) => arrs.map(a => a[i]));
   },
   slugify(str) {
     return str
@@ -29,18 +19,6 @@ const helpers = {
       .replace(/[-\s]+/g, '-')     // Replace spaces with dashes
       .replace(/[^a-z0-9-]/g, '')  // Remove disallowed symbols
       .replace(/--+/g, '-');
-  },
-  shuffleStr(str) {
-    const a = str.split('');
-    const n = a.length;
-
-    for (let i = n - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const tmp = a[i];
-      a[i] = a[j];
-      a[j] = tmp;
-    }
-    return a.join('');
   },
   getUrlParameter(name, str) {
     const filteredName = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
