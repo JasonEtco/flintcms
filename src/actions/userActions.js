@@ -21,7 +21,7 @@ function fetchUser() {
   return (dispatch) => {
     dispatch(requestUser());
 
-    return fetch('admin/api/user', {
+    return fetch('/admin/api/user', {
       credentials: 'same-origin',
       headers: new Headers({
         'Content-Type': 'application/json',

@@ -1,7 +1,10 @@
 const helpers = {
   loggedIn(req, res, next) {
-    if (req.user !== undefined) return next();
-    return res.json({ status: 401, redirect: '/admin/login' });
+    if (req.user !== undefined) {
+      next();
+    } else {
+      res.status(401).json({ redirect: '/admin/login' });
+    }
   },
   slugify(str) {
     return str
