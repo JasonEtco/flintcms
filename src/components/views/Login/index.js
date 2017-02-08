@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Input from '../../modules/Input';
 
 export default class Login extends Component {
   render() {
@@ -7,11 +8,11 @@ export default class Login extends Component {
         <form action="/admin/login" method="post">
           <div>
             <label>Username:</label>
-            <input type="text" name="username" />
+            <Input name="username" />
           </div>
           <div>
             <label>Password:</label>
-            <input type="password" name="password" />
+            <Input type="password" name="password" />
           </div>
           <div>
             <input type="submit" value="Log In" />
@@ -21,11 +22,11 @@ export default class Login extends Component {
         <form action="/admin/signup" method="post">
           <div>
             <label>Username:</label>
-            <input id="username" type="text" name="username" />
+            <Input name="username" />
           </div>
           <div>
             <label>Password:</label>
-            <input id="password" type="password" name="password" />
+            <Input type="password" name="password" />
           </div>
           <div>
             <input type="submit" value="Sign Up" />

@@ -3,7 +3,7 @@ import { fetchUserIfNeeded } from '../../../actions/userActions';
 
 export default class Main extends Component {
   static propTypes = {
-    socket: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -16,7 +16,7 @@ export default class Main extends Component {
   render() {
     return (
       <div>
-        Main!
+        Main! Hi {this.props.user.username}
         <div>
           {React.cloneElement(this.props.children, {
             ...this.props,

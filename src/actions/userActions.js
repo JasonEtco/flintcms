@@ -29,7 +29,6 @@ function fetchUser() {
     })
       .then(response => response.json())
       .then((json) => {
-        console.log(json);
         h.receiveIfAuthed(json);
         dispatch(receiveUser(json));
       });
