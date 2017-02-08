@@ -3,7 +3,7 @@ const helpers = {
     if (req.user !== undefined) {
       next();
     } else {
-      res.status(401).json({ redirect: '/admin/login' });
+      res.json({ status: 401, redirect: '/admin/login' });
     }
   },
   slugify(str) {

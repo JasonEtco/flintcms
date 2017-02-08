@@ -41,8 +41,8 @@ function fetchSections() {
     })
       .then(response => response.json())
       .then((json) => {
-        h.receiveIfAuthed(json);
-        dispatch(receiveSections(json));
+        h.receiveIfAuthed(json)
+          .then(dispatch(receiveSections(json)));
       })
       .catch(err => new Error(err));
   };

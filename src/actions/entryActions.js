@@ -45,8 +45,8 @@ function fetchEntries() {
     })
       .then(response => response.json())
       .then((json) => {
-        h.receiveIfAuthed(json);
-        dispatch(receiveEntries(json));
+        h.receiveIfAuthed(json)
+          .then(dispatch(receiveEntries(json)));
       })
       .catch(err => new Error(err));
   };

@@ -2,9 +2,13 @@ import { browserHistory } from 'react-router';
 
 const helpers = {
   receiveIfAuthed(json) {
-    if (json.status === 401 && json.redirect) {
-      browserHistory.push(json.redirect);
-    }
+    return new Promise((resolve) => {
+      if (json.status === 401 && json.redirect) {
+        browserHistory.push(json.redirect);
+      } else {
+        resolve(json);
+      }
+    });
   },
   filterObj(str, obj) {
     if (str in obj) {

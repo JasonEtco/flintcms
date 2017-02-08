@@ -29,8 +29,8 @@ function fetchUser() {
     })
       .then(res => res.json())
       .then((json) => {
-        h.receiveIfAuthed(json);
-        dispatch(receiveUser(json));
+        h.receiveIfAuthed(json)
+          .then(dispatch(receiveUser(json)));
       })
       .catch(err => new Error(err));
   };
