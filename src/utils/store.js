@@ -8,6 +8,7 @@ import rootReducer from './rootReducer';
 const defaultState = {
   user: { isFetching: true },
   entries: { isFetching: true },
+  sections: { isFetching: true },
 };
 const routerMiddle = routerMiddleware(browserHistory);
 

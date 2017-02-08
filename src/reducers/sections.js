@@ -1,13 +1,12 @@
 import {
-  REQUEST_ENTRIES,
-  RECEIVE_ENTRIES,
-  NEW_ENTRY,
-} from '../actions/entryActions';
+  REQUEST_SECTIONS,
+  RECEIVE_SECTIONS,
+} from '../actions/sectionActions';
 
-export default function entries(state = {}, action) {
+export default function sections(state = {}, action) {
   switch (action.type) {
 
-    case REQUEST_ENTRIES: {
+    case REQUEST_SECTIONS: {
       return {
         ...state,
         isFetching: true,
@@ -15,18 +14,14 @@ export default function entries(state = {}, action) {
       };
     }
 
-    case RECEIVE_ENTRIES: {
+    case RECEIVE_SECTIONS: {
       return {
         ...state,
-        entries: action.entries,
+        sections: action.sections,
         isFetching: false,
         didInvalidate: false,
         lastUpdated: action.receivedAt,
       };
-    }
-
-    case NEW_ENTRY: {
-      return state;
     }
 
     default:

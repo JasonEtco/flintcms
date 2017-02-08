@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 
 import user from '../reducers/user';
 import entries from '../reducers/entries';
+import sections from '../reducers/sections';
 
 const socket = io();
 
@@ -15,6 +16,7 @@ const socket = io();
 const rootReducer = combineReducers({
   user,
   entries,
+  sections,
   socket: (state = socket) => state,
   routing: routerReducer,
 });

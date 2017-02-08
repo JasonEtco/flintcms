@@ -27,7 +27,7 @@ function fetchUser() {
         'Content-Type': 'application/json',
       }),
     })
-      .then(response => response.json())
+      .then(res => res.json())
       .then((json) => {
         h.receiveIfAuthed(json);
         dispatch(receiveUser(json));

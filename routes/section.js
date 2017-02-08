@@ -6,6 +6,12 @@ const Section = mongoose.model('Section');
 
 const router = express.Router();
 
+router.get('/admin/api/sections', h.loggedIn, (req, res) => {
+  Section.find()
+    .then(entries => res.status(200).json(entries))
+    .catch(err => console.log(err));
+});
+
 router.post('/admin/api/section', h.loggedIn, (req, res) => {
   const { title } = req.body;
   const slug = h.slugify(title);
