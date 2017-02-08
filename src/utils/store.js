@@ -5,7 +5,10 @@ import { browserHistory } from 'react-router';
 import rootReducer from './rootReducer';
 
 
-const defaultState = {};
+const defaultState = {
+  user: { isFetching: true },
+  entries: { isFetching: true },
+};
 const routerMiddle = routerMiddleware(browserHistory);
 
 const enhancers = compose(

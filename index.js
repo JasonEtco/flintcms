@@ -31,6 +31,7 @@ io.on('connection', (socket) => {
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const entryRoutes = require('./routes/entries');
 
 // app.use(morgan('combined'));
 app.use(cookieParser());
@@ -45,6 +46,7 @@ app.use(compression());
 // Application Routes
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(entryRoutes);
 
 const routes = {
   index: './templates/index.hbs',
