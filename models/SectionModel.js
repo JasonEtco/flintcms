@@ -7,10 +7,6 @@ const SectionSchema = new Schema({
     type: String,
     required: true,
   },
-  type: {
-    type: Schema.Types.ObjectId,
-    ref: 'SectionType',
-  },
   slug: {
     type: String,
     required: true,

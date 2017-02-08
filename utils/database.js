@@ -19,4 +19,5 @@ process.on('SIGINT', () => {
 });
 
 require('../models/UserModel');
+require('../models/SectionModel');
 require('../models/EntryModel');

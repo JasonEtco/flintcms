@@ -32,10 +32,12 @@ io.on('connection', (socket) => {
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const entryRoutes = require('./routes/entries');
+const sectionRoutes = require('./routes/section');
 
 // app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(session({ secret: process.env.SESSION_SECRET }));
 
 app.use(passport.initialize());
@@ -47,6 +49,7 @@ app.use(compression());
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(entryRoutes);
+app.use(sectionRoutes);
 
 const routes = {
   index: './templates/index.hbs',
