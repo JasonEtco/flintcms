@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import types from '../../utils/types';
 import { newEntry } from '../../actions/entryActions';
 import Button from '../../components/Button';
@@ -8,6 +9,7 @@ export default class Entries extends Component {
     ...types.entries,
     ...types.sections,
   }
+
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -33,7 +35,9 @@ export default class Entries extends Component {
           </form>
         </div>
 
-        {this.props.entries.entries.map(entry => <h3 key={entry._id}>{entry.title}</h3>)}
+        {this.props.entries.entries.map(entry => (
+          <h3 key={entry._id}><Link to={`/admin/entries/${entry._id}`}>{entry.title}</Link></h3>
+        ))}
       </div>
     );
   }
