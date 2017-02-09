@@ -29,11 +29,6 @@ io.on('connection', (socket) => {
   console.log('User connected!', socket.id);
 });
 
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-const entryRoutes = require('./routes/entries');
-const sectionRoutes = require('./routes/section');
-
 // app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,10 +41,10 @@ app.use(passport.session());
 app.use(compression());
 
 // Application Routes
-app.use(authRoutes);
-app.use(userRoutes);
-app.use(entryRoutes);
-app.use(sectionRoutes);
+app.use(require('./routes/auth'));
+app.use(require('./routes/user'));
+require('./routes/entries')(app, io);
+require('./routes/section')(app, io);
 
 const routes = {
   index: './templates/index.hbs',
