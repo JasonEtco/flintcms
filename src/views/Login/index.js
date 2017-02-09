@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Input from '../../modules/Input';
+import Input from '../../components/Input';
 
 export default class Login extends Component {
   render() {

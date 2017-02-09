@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { fetchUserIfNeeded } from '../../../actions/userActions';
-import { fetchEntriesIfNeeded } from '../../../actions/entryActions';
-import { fetchSectionsIfNeeded } from '../../../actions/sectionActions';
-import types from '../../types';
+import { fetchUserIfNeeded } from '../../actions/userActions';
+import { fetchEntriesIfNeeded } from '../../actions/entryActions';
+import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
+import types from '../../utils/types';
 
 export default class Main extends Component {
   static propTypes = {

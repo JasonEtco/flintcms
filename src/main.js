@@ -4,14 +4,14 @@ import { Provider, connect } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 import store, { history } from './utils/store';
 
-import Main from './components/containers/Main';
-import LoginContainer from './components/containers/Login';
+import Main from './containers/Main';
+import LoginContainer from './containers/Login';
 
-import Home from './components/views/Home';
-import Users from './components/views/Users';
-import Login from './components/views/Login';
-import Entries from './components/views/Entries';
-import NewSection from './components/views/NewSection';
+import Home from './views/Home';
+import Users from './views/Users';
+import Login from './views/Login';
+import Entries from './views/Entries';
+import NewSection from './views/NewSection';
 
 export default function mapStateToProps(state) {
   return { ...state };

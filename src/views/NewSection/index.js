@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { addNewSection } from '../../../actions/sectionActions';
+import { addNewSection } from '../../actions/sectionActions';
 
 class NewSection extends Component {
   static propTypes = {

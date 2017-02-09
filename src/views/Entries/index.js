@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import types from '../../types';
-import { newEntry } from '../../../actions/entryActions';
+import types from '../../utils/types';
+import { newEntry } from '../../actions/entryActions';
 
 export default class Entries extends Component {
   static propTypes = {
