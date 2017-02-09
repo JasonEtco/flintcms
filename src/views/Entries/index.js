@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import types from '../../utils/types';
 import { newEntry } from '../../actions/entryActions';
+import Button from '../../components/Button';
 
 export default class Entries extends Component {
   static propTypes = {
@@ -28,7 +29,7 @@ export default class Entries extends Component {
             <select ref={(r) => { this.section = r; }}>
               {this.props.sections.sections.map(section => <option key={section._id} value={section._id}>{section.title}</option>)}
             </select>
-            <input type="submit" value="Add Section" />
+            <Button type="submit">Add Entry</Button>
           </form>
         </div>
 

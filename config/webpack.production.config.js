@@ -69,4 +69,10 @@ module.exports = {
   postcss: [
     autoprefixer,
   ],
+  sassLoader: {
+    data: '@import "tools";',
+    includePaths: [
+      path.resolve(__dirname, '../src/scss/tools'),
+    ],
+  },
 };

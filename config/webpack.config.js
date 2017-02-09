@@ -64,4 +64,10 @@ module.exports = {
       loader: 'file?name=assets/fonts/[name].[ext]',
     }],
   },
+  sassLoader: {
+    data: '@import "tools";',
+    includePaths: [
+      path.resolve(__dirname, '../src/scss/tools'),
+    ],
+  },
 };

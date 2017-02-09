@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 import store, { history } from './utils/store';
+import './main.scss';
 
 import Main from './containers/Main';
 import LoginContainer from './containers/Login';
