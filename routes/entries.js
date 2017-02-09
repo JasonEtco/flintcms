@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/admin/api/entries', h.loggedIn, (req, res) => {
   Entry.find()
     .then(entries => res.status(200).json(entries))
-    .catch(err => console.log(err));
+    .catch(err => new Error(err));
 });
 
 router.post('/admin/api/entries', h.loggedIn, (req, res) => {
@@ -27,13 +27,13 @@ router.post('/admin/api/entries', h.loggedIn, (req, res) => {
 
         newEntry.title = title;
         newEntry.slug = slug;
+        newEntry.template = 'index';
         newEntry.section = section._id;
         newEntry.dateCreated = Date.now();
 
-        return newEntry.save().then((savedEntry) => {
-          section.entries = [...section.entries, savedEntry._id];
-          section.save().then(() => res.status(200).json({ success: true }));
-        });
+        newEntry.save()
+          .then(savedEntry => res.status(200).json({ success: true, savedEntry }))
+          .catch(err => new Error(err));
       })
       .catch(err => new Error(err));
     })

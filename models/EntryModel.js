@@ -11,6 +11,10 @@ const EntrySchema = new Schema({
     type: String,
     required: true,
   },
+  section: {
+    type: Schema.Types.ObjectId,
+    ref: 'Section',
+  },
   slug: {
     type: String,
     required: true,

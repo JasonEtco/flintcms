@@ -11,10 +11,6 @@ const SectionSchema = new Schema({
     type: String,
     required: true,
   },
-  entries: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Entry',
-  }],
   dateCreated: {
     type: Date,
     required: true,
