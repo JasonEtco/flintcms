@@ -1,4 +1,4 @@
-import h from '../utils/helpers';
+import Fetcher from '../utils/fetchClass';
 
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
@@ -19,56 +19,15 @@ export function newEntry(title, sectionId) {
       .catch(err => new Error(err));
 }
 
-function requestEntries() {
-  return {
-    type: REQUEST_ENTRIES,
-  };
-}
-
-function receiveEntries(json) {
-  return {
-    type: RECEIVE_ENTRIES,
-    entries: json,
-    receivedAt: Date.now(),
-  };
-}
-
-function fetchEntries() {
-  return (dispatch) => {
-    dispatch(requestEntries());
-
-    return fetch('/admin/api/entries', {
-      credentials: 'same-origin',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-    })
-      .then(response => response.json())
-      .then((json) => {
-        h.receiveIfAuthed(json)
-          .then(dispatch(receiveEntries(json)));
-      })
-      .catch(err => new Error(err));
-  };
-}
-
-function shouldFetchEntries(state) {
-  const { entries } = state;
-  if (!entries.entries) {
-    return true;
-  } else if (entries.isFetching) {
-    return false;
-  }
-
-  return entries.didInvalidate;
-}
-
-export function fetchEntriesIfNeeded(entries) {
+export function fetchEntriesIfNeeded() {
   return (dispatch, getState) => {
-    if (shouldFetchEntries(getState())) {
-      return dispatch(fetchEntries(entries));
-    }
+    const fetcherOptions = {
+      name: 'entries',
+      request: REQUEST_ENTRIES,
+      receive: RECEIVE_ENTRIES,
+    };
 
-    return false;
+    const fetcher = new Fetcher(fetcherOptions);
+    return fetcher.beginFetch(dispatch, getState());
   };
 }

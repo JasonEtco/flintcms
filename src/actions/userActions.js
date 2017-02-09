@@ -1,58 +1,17 @@
-import h from '../utils/helpers';
+import Fetcher from '../utils/fetchClass';
 
 export const REQUEST_USER = 'REQUEST_USER';
 export const RECEIVE_USER = 'RECEIVE_USER';
 
-function requestUser() {
-  return {
-    type: REQUEST_USER,
-  };
-}
-
-function receiveUser(json) {
-  return {
-    type: RECEIVE_USER,
-    user: json,
-    receivedAt: Date.now(),
-  };
-}
-
-function fetchUser() {
-  return (dispatch) => {
-    dispatch(requestUser());
-
-    return fetch('/admin/api/user', {
-      credentials: 'same-origin',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-    })
-      .then(res => res.json())
-      .then((json) => {
-        h.receiveIfAuthed(json)
-          .then(dispatch(receiveUser(json)));
-      })
-      .catch(err => new Error(err));
-  };
-}
-
-function shouldFetchUser(state) {
-  const { user } = state;
-  if (!user.user) {
-    return true;
-  } else if (user.isFetching) {
-    return false;
-  }
-
-  return user.didInvalidate;
-}
-
-export function fetchUserIfNeeded(user) {
+export function fetchUserIfNeeded() {
   return (dispatch, getState) => {
-    if (shouldFetchUser(getState())) {
-      return dispatch(fetchUser(user));
-    }
+    const fetcherOptions = {
+      name: 'user',
+      request: REQUEST_USER,
+      receive: RECEIVE_USER,
+    };
 
-    return false;
+    const fetcher = new Fetcher(fetcherOptions);
+    return fetcher.beginFetch(dispatch, getState());
   };
 }

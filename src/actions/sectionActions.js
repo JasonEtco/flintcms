@@ -1,10 +1,10 @@
-import h from '../utils/helpers';
+import Fetcher from '../utils/fetchClass';
 
 export const REQUEST_SECTIONS = 'REQUEST_SECTIONS';
 export const RECEIVE_SECTIONS = 'RECEIVE_SECTIONS';
 
 export function addNewSection(title) {
-  fetch('/admin/api/section', {
+  fetch('/admin/api/sections', {
     method: 'POST',
     body: JSON.stringify({ title }),
     credentials: 'same-origin',
@@ -15,56 +15,15 @@ export function addNewSection(title) {
     .then(json => console.log(json));
 }
 
-function requestSections() {
-  return {
-    type: REQUEST_SECTIONS,
-  };
-}
-
-function receiveSections(json) {
-  return {
-    type: RECEIVE_SECTIONS,
-    sections: json,
-    receivedAt: Date.now(),
-  };
-}
-
-function fetchSections() {
-  return (dispatch) => {
-    dispatch(requestSections());
-
-    return fetch('/admin/api/sections', {
-      credentials: 'same-origin',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-    })
-      .then(response => response.json())
-      .then((json) => {
-        h.receiveIfAuthed(json)
-          .then(dispatch(receiveSections(json)));
-      })
-      .catch(err => new Error(err));
-  };
-}
-
-function shouldFetchSections(state) {
-  const { sections } = state;
-  if (!sections.sections) {
-    return true;
-  } else if (sections.isFetching) {
-    return false;
-  }
-
-  return sections.didInvalidate;
-}
-
-export function fetchSectionsIfNeeded(sections) {
+export function fetchSectionsIfNeeded() {
   return (dispatch, getState) => {
-    if (shouldFetchSections(getState())) {
-      return dispatch(fetchSections(sections));
-    }
+    const fetcherOptions = {
+      name: 'sections',
+      request: REQUEST_SECTIONS,
+      receive: RECEIVE_SECTIONS,
+    };
 
-    return false;
+    const fetcher = new Fetcher(fetcherOptions);
+    return fetcher.beginFetch(dispatch, getState());
   };
 }
