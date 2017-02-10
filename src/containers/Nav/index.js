@@ -7,7 +7,7 @@ const NavItem = props => <li className="nav__list-item"><Link to={props.to}>{pro
 
 NavItem.propTypes = {
   to: PropTypes.string.isRequired,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.string.isRequired,
 };
 
 export default class Nav extends Component {

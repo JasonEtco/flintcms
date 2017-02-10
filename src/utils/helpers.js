@@ -1,6 +1,12 @@
 import { browserHistory } from 'react-router';
 
 const helpers = {
+  getSlugFromId(arr, id) {
+    return arr.find(v => v._id === id).slug;
+  },
+  getIdFromSlug(arr, slug) {
+    return arr.find(v => v.slug === slug)._id;
+  },
   receiveIfAuthed(json) {
     return new Promise((resolve) => {
       if (json.status === 401 && json.redirect) {
