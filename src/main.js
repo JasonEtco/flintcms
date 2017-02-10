@@ -30,9 +30,9 @@ const storeWrapper = (
         <IndexRoute component={Home} />
         <Route path="users" component={Users} />
 
-        <Route path="entries" component={Entries} />
-        <Route path="entries/new" component={NewEntry} />
-        <Route path="entries/:id" component={Entry} />
+        <Route path="entries(/:section)" component={Entries} />
+        <Route path="entries/:section/new" component={NewEntry} />
+        <Route path="entries/:section/:id" component={Entry} />
 
         <Route path="newsection" component={NewSection} />
       </Route>
