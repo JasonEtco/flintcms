@@ -28,6 +28,7 @@ module.exports = (app, io) => {
           newEntry.template = 'index';
           newEntry.section = section._id;
           newEntry.dateCreated = Date.now();
+          newEntry.author = req.user._id;
 
           newEntry.save()
             .then((savedEntry) => {

@@ -26,6 +26,10 @@ const EntrySchema = new Schema({
     type: Date,
     required: true,
   },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 module.exports = mongoose.model('Entry', EntrySchema, 'entries');
