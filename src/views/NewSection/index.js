@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { addNewSection } from '../../actions/sectionActions';
+import Page from '../../containers/Page';
 
 class NewSection extends Component {
   static propTypes = {
@@ -18,12 +19,12 @@ class NewSection extends Component {
 
   render() {
     return (
-      <div>
+      <Page>
         <form onSubmit={this.onSubmit}>
           <input type="text" name="title" ref={(r) => { this.title = r; }} />
           <input type="submit" value="Add Section" />
         </form>
-      </div>
+      </Page>
     );
   }
 }

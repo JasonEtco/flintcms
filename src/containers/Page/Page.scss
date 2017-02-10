@@ -1,5 +1,15 @@
 .page {
-  &.has-breadcrumbs {
-    background-color: blue;
-  }
+    box-sizing: border-box;
+    width: 100%;
+    padding: 2em;
+
+    &.has-breadcrumbs {
+        padding: 0;
+        background-color: blue;
+
+        .page__inner {
+            box-sizing: border-box;
+            padding: 2em;
+        }
+    }
 }

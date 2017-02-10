@@ -1,0 +1,18 @@
+.breadcrumbs {
+    width: 100%;
+    padding: 1em 2em;
+    background-color: white;
+
+    &__list {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        &-item {
+            &__separator {
+                margin: 0 0.4em;
+            }
+        }
+    }
+}

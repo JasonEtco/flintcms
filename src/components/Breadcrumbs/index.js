@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import './Breadcrumbs.scss';
 
 export default class Breadcrumbs extends Component {
   static propTypes = {
@@ -17,9 +18,9 @@ export default class Breadcrumbs extends Component {
           {links.map((l, i, arr) => {
             const isLast = i === arr.length - 1;
             return (
-              <li className="breadcrumbs__list-item">
+              <li className="breadcrumbs__list-item" key={l.path}>
                 <Link to={l.path}>{l.label}</Link>
-                {!isLast && '>>'}
+                {!isLast && <span className="breadcrumbs__list-item__separator">&rsaquo;</span>}
               </li>
             );
           })}

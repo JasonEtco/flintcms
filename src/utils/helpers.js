@@ -7,6 +7,10 @@ const helpers = {
   getIdFromSlug(arr, slug) {
     return arr.find(v => v.slug === slug)._id;
   },
+  getPropFromProp(arr, have, get) {
+    const keys = Object.keys(have);
+    return arr.find(v => v[keys[0]] === have[keys[0]])[get];
+  },
   receiveIfAuthed(json) {
     return new Promise((resolve) => {
       if (json.status === 401 && json.redirect) {

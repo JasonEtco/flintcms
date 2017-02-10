@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import './Page.scss';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 export default class Page extends Component {
   static propTypes = {
@@ -7,27 +8,25 @@ export default class Page extends Component {
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node,
     ]),
+    links: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })),
     name: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     children: null,
+    links: null,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.hasBreadcrumbs = React.Children
-      .toArray(props.children)
-      .some(child => child.type && child.type.displayName === 'Breadcrumbs');
-  }
-
   render() {
-    const { name, children } = this.props;
+    const { name, children, links } = this.props;
 
     return (
-      <section className={`page page--${name} ${this.hasBreadcrumbs && 'has-breadcrumbs'}`}>
-        {children}
+      <section className={`page page--${name} ${links && 'has-breadcrumbs'}`}>
+        {links && <Breadcrumbs links={links} />}
+        {links ? <div className="page__inner">{children}</div> : children}
       </section>
     );
   }

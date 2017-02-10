@@ -28,15 +28,15 @@ export default class Entry extends Component {
     const { section, title, _id } = this.entry;
     const { sections } = this.props;
     const sectionSlug = h.getSlugFromId(sections.sections, section);
+    const sectionName = h.getPropFromProp(sections.sections, { _id: section }, 'title');
 
     const links = [
-      { label: sectionSlug, path: `/admin/entries/${sectionSlug}` },
+      { label: sectionName, path: `/admin/entries/${sectionSlug}` },
       { label: 'Entry', path: `/admin/entries/${sectionSlug}/${_id}` },
     ];
 
     return (
-      <Page name="entry">
-        <Breadcrumbs links={links} />
+      <Page name="entry" links={links}>
         <input type="text" defaultValue={title} />
       </Page>
     );
