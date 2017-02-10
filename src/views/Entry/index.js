@@ -20,7 +20,6 @@ export default class Entry extends Component {
     super(props);
 
     const { entries, params } = props;
-    console.log(entries);
     const { id } = params;
     this.entry = entries.entries.find(e => e._id === id);
   }

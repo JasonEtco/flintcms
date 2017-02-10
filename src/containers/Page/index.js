@@ -14,15 +14,20 @@ export default class Page extends Component {
     children: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.hasBreadcrumbs = React.Children
+      .toArray(props.children)
+      .some(child => child.type && child.type.displayName === 'Breadcrumbs');
+  }
+
   render() {
     const { name, children } = this.props;
-    const hasBreadcrumbs = React.Children
-      .toArray(children)
-      .some(child => child.type && child.type.displayName === 'Breadcrumbs');
 
     return (
-      <section className={`page page--${name} ${hasBreadcrumbs && 'has-breadcrumbs'}`}>
-        {this.props.children}
+      <section className={`page page--${name} ${this.hasBreadcrumbs && 'has-breadcrumbs'}`}>
+        {children}
       </section>
     );
   }
