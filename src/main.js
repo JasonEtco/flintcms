@@ -13,6 +13,7 @@ import Users from './views/Users';
 import Login from './views/Login';
 import Entries from './views/Entries';
 import Entry from './views/Entry';
+import NewEntry from './views/NewEntry';
 import NewSection from './views/NewSection';
 
 export default function mapStateToProps(state) {
@@ -28,8 +29,11 @@ const storeWrapper = (
       <Route path="/admin" component={App}>
         <IndexRoute component={Home} />
         <Route path="users" component={Users} />
+
         <Route path="entries" component={Entries} />
+        <Route path="entries/new" component={NewEntry} />
         <Route path="entries/:id" component={Entry} />
+
         <Route path="newsection" component={NewSection} />
       </Route>
       <Route path="/admin/login" component={LoginApp}>
