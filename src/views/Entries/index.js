@@ -9,6 +9,17 @@ export default class Entries extends Component {
     ...types.sections,
   }
 
+  componentWillMount() {
+    const { section } = this.props.params;
+    const ref = localStorage.getItem('lastSection');
+
+    if (section) {
+      localStorage.setItem('lastSection', section);
+    } else if (ref && ref !== section) {
+      browserHistory.push(`/admin/entries/${ref}`);
+    }
+  }
+
   render() {
     const { sections, entries, params } = this.props;
     const { section } = params;
@@ -20,7 +31,7 @@ export default class Entries extends Component {
       <div>
         Entries
         <nav>
-          <Link to="/admin/entries/all">All</Link>
+          <Link to="/admin/entries" onClick={() => localStorage.removeItem('lastSection')}>All</Link>
           {sections.sections.map(sec => <Link key={sec._id} to={`/admin/entries/${sec.slug}`}>{sec.title}</Link>)}
         </nav>
 
