@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Page from '../../containers/Page';
 
 export default class Home extends Component {
   static propTypes = {
@@ -10,6 +11,6 @@ export default class Home extends Component {
   }
 
   render() {
-    return <div>Home! You are signed in!</div>;
+    return <Page name="home">Home! You are signed in!</Page>;
   }
 }

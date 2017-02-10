@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import types from '../../utils/types';
 import h from '../../utils/helpers';
+import Page from '../../containers/Page';
 
 export default class Entries extends Component {
   static propTypes = {
@@ -15,7 +16,7 @@ export default class Entries extends Component {
 
     if (section) {
       localStorage.setItem('lastSection', section);
-    } else if (ref && ref !== section) {
+    } else if (ref) {
       browserHistory.push(`/admin/entries/${ref}`);
     }
   }
@@ -28,7 +29,7 @@ export default class Entries extends Component {
       : entries.entries.filter(e => e.section === h.getIdFromSlug(sections.sections, section));
 
     return (
-      <div>
+      <Page name="entries">
         Entries
         <nav>
           <Link to="/admin/entries" onClick={() => localStorage.removeItem('lastSection')}>All</Link>
@@ -38,7 +39,7 @@ export default class Entries extends Component {
         {filtered.map(entry => (
           <h3 key={entry._id}><Link key={entry._id} to={`/admin/entries/${h.getSlugFromId(sections.sections, entry.section)}/${entry._id}`}>{entry.title}</Link></h3>
         ))}
-      </div>
+      </Page>
     );
   }
 }

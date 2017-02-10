@@ -1,9 +1,10 @@
+@import './scss/normalize';
+
 html, body, .mount {
     height: 100%;
 }
 
 body {
-    padding: 0;
-    margin: 0;
     background-color: $grey;
+    font-family: $font;
 }

@@ -37,12 +37,10 @@ export default class Main extends Component {
     return (
       <main className="main">
         <Nav />
-        <div>
-          {React.cloneElement(this.props.children, {
-            ...this.props,
-            key: this.props.location.pathname,
-          })}
-        </div>
+        {React.cloneElement(this.props.children, {
+          ...this.props,
+          key: this.props.location.pathname,
+        })}
       </main>
     );
   }
