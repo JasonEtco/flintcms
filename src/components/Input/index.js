@@ -1,17 +1,34 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import './Input.scss';
 
-export default function Input({ type, name }) {
-  return (
-    <input className="input" type={type} name={name} />
-  );
+export default class Input extends Component {
+  static propTypes = {
+    type: PropTypes.oneOf(['text', 'password', 'email']),
+    placeholder: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    big: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    type: 'text',
+    placeholder: null,
+    big: false,
+  }
+
+  render() {
+    const { name, label, type, placeholder, big } = this.props;
+
+    if (!label) {
+      return <input className={`input ${big && 'input--big'}`} type={type} name={name} placeholder={placeholder} />;
+    }
+
+    return (
+      <div className="input-wrapper">
+        <label className="input__label" htmlFor={name}>{label}</label>
+        <input className={`input ${big && 'input--big'}`} type={type} name={name} id={name} />
+      </div>
+    );
+  }
 }
 
-Input.propTypes = {
-  type: PropTypes.oneOf(['text', 'password', 'email']),
-  name: PropTypes.string.isRequired,
-};
-
-Input.defaultProps = {
-  type: 'text',
-};

@@ -6,11 +6,10 @@ import store, { history } from './utils/store';
 import './main.scss';
 
 import Main from './containers/Main';
-import LoginContainer from './containers/Login';
 
 import Home from './views/Home';
 import Users from './views/Users';
-import Login from './views/Login';
+import Login from './containers/Login';
 import Entries from './views/Entries';
 import Entry from './views/Entry';
 import NewEntry from './views/NewEntry';
@@ -21,7 +20,6 @@ export default function mapStateToProps(state) {
 }
 
 const App = connect(mapStateToProps)(Main);
-const LoginApp = connect(mapStateToProps)(LoginContainer);
 
 const storeWrapper = (
   <Provider store={store}>
@@ -36,9 +34,7 @@ const storeWrapper = (
 
         <Route path="newsection" component={NewSection} />
       </Route>
-      <Route path="/admin/login" component={LoginApp}>
-        <IndexRoute component={Login} />
-      </Route>
+      <Route path="/admin/login" component={Login} />
     </Router>
   </Provider>
 );

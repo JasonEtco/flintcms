@@ -1,5 +1,25 @@
 .input {
-    padding: 0.8em;
+    box-sizing: border-box;
+    padding: 0.4em;
     border-radius: 3px;
-    border: 1px solid grey;
+    border: 1px solid $lightgrey;
+    font-family: inherit;
+
+    &-wrapper {
+        position: relative;
+    }
+
+    &__label {
+        position: absolute;
+        top: 50%;
+        left: 0.4em;
+        font-size: 0.8rem;
+        transform: translateY(-50%);
+    }
+
+    &--big {
+        padding: 0.9em;
+        border-width: 2px;
+        font-size: 1.1rem;
+    }
 }

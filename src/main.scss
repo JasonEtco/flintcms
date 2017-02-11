@@ -7,4 +7,6 @@ html, body, .mount {
 body {
     background-color: $grey;
     font-family: $font;
+
+    &.body--blue { background-color: $blurple; }
 }

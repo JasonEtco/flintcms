@@ -1,5 +1,10 @@
 $grey: darken(white, 10%);
-$slate: #333f4d;
+$lightgrey: #e7e7e7;
+$darkgrey: #414042;
+
+$red: #BF284E;
+$blue: #0080ff;
+$blurple: #403f63;
 
 $font: -apple-system, blinkmacsystemfont, 'segoe ui', roboto, oxygen, ubuntu, cantarell, 'fira sans', 'droid sans', 'helvetica neue', sans-serif;
 
@@ -12,7 +17,7 @@ $bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-sizing: border-box;
     padding: 2em;
     border: 1px solid darken(white, 8%);
-    border-radius: 4px;
+    border-radius: 3px;
     background: white;
     @include box-shadow(1);
     transition: box-shadow 150ms $standard;
