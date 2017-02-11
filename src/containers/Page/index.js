@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import './Page.scss';
 import Breadcrumbs from '../../components/Breadcrumbs';
+import Footer from '../Footer';
 
 export default class Page extends Component {
   static propTypes = {
@@ -26,7 +27,9 @@ export default class Page extends Component {
     return (
       <section className={`page page--${name} ${links && 'has-breadcrumbs'}`}>
         {links && <Breadcrumbs links={links} />}
-        {links ? <div className="page__inner">{children}</div> : children}
+        {children}
+        
+        <Footer />
       </section>
     );
   }

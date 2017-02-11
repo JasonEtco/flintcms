@@ -1,15 +1,16 @@
 .page {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
 
-    &.has-breadcrumbs {
-        padding: 0;
-        background-color: blue;
-
-        .page__inner {
-            box-sizing: border-box;
-            padding: 2em;
-        }
+    .page__inner {
+        box-sizing: border-box;
+        padding: 2em;
+        flex-grow: 2;
     }
+}
+
+.content {
+    display: flex;
+    flex: 1 0 auto;
 }

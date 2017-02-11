@@ -1,0 +1,14 @@
+.title-bar {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    justify-content: space-between;
+    background-color: $grey;
+
+    &__title {
+        margin: 0;
+        font-size: 1.6rem;
+    }
+
+    + .content { background-color: white; }
+}

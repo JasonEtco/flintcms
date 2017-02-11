@@ -6,7 +6,7 @@ import types from '../../utils/types';
 import SocketEvents from '../../utils/socketEvents';
 import './Main.scss';
 
-import Nav from '../Nav';
+import MainNav from '../MainNav';
 
 export default class Main extends Component {
   static propTypes = {
@@ -36,7 +36,7 @@ export default class Main extends Component {
 
     return (
       <main className="main">
-        <Nav />
+        <MainNav />
         {React.cloneElement(this.props.children, {
           ...this.props,
           key: this.props.location.pathname,

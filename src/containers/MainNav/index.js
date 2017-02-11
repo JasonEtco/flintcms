@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import FlintLogo from '../../components/FlintLogo';
-import './Nav.scss';
+import './MainNav.scss';
 
 const NavItem = props => <li className="nav__list-item"><Link to={props.to}>{props.children}</Link></li>;
 
@@ -10,7 +10,7 @@ NavItem.propTypes = {
   children: PropTypes.string.isRequired,
 };
 
-export default class Nav extends Component {
+export default class MainNav extends Component {
   render() {
     return (
       <nav className="nav">

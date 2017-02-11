@@ -1,5 +1,14 @@
 .btn {
+    display: inline-block;
+    padding: 0.6em;
+    border-radius: 3px;
+    background-color: brown;
+    color: white;
     font-family: $font;
+    @at-root a#{&} { text-decoration: none; }
+    @at-root button#{&} { border: none; cursor: pointer; }
+
+    &:hover { background-color: lighten(brown, 10%); }
 
     &--yes {
         background-color: blue;

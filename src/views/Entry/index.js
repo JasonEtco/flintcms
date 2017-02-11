@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import types from '../../utils/types';
 import h from '../../utils/helpers';
 import Page from '../../containers/Page';
-import Breadcrumbs from '../../components/Breadcrumbs';
 
 export default class Entry extends Component {
   static propTypes = {
