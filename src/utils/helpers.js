@@ -20,6 +20,13 @@ const helpers = {
       }
     });
   },
+  sortArrayOfObjByString(arr, str, direction) {
+    return arr.sort((a, b) => {
+      if (a[str] < b[str]) return direction === 'ASC' ? -1 : 1;
+      if (a[str] > b[str]) return direction === 'ASC' ? 1 : -1;
+      return 0;
+    });
+  },
   filterObj(str, obj) {
     if (str in obj) {
       return false;

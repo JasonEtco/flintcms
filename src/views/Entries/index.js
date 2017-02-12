@@ -5,6 +5,7 @@ import h from '../../utils/helpers';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import SecondaryNav from '../../components/SecondaryNav';
+import Table from '../../components/Table';
 
 export default class Entries extends Component {
   static propTypes = {
@@ -31,6 +32,12 @@ export default class Entries extends Component {
       : entries.entries.filter(e => e.section === h.getIdFromSlug(sections.sections, section));
     const navLinks = sections.sections.map(sec => ({ label: sec.title, path: `/admin/entries/${sec.slug}` }));
 
+    const reduced = filtered.map(props => ({
+      title: <Link to={`/admin/entries/${h.getSlugFromId(sections.sections, props.section)}/${props._id}`}>{props.title}</Link>,
+      slug: props.slug,
+      dateCreated: props.dateCreated,
+    }));
+
     return (
       <Page name="entries">
         <TitleBar title="Entries">
@@ -43,9 +50,7 @@ export default class Entries extends Component {
           </SecondaryNav>
 
           <div className="page__inner">
-            {filtered.map(entry => (
-              <h3 key={entry._id}><Link key={entry._id} to={`/admin/entries/${h.getSlugFromId(sections.sections, entry.section)}/${entry._id}`}>{entry.title}</Link></h3>
-            ))}
+            <Table data={reduced} />
           </div>
         </div>
       </Page>
