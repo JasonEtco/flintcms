@@ -1,30 +1,43 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import './Button.scss';
 
-const Button = props => (
-  <button
-    className={props.kind ? `btn btn--${props.kind}` : 'btn'}
-    type={props.type}
-    onClick={props.onClick}
-    disabled={props.disabled}
-  >
-    {props.children}
-  </button>
-);
+export default class Button extends Component {
+  static propTypes = {
+    onClick: PropTypes.func,
+    type: PropTypes.oneOf(['button', 'submit', 'reset']),
+    kind: PropTypes.oneOf(['yes', 'no']),
+    disabled: PropTypes.bool,
+    children: PropTypes.object.isRequired,
+    small: PropTypes.bool,
+  }
 
-Button.defaultProps = {
-  onClick: () => {},
-  type: 'button',
-  kind: '',
-  disabled: false,
-};
+  static defaultProps = {
+    onClick: () => {},
+    type: 'button',
+    kind: '',
+    disabled: false,
+    small: false,
+  }
 
-Button.propTypes = {
-  onClick: PropTypes.func,
-  type: PropTypes.oneOf(['button', 'submit', 'reset']),
-  kind: PropTypes.oneOf(['yes', 'no']),
-  disabled: PropTypes.bool,
-  children: PropTypes.object.isRequired,
-};
+  render() {
+    const { kind, type, onClick, disabled, children, small, big } = this.props;
+    const classes = classnames(
+      { [`btn--${kind}`]: kind },
+      { 'btn--small': small },
+      { 'btn--big': big },
+    );
 
-export default Button;
+    return (
+      <button
+        className={classes}
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        {children}
+      </button>
+    );
+  }
+}
+

@@ -10,7 +10,7 @@
 
     &:hover { background-color: lighten($red, 10%); }
 
-    &--yes {
-        background-color: blue;
-    }
+    &--yes { background-color: blue; }
+
+    &--small { font-size: 0.8rem; }
 }

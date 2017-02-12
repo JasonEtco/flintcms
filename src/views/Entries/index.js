@@ -34,7 +34,7 @@ export default class Entries extends Component {
     return (
       <Page name="entries">
         <TitleBar title="Entries">
-          <Link to={`/admin/entries/${section || 'none'}/new`} className="btn">new entry</Link>
+          <Link to={`/admin/entries/${section || 'none'}/new`} className="btn btn--small">New Entry</Link>
         </TitleBar>
 
         <div className="content">
