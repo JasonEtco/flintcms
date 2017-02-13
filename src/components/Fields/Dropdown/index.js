@@ -18,9 +18,12 @@ export default class Dropdown extends Component {
       open: false,
       value: props.options[0].value,
     };
+
+    this.value = props.options[0].value;
   }
 
   onClick(value) {
+    this.value = value;
     this.setState({ value });
   }
 
