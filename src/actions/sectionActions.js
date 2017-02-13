@@ -3,7 +3,7 @@ import Fetcher from '../utils/fetchClass';
 export const REQUEST_SECTIONS = 'REQUEST_SECTIONS';
 export const RECEIVE_SECTIONS = 'RECEIVE_SECTIONS';
 
-export function addNewSection(title) {
+export function newSection(title) {
   fetch('/admin/api/sections', {
     method: 'POST',
     body: JSON.stringify({ title }),

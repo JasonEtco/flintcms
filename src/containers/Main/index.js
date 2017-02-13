@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { fetchUserIfNeeded } from '../../actions/userActions';
 import { fetchEntriesIfNeeded } from '../../actions/entryActions';
 import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
+import { fetchFieldsIfNeeded } from '../../actions/fieldActions';
 import types from '../../utils/types';
 import SocketEvents from '../../utils/socketEvents';
 import './Main.scss';
@@ -25,6 +26,7 @@ export default class Main extends Component {
     dispatch(fetchUserIfNeeded());
     dispatch(fetchEntriesIfNeeded());
     dispatch(fetchSectionsIfNeeded());
+    dispatch(fetchFieldsIfNeeded());
 
     const events = new SocketEvents(socket, dispatch);
     events.listen();

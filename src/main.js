@@ -17,6 +17,7 @@ import Entries from './views/Entries';
 import NewEntry from './views/NewEntry';
 import Settings from './views/Settings';
 import NewSection from './views/NewSection';
+import NewField from './views/NewField';
 
 export default function mapStateToProps(state) {
   return { ...state };
@@ -38,6 +39,7 @@ const storeWrapper = (
 
         <Route path="settings" component={Settings}>
           <Route path="sections/new" component={NewSection} />
+          <Route path="fields/new" component={NewField} />
         </Route>
       </Route>
       <Route path="/admin/login" component={Login} />

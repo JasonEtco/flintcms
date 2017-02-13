@@ -45,6 +45,7 @@ app.use(require('./routes/auth'));
 app.use(require('./routes/user'));
 require('./routes/entries')(app, io);
 require('./routes/section')(app, io);
+require('./routes/fields')(app, io);
 
 const routes = {
   index: './templates/index.hbs',
