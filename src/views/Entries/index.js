@@ -50,7 +50,7 @@ export default class Entries extends Component {
           </SecondaryNav>
 
           <div className="page__inner">
-            <Table data={reduced} />
+            {filtered.length > 0 ? <Table data={reduced} /> : <h3>No entries!</h3>}
           </div>
         </div>
       </Page>

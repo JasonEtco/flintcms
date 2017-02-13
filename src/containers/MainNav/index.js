@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import FlintLogo from '../../components/FlintLogo';
 import Icon from '../../utils/icons';
 import './MainNav.scss';
 
@@ -15,11 +14,13 @@ export default class MainNav extends Component {
   render() {
     return (
       <nav className="nav">
-        <FlintLogo />
+        <a href="/" target="_blank" rel="noopener noreferrer" className="nav__sitename">
+          Example Flint Site
+        </a>
         <ul className="nav__list">
           <NavItem to="/admin"><Icon icon="checkmark" />Home</NavItem>
-          <NavItem to="/admin/entries"><Icon icon="checkmark" />Entries</NavItem>
-          <NavItem to="/admin/newsection"><Icon icon="checkmark" />New Section</NavItem>
+          <NavItem to="/admin/entries"><Icon icon="pencil" />Entries</NavItem>
+          <NavItem to="/admin/settings"><Icon icon="floppy" />Settings</NavItem>
         </ul>
       </nav>
     );

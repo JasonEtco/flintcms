@@ -8,11 +8,14 @@ import './main.scss';
 import Main from './containers/Main';
 
 import Home from './views/Home';
+
 import Users from './views/Users';
 import Login from './containers/Login';
-import Entries from './views/Entries';
+
 import Entry from './views/Entry';
+import Entries from './views/Entries';
 import NewEntry from './views/NewEntry';
+import Settings from './views/Settings';
 import NewSection from './views/NewSection';
 
 export default function mapStateToProps(state) {
@@ -32,7 +35,10 @@ const storeWrapper = (
         <Route path="entries/:section/new" component={NewEntry} />
         <Route path="entries/:section/:id" component={Entry} />
 
-        <Route path="newsection" component={NewSection} />
+
+        <Route path="settings" component={Settings}>
+          <Route path="sections/new" component={NewSection} />
+        </Route>
       </Route>
       <Route path="/admin/login" component={Login} />
     </Router>
