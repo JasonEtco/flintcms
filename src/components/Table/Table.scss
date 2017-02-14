@@ -7,6 +7,7 @@
         padding: 0;
 
         &__btn {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -21,16 +22,17 @@
 
             &::after {
                 content: '';
-                position: relative;
+                position: absolute;
+                right: 6px;
             }
 
             &.desc::after {
-                top: 1px;
+                top: calc(50% - 2px);
                 @include triangle(bottom, 4px, $darkgrey);
             }
 
             &.asc::after {
-                bottom: 2px;
+                top: calc(50% - 6px);
                 @include triangle(top, 4px, $darkgrey);
             }
 
@@ -52,5 +54,9 @@
 
     &__row {
         border-bottom: 1px solid $lightgrey;
+    }
+
+    &__search {
+        margin-bottom: 1em;
     }
 }
