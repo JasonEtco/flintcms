@@ -14,22 +14,12 @@ export default class Settings extends Component {
   }
 
   render() {
-    const { children } = this.props;
-    const obj = { ...this.props };
-    delete obj.children;
-
     const links = [
       { label: 'Sections', path: '/admin/settings/sections' },
       { label: 'New Section', path: '/admin/settings/sections/new' },
       { label: 'Fields', path: '/admin/settings/fields' },
       { label: 'New Field', path: '/admin/settings/fields/new' },
     ];
-
-    if (children) {
-      const childrenWithProps = React.Children.map(this.props.children,
-        child => React.cloneElement(child, obj));
-      return <div className="full">{childrenWithProps}</div>;
-    }
 
     return (
       <Page name="settings">

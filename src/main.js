@@ -37,11 +37,10 @@ const storeWrapper = (
         <Route path="entries/:section/new" component={NewEntry} />
         <Route path="entries/:section/:id" component={Entry} />
 
-        <Route path="settings" component={Settings}>
-          <Route path="sections" component={Sections} />
-          <Route path="sections/new" component={NewSection} />
-          <Route path="fields/new" component={NewField} />
-        </Route>
+        <Route path="settings" component={Settings} />
+        <Route path="settings/sections" component={Sections} />
+        <Route path="settings/sections/new" component={NewSection} />
+        <Route path="settings/fields/new" component={NewField} />
       </Route>
       <Route path="/admin/login" component={Login} />
     </Router>
