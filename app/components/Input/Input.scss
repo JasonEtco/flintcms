@@ -1,10 +1,18 @@
 .input {
     box-sizing: border-box;
-    padding: 0.4em;
+    padding: 0.6em;
     border-radius: 3px;
     border: 1px solid $lightgrey;
     font-family: inherit;
+    font-size: 0.9rem;
     line-height: 1.4;
+    transition: box-shadow 150ms $standard;
+
+    &:focus {
+        border-color: #7dafe8;
+        outline: none;
+        box-shadow: 0 0 5px #80caff;
+    }
 
     &-wrapper {
         position: relative;
@@ -15,8 +23,18 @@
             font-size: 1.1rem;
         }
 
+        &--code .input {
+            font-family: monospace;
+        }
+
         &--full .input {
             width: 100%;
+        }
+
+        &--disabled {
+            .input:disabled {
+                background-color: darken(white, 4%);
+            }
         }
 
         &--required {
@@ -25,10 +43,6 @@
                 margin-left: 0.4em;
                 color: $red;
             }
-        }
-
-        & + & {
-            margin-top: 1.4em;
         }
     }
 

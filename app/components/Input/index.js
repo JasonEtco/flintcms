@@ -10,12 +10,14 @@ export default class Input extends Component {
     label: PropTypes.string,
     big: PropTypes.bool,
     full: PropTypes.bool,
+    code: PropTypes.bool,
     onChange: PropTypes.func,
     className: PropTypes.string,
     instructions: PropTypes.string,
     required: PropTypes.bool,
     disabled: PropTypes.bool,
     defaultValue: PropTypes.string,
+    value: PropTypes.string,
   }
 
   static defaultProps = {
@@ -28,8 +30,10 @@ export default class Input extends Component {
     className: null,
     instructions: null,
     required: false,
+    code: false,
     disabled: false,
-    defaultValue: null,
+    defaultValue: undefined,
+    value: undefined,
   }
 
   constructor(props) {
@@ -53,18 +57,23 @@ export default class Input extends Component {
       placeholder,
       big,
       full,
+      code,
       className,
       instructions,
       required,
       disabled,
       defaultValue,
+      value,
     } = this.props;
 
     const classes = classnames(
       'input-wrapper',
+      'form-element',
       { 'input-wrapper--big': big },
       { 'input-wrapper--full': full },
+      { 'input-wrapper--code': code },
       { 'input-wrapper--required': required },
+      { 'input-wrapper--disabled': disabled },
       className,
     );
 
@@ -77,6 +86,7 @@ export default class Input extends Component {
         required={required}
         disabled={disabled}
         defaultValue={defaultValue}
+        value={value}
         onChange={() => this.handleChange()}
         ref={(r) => { this[name] = r; }}
       />

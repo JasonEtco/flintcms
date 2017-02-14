@@ -7,6 +7,13 @@ export default class Dropdown extends Component {
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
     })).isRequired,
+    label: PropTypes.string,
+    instructions: PropTypes.string,
+  }
+
+  static defaultProps = {
+    label: null,
+    instructions: null,
   }
 
   constructor(props) {
@@ -42,26 +49,30 @@ export default class Dropdown extends Component {
   }
 
   render() {
-    const { options } = this.props;
+    const { options, label, instructions } = this.props;
     const { value, open } = this.state;
 
     return (
-      <div className={open ? 'dropdown is-open' : 'dropdown'}>
-        <button
-          className="dropdown__btn"
-          type="button"
-          onClick={this.handleToggle}
-        >{options.find(opt => opt.value === value).label}</button>
+      <div className="dropdown-wrapper form-element">
+        {label && <span className="input__label">{label}</span>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
+        <div className={open ? 'dropdown is-open' : 'dropdown'}>
+          <button
+            className="dropdown__btn"
+            type="button"
+            onClick={this.handleToggle}
+          >{options.find(opt => opt.value === value).label}</button>
 
-        <div className="dropdown__options">
-          {options.map(opt => (
-            <button
-              type="button"
-              key={opt.value}
-              onClick={() => this.onClick(opt.value)}
-              className={value === opt.value ? 'dropdown__opt is-active' : 'dropdown__opt'}
-            >{opt.label}</button>
-          ))}
+          <div className="dropdown__options">
+            {options.map(opt => (
+              <button
+                type="button"
+                key={opt.value}
+                onClick={() => this.onClick(opt.value)}
+                className={value === opt.value ? 'dropdown__opt is-active' : 'dropdown__opt'}
+              >{opt.label}</button>
+            ))}
+          </div>
         </div>
       </div>
     );

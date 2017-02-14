@@ -46,7 +46,7 @@ export default class Table extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  state = { sortBy: 'title', direction: 'ASC', search: '' }
+  state = { sortBy: 'title', direction: 'DESC', search: '' }
 
   handleSort(sortBy) {
     if (sortBy === this.state.sortBy) {

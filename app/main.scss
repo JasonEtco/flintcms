@@ -11,4 +11,10 @@ body {
     &.body--blue { background-color: $blurple; }
 }
 
+.form-element {
+    & + & {
+        margin-top: 1.4em;
+    }
+}
+
 .content { background-color: white; }

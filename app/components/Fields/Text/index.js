@@ -26,7 +26,7 @@ export default class Text extends Component {
     );
 
     return !label ? input : (
-      <div className="input-wrapper">
+      <div className="input-wrapper form-element">
         <label className="input__label" htmlFor={name}>{label}</label>
         {input}
       </div>
