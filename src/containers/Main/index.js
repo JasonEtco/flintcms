@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { fetchUserIfNeeded } from '../../actions/userActions';
+import { fetchUserIfNeeded, fetchUsersIfNeeded } from '../../actions/userActions';
 import { fetchEntriesIfNeeded } from '../../actions/entryActions';
 import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
 import { fetchFieldsIfNeeded } from '../../actions/fieldActions';
@@ -24,6 +24,7 @@ export default class Main extends Component {
     const { dispatch, socket } = this.props;
 
     dispatch(fetchUserIfNeeded());
+    dispatch(fetchUsersIfNeeded());
     dispatch(fetchEntriesIfNeeded());
     dispatch(fetchSectionsIfNeeded());
     dispatch(fetchFieldsIfNeeded());

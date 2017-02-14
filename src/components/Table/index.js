@@ -5,8 +5,27 @@ import h from '../../utils/helpers';
 import p from '../../utils/prettyNames';
 import './Table.scss';
 
-const Cell = ({ column, children }) => <td className={`table__cell table__cell--${column}`}>{h.isDate(children) ? moment(children).format('DD/MM/YYYY') : children}</td>;
-Cell.propTypes = { children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), column: PropTypes.string.isRequired };
+const Cell = ({ column, children }) => {
+  let content;
+  if (h.isDate(children)) {
+    content = moment(children).format('DD/MM/YYYY');
+  } else if (children.value && children.component) {
+    content = children.component;
+  } else {
+    content = children;
+  }
+
+  return (
+    <td className={`table__cell table__cell--${column}`}>
+      {content}
+    </td>
+  );
+};
+
+Cell.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  column: PropTypes.string.isRequired,
+};
 Cell.defaultProps = { children: '-' };
 
 export default class Table extends Component {
@@ -23,6 +42,7 @@ export default class Table extends Component {
   state = { sortBy: 'title', direction: 'ASC' }
 
   handleSort(sortBy) {
+    console.log(sortBy, this.state.sortBy);
     if (sortBy === this.state.sortBy) {
       this.setState({ direction: this.state.direction === 'ASC' ? 'DESC' : 'ASC' });
     }

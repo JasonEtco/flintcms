@@ -25,7 +25,7 @@ export default class Entries extends Component {
   }
 
   render() {
-    const { sections, entries, params } = this.props;
+    const { sections, entries, users, params } = this.props;
     const { section } = params;
     const filtered = section === undefined
       ? entries.entries
@@ -33,9 +33,13 @@ export default class Entries extends Component {
     const navLinks = sections.sections.map(sec => ({ label: sec.title, path: `/admin/entries/${sec.slug}` }));
 
     const reduced = filtered.map(props => ({
-      title: <Link to={`/admin/entries/${h.getSlugFromId(sections.sections, props.section)}/${props._id}`}>{props.title}</Link>,
+      title: {
+        value: props.title,
+        component: <Link to={`/admin/entries/${h.getSlugFromId(sections.sections, props.section)}/${props._id}`}>{props.title}</Link>,
+      },
       slug: props.slug,
       dateCreated: props.dateCreated,
+      author: h.getPropFromProp(users.users, { _id: props.author }, 'username'),
     }));
 
     return (

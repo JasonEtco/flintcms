@@ -24,12 +24,12 @@
                 position: relative;
             }
 
-            &.asc::after {
+            &.desc::after {
                 top: 1px;
                 @include triangle(bottom, 4px, $darkgrey);
             }
 
-            &.desc::after {
+            &.asc::after {
                 bottom: 2px;
                 @include triangle(top, 4px, $darkgrey);
             }
