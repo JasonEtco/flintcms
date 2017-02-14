@@ -20,6 +20,9 @@ const helpers = {
       }
     });
   },
+  isDate(str) {
+    return !!Date.parse(str);
+  },
   sortArrayOfObjByString(arr, str, direction) {
     return arr.sort((a, b) => {
       if (a[str] < b[str]) return direction === 'ASC' ? -1 : 1;

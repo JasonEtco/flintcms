@@ -1,0 +1,49 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+
+    &__header {
+        padding: 0;
+
+        &__btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            border: none;
+            background: none;
+            color: $darkgrey;
+            font-weight: 700;
+            font-size: 0.7rem;
+            font-family: inherit;
+            text-align: left;
+
+            &::after {
+                content: '';
+                position: relative;
+            }
+
+            &.asc::after {
+                top: 1px;
+                @include triangle(bottom, 4px, $darkgrey);
+            }
+
+            &.desc::after {
+                bottom: 2px;
+                @include triangle(top, 4px, $darkgrey);
+            }
+
+            &.is-active { background-color: $lightgrey; }
+        }
+
+    }
+
+    &__header__btn, &__cell {
+        padding: 1.2em 0.8em;
+    }
+
+    &__row {
+        border-bottom: 1px solid $lightgrey;
+    }
+}
