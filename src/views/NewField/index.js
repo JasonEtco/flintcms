@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { newField } from '../../actions/fieldActions';
 import Page from '../../containers/Page';
 import Fields from '../../components/Fields';
+import Input from '../../components/Input';
 import h from '../../utils/helpers';
 
 export default class NewField extends Component {
@@ -31,7 +32,7 @@ export default class NewField extends Component {
     return (
       <Page name="new-field">
         <form onSubmit={this.onSubmit}>
-          <input type="text" name="title" ref={(r) => { this.title = r; }} />
+          <Input name="title" ref={(r) => { this.title = r; }} />
           <Dropdown options={options} ref={(r) => { this.type = r; }} />
           <input type="submit" value="Add Field" />
         </form>

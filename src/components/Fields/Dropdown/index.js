@@ -13,6 +13,7 @@ export default class Dropdown extends Component {
     super(props);
 
     this.handleToggle = this.handleToggle.bind(this);
+    this.hide = this.hide.bind(this);
     this.onClick = this.onClick.bind(this);
 
     this.state = {
@@ -23,12 +24,20 @@ export default class Dropdown extends Component {
     this.value = props.options[0].value;
   }
 
+  componentDidMount() { window.addEventListener('click', this.hide); }
+  componentWillUnmount() { window.removeEventListener('click', this.hide); }
+
   onClick(value) {
     this.value = value;
     this.setState({ value, open: false });
   }
 
-  handleToggle() {
+  hide() {
+    this.setState({ open: false });
+  }
+
+  handleToggle(e) {
+    e.stopPropagation();
     this.setState({ open: !this.state.open });
   }
 
@@ -38,7 +47,11 @@ export default class Dropdown extends Component {
 
     return (
       <div className={open ? 'dropdown is-open' : 'dropdown'}>
-        <button className="dropdown__btn" type="button" onClick={this.handleToggle}>{options.find(opt => opt.value === value).label}</button>
+        <button
+          className="dropdown__btn"
+          type="button"
+          onClick={this.handleToggle}
+        >{options.find(opt => opt.value === value).label}</button>
 
         <div className="dropdown__options">
           {options.map(opt => (
