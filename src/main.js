@@ -16,6 +16,7 @@ import Entry from './views/Entry';
 import Entries from './views/Entries';
 import NewEntry from './views/NewEntry';
 import Settings from './views/Settings';
+import Sections from './views/Sections';
 import NewSection from './views/NewSection';
 import NewField from './views/NewField';
 
@@ -36,8 +37,8 @@ const storeWrapper = (
         <Route path="entries/:section/new" component={NewEntry} />
         <Route path="entries/:section/:id" component={Entry} />
 
-
         <Route path="settings" component={Settings}>
+          <Route path="sections" component={Sections} />
           <Route path="sections/new" component={NewSection} />
           <Route path="fields/new" component={NewField} />
         </Route>

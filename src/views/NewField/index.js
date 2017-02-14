@@ -3,6 +3,7 @@ import { newField } from '../../actions/fieldActions';
 import Page from '../../containers/Page';
 import Fields from '../../components/Fields';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 import h from '../../utils/helpers';
 
 export default class NewField extends Component {
@@ -32,9 +33,11 @@ export default class NewField extends Component {
     return (
       <Page name="new-field">
         <form onSubmit={this.onSubmit}>
-          <Input name="title" ref={(r) => { this.title = r; }} />
+          <Input name="title" placeholder="Title" ref={(r) => { this.title = r; }} />
+          <Input name="instructions" placeholder="Instructions" ref={(r) => { this.instructions = r; }} />
+          <Input name="handle" placeholder="Template Handle" ref={(r) => { this.handle = r; }} />
           <Dropdown options={options} ref={(r) => { this.type = r; }} />
-          <input type="submit" value="Add Field" />
+          <Button type="submit" kind="yes">Add Field</Button>
         </form>
       </Page>
     );

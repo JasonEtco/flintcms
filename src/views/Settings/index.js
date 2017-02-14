@@ -14,7 +14,9 @@ export default class Settings extends Component {
   }
 
   render() {
-    const { children, dispatch } = this.props;
+    const { children } = this.props;
+    const obj = { ...this.props };
+    delete obj.children;
 
     const links = [
       { label: 'Sections', path: '/admin/settings/sections' },
@@ -25,8 +27,8 @@ export default class Settings extends Component {
 
     if (children) {
       const childrenWithProps = React.Children.map(this.props.children,
-        child => React.cloneElement(child, { dispatch }));
-      return <div>{childrenWithProps}</div>;
+        child => React.cloneElement(child, obj));
+      return <div className="full">{childrenWithProps}</div>;
     }
 
     return (
