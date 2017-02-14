@@ -41,6 +41,13 @@
 
     &__header__btn, &__cell {
         padding: 1.2em 0.8em;
+
+        a {
+            color: blue;
+            text-decoration: none;
+
+            &:hover { text-decoration: underline; }
+        }
     }
 
     &__row {

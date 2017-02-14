@@ -1,6 +1,31 @@
 .secondary-nav {
+    min-width: 200px;
+    padding-right: 2em;
+    background-color: darken(white, 4%);
+    font-size: 0.8rem;
+
     &__list {
         padding: 0;
         margin: 0;
+        list-style-type: none;
+
+        &-item {
+            a {
+                display: block;
+                padding: 1em;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+                color: $blurple;
+                text-decoration: none;
+
+                &:hover { background-color: $lightgrey; }
+
+                &.is-active {
+                    background-color: $blurple;
+                    color: white;
+                }
+
+            }
+        }
     }
 }

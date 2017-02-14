@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import './SecondaryNav.scss';
 
-const NavItem = props => <li className="secondary-nav__list-item"><Link to={props.to}>{props.children}</Link></li>;
+const NavItem = props => <li className="secondary-nav__list-item"><Link activeClassName="is-active" to={props.to}>{props.children}</Link></li>;
 
 NavItem.propTypes = {
   to: PropTypes.string.isRequired,

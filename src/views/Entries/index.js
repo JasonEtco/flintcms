@@ -50,7 +50,7 @@ export default class Entries extends Component {
 
         <div className="content">
           <SecondaryNav links={navLinks}>
-            <Link to="/admin/entries" onClick={() => localStorage.removeItem('lastSection')}>All</Link>
+            <Link to="/admin/entries" activeClassName="is-active" onClick={() => localStorage.removeItem('lastSection')}>All</Link>
           </SecondaryNav>
 
           <div className="page__inner">
