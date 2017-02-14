@@ -76,14 +76,14 @@ if (isDeveloping) {
   app.use(webpackHotMiddleware(compiler));
 
   app.get('/admin*', (req, res) => {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dashboard', 'index.html')));
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', 'dashboard', 'index.html')));
     res.end();
   });
 } else {
   app.use(express.static(__dirname));
 
   app.get('/admin*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dashboard', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'dashboard', 'index.html'));
   });
 }
 
