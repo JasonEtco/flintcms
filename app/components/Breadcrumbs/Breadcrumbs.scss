@@ -2,7 +2,9 @@
     box-sizing: border-box;
     width: 100%;
     padding: 1em 2em;
-    background-color: white;
+    border-bottom: 1px solid $lightgrey;
+    background-color: $lightergrey;
+    font-size: 0.7rem;
 
     &__list {
         display: flex;
@@ -13,6 +15,14 @@
         &-item {
             &__separator {
                 margin: 0 0.4em;
+                color: $midgrey;
+            }
+
+            a {
+                color: $midgrey;
+                text-decoration: none;
+
+                &:hover { color: $blurple; }
             }
         }
     }

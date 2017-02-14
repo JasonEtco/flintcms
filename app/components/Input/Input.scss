@@ -2,28 +2,48 @@
     box-sizing: border-box;
     padding: 0.4em;
     border-radius: 3px;
-    border: 1px solid $grey;
+    border: 1px solid $lightgrey;
     font-family: inherit;
+    line-height: 1.4;
 
     &-wrapper {
         position: relative;
+
+        &--big .input {
+            padding: 0.9em;
+            border-width: 2px;
+            font-size: 1.1rem;
+        }
+
+        &--full .input {
+            width: 100%;
+        }
+
+        &--required {
+            .input__label::after {
+                content: '*';
+                margin-left: 0.4em;
+                color: $red;
+            }
+        }
+
+        & + & {
+            margin-top: 1.4em;
+        }
+    }
+
+    &__instructions {
+        margin-top: 0;
+        color: $midgrey;
+        font-size: 0.7rem;
     }
 
     &__label {
-        position: absolute;
-        top: 50%;
-        left: 0.4em;
+        font-weight: 700;
         font-size: 0.8rem;
-        transform: translateY(-50%);
-    }
 
-    &--big {
-        padding: 0.9em;
-        border-width: 2px;
-        font-size: 1.1rem;
-    }
-
-    &--full {
-        width: 100%;
+        + .input__instructions {
+            margin-top: 0.4em;
+        }
     }
 }

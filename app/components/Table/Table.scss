@@ -36,7 +36,7 @@
                 @include triangle(top, 4px, $darkgrey);
             }
 
-            &.is-active { background-color: $lightgrey; }
+            &.is-active { background-color: $lightergrey; }
         }
 
     }
@@ -53,7 +53,7 @@
     }
 
     &__row {
-        border-bottom: 1px solid $lightgrey;
+        border-bottom: 1px solid $lightergrey;
     }
 
     &__search {

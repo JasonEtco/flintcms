@@ -5,10 +5,10 @@ html, body, .mount {
 }
 
 body {
-    background-color: $lightgrey;
+    background-color: $lightergrey;
     font-family: $font;
 
     &.body--blue { background-color: $blurple; }
 }
 
-.full { width: 100%; }
+.content { background-color: white; }
