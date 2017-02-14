@@ -24,7 +24,6 @@ const helpers = {
     return !!Date.parse(str);
   },
   sortArrayOfObjByString(arr, str, direction) {
-    console.log(direction);
     return arr.sort((a, b) => {
       if ((a[str].value || a[str]) < (b[str].value || b[str])) return direction === 'ASC' ? -1 : 1;
       if ((a[str].value || a[str]) > (b[str].value || b[str])) return direction === 'ASC' ? 1 : -1;
