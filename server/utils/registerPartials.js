@@ -2,7 +2,7 @@ const Handlebars = require('handlebars');
 const path = require('path');
 const fs = require('fs');
 
-const partialsDir = path.join(__dirname, '..', 'templates', '_partials');
+const partialsDir = path.join(__dirname, '..', '..', 'templates', '_partials');
 
 const filenames = fs.readdirSync(partialsDir);
 

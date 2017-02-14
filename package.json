@@ -2,7 +2,7 @@
   "name": "flint",
   "version": "1.0.0",
   "description": "NodeJS CMS",
-  "main": "index.js",
+  "main": "server/index.js",
   "author": "Jason Etcovitch",
   "license": "MIT",
   "engines": {
@@ -10,7 +10,7 @@
     "npm": "4.0.5"
   },
   "scripts": {
-    "start": "nodemon --ignore src index.js",
+    "start": "nodemon --ignore app server/index.js",
     "build": "rimraf dashboard && cross-env NODE_ENV=production webpack --config ./config/webpack.production.config.js --progress --profile --colors"
   },
   "babel": {

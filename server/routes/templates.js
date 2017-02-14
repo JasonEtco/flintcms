@@ -18,7 +18,7 @@ router.get('/admin/api/templates', h.loggedIn, (req, res) => {
     });
     return filelist;
   };
-  const pathToTemplates = path.resolve(__dirname, '..', 'templates');
+  const pathToTemplates = path.resolve(__dirname, '..', '..', 'templates');
 
   res.status(200).json(walkSync(pathToTemplates));
 });

@@ -12,7 +12,7 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const passport = require('passport');
 
-const config = require('./config/webpack.config');
+const config = require('../config/webpack.config');
 require('./utils/database');
 require('./utils/passport')(passport);
 
@@ -49,7 +49,7 @@ require('./routes/section')(app, io);
 require('./routes/fields')(app, io);
 
 const routes = {
-  index: './templates/index.hbs',
+  index: path.resolve(__dirname, '..', 'templates', 'index.hbs'),
 };
 
 app.get('/', (req, res) => compile(routes.index, { name: 'Jason' }).then(r => res.send(r)));
