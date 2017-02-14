@@ -15,6 +15,10 @@ const SectionSchema = new Schema({
     type: Date,
     required: true,
   },
+  fields: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Field',
+  }],
 });
 
 module.exports = mongoose.model('Section', SectionSchema, 'sections');

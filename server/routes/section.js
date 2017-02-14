@@ -11,7 +11,11 @@ module.exports = (app, io) => {
   });
 
   app.post('/admin/api/sections', h.loggedIn, (req, res) => {
-    const { title } = req.body;
+    const { title, fields } = req.body;
+
+    if (fields.length === 0) res.status(409).json({ success: false, message: 'You must include at least one field.' });
+    if (!title) res.status(409).json({ success: false, message: 'You must include a title.' });
+
     const slug = h.slugify(title);
 
     process.nextTick(() => {
@@ -21,12 +25,15 @@ module.exports = (app, io) => {
 
         newSection.title = title;
         newSection.slug = slug;
+        newSection.fields = fields;
         newSection.dateCreated = Date.now();
 
-        return newSection.save().then((savedSection) => {
+        return newSection.save()
+        .then((savedSection) => {
           io.emit('new-section', savedSection);
           res.status(200).json({ success: true });
-        });
+        })
+        .catch(err => new Error(err));
       })
       .catch(err => new Error(err));
     });

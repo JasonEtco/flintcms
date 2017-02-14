@@ -1,6 +1,7 @@
 import {
   REQUEST_SECTIONS,
   RECEIVE_SECTIONS,
+  NEW_SECTION,
 } from '../actions/sectionActions';
 
 export default function sections(state = {}, action) {
@@ -22,6 +23,10 @@ export default function sections(state = {}, action) {
         didInvalidate: false,
         lastUpdated: action.receivedAt,
       };
+    }
+
+    case NEW_SECTION: {
+      return state;
     }
 
     default:
