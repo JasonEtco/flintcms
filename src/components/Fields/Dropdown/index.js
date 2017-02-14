@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import './Dropdown.scss';
 
 export default class Dropdown extends Component {
   static propTypes = {
@@ -24,7 +25,7 @@ export default class Dropdown extends Component {
 
   onClick(value) {
     this.value = value;
-    this.setState({ value });
+    this.setState({ value, open: false });
   }
 
   handleToggle() {
@@ -33,15 +34,16 @@ export default class Dropdown extends Component {
 
   render() {
     const { options } = this.props;
-    const { value } = this.state;
+    const { value, open } = this.state;
 
     return (
-      <div className="dropdown">
-        <button onClick={this.handleToggle}>{value}</button>
+      <div className={open ? 'dropdown is-open' : 'dropdown'}>
+        <button className="dropdown__btn" type="button" onClick={this.handleToggle}>{options.find(opt => opt.value === value).label}</button>
 
         <div className="dropdown__options">
           {options.map(opt => (
             <button
+              type="button"
               key={opt.value}
               onClick={() => this.onClick(opt.value)}
               className={value === opt.value ? 'dropdown__opt is-active' : 'dropdown__opt'}

@@ -1,0 +1,50 @@
+.dropdown {
+    position: relative;
+    font-size: 0.8rem;
+
+    &__options {
+        position: absolute;
+        top: -100%;
+        left: 0;
+        overflow: hidden;
+        opacity: 0;
+        @extend %card;
+        padding: 0;
+        pointer-events: none;
+        visibility: hidden;
+        transform: translateY(90%);
+        transition:
+            opacity 150ms $standard,
+            visibility 150ms $standard,
+            transform 150ms $standard;
+    }
+
+    &__btn {
+        display: block;
+        padding: 0.6em 2em;
+        border: 1px solid $grey;
+        background: white;
+        font-family: inherit;
+        text-align: center;
+    }
+
+    &__opt {
+        display: block;
+        width: 100%;
+        padding: 0.6em 2em;
+        border: none;
+        border-bottom: 1px solid $lightgrey;
+        background: none;
+        font-family: inherit;
+        text-align: center;
+    }
+
+    &.is-open {
+        .dropdown__options {
+            pointer-events: initial;
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(100%);
+        }
+    }
+}
