@@ -3,9 +3,19 @@ import { newSection } from '../../actions/sectionActions';
 import Page from '../../containers/Page';
 
 export default class NewSection extends Component {
-  render() {
-    console.log('hello!');
+  componentDidMount() {
+    fetch('/admin/api/templates', {
+      credentials: 'same-origin',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    })
+    .then(res => res.json())
+    .then(json => console.log(json))
+    .catch(err => new Error(err));
+  }
 
+  render() {
     return (
       <Page name="new-section">
         <form>
