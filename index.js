@@ -87,6 +87,12 @@ if (isDeveloping) {
   });
 }
 
+app.get('/all', (req, res) => {
+  getEntryData()
+    .then(data => compile(routes.index, { entries: data }))
+    .then(r => res.send(r));
+});
+
 app.get('/:slug', (req, res) => {
   getEntryData(req.params.slug)
     .then(data => compile(routes.index, data))

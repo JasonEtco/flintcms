@@ -8,6 +8,7 @@ module.exports = (template, data) =>
 
       const compiled = Handlebars.compile(file);
       const html = compiled(data);
+
       resolve(html);
     });
   });

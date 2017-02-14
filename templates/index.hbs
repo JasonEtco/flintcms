@@ -9,6 +9,13 @@
 
   {{name}}
 
+  {{#if entries}}
+    {{#each entries}}
+      <a href="/{{this.slug}}">{{this.title}}</a>
+    {{/each}}
+  {{/if}}
+
+
   {{> testPartial }}
 </body>
 </html>
