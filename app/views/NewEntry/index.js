@@ -34,13 +34,11 @@ export default class NewEntry extends Component {
       .filter(field => sectionObj.fields.indexOf(field._id) !== -1);
 
     return (
-      <div>
-        <form onSubmit={this.onSubmit}>
-          <input type="text" name="title" ref={(r) => { this.title = r; }} />
-          {sectionFields.map(field => renderOption(field))}
-          <Button type="submit">Add Entry</Button>
-        </form>
-      </div>
+      <form onSubmit={this.onSubmit}>
+        <input type="text" name="title" ref={(r) => { this.title = r; }} />
+        {sectionFields.map(field => renderOption(field))}
+        <Button type="submit">Add Entry</Button>
+      </form>
     );
   }
 }
