@@ -12,7 +12,7 @@ module.exports = (app, io) => {
   });
 
   app.post('/admin/api/entries', h.loggedIn, (req, res) => {
-    const { title, sectionId } = req.body;
+    const { title, sectionId, options } = req.body;
     const slug = h.slugify(title);
 
     Section.findById(sectionId)
@@ -27,6 +27,7 @@ module.exports = (app, io) => {
           newEntry.slug = slug;
           newEntry.template = 'index';
           newEntry.section = section._id;
+          newEntry.options = options;
           newEntry.dateCreated = Date.now();
           newEntry.author = req.user._id;
 

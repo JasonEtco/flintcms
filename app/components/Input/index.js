@@ -82,6 +82,7 @@ export default class Input extends Component {
         className="input"
         type={type}
         name={name}
+        id={name}
         placeholder={placeholder}
         required={required}
         disabled={disabled}

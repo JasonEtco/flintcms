@@ -19,9 +19,17 @@ const EntrySchema = new Schema({
     type: String,
     required: true,
   },
-  body: {
-    type: String,
-  },
+  options: [{
+    fieldId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Field',
+      required: true,
+    },
+    value: {
+      type: String,
+      required: true,
+    },
+  }],
   dateCreated: {
     type: Date,
     required: true,

@@ -4,12 +4,22 @@ export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
 export const NEW_ENTRY = 'NEW_ENTRY';
 
-export function newEntry(title, sectionId) {
-  console.log(title, sectionId);
-  return dispatch =>
-    fetch('/admin/api/entries', {
+export function newEntry(title, sectionId, rawOptions) {
+  return (dispatch, getState) => {
+    const { fields } = getState().fields;
+
+    const options = Object.keys(rawOptions).map((key) => {
+      const fieldId = fields.find(field => key === field.slug)._id;
+      return {
+        fieldId,
+        fieldSlug: key,
+        value: rawOptions[key],
+      };
+    });
+
+    return fetch('/admin/api/entries', {
       method: 'POST',
-      body: JSON.stringify({ title, sectionId }),
+      body: JSON.stringify({ title, sectionId, options }),
       credentials: 'same-origin',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -17,6 +27,7 @@ export function newEntry(title, sectionId) {
     }).then(res => res.json())
       .then(json => dispatch({ type: NEW_ENTRY, json }))
       .catch(err => new Error(err));
+  };
 }
 
 export function fetchEntriesIfNeeded() {
