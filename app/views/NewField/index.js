@@ -35,7 +35,7 @@ export default class NewField extends Component {
   render() {
     const { Dropdown } = Fields;
     const FieldLabels = Object.keys(Fields).map(f => Fields[f].displayName);
-    const options = FieldLabels.map(n => ({ label: n, value: h.slugify(n) }));
+    const options = FieldLabels.map(n => ({ label: n, value: n }));
 
     const links = [
       { label: 'Settings', path: '/admin/settings' },

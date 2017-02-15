@@ -15,6 +15,9 @@ const FieldSchema = new Schema({
     type: String,
     required: true,
   },
+  options: {
+    type: Schema.Types.Mixed,
+  },
   dateCreated: {
     type: Date,
     required: true,

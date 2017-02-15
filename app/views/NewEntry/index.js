@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { newEntry } from '../../actions/entryActions';
 import Button from '../../components/Button';
+import renderOption from '../../utils/renderOption';
 
 export default class NewEntry extends Component {
   static propTypes = {
@@ -18,13 +19,18 @@ export default class NewEntry extends Component {
   }
 
   render() {
+    const { sections, fields, params } = this.props;
+    const sectionObj = sections.sections.find(sec => sec.slug === params.section);
+    console.log(sectionObj);
+    const sectionFields = fields.fields.filter(field => sectionObj.fields.indexOf(field._id) !== -1);
+
+    console.log(sectionFields);
+
     return (
       <div>
         <form onSubmit={this.onSubmit}>
           <input type="text" name="title" ref={(r) => { this.title = r; }} />
-          <select ref={(r) => { this.section = r; }}>
-            {this.props.sections.sections.map(section => <option key={section._id} value={section._id}>{section.title}</option>)}
-          </select>
+          {sectionFields.map(field => renderOption(field))}
           <Button type="submit">Add Entry</Button>
         </form>
       </div>
