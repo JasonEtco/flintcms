@@ -3,5 +3,5 @@ import Fields from '../components/Fields';
 
 export default function renderOption(field) {
   const Field = Fields[field.type];
-  return <Field {...field} />;
+  return <Field key={field._id} {...field} />;
 }

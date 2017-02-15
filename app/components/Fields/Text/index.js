@@ -1,36 +1,16 @@
 import React, { Component, PropTypes } from 'react';
+import Input from '../../Input';
 
 export default class Text extends Component {
   static propTypes = {
-    placeholder: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string,
-  }
-
-  static defaultProps = {
-    label: null,
-    placeholder: null,
+    title: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
   }
 
   render() {
-    const { name, label, placeholder } = this.props;
+    const { slug, title } = this.props;
 
-    const input = (
-      <input
-        className="input"
-        type="text"
-        name={name}
-        placeholder={placeholder}
-        ref={(r) => { this[name] = r; }}
-      />
-    );
-
-    return !label ? input : (
-      <div className="input-wrapper form-element">
-        <label className="input__label" htmlFor={name}>{label}</label>
-        {input}
-      </div>
-    );
+    return <Input name={slug} label={title} full />;
   }
 }
 
