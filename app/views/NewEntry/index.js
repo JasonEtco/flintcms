@@ -6,6 +6,15 @@ import renderOption from '../../utils/renderOption';
 export default class NewEntry extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
+    sections: PropTypes.object,
+    fields: PropTypes.object,
+    params: PropTypes.object.isRequired,
+  }
+
+  static defaultProps = {
+    dispatch: null,
+    sections: null,
+    fields: null,
   }
 
   constructor(props) {
@@ -21,10 +30,8 @@ export default class NewEntry extends Component {
   render() {
     const { sections, fields, params } = this.props;
     const sectionObj = sections.sections.find(sec => sec.slug === params.section);
-    console.log(sectionObj);
-    const sectionFields = fields.fields.filter(field => sectionObj.fields.indexOf(field._id) !== -1);
-
-    console.log(sectionFields);
+    const sectionFields = fields.fields
+      .filter(field => sectionObj.fields.indexOf(field._id) !== -1);
 
     return (
       <div>
