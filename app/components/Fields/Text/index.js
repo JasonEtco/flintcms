@@ -3,14 +3,19 @@ import Input from '../../Input';
 
 export default class Text extends Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    instructions: PropTypes.string,
+  }
+
+  static defaultProps = {
+    instructions: null,
   }
 
   render() {
-    const { slug, title } = this.props;
+    const { name, label, instructions } = this.props;
 
-    return <Input name={slug} label={title} full />;
+    return <Input name={name} label={label} instructions={instructions} full />;
   }
 }
 
