@@ -13,14 +13,24 @@ module.exports = (app, io) => {
   app.post('/admin/api/sections', h.loggedIn, (req, res) => {
     const { title, fields } = req.body;
 
-    if (fields.length === 0) res.status(409).json({ success: false, message: 'You must include at least one field.' });
-    if (!title) res.status(409).json({ success: false, message: 'You must include a title.' });
+    if (fields.length === 0) {
+      res.status(409).json({ success: false, message: 'You must include at least one field.' });
+      return false;
+    }
+
+    if (!title) {
+      res.status(409).json({ success: false, message: 'You must include a title.' });
+      return false;
+    }
 
     const slug = h.slugify(title);
 
-    process.nextTick(() => {
+    return process.nextTick(() => {
       Section.findOne({ slug }).then((section) => {
-        if (section) res.status(409).json({ success: false, message: 'There is already a section with that slug.' });
+        if (section) {
+          res.status(409).json({ success: false, message: 'There is already a section with that slug.' });
+          return false;
+        }
         const newSection = new Section();
 
         newSection.title = title;

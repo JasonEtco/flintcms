@@ -14,7 +14,7 @@ export function newSection(title, fields) {
       'Content-Type': 'application/json',
     }),
   }).then(res => res.json())
-    .then(json => dispatch({ type: NEW_SECTION, json }));
+    .then(json => dispatch({ type: NEW_SECTION, newSection: json }));
 }
 
 export function fetchSectionsIfNeeded() {

@@ -26,7 +26,13 @@ export default function sections(state = {}, action) {
     }
 
     case NEW_SECTION: {
-      return state;
+      return {
+        ...state,
+        sections: [
+          ...state.sections,
+          action.newSection,
+        ],
+      };
     }
 
     default:

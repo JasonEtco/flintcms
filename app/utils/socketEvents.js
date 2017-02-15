@@ -1,3 +1,5 @@
+import { NEW_SECTION } from '../actions/sectionActions';
+
 export default class SocketEvents {
   constructor(socket, dispatch) {
     this.dispatch = dispatch;
@@ -13,7 +15,7 @@ export default class SocketEvents {
   }
 
   newSection() {
-    this.socket.on('new-section', savedSection => console.log(savedSection));
+    this.socket.on('new-section', newSection => this.dispatch({ type: NEW_SECTION, newSection }));
   }
 
   deleteSection() {
