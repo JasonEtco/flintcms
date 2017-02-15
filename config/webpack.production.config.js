@@ -7,7 +7,7 @@ const autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: [
-    path.join(__dirname, '..', 'src', 'main.js'),
+    path.join(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
     path: path.join(__dirname, '..', 'dashboard'),
@@ -17,7 +17,7 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, '..', 'src', 'index.tpl.html'),
+      template: path.join(__dirname, '..', 'app', 'index.tpl.html'),
       inject: 'body',
       filename: 'index.html',
     }),
@@ -33,7 +33,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       {
-        context: path.join(__dirname, '..', 'src'),
+        context: path.join(__dirname, '..', 'app'),
         from: 'assets',
         to: 'assets',
         ignore: ['fonts/**/*'],
@@ -72,7 +72,7 @@ module.exports = {
   sassLoader: {
     data: '@import "tools";',
     includePaths: [
-      path.resolve(__dirname, '../src/scss/tools'),
+      path.resolve(__dirname, '../app/scss/tools'),
     ],
   },
 };
