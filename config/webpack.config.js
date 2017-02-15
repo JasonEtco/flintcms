@@ -52,7 +52,7 @@ module.exports = {
       },
     }, {
       test: /\.scss$/,
-      loaders: ['style', 'css', 'resolve-url', 'sass?sourceMap'],
+      loaders: ['style', 'css', 'sass?sourceMap'],
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
       loaders: [
