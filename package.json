@@ -53,6 +53,7 @@
     "es6-promise": "^4.0.5",
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "form-serialize": "^0.7.1",
     "handlebars": "^4.0.6",
     "html-webpack-plugin": "^2.28.0",
     "immutability-helper": "^2.1.1",
