@@ -4,6 +4,7 @@ import './Color.scss';
 
 export default class Color extends Component {
   static propTypes = {
+    name: PropTypes.string.isRequired,
     value: PropTypes.string,
     label: PropTypes.string,
     instructions: PropTypes.string,
@@ -20,6 +21,7 @@ export default class Color extends Component {
 
     this.handleToggle = this.handleToggle.bind(this);
     this.hide = this.hide.bind(this);
+    this.value = props.value;
 
     this.state = { open: false, color: props.value };
   }
@@ -34,11 +36,12 @@ export default class Color extends Component {
   }
 
   handleChangeComplete = (color) => {
+    this.value = color;
     this.setState({ color: color.hex });
   };
 
   render() {
-    const { label, instructions } = this.props;
+    const { label, instructions, name } = this.props;
     const { color, open } = this.state;
 
     const popover = {
@@ -72,6 +75,8 @@ export default class Color extends Component {
             />
           </div>
         </div>
+
+        <input type="text" name={name} value={color} readOnly hidden />
       </div>
     );
   }

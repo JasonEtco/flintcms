@@ -15,21 +15,21 @@ module.exports = (app, io) => {
 
     if (fields.length === 0) {
       res.status(409).json({ success: false, message: 'You must include at least one field.' });
-      return false;
+      return;
     }
 
     if (!title) {
       res.status(409).json({ success: false, message: 'You must include a title.' });
-      return false;
+      return;
     }
 
     const slug = h.slugify(title);
 
-    return process.nextTick(() => {
+    process.nextTick(() => {
       Section.findOne({ slug }).then((section) => {
         if (section) {
           res.status(409).json({ success: false, message: 'There is already a section with that slug.' });
-          return false;
+          return;
         }
         const newSection = new Section();
 
@@ -39,7 +39,7 @@ module.exports = (app, io) => {
         newSection.fields = fields;
         newSection.dateCreated = Date.now();
 
-        return newSection.save()
+        newSection.save()
         .then((savedSection) => {
           io.emit('new-section', savedSection);
           res.status(200).json({ success: true });

@@ -3,6 +3,7 @@ import './Dropdown.scss';
 
 export default class Dropdown extends Component {
   static propTypes = {
+    name: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
@@ -49,7 +50,7 @@ export default class Dropdown extends Component {
   }
 
   render() {
-    const { options, label, instructions } = this.props;
+    const { options, label, instructions, name } = this.props;
     const { value, open } = this.state;
 
     return (
@@ -74,6 +75,7 @@ export default class Dropdown extends Component {
             ))}
           </div>
         </div>
+        <input type="text" name={name} value={value} readOnly hidden />
       </div>
     );
   }

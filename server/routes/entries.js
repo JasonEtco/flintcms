@@ -15,30 +15,36 @@ module.exports = (app, io) => {
     const { title, sectionId, options } = req.body;
     const slug = h.slugify(title);
 
-    Section.findById(sectionId)
-      .then((section) => {
-        if (!section) res.status(409).json({ success: false, message: 'That section does not exist.' });
+    process.nextTick(() => {
+      Section.findById(sectionId)
+        .then((section) => {
+          if (!section) res.status(409).json({ success: false, message: 'That section does not exist.' });
 
-        Entry.findOne({ slug }).then((entry) => {
-          if (entry) res.status(409).json({ success: false, message: 'There is already an entry with that slug.' });
-          const newEntry = new Entry();
+          Entry.findOne({ slug }).then((entry) => {
+            if (entry) {
+              res.status(409).json({ success: false, message: 'There is already an entry with that slug.' });
+              return;
+            }
 
-          newEntry.title = title;
-          newEntry.slug = slug;
-          newEntry.section = section._id;
-          newEntry.options = options;
-          newEntry.dateCreated = Date.now();
-          newEntry.author = req.user._id;
+            const newEntry = new Entry();
 
-          newEntry.save()
-            .then((savedEntry) => {
-              io.emit('new-entry', savedEntry);
-              res.status(200).json({ success: true });
-            })
-            .catch(err => new Error(err));
+            newEntry.title = title;
+            newEntry.slug = slug;
+            newEntry.section = section._id;
+            newEntry.options = options;
+            newEntry.dateCreated = Date.now();
+            newEntry.author = req.user._id;
+
+            newEntry.save()
+              .then((savedEntry) => {
+                io.emit('new-entry', savedEntry);
+                res.status(200).json({ success: true });
+              })
+              .catch(err => new Error(err));
+          })
+          .catch(err => new Error(err));
         })
         .catch(err => new Error(err));
-      })
-      .catch(err => new Error(err));
+    });
   });
 };
