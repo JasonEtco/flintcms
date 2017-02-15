@@ -22,6 +22,15 @@ export default function renderOption(field) {
           instructions={field.instructions}
         />
       );
+    case 'Color':
+      return (
+        <Fields.Color
+          key={field._id}
+          name={field.slug}
+          label={field.title}
+          instructions={field.instructions}
+        />
+      );
 
     default:
       return false;

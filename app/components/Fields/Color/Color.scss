@@ -1,0 +1,24 @@
+.color {
+    &__btn {
+        display: block;
+        width: 60px;
+        height: 2em;
+        border-radius: 3px;
+        border: 1px solid $lightgrey;
+    }
+
+    &__picker {
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 150ms $standard,
+            visibility 150ms $standard;
+
+        &.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chrome-picker { font-family: inherit !important; }
+    }
+}
