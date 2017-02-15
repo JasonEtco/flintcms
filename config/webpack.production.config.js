@@ -8,7 +8,7 @@ const autoprefixer = require('autoprefixer');
 module.exports = {
   entry: [
     'whatwg-fetch',
-    path.join(__dirname, '..', 'app', 'main.js'),
+    path.resolve(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
     path: path.join(__dirname, '..', 'flint'),
