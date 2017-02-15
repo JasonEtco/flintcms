@@ -13,6 +13,7 @@
     "start": "nodemon --ignore app server/index.js",
     "build": "rimraf dashboard && cross-env NODE_ENV=production webpack --config ./config/webpack.production.config.js --progress --profile --colors",
     "serve": "node server/index.js",
+    "local": "cross-env NODE_ENV=production PORT=4000 npm run serve",
     "heroku-postbuild": "npm run build"
   },
   "babel": {

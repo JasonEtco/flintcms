@@ -7,12 +7,13 @@ const autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: [
+    'whatwg-fetch',
     path.join(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
-    path: path.join(__dirname, '..', 'dashboard'),
+    path: path.join(__dirname, '..', 'flint'),
     filename: '[name]-[hash].min.js',
-    publicPath: '/',
+    publicPath: '/flint',
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -72,7 +73,7 @@ module.exports = {
   sassLoader: {
     data: '@import "tools";',
     includePaths: [
-      path.resolve(__dirname, '../app/scss/tools'),
+      path.resolve(__dirname, '..', 'app', 'scss', 'tools'),
     ],
   },
 };

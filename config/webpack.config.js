@@ -11,7 +11,7 @@ module.exports = {
     path.join(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
-    path: path.join(__dirname, '..', 'dashboard'),
+    path: path.join(__dirname, '..', 'flint'),
     filename: '[name].js',
     publicPath: '/',
   },

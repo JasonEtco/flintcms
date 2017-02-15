@@ -77,14 +77,14 @@ if (isDeveloping) {
   app.use(webpackHotMiddleware(compiler));
 
   app.get('/admin*', (req, res) => {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', 'dashboard', 'index.html')));
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', 'flint', 'index.html')));
     res.end();
   });
 } else {
-  app.use(express.static(path.join(__dirname, 'dashboard')));
+  app.use(express.static(path.join(__dirname, '..')));
 
   app.get('/admin*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dashboard', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'flint', 'index.html'));
   });
 }
 
