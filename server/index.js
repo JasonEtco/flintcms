@@ -81,7 +81,7 @@ if (isDeveloping) {
     res.end();
   });
 } else {
-  app.use(express.static(__dirname));
+  app.use(express.static(path.join(__dirname, '..', 'dashboard')));
 
   app.get('/admin*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'dashboard', 'index.html'));
