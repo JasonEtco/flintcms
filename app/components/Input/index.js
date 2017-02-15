@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import h from '../../utils/helpers';
 import './Input.scss';
 
 export default class Input extends Component {
@@ -96,7 +97,7 @@ export default class Input extends Component {
     return (
       <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
-        {instructions && <p className="input__instructions">{instructions}</p>}
+        {instructions && <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} />}
         {input}
       </div>
     );

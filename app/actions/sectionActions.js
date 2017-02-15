@@ -4,11 +4,11 @@ export const REQUEST_SECTIONS = 'REQUEST_SECTIONS';
 export const RECEIVE_SECTIONS = 'RECEIVE_SECTIONS';
 export const NEW_SECTION = 'NEW_SECTION';
 
-export function newSection(title, fields) {
+export function newSection(title, template, fields) {
   return dispatch =>
   fetch('/admin/api/sections', {
     method: 'POST',
-    body: JSON.stringify({ title, fields }),
+    body: JSON.stringify({ title, template, fields }),
     credentials: 'same-origin',
     headers: new Headers({
       'Content-Type': 'application/json',

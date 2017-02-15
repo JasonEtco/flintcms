@@ -50,6 +50,9 @@ const helpers = {
     const results = regex.exec(str || location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   },
+  formatStringWithCode(str) {
+    return str.replace(/`(\S+)`/g, '<code>$1</code>');
+  },
 };
 
 export default helpers;

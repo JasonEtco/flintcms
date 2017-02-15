@@ -20,6 +20,7 @@ const compile = require('./utils/compile');
 require('./utils/registerPartials');
 
 const getEntryData = require('./utils/getEntryData');
+const getTemplateFromEntry = require('./utils/getTemplateFromEntry');
 
 const app = express();
 const http = require('http').Server(app);
@@ -95,8 +96,11 @@ app.get('/all', (req, res) => {
 
 app.get('/:slug', (req, res) => {
   getEntryData(req.params.slug)
-    .then(data => compile(routes.index, data))
-    .then(r => res.send(r));
+    .then(data => getTemplateFromEntry(data)
+      .then(({ template }) => compile(template, data))
+      .catch(err => new Error(err)))
+    .then(r => res.send(r))
+    .catch(err => new Error(err));
 });
 
 http.listen(port, () => console.log(`Running at http://localhost:${port}`));

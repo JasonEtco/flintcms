@@ -11,6 +11,10 @@ const SectionSchema = new Schema({
     type: String,
     required: true,
   },
+  template: {
+    type: String,
+    required: true,
+  },
   dateCreated: {
     type: Date,
     required: true,

@@ -7,10 +7,6 @@ const EntrySchema = new Schema({
     type: String,
     required: true,
   },
-  template: {
-    type: String,
-    required: true,
-  },
   section: {
     type: Schema.Types.ObjectId,
     ref: 'Section',

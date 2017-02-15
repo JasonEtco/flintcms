@@ -25,7 +25,6 @@ module.exports = (app, io) => {
 
           newEntry.title = title;
           newEntry.slug = slug;
-          newEntry.template = 'index';
           newEntry.section = section._id;
           newEntry.options = options;
           newEntry.dateCreated = Date.now();

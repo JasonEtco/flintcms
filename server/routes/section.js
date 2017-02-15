@@ -11,7 +11,7 @@ module.exports = (app, io) => {
   });
 
   app.post('/admin/api/sections', h.loggedIn, (req, res) => {
-    const { title, fields } = req.body;
+    const { title, template, fields } = req.body;
 
     if (fields.length === 0) {
       res.status(409).json({ success: false, message: 'You must include at least one field.' });
@@ -34,6 +34,7 @@ module.exports = (app, io) => {
         const newSection = new Section();
 
         newSection.title = title;
+        newSection.template = template;
         newSection.slug = slug;
         newSection.fields = fields;
         newSection.dateCreated = Date.now();
