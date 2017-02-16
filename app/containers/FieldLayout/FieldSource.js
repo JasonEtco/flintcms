@@ -32,6 +32,8 @@ class FieldSource extends Component {
       </div>
     );
 
+    if (disabled) return comp;
+
     return connectDragSource(comp);
   }
 }

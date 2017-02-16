@@ -106,7 +106,11 @@ export default class Section extends Component {
                 </label>
               ))}
 
-              <FieldLayout fields={fields} ref={(r) => { this.fieldLayout = r; }} />
+              <FieldLayout
+                activeFields={fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1)}
+                fields={fields}
+                ref={(r) => { this.fieldLayout = r; }}
+              />
             </form>
           </div>
         </div>

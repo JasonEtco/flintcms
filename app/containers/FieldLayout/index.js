@@ -8,6 +8,7 @@ import './FieldLayout.scss';
 export default class FieldLayout extends Component {
   static propTypes = {
     fields: PropTypes.array.isRequired,
+    activeFields: PropTypes.array.isRequired,
   }
 
   constructor(props) {
@@ -16,17 +17,18 @@ export default class FieldLayout extends Component {
     this.addField = this.addField.bind(this);
     this.removeField = this.removeField.bind(this);
     this.sortField = this.sortField.bind(this);
+
+    this.state = { fields: props.activeFields };
   }
 
-  state = { fields: [] }
-
-  addField(field) {
-    this.setState({ fields: [...this.state.fields, field] });
+  addField(field, index) {
+    const { fields } = this.state;
+    this.setState({ fields: h.addToArrayAtIndex(fields, field, index) });
   }
 
   removeField(fieldId) {
     const { fields } = this.state;
-    const fieldIndex = fields.indexOf(fieldId);
+    const fieldIndex = fields.findIndex(obj => obj._id === fieldId);
     this.setState({
       fields: [
         ...fields.slice(0, fieldIndex),
@@ -64,7 +66,7 @@ export default class FieldLayout extends Component {
               key={field._id}
               index={i}
               field={field}
-              disabled={this.state.fields.indexOf(field._id) !== -1}
+              disabled={this.state.fields.findIndex(obj => obj._id === field._id) !== -1}
             />)}
         </div>
       </section>

@@ -23,6 +23,13 @@ const helpers = {
   isDate(str) {
     return !!Date.parse(str);
   },
+  addToArrayAtIndex(arr, item, index) {
+    return [
+      ...arr.slice(0, index),
+      item,
+      ...arr.slice(index + 1),
+    ];
+  },
   sortArrayOfObjByString(arr, str, direction) {
     return arr.sort((a, b) => {
       if ((a[str].value || a[str]) < (b[str].value || b[str])) return direction === 'ASC' ? -1 : 1;
