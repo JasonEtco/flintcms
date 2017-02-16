@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import h from '../../utils/helpers';
 import FieldSource from './FieldSource';
 import FieldTarget from './FieldTarget';
 import './FieldLayout.scss';
@@ -14,12 +15,13 @@ export default class FieldLayout extends Component {
 
     this.addField = this.addField.bind(this);
     this.removeField = this.removeField.bind(this);
+    this.sortField = this.sortField.bind(this);
   }
 
   state = { fields: [] }
 
-  addField(fieldId) {
-    this.setState({ fields: [...this.state.fields, fieldId] });
+  addField(field) {
+    this.setState({ fields: [...this.state.fields, field] });
   }
 
   removeField(fieldId) {
@@ -33,20 +35,34 @@ export default class FieldLayout extends Component {
     });
   }
 
+  sortField(index, newIndex) {
+    const { fields } = this.state;
+    const moved = h.arrayMove(fields, index, newIndex);
+
+    this.setState({
+      fields: moved,
+    });
+  }
+
   render() {
     const { fields } = this.props;
-    const activeFields = fields.filter(field => this.state.fields.indexOf(field._id) !== -1);
 
     return (
       <section className="field-layout">
         <h3 className="field-layout__title">Field Layout</h3>
 
-        <FieldTarget fields={activeFields} addField={this.addField} removeField={this.removeField} />
+        <FieldTarget
+          fields={this.state.fields}
+          addField={this.addField}
+          removeField={this.removeField}
+          sortField={this.sortField}
+        />
 
         <div className="field-layout__fields">
-          {fields.map(field =>
+          {fields.map((field, i) =>
             <FieldSource
               key={field._id}
+              index={i}
               field={field}
               disabled={this.state.fields.indexOf(field._id) !== -1}
             />)}

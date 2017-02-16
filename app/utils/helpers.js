@@ -53,6 +53,18 @@ const helpers = {
   formatStringWithCode(str) {
     return str.replace(/`(\S+)`/g, '<code>$1</code>');
   },
+  arrayMove(arr, oldIndex, newIndex) {
+    const arrCopy = [...arr];
+
+    if (newIndex >= arrCopy.length) {
+      const k = newIndex - arrCopy.length;
+      while ((k - 1) + 1) {
+        arrCopy.push(undefined);
+      }
+    }
+    arrCopy.splice(newIndex, 0, arrCopy.splice(oldIndex, 1)[0]);
+    return arrCopy; // for testing purposes
+  },
 };
 
 export default helpers;
