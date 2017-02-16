@@ -23,6 +23,7 @@ class FieldSource extends Component {
     const classes = classnames(
       'field-layout__fields__field',
       { 'is-disabled': disabled },
+      { 'is-dragging': isDragging },
     );
 
     const comp = (
