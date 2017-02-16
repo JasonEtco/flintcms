@@ -63,7 +63,7 @@ const target = {
       hoverPosition: 0,
     });
 
-    if (!monitor.didDrop() && index === undefined) {
+    if (!monitor.didDrop() && index === undefined && item.props.new) {
       component.props.addField(item.props.field, position === -1 ? hoverIndex + 1 : hoverIndex);
       return;
     }
@@ -72,7 +72,7 @@ const target = {
       return;
     }
 
-    if (!monitor.didDrop()) {
+    if (!monitor.didDrop() && !item.props.new) {
       component.props.sortField(index, hoverIndex);
     }
   },

@@ -67,6 +67,7 @@ export default class FieldLayout extends Component {
               index={i}
               field={field}
               disabled={this.state.fields.findIndex(obj => obj._id === field._id) !== -1}
+              new
             />)}
         </div>
       </section>
