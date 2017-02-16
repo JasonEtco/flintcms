@@ -55,7 +55,7 @@ export default class Section extends Component {
 
     return (
       <Page name="section">
-        <TitleBar title="New Section">
+        <TitleBar title={this.section.title}>
           <Button onClick={this.handleSubmit} small>Save Section</Button>
         </TitleBar>
         <div className="content">

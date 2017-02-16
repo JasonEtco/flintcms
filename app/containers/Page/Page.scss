@@ -1,6 +1,5 @@
 .page {
-    display: flex;
-    flex-direction: column;
+    overflow-y: auto;
     flex-grow: 2;
 
     .page__inner {

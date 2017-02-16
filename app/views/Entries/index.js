@@ -15,12 +15,18 @@ export default class Entries extends Component {
 
   componentWillMount() {
     const { section } = this.props.params;
+    const { sections } = this.props.sections;
     const ref = localStorage.getItem('lastSection');
 
     if (section) {
       localStorage.setItem('lastSection', section);
     } else if (ref) {
-      browserHistory.push(`/admin/entries/${ref}`);
+      const refExists = sections.some(obj => obj.slug === ref);
+      if (refExists) {
+        browserHistory.push(`/admin/entries/${ref}`);
+      } else {
+        localStorage.removeItem('lastSection');
+      }
     }
   }
 
