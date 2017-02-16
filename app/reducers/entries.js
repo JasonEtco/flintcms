@@ -26,7 +26,13 @@ export default function entries(state = {}, action) {
     }
 
     case NEW_ENTRY: {
-      return state;
+      return {
+        ...state,
+        entries: [
+          ...state.entries,
+          action.json,
+        ],
+      };
     }
 
     default:

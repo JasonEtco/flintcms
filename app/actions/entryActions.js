@@ -1,4 +1,6 @@
+import { push } from 'react-router-redux';
 import Fetcher from '../utils/fetchClass';
+import h from '../utils/helpers';
 
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
@@ -6,10 +8,10 @@ export const NEW_ENTRY = 'NEW_ENTRY';
 
 export function newEntry(title, sectionId, rawOptions) {
   return (dispatch, getState) => {
-    const { fields } = getState().fields;
+    const { fields, sections } = getState();
 
     const options = Object.keys(rawOptions).map((key) => {
-      const fieldId = fields.find(field => key === field.slug)._id;
+      const fieldId = fields.fields.find(field => key === field.slug)._id;
       return {
         fieldId,
         fieldSlug: key,
@@ -25,7 +27,10 @@ export function newEntry(title, sectionId, rawOptions) {
         'Content-Type': 'application/json',
       }),
     }).then(res => res.json())
-      .then(json => dispatch({ type: NEW_ENTRY, json }))
+      .then((json) => {
+        dispatch({ type: NEW_ENTRY, json });
+        dispatch(push(`/admin/entries/${h.getSlugFromId(sections.sections, json.section)}/${json._id}`));
+      })
       .catch(err => new Error(err));
   };
 }

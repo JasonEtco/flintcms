@@ -1,4 +1,6 @@
 import { NEW_SECTION } from '../actions/sectionActions';
+import { NEW_ENTRY } from '../actions/entryActions';
+import store from './store';
 
 export default class SocketEvents {
   constructor(socket, dispatch) {
@@ -7,7 +9,11 @@ export default class SocketEvents {
   }
 
   newEntry() {
-    this.socket.on('new-entry', savedEntry => console.log(savedEntry));
+    this.socket.on('new-entry', (newEntry) => {
+      if (!store.getState().entries.entries.some(entry => entry._id === newEntry._id)) {
+        this.dispatch({ type: NEW_ENTRY, json: newEntry });
+      }
+    });
   }
 
   deleteEntry() {

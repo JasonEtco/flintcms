@@ -38,7 +38,7 @@ module.exports = (app, io) => {
             newEntry.save()
               .then((savedEntry) => {
                 io.emit('new-entry', savedEntry);
-                res.status(200).json({ success: true });
+                res.status(200).json(savedEntry);
               })
               .catch(err => new Error(err));
           })
