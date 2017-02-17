@@ -12,6 +12,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
+            padding: 0.8em;
             border: none;
             background: none;
             color: $darkgrey;
@@ -36,11 +37,11 @@
                 @include triangle(top, 4px, $darkgrey);
             }
 
-            &.is-active { background-color: $lightergrey; }
+            &.is-active { background-color: $lightgrey; }
         }
     }
 
-    &__header__btn, &__cell {
+    &__cell {
         padding: 1.2em 0.8em;
 
         a {
@@ -52,7 +53,7 @@
     }
 
     &__row {
-        border-bottom: 1px solid $lightergrey;
+        border-bottom: 1px solid $lightgrey;
     }
 
     &__search {
