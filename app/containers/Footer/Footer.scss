@@ -1,3 +1,32 @@
 .footer {
     padding: 2em;
+    text-align: center;
+
+    &__made-with {
+        color: $accentColor;
+        opacity: 0.5;
+        filter: grayscale(100);
+        font-size: 0.8rem;
+        transition: filter 150ms $standard, opacity 150ms $standard;
+
+        &:hover {
+            opacity: 1;
+            filter: none;
+        }
+
+        a { color: inherit; }
+    }
+
+    &__emoji {
+        width: 1.6em;
+        padding: 0;
+        border: none;
+        margin: 0;
+        background: none;
+        cursor: pointer;
+        transition: transform 150ms $bounce;
+        outline: none;
+
+        &:hover { transform: scale(1.2); }
+    }
 }
