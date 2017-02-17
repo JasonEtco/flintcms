@@ -6,16 +6,26 @@ export default class Text extends Component {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
+    defaultValue: PropTypes.string,
   }
 
   static defaultProps = {
     instructions: null,
+    defaultValue: null,
   }
 
   render() {
-    const { name, label, instructions } = this.props;
+    const { name, label, instructions, defaultValue } = this.props;
 
-    return <Input name={name} label={label} instructions={instructions} full />;
+    return (
+      <Input
+        name={name}
+        label={label}
+        instructions={instructions}
+        defaultValue={defaultValue}
+        full
+      />
+    );
   }
 }
 

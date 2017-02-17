@@ -1,7 +1,7 @@
 import React from 'react';
 import Fields from '../components/Fields';
 
-export default function renderOption(field) {
+export default function renderOption(field, value) {
   switch (field.type) {
     case 'Dropdown':
       return (
@@ -11,6 +11,7 @@ export default function renderOption(field) {
           label={field.title}
           instructions={field.instructions}
           options={field.options}
+          defaultValue={value}
         />
       );
     case 'Text':
@@ -20,6 +21,7 @@ export default function renderOption(field) {
           name={field.slug}
           label={field.title}
           instructions={field.instructions}
+          defaultValue={value}
         />
       );
     case 'Color':
@@ -29,6 +31,7 @@ export default function renderOption(field) {
           name={field.slug}
           label={field.title}
           instructions={field.instructions}
+          defaultValue={value}
         />
       );
 

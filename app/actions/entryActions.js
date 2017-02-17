@@ -21,7 +21,7 @@ export function newEntry(title, sectionId, rawOptions) {
 
     return fetch('/admin/api/entries', {
       method: 'POST',
-      body: JSON.stringify({ title, sectionId, options }),
+      body: JSON.stringify({ title, sectionId, fields: options }),
       credentials: 'same-origin',
       headers: new Headers({
         'Content-Type': 'application/json',
