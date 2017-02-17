@@ -40,15 +40,11 @@
             padding: 1em;
 
             &:not(.is-disabled) {
-                cursor: -webkit-grab; // stylelint-disable-line value-no-vendor-prefix
+                cursor: move; // stylelint-disable-line value-no-vendor-prefix
 
                 &:hover {
                     @include box-shadow(2);
                 }
-            }
-
-            &.is-dragging {
-                cursor: -webkit-grabbing; // stylelint-disable-line value-no-vendor-prefix
             }
         }
     }

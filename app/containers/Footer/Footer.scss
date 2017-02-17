@@ -25,7 +25,7 @@
         margin: 0;
         background: none;
         cursor: pointer;
-        transition: transform 150ms $bounce;
+        transition: transform 150ms $standard;
         outline: none;
 
         &:hover { transform: scale(1.2); }
