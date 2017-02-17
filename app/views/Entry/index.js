@@ -41,7 +41,7 @@ export default class Entry extends Component {
 
     const links = [
       { label: sectionName, path: `/admin/entries/${sectionSlug}` },
-      { label: 'Entry', path: `/admin/entries/${sectionSlug}/${_id}` },
+      { label: title, path: `/admin/entries/${sectionSlug}/${_id}` },
     ];
 
     return (
