@@ -1,33 +1,34 @@
 import React, { Component, PropTypes } from 'react';
-import { newField } from '../../actions/fieldActions';
 import Page from '../../containers/Page';
 import Fields from '../../components/Fields';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import TitleBar from '../../components/TitleBar';
-import h from '../../utils/helpers';
 
-export default class NewField extends Component {
+export default class Field extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
+    // dispatch: PropTypes.func,
+    fields: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    dispatch: null,
+    dispatch: f => f,
   }
 
   constructor(props) {
     super(props);
+
+    const { fields, params } = props;
+    const { id } = params;
+    this.field = fields.fields.find(e => e._id === id);
+
     this.onSubmit = this.onSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
   }
 
   state = { title: '' }
-
-  onSubmit() {
-    const { title, type, instructions } = this;
-    this.props.dispatch(newField(title.value, type.value, instructions.value));
-  }
 
   handleTitleChange(title) {
     this.setState({ title });
@@ -35,18 +36,20 @@ export default class NewField extends Component {
 
   render() {
     const { Dropdown } = Fields;
+    const { slug, title, instructions } = this.field;
     const FieldLabels = Object.keys(Fields).map(f => Fields[f].displayName);
     const options = FieldLabels.map(n => ({ label: n, value: n }));
 
     const links = [
       { label: 'Settings', path: '/admin/settings' },
       { label: 'Fields', path: '/admin/settings/fields' },
+      { label: title, path: this.props.location.pathname },
     ];
 
     return (
-      <Page name="new-field" links={links}>
-        <TitleBar title="New Field">
-          <Button onClick={this.onSubmit} small>Save</Button>
+      <Page name="field" links={links}>
+        <TitleBar title={title}>
+          <Button onClick={this.onSubmit} small>Save Field</Button>
         </TitleBar>
 
         <div className="content">
@@ -59,7 +62,7 @@ export default class NewField extends Component {
                 ref={(r) => { this.title = r; }}
                 required
                 full
-                onChange={this.handleTitleChange}
+                defaultValue={title}
               />
 
               <Input
@@ -71,7 +74,7 @@ export default class NewField extends Component {
                 full
                 code
                 disabled
-                value={h.slugify(this.state.title)}
+                value={slug}
               />
 
               <Input
@@ -80,6 +83,7 @@ export default class NewField extends Component {
                 instructions="Text that will help the author understand content is being asked for."
                 ref={(r) => { this.instructions = r; }}
                 full
+                defaultValue={instructions}
               />
 
               <Dropdown

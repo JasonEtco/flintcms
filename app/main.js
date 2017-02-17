@@ -20,6 +20,7 @@ import Section from './views/Section';
 import Sections from './views/Sections';
 import NewSection from './views/NewSection';
 
+import Field from './views/Field';
 import Fields from './views/Fields';
 import NewField from './views/NewField';
 
@@ -49,6 +50,7 @@ const storeWrapper = (
 
         <Route path="settings/fields" component={Fields} />
         <Route path="settings/fields/new" component={NewField} />
+        <Route path="settings/fields/:id" component={Field} />
       </Route>
       <Route path="/admin/login" component={Login} />
     </Router>

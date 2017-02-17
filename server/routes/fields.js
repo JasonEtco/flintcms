@@ -11,7 +11,7 @@ module.exports = (app, io) => {
   });
 
   app.post('/admin/api/fields', h.loggedIn, (req, res) => {
-    const { title, type } = req.body;
+    const { title, type, instructions } = req.body;
     const slug = h.slugify(title);
     Field.findOne({ slug }).then((field) => {
       if (field) res.status(409).json({ success: false, message: 'There is already a field with that slug.' });
@@ -19,6 +19,7 @@ module.exports = (app, io) => {
       const newField = new Field();
 
       newField.title = title;
+      newField.instructions = instructions;
       newField.type = type;
       newField.slug = slug;
       newField.dateCreated = Date.now();

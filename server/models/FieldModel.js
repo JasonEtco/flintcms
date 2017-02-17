@@ -11,6 +11,9 @@ const FieldSchema = new Schema({
     type: String,
     required: true,
   },
+  instructions: {
+    type: String,
+  },
   type: {
     type: String,
     required: true,

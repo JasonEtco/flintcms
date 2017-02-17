@@ -17,7 +17,7 @@ export default class Fields extends Component {
     const reduced = fields.fields.map(props => ({
       title: {
         value: props.title,
-        component: <Link to={`/admin/settings/sections/${props.slug}`}>{props.title}</Link>,
+        component: <Link to={`/admin/settings/fields/${props._id}`}>{props.title}</Link>,
       },
       slug: props.slug,
       dateCreated: moment(props.dateCreated).format('DD/MM/YYYY'),

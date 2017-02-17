@@ -4,11 +4,11 @@ export const REQUEST_FIELDS = 'REQUEST_FIELDS';
 export const RECEIVE_FIELDS = 'RECEIVE_FIELDS';
 export const NEW_FIELD = 'NEW_FIELD';
 
-export function newField(title, type) {
+export function newField(title, type, instructions) {
   return dispatch =>
     fetch('/admin/api/fields', {
       method: 'POST',
-      body: JSON.stringify({ title, type }),
+      body: JSON.stringify({ title, type, instructions }),
       credentials: 'same-origin',
       headers: new Headers({
         'Content-Type': 'application/json',
