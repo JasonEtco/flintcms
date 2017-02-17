@@ -1,5 +1,3 @@
-import { findDOMNode } from 'react-dom';
-
 const target = {
   canDrop() {
     return true;
@@ -46,7 +44,7 @@ const target = {
       return;
     }
 
-    monitor.getItem().index = hoverIndex;
+    monitor.getItem().index = hoverIndex; // eslint-disable-line no-param-reassign
   },
 
   drop(props, monitor, component) {

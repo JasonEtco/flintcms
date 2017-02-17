@@ -15,11 +15,15 @@ import Login from './containers/Login';
 import Entry from './views/Entry';
 import Entries from './views/Entries';
 import NewEntry from './views/NewEntry';
-import Settings from './views/Settings';
+
 import Section from './views/Section';
 import Sections from './views/Sections';
 import NewSection from './views/NewSection';
+
+import Fields from './views/Fields';
 import NewField from './views/NewField';
+
+import Settings from './views/Settings';
 
 export default function mapStateToProps(state) {
   return { ...state };
@@ -42,6 +46,8 @@ const storeWrapper = (
         <Route path="settings/sections" component={Sections} />
         <Route path="settings/sections/new" component={NewSection} />
         <Route path="settings/sections/:slug" component={Section} />
+
+        <Route path="settings/fields" component={Fields} />
         <Route path="settings/fields/new" component={NewField} />
       </Route>
       <Route path="/admin/login" component={Login} />

@@ -20,7 +20,7 @@ export default class MainNav extends Component {
         <ul className="nav__list">
           <NavItem to="/admin"><Icon icon="home" />Home</NavItem>
           <NavItem to="/admin/entries"><Icon icon="newspaper" />Entries</NavItem>
-          <NavItem to="/admin/settings"><Icon icon="stack" />Settings</NavItem>
+          <NavItem to="/admin/settings"><Icon icon="gear" />Settings</NavItem>
         </ul>
       </nav>
     );

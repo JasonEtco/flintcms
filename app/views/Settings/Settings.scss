@@ -1,0 +1,43 @@
+.page--settings {
+    .page__inner {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .settings {
+        &__section {
+            display: flex;
+            align-items: center;
+            padding: 0 2em 2em;
+            border-bottom: 1px solid $lightgrey;
+            flex-wrap: wrap;
+
+            &__title {
+                width: 100%;
+                margin-top: 0;
+                font-size: 1rem;
+            }
+        }
+
+        &__link {
+            display: flex;
+            padding: 1em 2em;
+            border: 1px solid transparent;
+            margin-left: 2em;
+            flex-direction: column;
+            align-items: center;
+            color: black;
+            font-size: 0.9rem;
+            text-decoration: none;
+
+            &:first-of-type { margin-left: 0; }
+
+            svg { fill: $darkgrey; margin-bottom: 1em; }
+
+            &:hover {
+                border-color: $lightgrey;
+                background-color: $lightergrey;
+            }
+        }
+    }
+}

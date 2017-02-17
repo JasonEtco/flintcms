@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import Icon from '../../utils/icons';
 import Page from '../../containers/Page';
+import TitleBar from '../../components/TitleBar';
+import './Settings.scss';
 
 export default class Settings extends Component {
   static propTypes = {
@@ -14,16 +17,26 @@ export default class Settings extends Component {
   }
 
   render() {
-    const links = [
-      { label: 'Sections', path: '/admin/settings/sections' },
-      { label: 'New Section', path: '/admin/settings/sections/new' },
-      { label: 'Fields', path: '/admin/settings/fields' },
-      { label: 'New Field', path: '/admin/settings/fields/new' },
+    const content = [
+      { label: 'Sections', path: '/admin/settings/sections', icon: 'stack' },
+      { label: 'Fields', path: '/admin/settings/fields', icon: 'fileText' },
     ];
 
     return (
       <Page name="settings">
-        {links.map(l => <Link key={l.path} to={l.path}>{l.label}</Link>)}
+        <TitleBar title="Settings" />
+        <div className="content">
+          <div className="page__inner">
+            <section className="settings__section">
+              <h2 className="settings__section__title">Content</h2>
+              {content.map(l =>
+                <Link className="settings__link" key={l.path} to={l.path}>
+                  <Icon icon={l.icon} width={48} height={48} />
+                  {l.label}
+                </Link>)}
+            </section>
+          </div>
+        </div>
       </Page>
     );
   }

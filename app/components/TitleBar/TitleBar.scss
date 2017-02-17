@@ -1,8 +1,9 @@
 .title-bar {
     display: flex;
     align-items: center;
-    padding: 1em 2em;
     justify-content: space-between;
+    padding: 1em 2em;
+    border-bottom: 1px solid $lightgrey;
     background-color: $lightergrey;
 
     &__title {

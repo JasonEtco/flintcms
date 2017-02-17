@@ -1,17 +1,19 @@
 .btn {
     display: inline-block;
     padding: 0.6em;
-    border: none;
+    border: 1px solid darken($purple, 40%);
     border-radius: 3px;
-    background-color: $red;
+    background-color: $purple;
     color: white;
     font-family: inherit;
     text-decoration: none;
     cursor: pointer;
 
-    &:hover { background-color: lighten($red, 10%); }
+    &:hover { background-color: lighten($purple, 10%); }
 
-    &--yes { background-color: blue; }
+    &:active { background-color: darken($purple, 10%); }
+
+    &--yes { background-color: $purple; }
 
     &--small { font-size: 0.8rem; }
 }

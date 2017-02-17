@@ -14,11 +14,6 @@ class FieldTarget extends Component {
     sortField: PropTypes.func.isRequired,
     canDrop: PropTypes.bool.isRequired,
     fields: PropTypes.array.isRequired,
-    hoverPosition: PropTypes.number,
-  }
-
-  static defaultProps = {
-    hoverPosition: 0,
   }
 
   state = { hoverPosition: 0 }
@@ -47,7 +42,7 @@ class FieldTarget extends Component {
             index={i}
             removeField={removeField}
             sortField={sortField}
-          />
+          />,
         )}
       </div>,
     );
