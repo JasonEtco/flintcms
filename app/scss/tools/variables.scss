@@ -1,12 +1,16 @@
+// stylelint-disable no-browser-hacks
 
 // GREYS
-$lightergrey: darken(white, 10%);
-$lightgrey: darken(white, 15%);
-$midgrey: darken(white, 30%);
-$darkgrey: darken(white, 75%);
-$darkergrey: darken(white, 85%);
+$midgrey: #92989a;
+$lightergrey: lighten($midgrey, 25%);
+$lightgrey: lighten($midgrey, 15%);
+$darkgrey: darken($midgrey, 50%);
+$darkergrey: darken($midgrey, 65%);
 
-$red: #BF284E;
+$brandColor: #fe6300;
+$accentColor: #41626b;
+
+$red: #bf284e;
 $purple: #5f4b9d;
 $blue: #0080ff;
 $blurple: #403f63;

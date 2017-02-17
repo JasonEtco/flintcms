@@ -4,7 +4,11 @@ import './Footer.scss';
 export default class Footer extends Component {
   render() {
     return (
-      <footer className="footer">Footer!</footer>
+      <footer className="footer">
+        <span>Made with <button className="emoji" onClick={}>❤️</button> on 🌏 by
+          <a href="https://github.com/JasonEtco">Jason</a>
+        </span>
+      </footer>
     );
   }
 }

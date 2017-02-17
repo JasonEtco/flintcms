@@ -1,19 +1,20 @@
 .btn {
     display: inline-block;
     padding: 0.6em;
-    border: 1px solid darken($purple, 40%);
+    border: 1px solid darken($brandColor, 10%);
     border-radius: 3px;
-    background-color: $purple;
+    background-color: $brandColor;
+    background-image: linear-gradient(to top, rgba(white, 0), rgba(white, 0.1));
     color: white;
     font-family: inherit;
     text-decoration: none;
     cursor: pointer;
 
-    &:hover { background-color: lighten($purple, 10%); }
+    &:hover { background-color: lighten($brandColor, 10%); }
 
-    &:active { background-color: darken($purple, 10%); }
+    &:active { background-color: darken($brandColor, 10%); }
 
-    &--yes { background-color: $purple; }
+    &--yes { background-color: $brandColor; }
 
     &--small { font-size: 0.8rem; }
 }
