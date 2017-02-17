@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import serialize from 'form-serialize';
 import { newSection } from '../../actions/sectionActions';
 import Page from '../../containers/Page';
+import FieldLayout from '../../containers/FieldLayout';
 import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
@@ -26,22 +28,10 @@ export default class NewSection extends Component {
 
   state = { fields: [], title: '' }
 
-  componentDidMount() {
-    fetch('/admin/api/templates', {
-      credentials: 'same-origin',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-    })
-    .then(res => res.json())
-    .then(json => console.log(json))
-    .catch(err => new Error(err));
-  }
-
   handleSubmit(e) {
     e.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(newSection(this.title.value, this.template.value, this.state.fields));
+    const { title, template, fields } = serialize(this.form, { hash: true });
+    this.props.dispatch(newSection(title, template, fields));
   }
 
   handleTitleChange(title) {
@@ -100,12 +90,11 @@ export default class NewSection extends Component {
                 code
               />
 
-              {fields.map(f => (
-                <label htmlFor={f._id} key={f._id}>
-                  {f.title}
-                  <input type="checkbox" value={f._id} id={f._id} onChange={() => this.toggleField(f._id)} />
-                </label>
-              ))}
+              <FieldLayout
+                activeFields={fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1)}
+                fields={fields}
+                ref={(r) => { this.fieldLayout = r; }}
+              />
             </form>
           </div>
         </div>

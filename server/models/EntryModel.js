@@ -15,7 +15,7 @@ const EntrySchema = new Schema({
     type: String,
     required: true,
   },
-  options: [{
+  fields: [{
     fieldId: {
       type: Schema.Types.ObjectId,
       ref: 'Field',

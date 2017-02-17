@@ -93,19 +93,6 @@ export default class Section extends Component {
                 defaultValue={this.section.template}
               />
 
-              {fields.map(f => (
-                <label htmlFor={f._id} key={f._id}>
-                  {f.title}
-                  <input
-                    type="checkbox"
-                    value={f._id}
-                    id={f._id}
-                    checked={this.state.fields.indexOf(f._id) !== -1}
-                    onChange={() => this.toggleField(f._id)}
-                  />
-                </label>
-              ))}
-
               <FieldLayout
                 activeFields={fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1)}
                 fields={fields}

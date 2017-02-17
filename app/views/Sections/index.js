@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 import Page from '../../containers/Page';
 import Table from '../../components/Table';
 import TitleBar from '../../components/TitleBar';
@@ -19,7 +20,7 @@ export default class Sections extends Component {
         component: <Link to={`/admin/settings/sections/${props.slug}`}>{props.title}</Link>,
       },
       slug: props.slug,
-      dateCreated: props.dateCreated,
+      dateCreated: moment(props.dateCreated).format('DD/MM/YYYY'),
     }));
 
     return (

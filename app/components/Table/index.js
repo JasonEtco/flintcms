@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import moment from 'moment';
 import h from '../../utils/helpers';
 import p from '../../utils/prettyNames';
 import Input from '../Input';
@@ -8,9 +7,7 @@ import './Table.scss';
 
 const Cell = ({ column, children }) => {
   let content;
-  if (h.isDate(children)) {
-    content = moment(children).format('DD/MM/YYYY');
-  } else if (children.value && children.component) {
+  if (children.value && children.component) {
     content = children.component;
   } else {
     content = children;

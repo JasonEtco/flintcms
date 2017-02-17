@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
+import moment from 'moment';
 import types from '../../utils/types';
 import h from '../../utils/helpers';
 import Page from '../../containers/Page';
@@ -44,14 +45,14 @@ export default class Entries extends Component {
         component: <Link to={`/admin/entries/${h.getSlugFromId(sections.sections, props.section)}/${props._id}`}>{props.title}</Link>,
       },
       slug: props.slug,
-      dateCreated: props.dateCreated,
+      dateCreated: moment(props.dateCreated).format('DD/MM/YYYY'),
       author: h.getPropFromProp(users.users, { _id: props.author }, 'username'),
     }));
 
     return (
       <Page name="entries">
         <TitleBar title="Entries">
-          <Link to={`/admin/entries/${section || 'none'}/new`} className="btn btn--small">New Entry</Link>
+          {!!section && <Link to={`/admin/entries/${section}/new`} className="btn btn--small">New Entry</Link>}
         </TitleBar>
 
         <div className="content">

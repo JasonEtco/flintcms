@@ -1,13 +1,13 @@
 .secondary-nav {
     min-width: 200px;
-    padding-right: 2em;
+    padding: 2em 2em 0 0;
     background-color: darken(white, 4%);
-    font-size: 0.8rem;
 
     &__list {
         padding: 0;
         margin: 0;
         list-style-type: none;
+        font-size: 0.8rem;
 
         &-item {
             a {
@@ -24,7 +24,6 @@
                     background-color: $blurple;
                     color: white;
                 }
-
             }
         }
     }

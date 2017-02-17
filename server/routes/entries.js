@@ -12,7 +12,7 @@ module.exports = (app, io) => {
   });
 
   app.post('/admin/api/entries', h.loggedIn, (req, res) => {
-    const { title, sectionId, options } = req.body;
+    const { title, sectionId, fields } = req.body;
     const slug = h.slugify(title);
 
     process.nextTick(() => {
@@ -31,7 +31,7 @@ module.exports = (app, io) => {
             newEntry.title = title;
             newEntry.slug = slug;
             newEntry.section = section._id;
-            newEntry.options = options;
+            newEntry.fields = fields;
             newEntry.dateCreated = Date.now();
             newEntry.author = req.user._id;
 
