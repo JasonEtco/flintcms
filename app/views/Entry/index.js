@@ -51,7 +51,7 @@ export default class Entry extends Component {
         </TitleBar>
         <div className="content">
           <div className="page__inner">
-            <Input label="Title" defaultValue={title} name={title} full />
+            <Input label="Title" defaultValue={title} name={title} full required />
             {fields.map(field => this.renderFields(field))}
           </div>
         </div>
