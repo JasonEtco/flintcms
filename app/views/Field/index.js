@@ -23,15 +23,6 @@ export default class Field extends Component {
     const { fields, params } = props;
     const { id } = params;
     this.field = fields.fields.find(e => e._id === id);
-
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-  }
-
-  state = { title: '' }
-
-  handleTitleChange(title) {
-    this.setState({ title });
   }
 
   render() {
@@ -48,9 +39,7 @@ export default class Field extends Component {
 
     return (
       <Page name="field" links={links}>
-        <TitleBar title={title}>
-          <Button onClick={this.onSubmit} small>Save Field</Button>
-        </TitleBar>
+        <TitleBar title={title} />
 
         <div className="content">
           <div className="page__inner">
