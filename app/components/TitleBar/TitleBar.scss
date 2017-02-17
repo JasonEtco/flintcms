@@ -4,6 +4,7 @@
     justify-content: space-between;
     padding: 1em 2em;
     border-bottom: 1px solid $lightgrey;
+    flex-shrink: 0;
     background-color: $lightergrey;
 
     &__title {
