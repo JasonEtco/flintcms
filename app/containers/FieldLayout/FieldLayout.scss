@@ -40,7 +40,7 @@
             padding: 1em;
 
             &:not(.is-disabled) {
-                cursor: move; // stylelint-disable-line value-no-vendor-prefix
+                cursor: grab; // stylelint-disable-line value-no-vendor-prefix
 
                 &:hover {
                     @include box-shadow(2);
