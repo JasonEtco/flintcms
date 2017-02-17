@@ -18,9 +18,9 @@ export default class MainNav extends Component {
           Example Flint Site
         </a>
         <ul className="nav__list">
-          <NavItem to="/admin"><Icon icon="checkmark" />Home</NavItem>
-          <NavItem to="/admin/entries"><Icon icon="pencil" />Entries</NavItem>
-          <NavItem to="/admin/settings"><Icon icon="floppy" />Settings</NavItem>
+          <NavItem to="/admin"><Icon icon="home" />Home</NavItem>
+          <NavItem to="/admin/entries"><Icon icon="newspaper" />Entries</NavItem>
+          <NavItem to="/admin/settings"><Icon icon="stack" />Settings</NavItem>
         </ul>
       </nav>
     );
