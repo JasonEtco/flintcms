@@ -50,9 +50,13 @@ export default class NewSection extends Component {
 
   render() {
     const { fields } = this.props.fields;
+    const links = [
+      { label: 'Settings', path: '/admin/settings' },
+      { label: 'Sections', path: '/admin/settings/sections' },
+    ];
 
     return (
-      <Page name="new-section">
+      <Page name="new-section" links={links}>
         <TitleBar title="New Section">
           <Button onClick={this.handleSubmit} small>Save</Button>
         </TitleBar>
