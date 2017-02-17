@@ -40,6 +40,7 @@ export default class Entry extends Component {
     const sectionName = h.getPropFromProp(sections.sections, { _id: section }, 'title');
 
     const links = [
+      { label: 'Entries', path: '/admin/entries' },
       { label: sectionName, path: `/admin/entries/${sectionSlug}` },
       { label: title, path: `/admin/entries/${sectionSlug}/${_id}` },
     ];

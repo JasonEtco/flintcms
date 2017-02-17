@@ -2,10 +2,12 @@
 
 // GREYS
 $midgrey: #92989a;
-$lightergrey: lighten($midgrey, 25%);
-$lightgrey: lighten($midgrey, 15%);
-$darkgrey: darken($midgrey, 50%);
-$darkergrey: darken($midgrey, 65%);
+
+$lightergrey: #fafafa;
+$lightgrey: #ebedef;
+
+$darkgrey: #353739;
+$darkergrey: darken($darkgrey, 65%);
 
 $brandColor: #fe6300;
 $accentColor: #41626b;

@@ -1,0 +1,18 @@
+.page--home {
+    .content { background-color: transparent; }
+
+    .title-bar { border-bottom: none; }
+
+    .page__inner {
+        display: flex;
+    }
+
+    &__column {
+        @extend %card;
+        width: 32%;
+
+        .subtitle {
+            margin-top: 0;
+        }
+    }
+}
