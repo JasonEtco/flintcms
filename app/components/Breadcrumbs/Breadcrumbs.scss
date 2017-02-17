@@ -1,7 +1,7 @@
 .breadcrumbs {
     box-sizing: border-box;
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 0.75rem 2rem;
     border-bottom: 1px solid $lightgrey;
     background-color: $lightergrey;
     font-size: 0.7rem;
@@ -22,7 +22,7 @@
                 color: $midgrey;
                 text-decoration: none;
 
-                &:hover { color: $blurple; }
+                &:hover { color: $darkergrey; }
             }
         }
     }
