@@ -11,7 +11,7 @@ module.exports = (template, data) =>
       if (err) reject(err);
 
       const compiled = Handlebars.compile(file);
-      const html = compiled(data.toObject());
+      const html = compiled(data);
 
       resolve(html);
     });

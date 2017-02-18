@@ -91,14 +91,14 @@ if (isDeveloping) {
 
 app.get('/all', (req, res) => {
   getEntryData()
-    .then(data => compile(routes.index, { entries: data }))
+    .then(data => compile(routes.index, { entries: data.toObject() }))
     .then(r => res.send(r));
 });
 
 app.get('/:slug', (req, res) => {
   getEntryData(req.params.slug)
     .then(data => getTemplateFromEntry(data)
-      .then(({ template }) => compile(template, data))
+      .then(({ template }) => compile(template, data.toObject()))
       .catch(err => new Error(err)))
     .then(r => res.send(r))
     .catch(err => new Error(err));
