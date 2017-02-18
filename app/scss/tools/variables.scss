@@ -28,7 +28,7 @@ $bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 %card {
     box-sizing: border-box;
     padding: 2em;
-    border: 1px solid darken(white, 8%);
+    border: 1px solid $lightgrey;
     border-radius: 3px;
     background: white;
     @include box-shadow(1);

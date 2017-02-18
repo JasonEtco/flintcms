@@ -53,22 +53,24 @@ export default class FieldLayout extends Component {
       <section className="field-layout">
         <h3 className="field-layout__title">Field Layout</h3>
 
-        <FieldTarget
-          fields={this.state.fields}
-          addField={this.addField}
-          removeField={this.removeField}
-          sortField={this.sortField}
-        />
+        <div className="field-layout__inner">
+          <FieldTarget
+            fields={this.state.fields}
+            addField={this.addField}
+            removeField={this.removeField}
+            sortField={this.sortField}
+          />
 
-        <div className="field-layout__fields">
-          {fields.map((field, i) =>
-            <FieldSource
-              key={field._id}
-              index={i}
-              field={field}
-              disabled={this.state.fields.findIndex(obj => obj._id === field._id) !== -1}
-              new
-            />)}
+          <div className="field-layout__fields">
+            {fields.map((field, i) =>
+              <FieldSource
+                key={field._id}
+                index={i}
+                field={field}
+                disabled={this.state.fields.findIndex(obj => obj._id === field._id) !== -1}
+                new
+              />)}
+          </div>
         </div>
       </section>
     );

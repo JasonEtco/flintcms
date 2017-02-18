@@ -34,7 +34,7 @@ class FieldTarget extends Component {
     );
 
     return connectDropTarget(
-      <div className={classes}>
+      <ul className={classes}>
         {fields.map((field, i) =>
           <FieldTargetCard
             key={field._id}
@@ -44,7 +44,7 @@ class FieldTarget extends Component {
             sortField={sortField}
           />,
         )}
-      </div>,
+      </ul>,
     );
   }
 }
