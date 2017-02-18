@@ -5,13 +5,13 @@ import './Color.scss';
 export default class Color extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.string,
+    defaultValue: PropTypes.string,
     label: PropTypes.string,
     instructions: PropTypes.string,
   }
 
   static defaultProps = {
-    value: '#000000',
+    defaultValue: '#000000',
     label: null,
     instructions: null,
   }
@@ -21,9 +21,9 @@ export default class Color extends Component {
 
     this.handleToggle = this.handleToggle.bind(this);
     this.hide = this.hide.bind(this);
-    this.value = props.value;
+    this.value = props.defaultValue;
 
-    this.state = { open: false, color: props.value };
+    this.state = { open: false, color: props.defaultValue };
   }
 
   hide() {
