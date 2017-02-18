@@ -16,8 +16,9 @@ const config = require('../config/webpack.config');
 require('./utils/database');
 require('./utils/passport')(passport);
 
-const compile = require('./utils/compile');
+require('./utils/registerHelpers');
 require('./utils/registerPartials');
+const compile = require('./utils/compile');
 
 const getEntryData = require('./utils/getEntryData');
 const getTemplateFromEntry = require('./utils/getTemplateFromEntry');

@@ -3,12 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>{{#if title}}{{title}} | {{/if}}Flint</title>
+  <link rel="icon" href="_/img/favicon.png">
 </head>
-<body>
+<body style="background-color: {{#if color}}{{color}}{{else}}white{{/if}}">
+  <pre><code>{{json this}}</code></pre>
+
   {{> nav }}
   <h1>{{title}}</h1>
 
   {{name}}
+  {{#each fields}}
+    {{this.fieldSlug}}: {{this.value}}
+  {{/each}}
 
   {{#if entries}}
     {{#each entries}}

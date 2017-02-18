@@ -21,6 +21,10 @@ const EntrySchema = new Schema({
       ref: 'Field',
       required: true,
     },
+    fieldSlug: {
+      type: String,
+      required: true,
+    },
     value: {
       type: String,
       required: true,
@@ -34,6 +38,6 @@ const EntrySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-});
+}, { strict: false });
 
 module.exports = mongoose.model('Entry', EntrySchema, 'entries');

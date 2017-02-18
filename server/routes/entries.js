@@ -26,7 +26,11 @@ module.exports = (app, io) => {
               return;
             }
 
-            const newEntry = new Entry();
+            const values = fields
+              .reduce((prev, curr) =>
+                Object.assign({}, prev, { [curr.fieldSlug]: curr.value }), {});
+
+            const newEntry = new Entry(values);
 
             newEntry.title = title;
             newEntry.slug = slug;
