@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -53,7 +52,7 @@ module.exports = {
       },
     }, {
       test: /\.scss$/,
-      loaders: ['style', 'css', 'sass!postcss?sourceMap'],
+      loaders: ['style', 'css', 'sass?sourceMap'],
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
       loaders: [
@@ -65,9 +64,6 @@ module.exports = {
       loader: 'file?name=assets/fonts/[name].[ext]',
     }],
   },
-  postcss: [
-    autoprefixer,
-  ],
   sassLoader: {
     data: '@import "tools";',
     includePaths: [
