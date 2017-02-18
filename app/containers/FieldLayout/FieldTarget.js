@@ -16,8 +16,6 @@ class FieldTarget extends Component {
     fields: PropTypes.array.isRequired,
   }
 
-  state = { hoverPosition: 0 }
-
   render() {
     const {
       isOver,

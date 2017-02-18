@@ -8,36 +8,28 @@ import Icon from '../../utils/icons';
 
 class FieldTargetCard extends Component {
   static propTypes = {
-    isOver: PropTypes.bool.isRequired,
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     removeField: PropTypes.func.isRequired,
-    canDrop: PropTypes.bool.isRequired,
+    isDragging: PropTypes.bool.isRequired,
     field: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
   }
 
-  static defaultProps = {
-    hoverPosition: 0,
-  }
-
-  state = { hoverPosition: 0 }
-
   render() {
     const {
-      isOver,
-      canDrop,
+      isDragging,
       connectDropTarget,
       connectDragSource,
       removeField,
       field,
-      index: i,
+      index,
     } = this.props;
 
     return connectDragSource(connectDropTarget(
-      <li ref={(r) => { this.targ = r; }} key={field._id} className="field-layout__target__field">
+      <li ref={(r) => { this.targ = r; }} key={field._id} className="field-layout__target__field" style={{ opacity: isDragging ? 0 : 1 }}>
         <span className="field-layout__target__field__title">{field.title}</span>
-        <input type="text" name={`fields[${i}]`} value={field._id} readOnly hidden />
+        <input type="text" name={`fields[${index}]`} value={field._id} readOnly hidden />
         <button
           className="field-layout__target__field__btn"
           type="button"

@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import h from '../../utils/helpers';
+import update from 'react/lib/update';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 import FieldSource from './FieldSource';
 import FieldTarget from './FieldTarget';
 import './FieldLayout.scss';
 
-
-export default class FieldLayout extends Component {
+class FieldLayout extends Component {
   static propTypes = {
     fields: PropTypes.array.isRequired,
     activeFields: PropTypes.array.isRequired,
@@ -23,7 +24,8 @@ export default class FieldLayout extends Component {
 
   addField(field, index) {
     const { fields } = this.state;
-    this.setState({ fields: h.addToArrayAtIndex(fields, field, index) });
+    const newFields = [...fields, field];
+    this.setState({ fields: newFields });
   }
 
   removeField(fieldId) {
@@ -37,13 +39,18 @@ export default class FieldLayout extends Component {
     });
   }
 
-  sortField(index, newIndex) {
+  sortField(dragIndex, hoverIndex) {
     const { fields } = this.state;
-    const moved = h.arrayMove(fields, index, newIndex);
+    const dragField = fields[dragIndex];
 
-    this.setState({
-      fields: moved,
-    });
+    this.setState(update(this.state, {
+      fields: {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, dragField],
+        ],
+      },
+    }));
   }
 
   render() {
@@ -68,7 +75,7 @@ export default class FieldLayout extends Component {
                 index={i}
                 field={field}
                 disabled={this.state.fields.findIndex(obj => obj._id === field._id) !== -1}
-                new
+                isNew
               />)}
           </div>
         </div>
@@ -76,3 +83,5 @@ export default class FieldLayout extends Component {
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(FieldLayout);

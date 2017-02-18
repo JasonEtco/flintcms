@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
 import { fetchUserIfNeeded, fetchUsersIfNeeded } from '../../actions/userActions';
 import { fetchEntriesIfNeeded } from '../../actions/entryActions';
 import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
@@ -11,7 +9,7 @@ import './Main.scss';
 
 import MainNav from '../MainNav';
 
-class Main extends Component {
+export default class Main extends Component {
   static propTypes = {
     ...types.entries,
     ...types.sections,
@@ -53,5 +51,3 @@ class Main extends Component {
     );
   }
 }
-
-export default DragDropContext(HTML5Backend)(Main);

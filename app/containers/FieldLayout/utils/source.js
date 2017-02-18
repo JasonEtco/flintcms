@@ -1,6 +1,10 @@
 const fieldSource = {
   beginDrag(props) {
-    return { props };
+    return {
+      index: props.index,
+      field: props.field,
+      isNew: props.isNew,
+    };
   },
 };
 
