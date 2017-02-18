@@ -32,17 +32,20 @@ export default class Entries extends Component {
   }
 
   render() {
-    const { sections, entries, users, params } = this.props;
+    const { users, params } = this.props;
+    const { entries } = this.props.entries;
+    const { sections } = this.props.sections;
+
     const { section } = params;
     const filtered = section === undefined
-      ? entries.entries
-      : entries.entries.filter(e => e.section === h.getIdFromSlug(sections.sections, section));
-    const navLinks = sections.sections.map(sec => ({ label: sec.title, path: `/admin/entries/${sec.slug}` }));
+      ? entries
+      : entries.filter(e => e.section === h.getIdFromSlug(sections, section));
+    const navLinks = sections.map(sec => ({ label: sec.title, path: `/admin/entries/${sec.slug}` }));
 
     const reduced = filtered.map(props => ({
       title: {
         value: props.title,
-        component: <Link to={`/admin/entries/${h.getSlugFromId(sections.sections, props.section)}/${props._id}`}>{props.title}</Link>,
+        component: <Link to={`/admin/entries/${h.getSlugFromId(sections, props.section)}/${props._id}`}>{props.title}</Link>,
       },
       slug: props.slug,
       dateCreated: moment(props.dateCreated).format('DD/MM/YYYY'),

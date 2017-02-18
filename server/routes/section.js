@@ -42,7 +42,7 @@ module.exports = (app, io) => {
         newSection.save()
         .then((savedSection) => {
           io.emit('new-section', savedSection);
-          res.status(200).json({ success: true });
+          res.status(200).json({ success: true, slug: savedSection.slug });
         })
         .catch(err => new Error(err));
       })
