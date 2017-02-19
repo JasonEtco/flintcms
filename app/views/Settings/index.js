@@ -20,6 +20,7 @@ export default class Settings extends Component {
     const content = [
       { label: 'Sections', path: '/admin/settings/sections', icon: 'stack' },
       { label: 'Fields', path: '/admin/settings/fields', icon: 'fileText' },
+      { label: 'Assets', path: '/admin/settings/assets', icon: 'pencil' },
     ];
 
     return (

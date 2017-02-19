@@ -3,6 +3,7 @@ import { fetchUserIfNeeded, fetchUsersIfNeeded } from '../../actions/userActions
 import { fetchEntriesIfNeeded } from '../../actions/entryActions';
 import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
 import { fetchFieldsIfNeeded } from '../../actions/fieldActions';
+import { fetchAssetsIfNeeded } from '../../actions/assetActions';
 import types from '../../utils/types';
 import SocketEvents from '../../utils/socketEvents';
 import './Main.scss';
@@ -28,16 +29,18 @@ export default class Main extends Component {
     dispatch(fetchEntriesIfNeeded());
     dispatch(fetchSectionsIfNeeded());
     dispatch(fetchFieldsIfNeeded());
+    dispatch(fetchAssetsIfNeeded());
 
     const events = new SocketEvents(socket, dispatch);
     events.listen();
   }
 
   render() {
-    const { user, entries, sections, fields } = this.props;
+    const { user, entries, sections, fields, assets } = this.props;
     if (user.isFetching
       || entries.isFetching
       || sections.isFetching
+      || assets.isFetching
       || fields.isFetching) return <h1>Loading...</h1>;
 
     return (

@@ -24,6 +24,9 @@ import Field from './views/Field';
 import Fields from './views/Fields';
 import NewField from './views/NewField';
 
+import Assets from './views/Assets';
+import NewAsset from './views/NewAsset';
+
 import Settings from './views/Settings';
 
 export default function mapStateToProps(state) {
@@ -51,6 +54,9 @@ const storeWrapper = (
         <Route path="settings/fields" component={Fields} />
         <Route path="settings/fields/new" component={NewField} />
         <Route path="settings/fields/:id" component={Field} />
+
+        <Route path="settings/assets" component={Assets} />
+        <Route path="settings/assets/new" component={NewAsset} />
       </Route>
       <Route path="/admin/login" component={Login} />
     </Router>

@@ -9,6 +9,7 @@ const defaultState = {
   user: { isFetching: true },
   entries: { isFetching: true },
   sections: { isFetching: true },
+  assets: { isFetching: true },
 };
 const routerMiddle = routerMiddleware(browserHistory);
 
