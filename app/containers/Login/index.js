@@ -14,7 +14,7 @@ export default class Login extends Component {
         <FlintLogo />
         <form className="login__inner" action="/admin/login" method="post">
           <h1>Log In</h1>
-          <Input name="username" big placeholder="Username" />
+          <Input name="username" autoFocus big placeholder="Username" />
           <Input name="password" big placeholder="Password" type="password" />
           <Button type="submit">Log In</Button>
         </form>

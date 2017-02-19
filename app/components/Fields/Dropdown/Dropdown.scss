@@ -5,7 +5,7 @@
 
     &__options {
         position: absolute;
-        top: calc(-100% - 1px);
+        top: 100%;
         left: 0;
         overflow: hidden;
         width: 100%;
@@ -14,7 +14,7 @@
         padding: 0;
         pointer-events: none;
         visibility: hidden;
-        transform: translateY(90%);
+        transform: translateY(-0.5em);
         transition:
             opacity 150ms $standard,
             visibility 150ms $standard,
@@ -73,7 +73,7 @@
             pointer-events: initial;
             visibility: visible;
             opacity: 1;
-            transform: translateY(100%);
+            transform: translateY(0);
         }
     }
 }

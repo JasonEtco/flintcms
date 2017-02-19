@@ -16,6 +16,7 @@ export default class Input extends Component {
     className: PropTypes.string,
     instructions: PropTypes.string,
     required: PropTypes.bool,
+    autoFocus: PropTypes.bool,
     disabled: PropTypes.bool,
     defaultValue: PropTypes.string,
     value: PropTypes.string,
@@ -35,6 +36,7 @@ export default class Input extends Component {
     disabled: false,
     defaultValue: undefined,
     value: undefined,
+    autoFocus: false,
   }
 
   constructor(props) {
@@ -65,6 +67,7 @@ export default class Input extends Component {
       disabled,
       defaultValue,
       value,
+      autoFocus,
     } = this.props;
 
     const classes = classnames(
@@ -88,6 +91,7 @@ export default class Input extends Component {
         required={required}
         disabled={disabled}
         defaultValue={defaultValue}
+        autoFocus={autoFocus}
         value={value}
         onChange={() => this.handleChange()}
         ref={(r) => { this[name] = r; }}
