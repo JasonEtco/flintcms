@@ -21,13 +21,20 @@ export default class NewAsset extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  state = { title: '' };
-
   onSubmit(e) {
     e.preventDefault();
-    const { title, asset } = serialize(this.form, { hash: true });
 
-    this.props.dispatch(newAsset(title));
+    if (!this.upload.asset.value) {
+      alert('Please select an image to upload');
+    } else if (!this.upload.asset.value.match(/(?:gif|jpg|png|bmp|jpeg)$/)) {
+      alert('The uploaded file is not an image!');
+    } else {
+      const formData = new FormData();
+      formData.append('title', this.title.value);
+      formData.append('file', this.upload.asset.files[0], this.upload.asset.files[0].name);
+
+      this.props.dispatch(newAsset(formData));
+    }
   }
 
   render() {
@@ -52,7 +59,13 @@ export default class NewAsset extends Component {
                 full
               />
 
-
+              <FileInput
+                name="asset"
+                label="Choose Asset"
+                ref={(r) => { this.upload = r; }}
+                required
+                full
+              />
             </form>
           </div>
         </div>

@@ -4,15 +4,12 @@ export const REQUEST_ASSETS = 'REQUEST_ASSETS';
 export const RECEIVE_ASSETS = 'RECEIVE_ASSETS';
 export const NEW_ASSET = 'NEW_ASSET';
 
-export function newAsset(title, asset) {
+export function newAsset(formData) {
   return dispatch =>
     fetch('/admin/api/assets', {
       method: 'POST',
-      body: JSON.stringify({ title, asset }),
+      body: formData,
       credentials: 'same-origin',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
     }).then(res => res.json())
       .then((json) => {
         dispatch({ type: NEW_ASSET, json });

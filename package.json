@@ -57,6 +57,7 @@
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "form-serialize": "^0.7.1",
+    "formidable": "^1.1.1",
     "handlebars": "^4.0.6",
     "handlebars-layouts": "^3.1.4",
     "html-webpack-plugin": "^2.28.0",
