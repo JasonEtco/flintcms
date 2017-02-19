@@ -11,6 +11,7 @@ const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const passport = require('passport');
+const graphqlHTTP = require('express-graphql');
 
 const config = require('../config/webpack.config');
 require('./utils/database');
@@ -56,6 +57,14 @@ const routes = {
 };
 
 app.get('/', (req, res) => compile('index', { name: 'Jason' }).then(r => res.send(r)));
+
+const schema = require('./graphql');
+
+app.use('/graphql', graphqlHTTP({
+  schema,
+  pretty: true,
+  graphiql: true,
+}));
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;

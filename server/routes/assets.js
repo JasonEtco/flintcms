@@ -50,7 +50,7 @@ router.post('/admin/api/assets', h.loggedIn, (req, res) => {
 
     // log any errors that occur
     form.on('error', (err) => {
-      console.log('An error has occured: \n' + err);
+      throw new Error(`An error has occured: \n${err}`);
     });
 
     // once all the files have been uploaded, send a response to the client
