@@ -1,17 +1,35 @@
-const mongoose = require('mongoose');
-
-const Entry = mongoose.model('Entry');
-const Section = mongoose.model('Section');
-const User = mongoose.model('User');
+const { graphql } = require('graphql');
+const schema = require('../graphql');
 
 module.exports = async function collectData(data) {
-  const entries = await Entry.find().select('-fields').lean();
-  const sections = await Section.find().lean();
-  const users = await User.find().select('-password').lean();
+  const query = `{
+      entries {
+        _id
+        title
+        slug
+        section
+      }
+      sections {
+        _id
+        title
+        slug
+      }
+      users {
+        _id
+        username
+      }
+      fields {
+        _id
+        title
+        instructions
+        type
+        dateCreated
+        slug
+      }
+    }`;
 
-  const bigData = await Object.assign({}, { entry: data }, { flint: {
-    entries, sections, users,
-  } });
+  const ql = await graphql(schema, query);
+  const bigData = await Object.assign({}, { entry: data }, { flint: ql.data });
 
   return bigData;
 };

@@ -12,6 +12,8 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const passport = require('passport');
 const graphqlHTTP = require('express-graphql');
+const { graphql } = require('graphql');
+const h = require('./utils/helpers');
 
 const config = require('../config/webpack.config');
 require('./utils/database');
@@ -60,14 +62,21 @@ app.get('/', (req, res) => compile('index', { name: 'Jason' }).then(r => res.sen
 
 const schema = require('./graphql');
 
-app.use('/graphql', graphqlHTTP({
-  schema,
-  pretty: true,
-  graphiql: true,
-}));
-
+// app.use('/graphql', graphqlHTTP({
+//   schema,
+//   pretty: true,
+//   graphiql: true,
+// }));
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
+
+
+app.use('/graphql', h.loggedIn, graphqlHTTP({
+  schema,
+  pretty: true,
+  graphiql: isDeveloping,
+}));
+
 
 if (isDeveloping) {
   console.log('Development mode!');

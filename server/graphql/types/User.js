@@ -1,25 +1,16 @@
 const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
 
 module.exports = new GraphQLObjectType({
-  name: 'Entries',
+  name: 'User',
   fields: {
     _id: {
       type: new GraphQLNonNull(GraphQLID),
     },
-    title: {
-      type: GraphQLString,
-    },
-    section: {
-      type: new GraphQLNonNull(GraphQLID),
-    },
-    slug: {
+    username: {
       type: GraphQLString,
     },
     dateCreated: {
       type: GraphQLString,
-    },
-    author: {
-      type: new GraphQLNonNull(GraphQLID),
     },
   },
 });

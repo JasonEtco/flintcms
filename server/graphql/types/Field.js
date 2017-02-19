@@ -1,7 +1,7 @@
 const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
 
 module.exports = new GraphQLObjectType({
-  name: 'Entries',
+  name: 'Field',
   fields: {
     _id: {
       type: new GraphQLNonNull(GraphQLID),
@@ -9,17 +9,17 @@ module.exports = new GraphQLObjectType({
     title: {
       type: GraphQLString,
     },
-    section: {
-      type: new GraphQLNonNull(GraphQLID),
-    },
     slug: {
+      type: GraphQLString,
+    },
+    instructions: {
+      type: GraphQLString,
+    },
+    type: {
       type: GraphQLString,
     },
     dateCreated: {
       type: GraphQLString,
-    },
-    author: {
-      type: new GraphQLNonNull(GraphQLID),
     },
   },
 });

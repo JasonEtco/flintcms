@@ -1,5 +1,6 @@
 import { push } from 'react-router-redux';
 import Fetcher from '../utils/fetchClass';
+import GraphQLClass from '../utils/graphqlClass';
 import h from '../utils/helpers';
 
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
@@ -43,7 +44,7 @@ export function fetchEntriesIfNeeded() {
       receive: RECEIVE_ENTRIES,
     };
 
-    const fetcher = new Fetcher(fetcherOptions);
+    const fetcher = new GraphQLClass(fetcherOptions);
     return fetcher.beginFetch(dispatch, getState());
   };
 }

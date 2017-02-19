@@ -1,14 +1,28 @@
 const mongoose = require('mongoose');
 const h = require('../utils/helpers');
+const graphql = require('graphql');
+const schema = require('../graphql');
 
 const Entry = mongoose.model('Entry');
 const Section = mongoose.model('Section');
 
 module.exports = (app, io) => {
-  app.get('/admin/api/entries', h.loggedIn, (req, res) => {
-    Entry.find()
-      .then(entries => res.status(200).json(entries))
-      .catch(err => new Error(err));
+  app.get('/admin/api/entries', h.loggedIn, async (req, res) => {
+    // const { query, params } = this.query;
+    // const resp = await graphql(schema, query, '', params);
+    // if (resp.errors) {
+    //   this.status = 400;
+    //   this.body = {
+    //     errors: resp.errors,
+    //   };
+    //   return;
+    // }
+    // res.status(200).json(resp);
+    // this.body = resp;
+
+    // Entry.find()
+    //   .then(entries => res.status(200).json(entries))
+    //   .catch(err => new Error(err));
   });
 
   app.post('/admin/api/entries', h.loggedIn, (req, res) => {
