@@ -1,9 +1,12 @@
 const Handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
+const collectData = require('./collectData');
 
-module.exports = (template, data) =>
-  new Promise((resolve, reject) => {
+module.exports = async (template, data) => {
+  const compiledData = await collectData(data);
+
+  return new Promise((resolve, reject) => {
     const templateWithFormat = template.endsWith('.hbs') ? template : `${template}.hbs`;
     const templatePath = path.resolve(__dirname, '..', '..', 'templates', templateWithFormat);
 
@@ -11,8 +14,9 @@ module.exports = (template, data) =>
       if (err) reject(err);
 
       const compiled = Handlebars.compile(file);
-      const html = compiled(data);
+      const html = compiled(compiledData);
 
       resolve(html);
     });
   });
+};

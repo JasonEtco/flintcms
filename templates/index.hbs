@@ -12,15 +12,13 @@
   <h1>{{title}}</h1>
 
   {{name}}
-  {{#each fields}}
-    {{this.fieldSlug}}: {{this.value}}
-  {{/each}}
 
-  {{#if entries}}
-    {{#each entries}}
-      <a href="/{{this.slug}}">{{this.title}}</a>
+  <div class="entries">
+    {{#each flint.entries}}
+      <a href="/{{slug}}">{{title}}</a>
+      {{!--{{this}}--}}
     {{/each}}
-  {{/if}}
+  </div>
 
 
 </body>
