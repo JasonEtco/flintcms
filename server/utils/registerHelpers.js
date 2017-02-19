@@ -1,4 +1,7 @@
 const Handlebars = require('handlebars');
+const layouts = require('handlebars-layouts');
+
+Handlebars.registerHelper(layouts(Handlebars));
 
 Handlebars.registerHelper('debug', (optionalValue) => {
   console.log('Current Context');

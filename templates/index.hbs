@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{#if title}}{{title}} | {{/if}}Flint</title>
-  <link rel="icon" href="_/img/favicon.png">
-</head>
-<body style="background-color: {{#if color}}{{color}}{{else}}white{{/if}}">
-  <pre><code>{{json this}}</code></pre>
+{{#extend 'base'}}
+  {{#content "body"}}
+    {{> nav }}
+    <h1>{{entry.title}}</h1>
 
-  {{> nav }}
-  <h1>{{entry.title}}</h1>
+    {{entry.name}}
 
-  {{entry.name}}
-
-  <div class="entries">
-    {{#each flint.entries}}
-      <a href="/{{slug}}">{{title}}</a>
-      {{!--{{this}}--}}
-    {{/each}}
-  </div>
-
-
-</body>
-</html>
+    <div class="entries">
+      {{#each flint.entries}}
+        <a href="/{{slug}}">{{title}}</a>
+      {{/each}}
+    </div>
+  {{/content}}
+{{/extend}}
