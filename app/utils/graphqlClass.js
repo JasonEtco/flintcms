@@ -1,10 +1,11 @@
 import h from './helpers';
 
 export default class GraphQLFetcher {
-  constructor(options) {
+  constructor(options, query) {
     this.name = options.name;
     this.receive = options.receive;
     this.request = options.request;
+    this.query = query;
   }
 
   receiveJSON(json) {
@@ -18,22 +19,9 @@ export default class GraphQLFetcher {
   fetch() {
     return (dispatch) => {
       dispatch({ type: this.request });
-      const query = {
-        query: `{
-          entries {
-            _id
-            title
-            slug
-            author
-            dateCreated
-            section
-          }
-        }`,
-      };
-
       return fetch('/graphql', {
         method: 'POST',
-        body: JSON.stringify(query),
+        body: JSON.stringify(this.query),
         credentials: 'same-origin',
         headers: new Headers({
           'Content-Type': 'application/json',

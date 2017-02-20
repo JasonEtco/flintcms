@@ -44,7 +44,20 @@ export function fetchEntriesIfNeeded() {
       receive: RECEIVE_ENTRIES,
     };
 
-    const fetcher = new GraphQLClass(fetcherOptions);
+    const query = {
+      query: `{
+        entries {
+          _id
+          title
+          slug
+          author
+          dateCreated
+          section
+        }
+      }`,
+    };
+
+    const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());
   };
 }

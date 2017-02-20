@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
+const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = require('graphql');
 
 module.exports = new GraphQLObjectType({
   name: 'Sections',
@@ -11,6 +11,10 @@ module.exports = new GraphQLObjectType({
     },
     slug: {
       type: GraphQLString,
+    },
+    fields: {
+      type: new GraphQLList(new GraphQLNonNull(GraphQLID)),
+      description: '`id`s of fields',
     },
   },
 });
