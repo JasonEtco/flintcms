@@ -17,11 +17,11 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  resolve(root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
+  resolve(root, args, ctx, ast) {
+    const projection = getProjection(ast);
 
     return User
-      .findById(params.id)
+      .findById(args.id)
       .select(projection)
       .exec();
   },

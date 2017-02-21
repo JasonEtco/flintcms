@@ -1,35 +1,42 @@
 const { graphql } = require('graphql');
 const schema = require('../graphql');
+const h = require('./helpers');
 
-module.exports = async function collectData(data) {
+module.exports = async function collectData(entryData) {
   const query = `{
-      entries {
-        _id
-        title
-        slug
-        section
-      }
-      sections {
-        _id
-        title
-        slug
-      }
-      users {
-        _id
-        username
-      }
+    entries {
+      _id
+      title
+      slug
+      section
       fields {
-        _id
-        title
-        instructions
-        type
-        dateCreated
-        slug
+        fieldSlug
+        value
       }
-    }`;
+    }
+    sections {
+      _id
+      title
+      slug
+    }
+    users {
+      _id
+      username
+    }
+    fields {
+      _id
+      title
+      instructions
+      type
+      dateCreated
+      slug
+    }
+  }`;
 
-  const ql = await graphql(schema, query);
-  const bigData = await Object.assign({}, { entry: data }, { flint: ql.data });
+  const { data } = await graphql(schema, query);
+  const newEntries = await data.entries.map(entry => Object.assign({}, entry, h.reduceToObj(entry.fields, 'fieldSlug', 'value')));
+  const formatted = await Object.assign({}, data, { entries: newEntries });
+  const bigData = await Object.assign({}, { entry: entryData }, { flint: formatted });
 
   return bigData;
 };

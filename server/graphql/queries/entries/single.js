@@ -1,13 +1,12 @@
 const {
-  GraphQLList,
   GraphQLID,
   GraphQLNonNull,
 } = require('graphql');
-const { Types } = require('mongoose');
-
+const mongoose = require('mongoose');
 const EntryType = require('../../types/Entries');
 const getProjection = require('../../get-projection');
-const EntryModel = require('../../../models/EntryModel');
+
+const Entry = mongoose.model('Entry');
 
 module.exports = {
   type: EntryType,
@@ -17,11 +16,11 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  resolve(root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
+  resolve(root, args, ctx, ast) {
+    const projection = getProjection(ast);
 
-    return EntryModel
-      .findById(params.id)
+    return Entry
+      .findById(args.id)
       .select(projection)
       .exec();
   },
