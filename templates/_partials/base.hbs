@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>{{#if title}}{{title}} | {{/if}}Flint</title>
+  <title>{{#if entry.title}}{{entry.title}} | {{/if}}Flint</title>
   <link rel="icon" href="_/img/favicon.png">
 </head>
-<body> 
-  {{#block "body"}}
+<body style="background-color: {{#if entry.color}}{{entry.color}}{{else}}white{{/if}}"> 
+  <pre><code>{{json this}}</code></pre>
+  {{#block 'body'}}
 
   {{/block}}
 </body>

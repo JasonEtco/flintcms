@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux';
-import Fetcher from '../utils/fetchClass';
+import GraphQLClass from '../utils/graphqlClass';
 
 export const REQUEST_SECTIONS = 'REQUEST_SECTIONS';
 export const RECEIVE_SECTIONS = 'RECEIVE_SECTIONS';
@@ -47,7 +47,18 @@ export function fetchSectionsIfNeeded() {
       receive: RECEIVE_SECTIONS,
     };
 
-    const fetcher = new Fetcher(fetcherOptions);
+    const query = {
+      query: `{
+        sections {
+          _id
+          title
+          slug
+          fields
+        }
+      }`,
+    };
+
+    const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());
   };
 }

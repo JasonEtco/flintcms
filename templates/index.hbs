@@ -1,5 +1,6 @@
 {{#extend 'base'}}
-  {{#content "body"}}
+  {{#content 'body'}}
+    <pre><code>{{json this}}</code></pre>
     {{> nav }}
     <h1>{{entry.title}}</h1>
 
@@ -7,7 +8,7 @@
 
     <div class="entries">
       {{#each flint.entries}}
-        <a href="/{{slug}}">{{title}}</a>
+        <a href="/{{slug}}" style="color: {{color}}">{{title}}</a>
       {{/each}}
     </div>
   {{/content}}

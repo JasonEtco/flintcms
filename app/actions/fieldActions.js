@@ -1,4 +1,4 @@
-import Fetcher from '../utils/fetchClass';
+import GraphQLClass from '../utils/graphqlClass';
 
 export const REQUEST_FIELDS = 'REQUEST_FIELDS';
 export const RECEIVE_FIELDS = 'RECEIVE_FIELDS';
@@ -26,7 +26,20 @@ export function fetchFieldsIfNeeded() {
       receive: RECEIVE_FIELDS,
     };
 
-    const fetcher = new Fetcher(fetcherOptions);
+    const query = {
+      query: `{
+        fields {
+          _id
+          title
+          instructions
+          type
+          dateCreated
+          slug
+        }
+      }`,
+    };
+
+    const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());
   };
 }

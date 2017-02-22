@@ -14,6 +14,9 @@ const helpers = {
       .replace(/[^a-z0-9-]/g, '')  // Remove disallowed symbols
       .replace(/--+/g, '-');
   },
+  reduceToObj(arr, key, value) {
+    return arr.reduce((prev, curr) => Object.assign({}, prev, { [curr[key]]: curr[value] }), {});
+  },
 };
 
 module.exports = helpers;

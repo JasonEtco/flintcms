@@ -1,17 +1,42 @@
-const mongoose = require('mongoose');
+const { graphql } = require('graphql');
+const schema = require('../graphql');
+const h = require('./helpers');
 
-const Entry = mongoose.model('Entry');
-const Section = mongoose.model('Section');
-const User = mongoose.model('User');
+module.exports = async function collectData(entryData) {
+  const query = `{
+    entries {
+      _id
+      title
+      slug
+      section
+      fields {
+        fieldSlug
+        value
+      }
+    }
+    sections {
+      _id
+      title
+      slug
+    }
+    users {
+      _id
+      username
+    }
+    fields {
+      _id
+      title
+      instructions
+      type
+      dateCreated
+      slug
+    }
+  }`;
 
-module.exports = async function collectData(data) {
-  const entries = await Entry.find().select('-fields').lean();
-  const sections = await Section.find().lean();
-  const users = await User.find().select('-password').lean();
-
-  const bigData = await Object.assign({}, { entry: data }, { flint: {
-    entries, sections, users,
-  } });
+  const { data } = await graphql(schema, query);
+  const newEntries = await data.entries.map(entry => Object.assign({}, entry, h.reduceToObj(entry.fields, 'fieldSlug', 'value')));
+  const formatted = await Object.assign({}, data, { entries: newEntries });
+  const bigData = await Object.assign({}, { entry: entryData }, { flint: formatted });
 
   return bigData;
 };
