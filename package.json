@@ -6,8 +6,8 @@
   "author": "Jason Etcovitch",
   "license": "MIT",
   "engines": {
-    "node": "7.4.0",
-    "npm": "4.0.5"
+    "node": "7.6.0",
+    "npm": "4.1.2"
   },
   "scripts": {
     "start": "nodemon --harmony --ignore app server/index.js",
