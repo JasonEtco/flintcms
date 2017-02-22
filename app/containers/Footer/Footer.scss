@@ -30,4 +30,11 @@
 
         &:hover { transform: scale(1.2); }
     }
+
+    .flint-logo {
+        margin-top: 1em;
+        width: 80px;
+        height: 40px;
+        fill: darken($grey-light, 20%);
+    }
 }
