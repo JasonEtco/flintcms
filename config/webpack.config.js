@@ -11,9 +11,9 @@ module.exports = {
     path.join(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
-    path: path.join(__dirname, '..', 'flint'),
+    path: path.join(__dirname, '..'),
     filename: '[name].js',
-    publicPath: '/',
+    publicPath: '/admin',
   },
   plugins: [
     new HtmlWebpackPlugin({

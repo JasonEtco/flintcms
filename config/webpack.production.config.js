@@ -11,9 +11,9 @@ module.exports = {
     path.resolve(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
-    path: path.join(__dirname, '..', 'flint'),
+    path: '/',
     filename: '[name]-[hash].min.js',
-    publicPath: '/flint',
+    publicPath: '/admin',
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

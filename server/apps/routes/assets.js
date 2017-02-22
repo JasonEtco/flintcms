@@ -1,21 +1,19 @@
-const express = require('express');
 const mongoose = require('mongoose');
 const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs');
-const h = require('../utils/helpers');
-
-const Asset = mongoose.model('Asset');
+const express = require('express');
 
 const router = express.Router();
+const Asset = mongoose.model('Asset');
 
-router.get('/admin/api/assets', h.loggedIn, (req, res) => {
+router.get('/assets', (req, res) => {
   Asset.find()
     .then(users => res.status(200).json(users))
     .catch(err => new Error(err));
 });
 
-router.post('/admin/api/assets', h.loggedIn, (req, res) => {
+router.post('/assets', (req, res) => {
   process.nextTick(() => {
     const form = new formidable.IncomingForm();
 
@@ -23,7 +21,7 @@ router.post('/admin/api/assets', h.loggedIn, (req, res) => {
     form.multiples = true;
 
     // store all uploads in the /uploads directory
-    form.uploadDir = path.join(__dirname, '..', '..', 'assets');
+    form.uploadDir = path.join(__dirname, '..', '..', '..', 'assets');
 
     // every time a file has been uploaded successfully,
     // rename it to it's orignal name

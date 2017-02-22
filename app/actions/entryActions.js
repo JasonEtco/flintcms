@@ -53,6 +53,11 @@ export function fetchEntriesIfNeeded() {
           author
           dateCreated
           section
+          fields {
+            fieldId
+            fieldSlug
+            value
+          }
         }
       }`,
     };

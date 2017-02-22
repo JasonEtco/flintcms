@@ -1,11 +1,10 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const h = require('../utils/helpers');
 
 const router = express.Router();
 
-router.get('/admin/api/templates', h.loggedIn, (req, res) => {
+router.get('/templates', (req, res) => {
   const walkSync = (dir, filelist) => {
     const files = fs.readdirSync(dir);
     filelist = filelist || [];
