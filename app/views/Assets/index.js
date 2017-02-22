@@ -16,7 +16,7 @@ export default class Assets extends Component {
     const reduced = assets.assets.map(props => ({
       title: props.title,
       filename: props.filename,
-      dateCreated: moment(props.dateCreated).format('DD/MM/YYYY'),
+      dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
     }));
 
     return (

@@ -50,7 +50,7 @@ export default class Entries extends Component {
         component: <Link to={`/admin/entries/${h.getSlugFromId(sections, props.section)}/${props._id}`}>{props.title}</Link>,
       },
       slug: props.slug,
-      dateCreated: moment(props.dateCreated).format('DD/MM/YYYY'),
+      dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
       author: h.getPropFromProp(users.users, { _id: props.author }, 'username'),
     }));
 

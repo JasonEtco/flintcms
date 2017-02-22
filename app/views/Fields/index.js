@@ -20,7 +20,7 @@ export default class Fields extends Component {
         component: <Link to={`/admin/settings/fields/${props._id}`}>{props.title}</Link>,
       },
       slug: props.slug,
-      dateCreated: moment(props.dateCreated).format('DD/MM/YYYY'),
+      dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
     }));
 
     return (
