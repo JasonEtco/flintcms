@@ -2,7 +2,7 @@
     box-sizing: border-box;
     padding: 0.6em;
     border-radius: 3px;
-    border: 1px solid $lightgrey;
+    border: 1px solid $grey-light;
     font-family: inherit;
     font-size: 0.9rem;
     line-height: 1.4;
@@ -48,7 +48,7 @@
 
     &__instructions {
         margin-top: 0;
-        color: $midgrey;
+        color: $grey;
         font-size: 0.7rem;
     }
 

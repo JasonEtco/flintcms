@@ -34,7 +34,7 @@
         align-items: center;
         justify-content: space-between;
         border-radius: 3px;
-        border: 1px solid $lightgrey;
+        border: 1px solid $grey-light;
         background: white;
         min-width: 100px;
 
@@ -48,25 +48,25 @@
             content: '';
             position: relative;
             top: 2px;
-            @include triangle(bottom, 4px, $midgrey);
+            @include triangle(bottom, 4px, $grey);
         }
     }
 
     &__opt {
         width: 100%;
         border: none;
-        border-bottom: 1px solid $lightgrey;
+        border-bottom: 1px solid $grey-light;
         background: none;
         outline: none;
 
         &:focus {
-            background-color: $lightergrey;
+            background-color: $grey-lighter;
         }
     }
 
     &.is-open {
         .dropdown__btn {
-            background-color: $lightgrey;
+            background-color: $grey-light;
         }
 
         .dropdown__options {

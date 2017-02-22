@@ -3,13 +3,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 1em 2em;
-    border-bottom: 1px solid $lightgrey;
+    border-bottom: 1px solid $grey-light;
     flex-shrink: 0;
-    background-color: $lightergrey;
+    background-color: $grey-lighter;
 
     &__title {
         margin: 1.18px 0;
-        color: $brandColor;
+        color: $orange;
         font-size: 1.6rem;
         font-weight: 500;
     }

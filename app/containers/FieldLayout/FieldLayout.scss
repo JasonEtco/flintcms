@@ -15,13 +15,13 @@
         min-height: 200px;
         width: 50%;
         padding: 1em 1em 4em;
-        border: 1px solid $lightgrey;
+        border: 1px solid $grey-light;
         border-radius: 3px;
         margin: 0;
         list-style-type: none;
-        background-color: $lightergrey;
+        background-color: $grey-lighter;
 
-        &.can-drop { background-color: $lightgrey; }
+        &.can-drop { background-color: $grey-light; }
 
         &__field {
             display: flex;
@@ -30,7 +30,7 @@
             padding: 1em;
             border: 1px dotted $accentColor;
             border-radius: 3px;
-            background-color: $lightergrey;
+            background-color: $grey-lighter;
             transition: transform 150ms $bounce;
 
             &:not(:first-of-type) { margin-top: 0.2em; }
@@ -74,7 +74,7 @@
                 cursor: grab;
 
                 &:hover {
-                    @include box-shadow(2);
+                    box-shadow: $shadow2;
                 }
             }
         }

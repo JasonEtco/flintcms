@@ -1,15 +1,19 @@
 // stylelint-disable no-browser-hacks
 
-// GREYS
-$midgrey: #92989a;
+//==============//
+//    COLORS    //
+//==============//
+$grey: #92989a;
 
-$lightergrey: #fafafa;
-$lightgrey: #ebedef;
+$grey-lighter: #fafafa;
+$grey-light: #ebedef;
 
-$darkgrey: #353739;
-$darkergrey: darken($darkgrey, 65%);
+$grey-dark: #353739;
+$grey-darker: darken($grey-dark, 65%);
 
-$brandColor: #fe6300;
+$orange: #fe6300;
+$orange-dark: darken($orange, 10%);
+
 $accentColor: #41626b;
 
 $red: #bf284e;
@@ -17,9 +21,31 @@ $purple: #5f4b9d;
 $blue: #0080ff;
 $blurple: #403f63;
 
-// $font: -apple-system, blinkmacsystemfont, 'segoe ui', roboto, oxygen, ubuntu, cantarell, 'fira sans', 'droid sans', 'helvetica neue', sans-serif;
+
+//==============//
+//  TYPOGRAPHY  //
+//==============//
+$size6: 6rem;
+$size5: 3rem;
+$size4: 2.4rem;
+$size3: 1.6rem;
+$size2: 1.25rem;
+$size1: 1rem;
+$size0: 0.8rem;
+
 $font: 'Roboto', sans-serif;
 
+//==============//
+//   SHADOWS    //
+//==============//
+$shadow4: 0 8px 10px rgba(black, 0.5);
+$shadow3: 0 6px 8px rgba(black, 0.3);
+$shadow2: 0 4px 6px rgba(black, 0.2);
+$shadow1: 0 2px 4px rgba(black, 0.1);
+
+//==============//
+//  ANIMATIONS  //
+//==============//
 $standard: cubic-bezier(0.4, 0, 0.2, 1);
 $enter: cubic-bezier(0, 0, 0.2, 1);
 $exit: cubic-bezier(0.4, 0, 1, 1);
@@ -28,10 +54,10 @@ $bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 %card {
     box-sizing: border-box;
     padding: 2em;
-    border: 1px solid $lightgrey;
+    border: 1px solid $grey-light;
     border-radius: 3px;
     background: white;
-    @include box-shadow(1);
+    box-shadow: $shadow1;
     transition: box-shadow 150ms $standard;
     will-change: box-shadow;
 }

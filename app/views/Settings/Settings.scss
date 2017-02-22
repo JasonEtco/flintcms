@@ -9,7 +9,7 @@
             display: flex;
             align-items: center;
             padding: 0 2em 2em;
-            border-bottom: 1px solid $lightgrey;
+            border-bottom: 1px solid $grey-light;
             flex-wrap: wrap;
 
             &__title {
@@ -35,8 +35,8 @@
             svg { fill: $accentColor; margin-bottom: 1em; }
 
             &:hover {
-                border-color: $lightgrey;
-                background-color: $lightergrey;
+                border-color: $grey-light;
+                background-color: $grey-lighter;
             }
         }
     }

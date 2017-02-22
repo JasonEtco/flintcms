@@ -20,6 +20,7 @@ export default class SocketEvents {
 
   newEntry() {
     const { entries } = store.getState().entries;
+    console.log(store.getState());
     this.socket.on('new-entry', (newEntry) => {
       if (!entries.some(entry => entry._id === newEntry._id)) {
         this.dispatch({ type: NEW_ENTRY, json: newEntry });

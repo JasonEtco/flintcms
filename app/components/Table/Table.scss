@@ -15,7 +15,7 @@
             padding: 0.8em;
             border: none;
             background: none;
-            color: $darkgrey;
+            color: $grey-dark;
             font-weight: 700;
             font-size: 0.7rem;
             font-family: inherit;
@@ -29,15 +29,15 @@
 
             &.desc::after {
                 top: calc(50% - 2px);
-                @include triangle(bottom, 4px, $darkgrey);
+                @include triangle(bottom, 4px, $grey-dark);
             }
 
             &.asc::after {
                 top: calc(50% - 6px);
-                @include triangle(top, 4px, $darkgrey);
+                @include triangle(top, 4px, $grey-dark);
             }
 
-            &.is-active { background-color: $lightgrey; }
+            &.is-active { background-color: $grey-light; }
         }
     }
 
@@ -53,7 +53,7 @@
     }
 
     &__row {
-        border-bottom: 1px solid $lightgrey;
+        border-bottom: 1px solid $grey-light;
     }
 
     &__search {

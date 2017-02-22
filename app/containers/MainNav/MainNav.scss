@@ -1,7 +1,7 @@
 .nav {
     width: 220px;
     height: 100%;
-    background-color: $darkgrey;
+    background-color: $grey-dark;
     font-size: 0.8rem;
 
     &__sitename {
@@ -12,7 +12,7 @@
         text-decoration: none;
 
         &:hover {
-            background-color: darken($darkgrey, 8%);
+            background-color: darken($grey-dark, 8%);
         }
     }
 
@@ -33,7 +33,7 @@
                 .icon { margin-right: 1em; fill: white; }
 
                 &:hover, &:focus, &.is-active {
-                    background-color: darken($darkgrey, 8%);
+                    background-color: darken($grey-dark, 8%);
                 }
             }
         }

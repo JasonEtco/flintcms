@@ -1,7 +1,7 @@
 .secondary-nav {
     min-width: 200px;
     padding: 2em 2em 0 0;
-    background-color: lighten($lightergrey, 8%);
+    background-color: lighten($grey-lighter, 8%);
 
     &__list {
         padding: 0;
@@ -18,7 +18,7 @@
                 color: black;
                 text-decoration: none;
 
-                &:hover { background-color: $lightergrey; }
+                &:hover { background-color: $grey-lighter; }
 
                 &.is-active {
                     background-color: $accentColor;
