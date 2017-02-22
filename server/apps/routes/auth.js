@@ -11,13 +11,13 @@ const strategyOptions = {
   successRedicect: '/admin',
 };
 
-router.post('/admin/signup', passport.authenticate('local-signup', strategyOptions));
+router.post('/signup', passport.authenticate('local-signup', strategyOptions));
 
-router.post('/admin/login', passport.authenticate('local-login', strategyOptions), (req, res) => {
+router.post('/login', passport.authenticate('local-login', strategyOptions), (req, res) => {
   res.redirect('/admin');
 });
 
-router.get('/admin/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
