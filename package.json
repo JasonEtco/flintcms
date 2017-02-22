@@ -10,9 +10,9 @@
     "npm": "4.1.2"
   },
   "scripts": {
-    "start": "nodemon --harmony --ignore app server/index.js",
+    "start": "nodemon --ignore app server/index.js",
     "build": "rimraf flint && cross-env NODE_ENV=production webpack --config ./config/webpack.production.config.js --progress --profile --colors",
-    "serve": "node --harmony server/index.js",
+    "serve": "node server/index.js",
     "local": "cross-env NODE_ENV=production PORT=4000 npm run serve",
     "heroku-postbuild": "npm run build"
   },
