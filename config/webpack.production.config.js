@@ -11,7 +11,7 @@ module.exports = {
     path.resolve(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
-    path: '/',
+    path: path.join(__dirname, '..', 'admin'),
     filename: '[name]-[hash].min.js',
     publicPath: '/admin',
   },
