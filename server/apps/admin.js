@@ -28,9 +28,7 @@ if (isDeveloping) {
   });
 
   admin.use(middleware);
-  admin.use(webpackHotMiddleware(compiler, {
-    publicPath: '/admin',
-  }));
+  admin.use(webpackHotMiddleware(compiler));
 
   admin.get('*', (req, res) => {
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', '..', 'admin', 'index.html')));
