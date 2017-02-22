@@ -30,10 +30,12 @@ export default class Table extends Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
     showSearch: PropTypes.bool,
+    sortBy: PropTypes.string,
   }
 
   static defaultProps = {
     showSearch: true,
+    sortBy: 'title',
   }
 
   constructor(props) {
@@ -41,9 +43,10 @@ export default class Table extends Component {
 
     this.handleSort = this.handleSort.bind(this);
     this.handleChange = this.handleChange.bind(this);
+
+    this.state = { sortBy: props.sortBy, direction: 'DESC', search: '' };
   }
 
-  state = { sortBy: 'title', direction: 'DESC', search: '' }
 
   handleSort(sortBy) {
     if (sortBy === this.state.sortBy) {

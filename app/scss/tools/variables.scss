@@ -3,23 +3,27 @@
 //==============//
 //    COLORS    //
 //==============//
-$grey: #92989a;
-
+// Greys
 $grey-lighter: #fafafa;
 $grey-light: #ebedef;
-
+$grey: #92989a;
 $grey-dark: #353739;
 $grey-darker: darken($grey-dark, 65%);
 
+// Brand Colors
 $orange: #fe6300;
+$orange-light: lighten($orange, 10%);
 $orange-dark: darken($orange, 10%);
 
-$accentColor: #41626b;
-
-$red: #bf284e;
-$purple: #5f4b9d;
-$blue: #0080ff;
 $blurple: #403f63;
+$blurple-light: lighten($blurple, 10%);
+$blurple-dark: darken($blurple, 10%);
+
+// UI Colors
+$red: #bf284e;
+$green: green;
+$yellow: yellow;
+$blue: #0080ff;
 
 
 //==============//

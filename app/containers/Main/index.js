@@ -41,7 +41,7 @@ export default class Main extends Component {
       || entries.isFetching
       || sections.isFetching
       || assets.isFetching
-      || fields.isFetching) return <h1>Loading...</h1>;
+      || fields.isFetching) return null;
 
     return (
       <main className="main">

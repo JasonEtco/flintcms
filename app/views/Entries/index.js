@@ -8,6 +8,8 @@ import TitleBar from '../../components/TitleBar';
 import SecondaryNav from '../../components/SecondaryNav';
 import Table from '../../components/Table';
 
+const localStorageKey = 'flint:lastSection';
+
 export default class Entries extends Component {
   static propTypes = {
     ...types.entries,
@@ -17,16 +19,16 @@ export default class Entries extends Component {
   componentWillMount() {
     const { section } = this.props.params;
     const { sections } = this.props.sections;
-    const ref = localStorage.getItem('lastSection');
+    const ref = localStorage.getItem(localStorageKey);
 
     if (section) {
-      localStorage.setItem('lastSection', section);
+      localStorage.setItem(localStorageKey, section);
     } else if (ref) {
       const refExists = sections.some(obj => obj.slug === ref);
       if (refExists) {
         browserHistory.push(`/admin/entries/${ref}`);
       } else {
-        localStorage.removeItem('lastSection');
+        localStorage.removeItem(localStorageKey);
       }
     }
   }
@@ -60,11 +62,11 @@ export default class Entries extends Component {
 
         <div className="content">
           <SecondaryNav links={navLinks}>
-            <Link to="/admin/entries" activeClassName="is-active" onClick={() => localStorage.removeItem('lastSection')}>All</Link>
+            <Link to="/admin/entries" activeClassName="is-active" onClick={() => localStorage.removeItem(localStorageKey)}>All</Link>
           </SecondaryNav>
 
           <div className="page__inner">
-            {filtered.length > 0 ? <Table data={reduced} /> : <h3>No entries!</h3>}
+            {filtered.length > 0 ? <Table data={reduced} sortBy="dateCreated" /> : <h3>No entries!</h3>}
           </div>
         </div>
       </Page>

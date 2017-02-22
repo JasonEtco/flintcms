@@ -1,0 +1,11 @@
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-size: $size5;
+    letter-spacing: -1px;
+    background-color: $blurple;
+}
