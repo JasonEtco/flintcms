@@ -16,7 +16,7 @@ if (isDeveloping) {
   console.log('Development mode!');
   const compiler = webpack(config);
   const middleware = webpackMiddleware(compiler, {
-    publicPath: config.output.publicPath,
+    publicPath: '/',
     stats: {
       colors: true,
       hash: false,
@@ -28,15 +28,12 @@ if (isDeveloping) {
   });
 
   admin.use(middleware);
-  admin.use(webpackHotMiddleware(compiler));
-
-  admin.get('/main.js', (req, res) => {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', '..', 'main.js')));
-    res.end();
-  });
+  admin.use(webpackHotMiddleware(compiler, {
+    publicPath: '/admin',
+  }));
 
   admin.get('*', (req, res) => {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', '..', 'index.html')));
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', '..', 'admin', 'index.html')));
     res.end();
   });
 } else {

@@ -6,14 +6,14 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
-    'webpack-hot-middleware/client?reload=true',
+    'webpack-hot-middleware/client?reload=true&dynamicPublicPath=true',
     'whatwg-fetch',
     path.join(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
-    path: path.join(__dirname, '..'),
+    path: path.join(__dirname, '..', 'admin'),
     filename: '[name].js',
-    publicPath: '/admin',
+    publicPath: '/admin/',
   },
   plugins: [
     new HtmlWebpackPlugin({
