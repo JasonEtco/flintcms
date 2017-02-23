@@ -34,6 +34,16 @@ export default function renderOption(field, value) {
           defaultValue={value}
         />
       );
+    case 'RichText':
+      return (
+        <Fields.RichText
+          key={field._id}
+          name={field.slug}
+          label={field.title}
+          instructions={field.instructions}
+          defaultValue={value}
+        />
+      );
 
     default:
       return false;

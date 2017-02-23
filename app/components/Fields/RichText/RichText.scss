@@ -1,0 +1,16 @@
+.rich-text {
+    &__tools {
+        padding: 1em;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: 1px solid $grey-light;
+    }
+
+    &__editor {
+        padding: 1em;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border: 1px solid $grey-light;
+        border-top: none;
+    }
+}
