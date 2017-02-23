@@ -1,7 +1,9 @@
 .secondary-nav {
+    position: relative;
     min-width: 200px;
-    padding: 2em 2em 0 0;
-    background-color: lighten($grey-lighter, 8%);
+    padding: 2em 0 0;
+    border-right: 1px solid $grey-light;
+    background-color: $grey-lighter;
 
     &__list {
         padding: 0;
@@ -11,18 +13,36 @@
 
         &-item {
             a {
+                position: relative;
                 display: block;
                 padding: 1em;
-                border-top-right-radius: 3px;
-                border-bottom-right-radius: 3px;
                 color: black;
                 text-decoration: none;
 
-                &:hover { background-color: $grey-lighter; }
+                &:hover { background-color: $grey-light; }
 
                 &.is-active {
-                    background-color: $blurple;
-                    color: white;
+                    background-color: $grey-light;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        z-index: 2;
+                        top: 50%;
+                        right: -1px;
+                        transform: translateY(-50%);
+                        @include triangle(left, 8px, white);
+                    }
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        z-index: 1;
+                        top: 50%;
+                        right: 0;
+                        transform: translateY(-50%);
+                        @include triangle(left, 8px, darken($grey-light, 5%));
+                    }
                 }
             }
         }
