@@ -6,12 +6,28 @@
     font-family: inherit;
     font-size: 0.9rem;
     line-height: 1.4;
-    transition: box-shadow 150ms $standard;
+    outline: none;
+    transition: box-shadow 300ms $standard, border-color 300ms $standard;
 
     &:focus {
-        border-color: #7dafe8;
-        outline: none;
-        box-shadow: 0 0 5px #80caff;
+        border-color: lighten($blue, 30%);
+        box-shadow: 0 0 5px lighten($blue, 30%);
+    }
+
+    &__instructions {
+        margin-top: 0;
+        color: $grey;
+        font-size: 0.7rem;
+    }
+
+    &__label {
+        display: block;
+        font-weight: 700;
+        font-size: 0.8rem;
+
+        + .input__instructions, + .input {
+            margin-top: 0.4em;
+        }
     }
 
     &-wrapper {
@@ -20,6 +36,7 @@
         &--big .input {
             padding: 0.9em;
             border-width: 2px;
+            border-radius: 6px;
             font-size: 1.1rem;
         }
 
@@ -43,22 +60,6 @@
                 margin-left: 0.4em;
                 color: $red;
             }
-        }
-    }
-
-    &__instructions {
-        margin-top: 0;
-        color: $grey;
-        font-size: 0.7rem;
-    }
-
-    &__label {
-        display: block;
-        font-weight: 700;
-        font-size: 0.8rem;
-
-        + .input__instructions, + .input {
-            margin-top: 0.4em;
         }
     }
 }

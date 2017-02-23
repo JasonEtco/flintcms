@@ -14,6 +14,8 @@
 
     &:active { background-color: $orange-dark; }
 
+    &:disabled { opacity: 0.5; pointer-events: none; }
+
     &--yes { background-color: $orange; }
 
     &--small { font-size: 0.8rem; }

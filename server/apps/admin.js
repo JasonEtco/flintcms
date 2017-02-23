@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const express = require('express');
 const path = require('path');
 const webpack = require('webpack');
@@ -13,7 +15,6 @@ admin.use(require('./routes/auth'));
 admin.use('/api', require('./api'));
 
 if (isDeveloping) {
-  console.log('Development mode!');
   const compiler = webpack(config);
   const middleware = webpackMiddleware(compiler, {
     publicPath: '/',
@@ -34,6 +35,8 @@ if (isDeveloping) {
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', '..', 'admin', 'index.html')));
     res.end();
   });
+
+  console.log('[App: Admin] initialized in Dev mode.');
 } else {
   const STATIC_PATH = path.join(__dirname, '..', '..', 'admin');
   const STATIC_OPTS = {
@@ -45,7 +48,7 @@ if (isDeveloping) {
   admin.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'));
   });
+  console.log('[App: Admin] initialized.');
 }
 
-console.log('[App: Admin] initialized.');
 module.exports = admin;

@@ -9,17 +9,12 @@
         width: 140px;
         height: 80px;
         margin: 3em 0 2em;
-
-        &__name { fill: white; }
-
-        &__mark__counter { fill: $blurple; }
-
-        &__mark__shape { fill: white; }
+        fill: $grey;
     }
 
     &__inner {
         @extend %card;
-        width: 470px;
+        width: 420px;
         max-width: 90%;
     }
 
@@ -29,6 +24,8 @@
         display: block;
         width: 100%;
     }
+
+    .btn { padding: 1em; }
 
     .input { margin-bottom: 1em; }
 }

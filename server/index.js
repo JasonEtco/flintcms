@@ -64,6 +64,6 @@ app.get('/:slug', (req, res) => {
     .catch(err => new Error(err));
 });
 
-http.listen(port, () => console.log(`Running at http://localhost:${port}`));
+http.listen(port, () => console.log(`[HTTP Server] Running at http://localhost:${port}`));
 
 module.exports = app;
