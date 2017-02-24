@@ -1,9 +1,71 @@
 .rich-text {
     &__tools {
+        position: relative;
+        display: flex;
+        align-items: center;
         padding: 1em;
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
         border: 1px solid $grey-light;
+
+        &__btn {
+            padding: 0.2em;
+            border: none;
+            background: none;
+            outline: none;
+            cursor: pointer;
+
+            svg { fill: $grey; }
+
+            &:hover, &:focus { svg { fill: $grey-dark; } }
+
+            &.is-active {
+                svg { fill: $orange; }
+            }
+        }
+
+        &__formats {
+            position: absolute;
+            z-index: 2;
+            top: 100%;
+            left: -1px;
+            overflow: auto;
+            padding: 0;
+            border: 1px solid $grey-light;
+            margin: 0;
+            list-style-type: none;
+            background-color: white;
+            font-size: 0.8rem;
+            max-height: 200px;
+            @include scrollbar($grey, $grey-light, 8px);
+
+            > li {
+                * { margin: 0; text-align: left; }
+
+                ul, ol { padding-left: 1em; }
+
+            }
+
+            button {
+                display: block;
+                box-sizing: border-box;
+                width: 100%;
+                padding: 1em;
+                border: none;
+                margin: 0;
+                background: none;
+                cursor: pointer;
+
+                &:hover { background-color: $grey-light; }
+            }
+        }
+
+        &__sep {
+            width: 1px;
+            height: 1em;
+            margin: 0 1em;
+            background-color: $grey-light;
+        }
     }
 
     &__editor {
@@ -12,5 +74,51 @@
         border-bottom-right-radius: 3px;
         border: 1px solid $grey-light;
         border-top: none;
+    }
+
+    &__url {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding: 0.6em;
+        background-color: rgba(white, 0.5);
+
+        &__input {
+            width: 70%;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &__btn {
+            border: darken($green, 10%);
+            border-bottom-right-radius: 3px;
+            border-top-right-radius: 3px;
+            background-color: $green;
+            color: white;
+            font-family: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+
+            &:hover { background-color: lighten($green, 10%); }
+        }
+
+        &__close {
+            position: absolute;
+            top: 1.25em;
+            right: 1em;
+            padding: 0;
+            border: none;
+            margin: 0;
+            background: none;
+            cursor: pointer;
+
+            svg { fill: $grey; }
+
+            &:hover svg { fill: $grey-dark; }
+        }
     }
 }

@@ -5,7 +5,7 @@
 //==============//
 // Greys
 $grey-lighter: #fafafa;
-$grey-light: #ebedef;
+$grey-light: darken(#ebedef, 8%);
 $grey: #92989a;
 $grey-dark: #353739;
 $grey-darker: darken($grey-dark, 65%);

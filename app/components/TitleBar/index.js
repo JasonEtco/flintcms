@@ -4,7 +4,7 @@ import './TitleBar.scss';
 export default class TitleBar extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    children: PropTypes.element,
+    children: PropTypes.any,
   }
 
   static defaultProps = {

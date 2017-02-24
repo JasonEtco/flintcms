@@ -14,13 +14,14 @@ export default class ToolBarButton extends Component {
     active: false,
     icon: 'gear',
     title: null,
+    style: null,
   }
 
   render() {
     const { active, onClick, icon, title } = this.props;
 
     const classes = classnames(
-      'rich-text__editor__btn',
+      'rich-text__tools__btn',
       { 'is-active': active },
     );
 

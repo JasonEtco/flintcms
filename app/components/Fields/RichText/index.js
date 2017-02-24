@@ -7,7 +7,8 @@ import {
   EditorState,
   RichUtils,
 } from 'draft-js';
-import ToolBarButton from './ToolBarButton';
+import ToolBar from './ToolBar';
+import Icon from '../../../utils/icons';
 import './RichText.scss';
 
 function findLinkEntities(contentBlock, callback, contentState) {
@@ -66,13 +67,13 @@ export default class RichText extends Component {
     defaultValue: null,
   }
 
-
   constructor(props) {
     super(props);
     this.state = { editorState: EditorState.createEmpty() };
     this.onChange = editorState => this.setState({ editorState });
 
-    this.bold = this.bold.bind(this);
+    this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
+    this.toggleBlockType = this.toggleBlockType.bind(this);
 
     const decorator = new CompositeDecorator([
       {
@@ -100,6 +101,8 @@ export default class RichText extends Component {
   onLinkInputKeyDown(e) {
     if (e.which === 13) {
       this.confirmLink(e);
+    } else if (e.which === 27) {
+      this.setState({ showURLInput: false });
     }
   }
 
@@ -164,29 +167,36 @@ export default class RichText extends Component {
     }
   }
 
-  bold() {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
+  toggleInlineStyle(style) {
+    const { editorState } = this.state;
+    this.onChange(RichUtils.toggleInlineStyle(editorState, style));
   }
 
-  italic() {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
+  toggleBlockType(blockType) {
+    const { editorState } = this.state;
+    this.onChange(RichUtils.toggleBlockType(editorState, blockType));
   }
 
   render() {
+    const { editorState, showURLInput, urlValue } = this.state;
     let urlInput;
-    if (this.state.showURLInput) {
+    if (showURLInput) {
       urlInput = (
-        <div style={styles.urlInputContainer}>
+        <div className="rich-text__url">
           <input
             onChange={this.onURLChange}
             ref={(r) => { this.url = r; }}
-            style={styles.urlInput}
+            className="rich-text__url__input input"
             type="text"
-            value={this.state.urlValue}
+            placeholder="http://www.example.com"
+            value={urlValue}
             onKeyDown={this.onLinkInputKeyDown}
           />
-          <button type="button" onMouseDown={this.confirmLink}>
+          <button className="rich-text__url__btn" type="button" onClick={this.confirmLink}>
             Confirm
+          </button>
+          <button className="rich-text__url__close" type="button" onClick={() => this.setState({ showURLInput: false })}>
+            <Icon icon="cross" width={10} height={10} />
           </button>
         </div>
       );
@@ -194,16 +204,17 @@ export default class RichText extends Component {
 
     return (
       <div className="rich-text-wrapper form-element">
-        <div className="rich-text__tools">
-          <ToolBarButton title="Bold" icon="bold" onClick={() => this.bold()} />
-          <ToolBarButton title="Italic" icon="italic" onClick={() => this.italic()} />
-          <ToolBarButton title="Link" icon="link" onClick={this.promptForLink} />
-          <ToolBarButton title="Remove Link" icon="cross" onClick={this.removeLink} />
-        </div>
+        <ToolBar
+          editorState={editorState}
+          toggleInlineStyle={this.toggleInlineStyle}
+          toggleBlockType={this.toggleBlockType}
+          removeLink={this.removeLink}
+          promptForLink={this.promptForLink}
+          urlInput={urlInput}
+        />
         <div className="rich-text__editor" onClick={this.focus}>
-          {urlInput}
           <Editor
-            editorState={this.state.editorState}
+            editorState={editorState}
             onChange={this.onChange}
             placeholder="Enter some text..."
             ref={(r) => { this.editor = r; }}
