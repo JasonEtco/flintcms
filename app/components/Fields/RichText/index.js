@@ -1,14 +1,18 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { Component, PropTypes } from 'react';
+import { stateToHTML } from 'draft-js-export-html';
 import {
   CompositeDecorator,
   Editor,
   EditorState,
   RichUtils,
+  ContentState,
+  convertFromHTML,
 } from 'draft-js';
 import ToolBar from './ToolBar';
 import Icon from '../../../utils/icons';
+import h from '../../../utils/helpers';
 import './RichText.scss';
 
 function findLinkEntities(contentBlock, callback, contentState) {
@@ -24,25 +28,10 @@ function findLinkEntities(contentBlock, callback, contentState) {
   );
 }
 
-const styles = {
-  urlInputContainer: {
-    marginBottom: 10,
-  },
-  urlInput: {
-    fontFamily: '\'Georgia\', serif',
-    marginRight: 10,
-    padding: 3,
-  },
-  link: {
-    color: '#3b5998',
-    textDecoration: 'underline',
-  },
-};
-
 const Link = (props) => {
   const { url } = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <a href={url} style={styles.link}>
+    <a href={url} style={{ color: '#3b5998', textDecoration: 'underline' }}>
       {props.children}
     </a>
   );
@@ -60,18 +49,17 @@ export default class RichText extends Component {
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
     defaultValue: PropTypes.string,
+    contentState: PropTypes.object,
   }
 
   static defaultProps = {
     instructions: null,
     defaultValue: null,
+    contentState: null,
   }
 
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
-    this.onChange = editorState => this.setState({ editorState });
-
     this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
     this.toggleBlockType = this.toggleBlockType.bind(this);
 
@@ -82,14 +70,31 @@ export default class RichText extends Component {
       },
     ]);
 
-    this.state = {
-      editorState: EditorState.createEmpty(decorator),
-      showURLInput: false,
-      urlValue: '',
-    };
+    if (props.defaultValue) {
+      const blocksFromHTML = convertFromHTML(props.defaultValue);
+      const state = ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap,
+      );
 
-    this.focus = () => this.editor.focus();
-    this.onChange = editorState => this.setState({ editorState });
+      this.state = {
+        editorState: EditorState.createWithContent(state, decorator),
+        showURLInput: false,
+        value: props.defaultValue,
+        urlValue: '',
+      };
+    } else {
+      this.state = {
+        editorState: EditorState.createEmpty(decorator),
+        showURLInput: false,
+        value: '',
+        urlValue: '',
+      };
+    }
+
+
+    this.focus = () => this[props.name].focus();
+    this.onChange = editorState => this.setState({ editorState, value: stateToHTML(editorState.getCurrentContent()) });
 
     this.promptForLink = this.promptForLink.bind(this);
     this.onURLChange = e => this.setState({ urlValue: e.target.value });
@@ -152,7 +157,7 @@ export default class RichText extends Component {
       showURLInput: false,
       urlValue: '',
     }, () => {
-      setTimeout(() => this.editor.focus(), 0);
+      setTimeout(() => this[this.props.name].focus(), 0);
     });
   }
 
@@ -179,6 +184,8 @@ export default class RichText extends Component {
 
   render() {
     const { editorState, showURLInput, urlValue } = this.state;
+    const { name, label, instructions } = this.props;
+
     let urlInput;
     if (showURLInput) {
       urlInput = (
@@ -204,6 +211,8 @@ export default class RichText extends Component {
 
     return (
       <div className="rich-text-wrapper form-element">
+        {label && <label className="input__label" htmlFor={name}>{label}</label>}
+        {instructions && <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} />}
         <ToolBar
           editorState={editorState}
           toggleInlineStyle={this.toggleInlineStyle}
@@ -217,9 +226,10 @@ export default class RichText extends Component {
             editorState={editorState}
             onChange={this.onChange}
             placeholder="Enter some text..."
-            ref={(r) => { this.editor = r; }}
+            ref={(r) => { this[name] = r; }}
           />
         </div>
+        <input type="text" readOnly hidden name={name} value={this.state.value} />
       </div>
     );
   }
