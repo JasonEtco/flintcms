@@ -10,18 +10,21 @@ export default class SocketEvents {
   }
 
   newField() {
-    const { fields } = store.getState().fields;
     this.socket.on('new-field', (newField) => {
+      const { fields } = store.getState().fields;
       if (!fields.some(field => field._id === newField._id)) {
         this.dispatch({ type: NEW_FIELD, json: newField });
       }
     });
   }
 
+  deleteField() {
+    this.socket.on('delete-field', deletedId => console.log(deletedId));
+  }
+
   newEntry() {
-    const { entries } = store.getState().entries;
-    console.log(store.getState());
     this.socket.on('new-entry', (newEntry) => {
+      const { entries } = store.getState().entries;
       if (!entries.some(entry => entry._id === newEntry._id)) {
         this.dispatch({ type: NEW_ENTRY, json: newEntry });
       }
@@ -33,8 +36,8 @@ export default class SocketEvents {
   }
 
   newSection() {
-    const { sections } = store.getState().sections;
     this.socket.on('new-section', (newSection) => {
+      const { sections } = store.getState().sections;
       if (!sections.some(section => section._id === newSection._id)) {
         this.dispatch({ type: NEW_SECTION, newSection });
       }
@@ -46,11 +49,15 @@ export default class SocketEvents {
   }
 
   listen() {
+    // Listen for new or delete Fields
     this.newField();
+    this.deletedField();
 
+    // Listen for new or delete Entries
     this.newEntry();
     this.deleteEntry();
 
+    // Listen for new or delete Sections
     this.newSection();
     this.deleteSection();
   }
