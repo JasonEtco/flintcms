@@ -1,5 +1,4 @@
 const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = require('graphql');
-const h = require('../../utils/helpers');
 
 const FieldType = new GraphQLObjectType({
   name: 'EntryFields',
