@@ -11,7 +11,7 @@ export default class Home extends Component {
     sections: PropTypes.object,
   };
 
-  static defaultTypes = {
+  static defaultProps = {
     entries: null,
     sections: null,
   };
