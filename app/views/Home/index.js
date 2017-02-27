@@ -7,8 +7,13 @@ import './Home.scss';
 
 export default class Home extends Component {
   static propTypes = {
-    entries: PropTypes.object.isRequired,
-    sections: PropTypes.object.isRequired,
+    entries: PropTypes.object,
+    sections: PropTypes.object,
+  };
+
+  static defaultTypes = {
+    entries: null,
+    sections: null,
   };
 
   render() {
