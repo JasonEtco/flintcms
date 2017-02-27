@@ -1,0 +1,34 @@
+.toasts {
+    position: absolute;
+    top: 0.4em;
+    right: 0.4em;
+    overflow: hidden;
+
+    &__toast {
+        @extend %card;
+        display: flex;
+        align-items: center;
+        height: 4em;
+        padding: 0 2em;
+        background-color: $grey-dark;
+        color: white;
+        transition:
+            height 300ms 300ms $standard,
+            transform 300ms $standard,
+            opacity 300ms $standard;
+
+        &--success {
+            background-color: $green;
+        }
+
+        &--error {
+            background-color: $red;
+        }
+
+        &--leaving {
+            height: 0;
+            opacity: 0;
+            transform: translateX(calc(100% + 0.6em));
+        }
+    }
+}

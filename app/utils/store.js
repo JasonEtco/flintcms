@@ -10,6 +10,9 @@ const defaultState = {
   entries: { isFetching: true },
   sections: { isFetching: true },
   assets: { isFetching: true },
+  ui: {
+    toasts: [],
+  },
 };
 const routerMiddle = routerMiddleware(browserHistory);
 
