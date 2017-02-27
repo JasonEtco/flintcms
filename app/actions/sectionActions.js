@@ -51,7 +51,7 @@ export function deleteSection(id) {
     return graphFetcher(query)
       .then((json) => {
         const { removeSection } = json.data;
-        dispatch({ type: DELETE_SECTION, json: removeSection });
+        dispatch({ type: DELETE_SECTION, id: removeSection._id });
         dispatch(push('/admin/settings/sections'));
       })
       .catch(err => new Error(err));

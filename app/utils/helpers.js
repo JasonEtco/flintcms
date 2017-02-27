@@ -89,6 +89,9 @@ const helpers = {
     arrCopy.splice(newIndex, 0, arrCopy.splice(oldIndex, 1)[0]);
     return arrCopy; // for testing purposes
   },
+  checkFor(arr, f, w) {
+    return arr.some(v => v.f === w);
+  },
 };
 
 export default helpers;

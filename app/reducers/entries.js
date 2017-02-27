@@ -27,6 +27,9 @@ export default function entries(state = {}, action) {
     }
 
     case NEW_ENTRY: {
+      const entryIndex = state.entries.findIndex(entry => entry._id === action.json._id);
+      if (entryIndex !== -1) return state;
+
       return {
         ...state,
         entries: [
@@ -37,7 +40,9 @@ export default function entries(state = {}, action) {
     }
 
     case DELETE_ENTRY: {
-      const entryIndex = state.entries.findIndex(id => id === action.id);
+      const entryIndex = state.entries.findIndex(entry => entry._id === action.id);
+      if (entryIndex === -1) return state;
+
       return {
         ...state,
         entries: [
