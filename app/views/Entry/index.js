@@ -6,6 +6,7 @@ import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import { deleteEntry } from '../../actions/entryActions';
 
 export default class Entry extends Component {
   static propTypes = {
@@ -25,7 +26,12 @@ export default class Entry extends Component {
     const { entries, params } = props;
     const { id } = params;
     this.renderFields = this.renderFields.bind(this);
+    this.deleteEntry = this.deleteEntry.bind(this);
     this.entry = entries.entries.find(e => e._id === id);
+  }
+
+  deleteEntry() {
+    this.props.dispatch(deleteEntry(this.entry._id));
   }
 
   renderFields(field) {
@@ -49,6 +55,7 @@ export default class Entry extends Component {
       <Page name="entry" links={links}>
         <TitleBar title={title}>
           <Button>Save Entry</Button>
+          <Button onClick={this.deleteEntry}>Delete Entry</Button>
         </TitleBar>
         <div className="content">
           <div className="page__inner">

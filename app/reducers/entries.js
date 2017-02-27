@@ -2,6 +2,7 @@ import {
   REQUEST_ENTRIES,
   RECEIVE_ENTRIES,
   NEW_ENTRY,
+  DELETE_ENTRY,
 } from '../actions/entryActions';
 
 export default function entries(state = {}, action) {
@@ -31,6 +32,17 @@ export default function entries(state = {}, action) {
         entries: [
           ...state.entries,
           action.json,
+        ],
+      };
+    }
+
+    case DELETE_ENTRY: {
+      const entryIndex = state.entries.findIndex(id => id === action.id);
+      return {
+        ...state,
+        entries: [
+          ...state.entries.slice(0, entryIndex),
+          ...state.entries.slice(entryIndex + 1),
         ],
       };
     }

@@ -3,11 +3,10 @@ const {
   GraphQLID,
 } = require('graphql');
 const mongoose = require('mongoose');
-const { outputType } = require('../../types/Entries');
+const { outputType } = require('../../types/Sections');
 const getProjection = require('../../get-projection');
 
-const Entry = mongoose.model('Entry');
-
+const Section = mongoose.model('Section');
 
 module.exports = {
   type: outputType,
@@ -19,15 +18,15 @@ module.exports = {
   },
   async resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
-    const removedEntry = await Entry
+    const removedSection = await Section
       .findByIdAndRemove(args._id, { select: projection })
       .exec();
 
-    if (!removedEntry) {
-      throw new Error('Error removing entry');
+    if (!removedSection) {
+      throw new Error('Error removing blog post');
     }
 
-    root.io.emit('delete-entry', removedEntry);
-    return removedEntry;
+    root.io.emit('delete-section', removedSection);
+    return removedSection;
   },
 };

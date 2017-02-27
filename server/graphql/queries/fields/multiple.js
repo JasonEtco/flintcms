@@ -6,11 +6,11 @@ const mongoose = require('mongoose');
 
 const Field = mongoose.model('Field');
 
-const fieldType = require('../../types/Field');
+const { outputType } = require('../../types/Fields');
 const getProjection = require('../../get-projection');
 
 module.exports = {
-  type: new GraphQLList(fieldType),
+  type: new GraphQLList(outputType),
   args: {},
   resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);

@@ -1,6 +1,6 @@
-const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = require('graphql');
+const { GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = require('graphql');
 
-module.exports = new GraphQLObjectType({
+const outputType = new GraphQLObjectType({
   name: 'Sections',
   fields: {
     _id: {
@@ -18,3 +18,21 @@ module.exports = new GraphQLObjectType({
     },
   },
 });
+
+const inputType = new GraphQLInputObjectType({
+  name: 'SectionsInput',
+  fields: {
+    title: {
+      type: GraphQLString,
+    },
+    fields: {
+      type: new GraphQLList(new GraphQLNonNull(GraphQLID)),
+      description: '`id`s of fields',
+    },
+  },
+});
+
+module.exports = {
+  outputType,
+  inputType,
+};

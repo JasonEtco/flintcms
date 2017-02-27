@@ -1,6 +1,6 @@
-import { NEW_SECTION } from '../actions/sectionActions';
-import { NEW_ENTRY } from '../actions/entryActions';
-import { NEW_FIELD } from '../actions/fieldActions';
+import { NEW_SECTION, DELETE_SECTION } from '../actions/sectionActions';
+import { NEW_ENTRY, DELETE_ENTRY } from '../actions/entryActions';
+import { NEW_FIELD, DELETE_FIELD } from '../actions/fieldActions';
 import store from './store';
 
 export default class SocketEvents {
@@ -32,7 +32,12 @@ export default class SocketEvents {
   }
 
   deleteEntry() {
-    this.socket.on('delete-entry', deletedId => console.log(deletedId));
+    this.socket.on('delete-entry', (id) => {
+      const { entries } = store.getState().entries;
+      if (entries.some(entry => entry._id === id)) {
+        this.dispatch({ type: DELETE_ENTRY, id });
+      }
+    });
   }
 
   newSection() {
@@ -45,7 +50,12 @@ export default class SocketEvents {
   }
 
   deleteSection() {
-    this.socket.on('delete-section', deletedId => console.log(deletedId));
+    this.socket.on('delete-section', (id) => {
+      const { sections } = store.getState().sections;
+      if (sections.some(section => section._id === id)) {
+        this.dispatch({ type: DELETE_SECTION, id });
+      }
+    });
   }
 
   listen() {

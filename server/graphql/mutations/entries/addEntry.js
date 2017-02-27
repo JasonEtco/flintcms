@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Entries');
 const h = require('../../../utils/helpers');
 
-
 const Entry = mongoose.model('Entry');
 const Section = mongoose.model('Section');
 
@@ -36,9 +35,9 @@ module.exports = {
 
     const savedEntry = await newEntry.save();
 
-    if (!savedEntry) {
-      throw new Error('Error adding new blog post');
-    }
+    if (!savedEntry) throw new Error('Error adding new blog post');
+
+    root.io.emit('new-entry', savedEntry);
     return savedEntry;
   },
 };

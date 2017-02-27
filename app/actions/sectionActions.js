@@ -1,5 +1,6 @@
 import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
+import graphFetcher from '../utils/graphFetcher';
 
 export const REQUEST_SECTIONS = 'REQUEST_SECTIONS';
 export const RECEIVE_SECTIONS = 'RECEIVE_SECTIONS';
@@ -7,36 +8,54 @@ export const NEW_SECTION = 'NEW_SECTION';
 export const DELETE_SECTION = 'DELETE_SECTION';
 
 export function newSection(title, template, fields) {
-  return dispatch =>
-  fetch('/admin/api/sections', {
-    method: 'POST',
-    body: JSON.stringify({ title, template, fields }),
-    credentials: 'same-origin',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-  }).then(res => res.json())
-    .then((json) => {
-      dispatch({ type: NEW_SECTION, newSection: json });
-      dispatch(push(`/admin/entries/${json.slug}`));
-    })
-    .catch(err => new Error(err));
+  return (dispatch) => {
+    const query = {
+      query: `mutation {
+        addSection(data: {
+          title: "${title}",
+          fields: "${fields}",
+          template: "${template}",
+        }) {
+          _id
+          title
+          slug
+          fields
+        }
+      }`,
+    };
+
+    return graphFetcher(query)
+      .then((json) => {
+        const { addSection } = json.data;
+        dispatch({ type: NEW_SECTION, json: addSection });
+        dispatch(push(`/admin/entries/${addSection.slug}`));
+      })
+      .catch(err => new Error(err));
+  };
 }
 
-export function deleteSection(sectionId) {
-  return dispatch =>
-  fetch(`/admin/api/sections/${sectionId}`, {
-    method: 'PUT',
-    credentials: 'same-origin',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-  }).then(res => res.json())
-    .then((json) => {
-      dispatch({ type: DELETE_SECTION, sectionId: json });
-      dispatch(push('/admin/entries'));
-    })
-    .catch(err => new Error(err));
+export function deleteSection(id) {
+  return (dispatch) => {
+    const query = {
+      query: `mutation ($_id:ID!) {
+        removeSection(_id: $_id) {
+          _id
+        }
+      }
+      `,
+      variables: {
+        _id: id,
+      },
+    };
+
+    return graphFetcher(query)
+      .then((json) => {
+        const { removeSection } = json.data;
+        dispatch({ type: DELETE_SECTION, json: removeSection });
+        dispatch(push('/admin/settings/sections'));
+      })
+      .catch(err => new Error(err));
+  };
 }
 
 export function fetchSectionsIfNeeded() {

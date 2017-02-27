@@ -6,6 +6,7 @@ import h from '../utils/helpers';
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
 export const NEW_ENTRY = 'NEW_ENTRY';
+export const DELETE_ENTRY = 'DELETE_ENTRY';
 
 export function newEntry(title, section, rawOptions) {
   return (dispatch, getState) => {
@@ -52,6 +53,31 @@ export function newEntry(title, section, rawOptions) {
       .catch(err => new Error(err));
   };
 }
+
+export function deleteEntry(id) {
+  return (dispatch) => {
+    const query = {
+      query: `mutation ($_id:ID!) {
+        removeEntry(_id: $_id) {
+          _id
+        }
+      }
+      `,
+      variables: {
+        _id: id,
+      },
+    };
+
+    return graphFetcher(query)
+      .then((json) => {
+        const { removeEntry } = json.data;
+        dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
+        dispatch(push('/admin/entries'));
+      })
+      .catch(err => new Error(err));
+  };
+}
+
 
 export function fetchEntriesIfNeeded() {
   return (dispatch, getState) => {
