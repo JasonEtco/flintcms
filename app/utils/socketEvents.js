@@ -51,7 +51,7 @@ export default class SocketEvents {
   listen() {
     // Listen for new or delete Fields
     this.newField();
-    this.deletedField();
+    this.deleteField();
 
     // Listen for new or delete Entries
     this.newEntry();
