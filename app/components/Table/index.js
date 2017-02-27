@@ -7,7 +7,7 @@ import './Table.scss';
 
 const Cell = ({ column, children }) => {
   let content;
-  if (children.value && children.component) {
+  if (children.component) {
     content = children.component;
   } else {
     content = children;
@@ -104,6 +104,10 @@ export default class Table extends Component {
                   { asc: sortBy === column && direction === 'ASC' },
                 );
 
+                const first = data.find(c => c[column]);
+                const has = typeof first[column].sortBy === 'boolean' && first[column].sortBy === false;
+
+                if (has) return <th key={column} />;
                 return (
                   <th className="table__header" key={column}>
                     <button
@@ -120,7 +124,7 @@ export default class Table extends Component {
           <tbody>
             {sorted.map((tr, i) =>
               <tr className="table__row" key={i}>{columns.map(column =>
-                <Cell key={tr[column]} column={column}>{tr[column]}</Cell>)}
+                <Cell key={column} column={column}>{tr[column]}</Cell>)}
               </tr>)}
           </tbody>
         </table>

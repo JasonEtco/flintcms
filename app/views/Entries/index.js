@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import moment from 'moment';
 import types from '../../utils/types';
+import { deleteEntry } from '../../actions/entryActions';
 import h from '../../utils/helpers';
+import Icon from '../../utils/icons';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import SecondaryNav from '../../components/SecondaryNav';
@@ -33,6 +35,10 @@ export default class Entries extends Component {
     }
   }
 
+  deleteEntry(id) {
+    this.props.dispatch(deleteEntry(id));
+  }
+
   render() {
     const { users, params } = this.props;
     const { entries } = this.props.entries;
@@ -52,6 +58,10 @@ export default class Entries extends Component {
       slug: props.slug,
       dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
       author: h.getPropFromProp(users.users, { _id: props.author }, 'username'),
+      delete: {
+        sortBy: false,
+        component: <button className="table__delete" onClick={() => this.deleteEntry(props._id)}><Icon icon="circleWithLine" /></button>,
+      },
     }));
 
     return (

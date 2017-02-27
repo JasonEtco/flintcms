@@ -2,6 +2,7 @@ import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import h from '../utils/helpers';
+import { newToast } from './uiActions';
 
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
@@ -78,6 +79,10 @@ export function deleteEntry(id) {
       .then((json) => {
         const { removeEntry } = json.data;
         dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
+        dispatch(newToast({
+          message: 'Entry deleted',
+          style: 'success',
+        }));
         dispatch(push('/admin/entries'));
       })
       .catch(err => new Error(err));
