@@ -1,7 +1,7 @@
-const add = require('./add');
-const remove = require('./remove');
+const addEntry = require('./addEntry');
+const removeEntry = require('./removeEntry');
 
 module.exports = {
-  add,
-  remove,
+  addEntry,
+  removeEntry,
 };

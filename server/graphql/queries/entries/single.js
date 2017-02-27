@@ -3,13 +3,13 @@ const {
   GraphQLNonNull,
 } = require('graphql');
 const mongoose = require('mongoose');
-const EntryType = require('../../types/Entries');
+const { outputType } = require('../../types/Entries');
 const getProjection = require('../../get-projection');
 
 const Entry = mongoose.model('Entry');
 
 module.exports = {
-  type: EntryType,
+  type: outputType,
   args: {
     _id: {
       name: '_id',

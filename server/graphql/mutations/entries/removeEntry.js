@@ -3,24 +3,24 @@ const {
   GraphQLID,
 } = require('graphql');
 const mongoose = require('mongoose');
-const EntryType = require('../../types/Entries');
+const { outputType } = require('../../types/Entries');
 const getProjection = require('../../get-projection');
 
 const Entry = mongoose.model('Entry');
 
 
 module.exports = {
-  type: EntryType,
+  type: outputType,
   args: {
     _id: {
       name: '_id',
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
+  async resolve(root, args, ctx, ast) {
+    const projection = getProjection(ast);
     const removedEntry = await Entry
-      .findByIdAndRemove(params._id, { select: projection })
+      .findByIdAndRemove(args._id, { select: projection })
       .exec();
 
     if (!removedEntry) {

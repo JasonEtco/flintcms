@@ -1,4 +1,14 @@
-const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = require('graphql');
+const {
+  GraphQLInputObjectType,
+  GraphQLObjectType,
+  GraphQLNonNull,
+  GraphQLString,
+  GraphQLID,
+  GraphQLList,
+  GraphQLScalarType,
+} = require('graphql');
+const h = require('../../utils/helpers');
+
 
 const FieldType = new GraphQLObjectType({
   name: 'EntryFields',
@@ -15,7 +25,22 @@ const FieldType = new GraphQLObjectType({
   }),
 });
 
-module.exports = new GraphQLObjectType({
+const FieldTypeInput = new GraphQLInputObjectType({
+  name: 'EntryFieldsInput',
+  fields: () => ({
+    fieldId: {
+      type: new GraphQLNonNull(GraphQLID),
+    },
+    fieldSlug: {
+      type: GraphQLString,
+    },
+    value: {
+      type: GraphQLString,
+    },
+  }),
+});
+
+const outputType = new GraphQLObjectType({
   name: 'Entries',
   fields: () => ({
     _id: {
@@ -44,3 +69,29 @@ module.exports = new GraphQLObjectType({
     },
   }),
 });
+
+const inputType = new GraphQLInputObjectType({
+  name: 'EntriesInput',
+  fields: {
+    title: {
+      type: GraphQLString,
+      description: 'Title of the entry.',
+    },
+    section: {
+      type: new GraphQLNonNull(GraphQLID),
+    },
+    author: {
+      type: new GraphQLNonNull(GraphQLID),
+      description: 'Author of the entry.',
+    },
+    fields: {
+      type: new GraphQLList(FieldTypeInput),
+      description: 'A list of the fields used in the entry.',
+    },
+  },
+});
+
+module.exports = {
+  inputType,
+  outputType,
+};
