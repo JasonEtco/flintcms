@@ -1,12 +1,13 @@
 const {
-  GraphQLID,
   GraphQLNonNull,
+  GraphQLID,
 } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Entries');
 const getProjection = require('../../get-projection');
 
 const Entry = mongoose.model('Entry');
+
 
 module.exports = {
   type: outputType,
@@ -16,12 +17,16 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  resolve(root, args, ctx, ast) {
+  async resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
-
-    return Entry
-      .findById(args.id)
-      .select(projection)
+    const removedEntry = await Entry
+      .findByIdAndRemove(args._id, { select: projection })
       .exec();
+
+    if (!removedEntry) {
+      throw new Error('Error removing blog post');
+    }
+
+    return removedEntry;
   },
 };
