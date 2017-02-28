@@ -16,9 +16,11 @@ export default class Toast extends Component {
     this.transitionEnd = this.transitionEnd.bind(this);
   }
 
-  state = { leaving: false }
+  state = { leaving: false, entering: true }
 
   componentDidMount() {
+    window.requestAnimationFrame(() => this.setState({ entering: false }));
+
     setTimeout(() => {
       this.setState({ leaving: true });
     }, 6000);
@@ -27,6 +29,10 @@ export default class Toast extends Component {
   transitionEnd(e) {
     if (e.propertyName === 'height' && this.state.leaving) {
       this.props.dispatch(deleteToast(this.props.dateCreated));
+    }
+
+    if (this.state.entering) {
+      this.setState({ entering: false });
     }
   }
 
@@ -37,6 +43,7 @@ export default class Toast extends Component {
       'toasts__toast',
       `toasts__toast--${style}`,
       { 'toasts__toast--leaving': this.state.leaving },
+      { 'toasts__toast--entering': this.state.entering },
     );
 
     return (

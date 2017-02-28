@@ -5,17 +5,28 @@
     overflow: hidden;
 
     &__toast {
-        @extend %card;
         display: flex;
         align-items: center;
-        height: 4em;
-        padding: 0 2em;
+        height: 3.4em;
+        padding: 0 1em;
+        border-radius: 3px;
+        border: 1px solid $grey-darker;
         background-color: $grey-dark;
         color: white;
+        font-size: $size0;
+        box-shadow: $shadow1;
+        transform: translateX(0);
+        will-change: height;
         transition:
             height 300ms 300ms $standard,
             transform 300ms $standard,
             opacity 300ms $standard;
+
+        &--entering { transform: translateX(calc(100% + 0.6em)); }
+
+        & + & {
+            margin-top: 0.4em;
+        }
 
         &--success {
             background-color: $green;
