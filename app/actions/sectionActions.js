@@ -1,6 +1,7 @@
 import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
+import h from '../utils/helpers';
 
 export const REQUEST_SECTIONS = 'REQUEST_SECTIONS';
 export const RECEIVE_SECTIONS = 'RECEIVE_SECTIONS';
@@ -8,12 +9,12 @@ export const NEW_SECTION = 'NEW_SECTION';
 export const DELETE_SECTION = 'DELETE_SECTION';
 
 export function newSection(title, template, fields) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const query = {
       query: `mutation {
         addSection(data: {
           title: "${title}",
-          fields: "${fields}",
+          fields: ${JSON.stringify(fields)},
           template: "${template}",
         }) {
           _id
@@ -27,7 +28,13 @@ export function newSection(title, template, fields) {
     return graphFetcher(query)
       .then((json) => {
         const { addSection } = json.data.data;
-        dispatch({ type: NEW_SECTION, json: addSection });
+        const { sections } = getState().sections;
+        // Only add the new section to store if it doesn't already exist
+        // In case socket event happens first
+        if (!h.checkFor(sections, '_id', addSection._id)) {
+          dispatch({ type: NEW_SECTION, addSection });
+        }
+        console.log('Pushing!');
         dispatch(push(`/admin/entries/${addSection.slug}`));
       })
       .catch(err => new Error(err));

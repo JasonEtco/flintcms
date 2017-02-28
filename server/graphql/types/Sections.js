@@ -25,6 +25,9 @@ const inputType = new GraphQLInputObjectType({
     title: {
       type: GraphQLString,
     },
+    template: {
+      type: GraphQLString,
+    },
     fields: {
       type: new GraphQLList(new GraphQLNonNull(GraphQLID)),
       description: '`id`s of fields',

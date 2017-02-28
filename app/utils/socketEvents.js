@@ -55,11 +55,11 @@ export default class SocketEvents {
   }
 
   newSection() {
-    this.socket.on('new-section', (newSection) => {
+    this.socket.on('new-section', (addSection) => {
       const { sections } = store.getState().sections;
-      if (!sections.some(section => section._id === newSection._id)) {
-        this.dispatch({ type: NEW_SECTION, newSection });
-        this.dispatch(newToast({ message: <span><b>{newSection.title}</b> was just added!</span>, style: 'default' }));
+      if (!sections.some(section => section._id === addSection._id)) {
+        this.dispatch({ type: NEW_SECTION, addSection });
+        this.dispatch(newToast({ message: <span><b>{addSection.title}</b> was just added!</span>, style: 'default' }));
       }
     });
   }

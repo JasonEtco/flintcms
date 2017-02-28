@@ -26,17 +26,9 @@ async function formatFields(fields, stateFields) {
 }
 
 export function newEntry(title, section, rawOptions) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { entries, fields, sections, user } = getState();
-
-    const options = Object.keys(rawOptions).map((key) => {
-      const fieldId = fields.fields.find(field => key === field.slug)._id;
-      return `{
-        fieldId: ${JSON.stringify(fieldId)},
-        fieldSlug: ${JSON.stringify(key)},
-        value: ${JSON.stringify(rawOptions[key])},
-      }`;
-    });
+    const options = await formatFields(rawOptions, fields.fields);
 
     const query = {
       query: `mutation {
