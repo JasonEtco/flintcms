@@ -5,10 +5,16 @@ import Page from '../../containers/Page';
 import Table from '../../components/Table';
 import TitleBar from '../../components/TitleBar';
 import types from '../../utils/types';
+import Icon from '../../utils/icons';
+import { deleteSection } from '../../actions/sectionActions';
 
 export default class Sections extends Component {
   static propTypes = {
     ...types.sections,
+  }
+
+  deleteSection(id) {
+    this.props.dispatch(deleteSection(id));
   }
 
   render() {
@@ -21,6 +27,10 @@ export default class Sections extends Component {
       },
       slug: props.slug,
       dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
+      delete: {
+        sortBy: false,
+        component: <button className="table__delete" onClick={() => this.deleteSection(props._id)}><Icon icon="circleWithLine" /></button>,
+      },
     }));
 
     return (

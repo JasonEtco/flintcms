@@ -46,8 +46,8 @@ export default function sections(state = {}, action) {
       return {
         ...state,
         sections: [
-          ...state.entries.slice(0, sectionIndex),
-          ...state.entries.slice(sectionIndex + 1),
+          ...state.sections.slice(0, sectionIndex),
+          ...state.sections.slice(sectionIndex + 1),
         ],
       };
     }
