@@ -7,7 +7,7 @@ import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { deleteEntry } from '../../actions/entryActions';
+import { deleteEntry, updateEntry } from '../../actions/entryActions';
 
 export default class Entry extends Component {
   static propTypes = {
@@ -34,8 +34,8 @@ export default class Entry extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const payload = serialize(this.page.form, { hash: true });
-    this.props.dispatch(updateEntry(this.entry._id, payload));
+    const data = serialize(this.page.form, { hash: true });
+    this.props.dispatch(updateEntry(this.entry._id, data));
   }
 
   deleteEntry() {
@@ -48,8 +48,8 @@ export default class Entry extends Component {
   }
 
   render() {
-    const { section, title, _id, fields } = this.entry;
-    const { sections } = this.props;
+    const { sections, entries, params } = this.props;
+    const { section, title, _id, fields } = entries.entries.find(e => e._id === params.id);
     const sectionSlug = h.getSlugFromId(sections.sections, section);
     const sectionName = h.getPropFromProp(sections.sections, { _id: section }, 'title');
 
@@ -67,7 +67,7 @@ export default class Entry extends Component {
         </TitleBar>
         <div className="content">
           <div className="page__inner">
-            <Input label="Title" defaultValue={title} name={title} full required />
+            <Input label="Title" defaultValue={title} name="title" full required />
             {fields.map(field => this.renderFields(field))}
           </div>
         </div>

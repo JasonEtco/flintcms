@@ -75,10 +75,10 @@ const inputType = new GraphQLInputObjectType({
       description: 'Title of the entry.',
     },
     section: {
-      type: new GraphQLNonNull(GraphQLID),
+      type: GraphQLID,
     },
     author: {
-      type: new GraphQLNonNull(GraphQLID),
+      type: GraphQLID,
       description: 'Author of the entry.',
     },
     fields: {
