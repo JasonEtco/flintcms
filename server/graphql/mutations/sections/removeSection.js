@@ -7,6 +7,7 @@ const { outputType } = require('../../types/Sections');
 const getProjection = require('../../get-projection');
 
 const Section = mongoose.model('Section');
+const Entry = mongoose.model('Entry');
 
 module.exports = {
   type: outputType,
@@ -18,12 +19,15 @@ module.exports = {
   },
   async resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
+
     const removedSection = await Section
       .findByIdAndRemove(args._id, { select: projection })
       .exec();
 
+    Entry.remove({ section: args._id }).exec();
+
     if (!removedSection) {
-      throw new Error('Error removing blog post');
+      throw new Error('Error removing section');
     }
 
     root.io.emit('delete-section', removedSection);

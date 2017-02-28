@@ -1,4 +1,5 @@
 import { push } from 'react-router-redux';
+import { DELETE_ENTRY } from './entryActions';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import h from '../utils/helpers';
@@ -34,7 +35,6 @@ export function newSection(title, template, fields) {
         if (!h.checkFor(sections, '_id', addSection._id)) {
           dispatch({ type: NEW_SECTION, addSection });
         }
-        console.log('Pushing!');
         dispatch(push(`/admin/entries/${addSection.slug}`));
       })
       .catch(err => new Error(err));

@@ -66,8 +66,13 @@ export default class SocketEvents {
 
   deleteSection() {
     this.socket.on('delete-section', ({ _id }) => {
-      const { sections } = store.getState().sections;
-      if (sections.some(section => section._id === _id)) {
+      const { sections, entries } = store.getState();
+
+      entries.entries
+        .filter(e => e.section === _id)
+        .forEach(e => this.dispatch({ type: DELETE_ENTRY, _id: e._id }));
+
+      if (sections.sections.some(section => section._id === _id)) {
         this.dispatch({ type: DELETE_SECTION, _id });
         this.dispatch(newToast({ message: 'An section was just deleted.', style: 'default' }));
       }
