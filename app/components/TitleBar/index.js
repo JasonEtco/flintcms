@@ -16,7 +16,9 @@ export default class TitleBar extends Component {
     return (
       <header className="title-bar">
         <h1 className="title-bar__title">{title}</h1>
-        {children}
+        <div className="title-bar__children">
+          {children}
+        </div>
       </header>
     );
   }

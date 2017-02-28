@@ -15,24 +15,31 @@ export default class Page extends Component {
       path: PropTypes.string.isRequired,
     })),
     name: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func,
   };
 
   static defaultProps = {
     links: null,
+    onSubmit: null,
   };
 
   render() {
-    const { name, children, links } = this.props;
+    const { name, children, links, onSubmit } = this.props;
     const classes = classnames(
       'page',
       { [`page--${name}`]: true },
       { 'has-breadcrumbs': links && links.length > 0 },
     );
 
+    let content = children;
+    if (onSubmit) {
+      content = <form onSubmit={onSubmit} ref={(r) => { this.form = r; }}>{children}</form>;
+    }
+
     return (
       <section className={classes}>
         {links && <Breadcrumbs links={links} />}
-        {children}
+        {content}
 
         <Footer />
       </section>

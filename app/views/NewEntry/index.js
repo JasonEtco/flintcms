@@ -33,7 +33,7 @@ export default class NewEntry extends Component {
   onSubmit(e) {
     e.preventDefault();
     const { sections, params } = this.props;
-    const { title, ...rest } = serialize(this.form, { hash: true });
+    const { title, ...rest } = serialize(this.page.form, { hash: true });
     const sectionId = h.getPropFromProp(sections.sections, { slug: params.section }, '_id');
 
     this.props.dispatch(newEntry(title, sectionId, rest));
@@ -58,36 +58,34 @@ export default class NewEntry extends Component {
     ];
 
     return (
-      <Page name="new-entry" links={links}>
+      <Page name="new-entry" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title="New Entry">
-          <Button onClick={this.onSubmit} small>Save</Button>
+          <Button onClick={this.onSubmit} small type="submit">Save</Button>
         </TitleBar>
         <div className="content">
           <div className="page__inner">
-            <form onSubmit={this.onSubmit} ref={(r) => { this.form = r; }}>
-              <Input
-                name="title"
-                label="Title"
-                ref={(r) => { this.title = r; }}
-                required
-                full
-                onChange={this.handleTitleChange}
-              />
+            <Input
+              name="title"
+              label="Title"
+              ref={(r) => { this.title = r; }}
+              required
+              full
+              onChange={this.handleTitleChange}
+            />
 
-              <Input
-                name="handle"
-                label="Entry Handle"
-                instructions="You can use this handle to reference this specific entry in a template."
-                ref={(r) => { this.handle = r; }}
-                required
-                full
-                code
-                disabled
-                value={h.slugify(this.state.title)}
-              />
+            <Input
+              name="handle"
+              label="Entry Handle"
+              instructions="You can use this handle to reference this specific entry in a template."
+              ref={(r) => { this.handle = r; }}
+              required
+              full
+              code
+              disabled
+              value={h.slugify(this.state.title)}
+            />
 
-              {sectionFields.map(field => renderOption(field))}
-            </form>
+            {sectionFields.map(field => renderOption(field))}
           </div>
         </div>
       </Page>

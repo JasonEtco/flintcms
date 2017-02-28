@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import serialize from 'form-serialize';
 import types from '../../utils/types';
 import h from '../../utils/helpers';
 import renderOption from '../../utils/renderOption';
@@ -27,7 +28,14 @@ export default class Entry extends Component {
     const { id } = params;
     this.renderFields = this.renderFields.bind(this);
     this.deleteEntry = this.deleteEntry.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.entry = entries.entries.find(e => e._id === id);
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    const payload = serialize(this.page.form, { hash: true });
+    this.props.dispatch(updateEntry(this.entry._id, payload));
   }
 
   deleteEntry() {
@@ -52,9 +60,9 @@ export default class Entry extends Component {
     ];
 
     return (
-      <Page name="entry" links={links}>
+      <Page name="entry" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title={title}>
-          <Button>Save Entry</Button>
+          <Button onClick={this.Submit} type="submit">Save Entry</Button>
           <Button onClick={this.deleteEntry}>Delete Entry</Button>
         </TitleBar>
         <div className="content">

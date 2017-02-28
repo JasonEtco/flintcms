@@ -30,7 +30,7 @@ export default class NewSection extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { title, template, fields } = serialize(this.form, { hash: true });
+    const { title, template, fields } = serialize(this.page.form, { hash: true });
     this.props.dispatch(newSection(title, template, fields));
   }
 
@@ -56,50 +56,48 @@ export default class NewSection extends Component {
     ];
 
     return (
-      <Page name="new-section" links={links}>
+      <Page name="new-section" links={links} onSubmit={this.handleSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title="New Section">
-          <Button onClick={this.handleSubmit} small>Save</Button>
+          <Button onClick={this.handleSubmit} small type="submit">Save</Button>
         </TitleBar>
         <div className="content">
           <div className="page__inner">
-            <form onSubmit={this.handleSubmit} ref={(r) => { this.form = r; }}>
-              <Input
-                name="title"
-                label="Title"
-                ref={(r) => { this.title = r; }}
-                required
-                full
-                onChange={this.handleTitleChange}
-              />
+            <Input
+              name="title"
+              label="Title"
+              ref={(r) => { this.title = r; }}
+              required
+              full
+              onChange={this.handleTitleChange}
+            />
 
-              <Input
-                name="handle"
-                label="Section Handle"
-                instructions="You can use this handle to reference this specific entry in a template."
-                ref={(r) => { this.handle = r; }}
-                required
-                full
-                code
-                disabled
-                value={h.slugify(this.state.title)}
-              />
+            <Input
+              name="handle"
+              label="Section Handle"
+              instructions="You can use this handle to reference this specific entry in a template."
+              ref={(r) => { this.handle = r; }}
+              required
+              full
+              code
+              disabled
+              value={h.slugify(this.state.title)}
+            />
 
-              <Input
-                name="template"
-                label="Template"
-                instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.hbs`."
-                ref={(r) => { this.template = r; }}
-                required
-                full
-                code
-              />
+            <Input
+              name="template"
+              label="Template"
+              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.hbs`."
+              ref={(r) => { this.template = r; }}
+              required
+              full
+              code
+            />
 
-              <FieldLayout
-                activeFields={fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1)}
-                fields={fields}
-                ref={(r) => { this.fieldLayout = r; }}
-              />
-            </form>
+            <FieldLayout
+              activeFields={fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1)}
+              fields={fields}
+              ref={(r) => { this.fieldLayout = r; }}
+            />
           </div>
         </div>
       </Page>

@@ -12,7 +12,7 @@ export const DELETE_ENTRY = 'DELETE_ENTRY';
 
 export function newEntry(title, section, rawOptions) {
   return (dispatch, getState) => {
-    const { fields, sections, user } = getState();
+    const { entries, fields, sections, user } = getState();
 
     const options = Object.keys(rawOptions).map((key) => {
       const fieldId = fields.fields.find(field => key === field.slug)._id;
@@ -48,21 +48,24 @@ export function newEntry(title, section, rawOptions) {
 
     return graphFetcher(query)
       .then((json) => {
-        const { addEntry } = json.data;
-        const { entries } = getState().entries;
+        const { addEntry } = json.data.data;
 
         // Only add the new entry to store if it doesn't already exist
         // In case socket event happens first
-        if (!h.checkFor(entries, '_id', addEntry._id)) {
+        if (!h.checkFor(entries.entries, '_id', addEntry._id)) {
           dispatch({ type: NEW_ENTRY, addEntry });
         }
-        dispatch(push(`/admin/entries/${h.getSlugFromId(sections.sections, addEntry.section)}/${addEntry._id}`));
+
+        const sectionSlug = h.getSlugFromId(sections.sections, addEntry.section);
+        dispatch(push(`/admin/entries/${sectionSlug}/${addEntry._id}`));
       })
       .catch((error) => {
-        error.response.data.errors.forEach(err => dispatch(newToast({
-          message: err.message,
-          style: 'error',
-        })));
+        if (error.response) {
+          error.response.data.errors.forEach(err => dispatch(newToast({
+            message: err.message,
+            style: 'error',
+          })));
+        }
       });
   };
 }

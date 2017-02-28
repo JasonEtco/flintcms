@@ -26,7 +26,7 @@ export function newSection(title, template, fields) {
 
     return graphFetcher(query)
       .then((json) => {
-        const { addSection } = json.data;
+        const { addSection } = json.data.data;
         dispatch({ type: NEW_SECTION, json: addSection });
         dispatch(push(`/admin/entries/${addSection.slug}`));
       })
