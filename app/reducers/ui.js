@@ -10,12 +10,12 @@ export default function ui(state = {}, action) {
       return {
         ...state,
         toasts: [
-          ...state.toasts,
           {
             message,
             style,
             dateCreated,
           },
+          ...state.toasts,
         ],
       };
     }

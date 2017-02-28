@@ -1,3 +1,4 @@
+import React from 'react';
 import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
@@ -62,11 +63,12 @@ export function newEntry(title, section, rawOptions) {
 }
 
 export function deleteEntry(id) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const query = {
       query: `mutation ($_id:ID!) {
         removeEntry(_id: $_id) {
           _id
+          title
         }
       }
       `,
@@ -78,11 +80,17 @@ export function deleteEntry(id) {
     return graphFetcher(query)
       .then((json) => {
         const { removeEntry } = json.data;
-        dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
-        dispatch(newToast({
-          message: 'Entry deleted',
-          style: 'success',
-        }));
+        const { entries } = getState().entries;
+
+        // Only add the delete the entry from store if it exists
+        // In case socket event happens first
+        if (h.checkFor(entries, '_id', removeEntry._id)) {
+          dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
+          dispatch(newToast({
+            message: <span><b>{removeEntry.title}</b> has been deleted.</span>,
+            style: 'success',
+          }));
+        }
         dispatch(push('/admin/entries'));
       })
       .catch(err => new Error(err));

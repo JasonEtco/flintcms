@@ -1,8 +1,9 @@
 .toasts {
     position: absolute;
-    top: 0.4em;
-    right: 0.4em;
+    right: 0;
+    bottom: 1em;
     overflow: hidden;
+    padding-right: 0.8em;
 
     &__toast {
         display: flex;
@@ -18,9 +19,10 @@
         transform: translateX(0);
         will-change: height;
         transition:
-            height 300ms 300ms $standard,
-            transform 300ms $standard,
-            opacity 300ms $standard;
+            height 200ms 300ms,
+            transform 300ms,
+            opacity 300ms;
+        transition-timing-function: $enter;
 
         &--entering { transform: translateX(calc(100% + 0.6em)); }
 
@@ -29,10 +31,12 @@
         }
 
         &--success {
+            border-color: darken($green, 10%);
             background-color: $green;
         }
 
         &--error {
+            border-color: darken($red, 10%);
             background-color: $red;
         }
 
@@ -40,6 +44,7 @@
             height: 0;
             opacity: 0;
             transform: translateX(calc(100% + 0.6em));
+            transition-timing-function: $exit;
         }
     }
 }

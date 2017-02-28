@@ -1,3 +1,4 @@
+import React from 'react';
 import { NEW_SECTION, DELETE_SECTION } from '../actions/sectionActions';
 import { NEW_ENTRY, DELETE_ENTRY } from '../actions/entryActions';
 import { NEW_FIELD, DELETE_FIELD } from '../actions/fieldActions';
@@ -15,6 +16,7 @@ export default class SocketEvents {
       const { fields } = store.getState().fields;
       if (!fields.some(field => field._id === addField._id)) {
         this.dispatch({ type: NEW_FIELD, addField });
+        this.dispatch(newToast({ message: <span><b>{addField.title}</b> was just added!</span>, style: 'default' }));
       }
     });
   }
@@ -34,17 +36,20 @@ export default class SocketEvents {
       const { entries } = store.getState().entries;
       if (!entries.some(entry => entry._id === addEntry._id)) {
         this.dispatch({ type: NEW_ENTRY, addEntry });
-        this.dispatch(newToast({ message: `Entry: ${addEntry.title} was just added!`, style: 'default' }));
+        this.dispatch(newToast({ message: <span><b>{addEntry.title}</b> was just added!</span>, style: 'default' }));
       }
     });
   }
 
   deleteEntry() {
-    this.socket.on('delete-entry', ({ _id }) => {
+    this.socket.on('delete-entry', ({ _id, title }) => {
       const { entries } = store.getState().entries;
       if (entries.some(entry => entry._id === _id)) {
         this.dispatch({ type: DELETE_ENTRY, id: _id });
-        this.dispatch(newToast({ message: 'An entry was just deleted.', style: 'default' }));
+        this.dispatch(newToast({
+          message: <span><b>{title}</b> has been deleted.</span>,
+          style: 'success',
+        }));
       }
     });
   }
@@ -54,7 +59,7 @@ export default class SocketEvents {
       const { sections } = store.getState().sections;
       if (!sections.some(section => section._id === newSection._id)) {
         this.dispatch({ type: NEW_SECTION, newSection });
-        this.dispatch(newToast({ message: `Section: ${newSection.title} was just added!`, style: 'default' }));
+        this.dispatch(newToast({ message: <span><b>{newSection.title}</b> was just added!</span>, style: 'default' }));
       }
     });
   }
