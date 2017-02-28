@@ -44,6 +44,20 @@ export default class Entries extends Component {
     const { entries } = this.props.entries;
     const { sections } = this.props.sections;
 
+    if (sections.length === 0) {
+      return (
+        <Page name="entries">
+          <TitleBar title="Entries" />
+
+          <div className="content">
+            <div className="page__inner">
+              <h1>Make a section first!</h1>
+            </div>
+          </div>
+        </Page>
+      );
+    }
+
     const { section } = params;
     const filtered = section === undefined
       ? entries

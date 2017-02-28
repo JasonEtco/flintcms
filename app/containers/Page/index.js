@@ -33,7 +33,7 @@ export default class Page extends Component {
 
     let content = children;
     if (onSubmit) {
-      content = <form onSubmit={onSubmit} ref={(r) => { this.form = r; }}>{children}</form>;
+      content = <form className="page__form" onSubmit={onSubmit} ref={(r) => { this.form = r; }}>{children}</form>;
     }
 
     return (
