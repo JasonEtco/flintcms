@@ -27,14 +27,14 @@ export default function entries(state = {}, action) {
     }
 
     case NEW_ENTRY: {
-      const entryIndex = state.entries.findIndex(entry => entry._id === action.json._id);
+      const entryIndex = state.entries.findIndex(entry => entry._id === action.addEntry._id);
       if (entryIndex !== -1) return state;
 
       return {
         ...state,
         entries: [
           ...state.entries,
-          action.json,
+          action.addEntry,
         ],
       };
     }

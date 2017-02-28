@@ -53,7 +53,7 @@ export function newEntry(title, section, rawOptions) {
         // Only add the new entry to store if it doesn't already exist
         // In case socket event happens first
         if (!h.checkFor(entries, '_id', addEntry._id)) {
-          dispatch({ type: NEW_ENTRY, json: addEntry });
+          dispatch({ type: NEW_ENTRY, addEntry });
         }
         dispatch(push(`/admin/entries/${h.getSlugFromId(sections.sections, addEntry.section)}/${addEntry._id}`));
       })

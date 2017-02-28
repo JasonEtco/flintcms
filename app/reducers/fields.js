@@ -26,7 +26,13 @@ export default function fields(state = {}, action) {
     }
 
     case NEW_FIELD: {
-      return state;
+      return {
+        ...state,
+        fields: [
+          ...state.fields,
+          action.addField,
+        ],
+      };
     }
 
     default:

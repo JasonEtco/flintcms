@@ -27,7 +27,7 @@ export function newField(title, type, instructions) {
     return graphFetcher(query)
       .then((json) => {
         const { addField } = json.data;
-        dispatch({ type: NEW_FIELD, json: addField });
+        dispatch({ type: NEW_FIELD, addField });
       })
       .catch(err => new Error(err));
   };
