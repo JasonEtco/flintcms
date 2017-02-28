@@ -58,7 +58,12 @@ export function newEntry(title, section, rawOptions) {
         }
         dispatch(push(`/admin/entries/${h.getSlugFromId(sections.sections, addEntry.section)}/${addEntry._id}`));
       })
-      .catch(err => new Error(err));
+      .catch((error) => {
+        error.response.data.errors.forEach(err => dispatch(newToast({
+          message: err.message,
+          style: 'error',
+        })));
+      });
   };
 }
 
@@ -93,7 +98,7 @@ export function deleteEntry(id) {
         }
         dispatch(push('/admin/entries'));
       })
-      .catch(err => new Error(err));
+      .catch(err => console.log('Error', err));
   };
 }
 

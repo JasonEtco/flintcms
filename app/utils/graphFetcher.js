@@ -1,10 +1,11 @@
+import axios from 'axios';
+
 export default function graphFetcher(query) {
-  return fetch('/graphql', {
-    method: 'POST',
-    body: JSON.stringify(query),
-    credentials: 'same-origin',
+  return axios.post('/graphql', {
+    query: query.query,
+    withCredentials: true,
     headers: new Headers({
       'Content-Type': 'application/json',
     }),
-  }).then(res => res.json());
+  });
 }
