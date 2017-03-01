@@ -32,8 +32,7 @@ module.exports = {
     const newEntry = new Entry(data);
     const savedEntry = await newEntry.save();
 
-    if (!savedEntry) throw new Error('Error adding new blog post');
-
+    if (!savedEntry) throw new Error('Error adding new entry');
     root.io.emit('new-entry', savedEntry);
     return savedEntry;
   },

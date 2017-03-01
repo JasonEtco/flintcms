@@ -25,25 +25,23 @@ router.post('/assets', (req, res) => {
 
     // every time a file has been uploaded successfully,
     // rename it to it's orignal name
-    form.on('file', (field, file) => {
+    form.on('file', async (field, file) => {
       fs.rename(file.path, path.join(form.uploadDir, file.name));
 
       const newAsset = new Asset();
 
-      newAsset.name = file.name;
+      newAsset.title = file.name;
       newAsset.extension = 'd';
       newAsset.filename = file.name;
+      newAsset.filesize = file.size;
       newAsset.width = 3;
       newAsset.height = 3;
       newAsset.size = 3;
-      newAsset.mimeType = 'd';
-      newAsset.dateUploaded = Date.now();
+      newAsset.mimeType = file.type;
 
-      newAsset.save()
-        .then((savedAsset) => {
-          res.status(200).json(savedAsset);
-        })
-        .catch(err => new Error(err));
+      const savedAsset = await newAsset.save();
+
+      if (!savedAsset) throw new Error('There was a problem saving the asset.');
     });
 
     // log any errors that occur

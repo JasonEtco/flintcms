@@ -12,7 +12,6 @@ function loggedIn(req, res, next) {
 
 api.use(loggedIn);
 
-api.use(require('./routes/fields'));
 api.use(require('./routes/templates'));
 api.use(require('./routes/user'));
 api.use(require('./routes/assets'));

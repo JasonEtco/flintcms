@@ -17,7 +17,7 @@ const AssetSchema = new Schema({
   },
   dateCreated: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
   width: {
     type: Number,
