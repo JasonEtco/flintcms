@@ -61,7 +61,6 @@
     "express-graphql": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "form-serialize": "^0.7.1",
-    "formidable": "^1.1.1",
     "graphql": "^0.9.1",
     "handlebars": "^4.0.6",
     "handlebars-layouts": "^3.1.4",

@@ -1,4 +1,4 @@
-import Fetcher from '../utils/fetchClass';
+import GraphQLClass from '../utils/graphqlClass';
 
 export const REQUEST_ASSETS = 'REQUEST_ASSETS';
 export const RECEIVE_ASSETS = 'RECEIVE_ASSETS';
@@ -25,7 +25,15 @@ export function fetchAssetsIfNeeded() {
       receive: RECEIVE_ASSETS,
     };
 
-    const fetcher = new Fetcher(fetcherOptions);
+    const query = {
+      query: `{
+        assets {
+          _id
+        }
+      }`,
+    };
+
+    const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());
   };
 }

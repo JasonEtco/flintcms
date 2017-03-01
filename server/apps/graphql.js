@@ -10,14 +10,16 @@ const graphql = express();
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 
-graphql.use('/', h.loggedIn, graphqlHTTP({
+graphql.use(h.loggedIn);
+graphql.use('/', graphqlHTTP(req => ({
   schema,
   pretty: true,
   graphiql: isDeveloping,
   rootValue: {
     io,
+    req,
   },
-}));
+})));
 
 console.log('[App: GraphQL] initialized.');
 module.exports = graphql;

@@ -31,7 +31,7 @@ const AssetSchema = new Schema({
     type: Number,
     required: true,
   },
-  mimeType: {
+  mimetype: {
     type: String,
     required: true,
   },

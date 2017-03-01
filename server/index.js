@@ -5,6 +5,7 @@ const session = require('cookie-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const multer = require('multer');
 const path = require('path');
 const compression = require('compression');
 const passport = require('passport');
