@@ -8,6 +8,7 @@ import './main.scss';
 import Main from './containers/Main';
 
 import Home from './views/Home';
+import FourOhFour from './views/404';
 
 import Users from './views/Users';
 import Login from './containers/Login';
@@ -57,6 +58,8 @@ const storeWrapper = (
 
         <Route path="settings/assets" component={Assets} />
         <Route path="settings/assets/new" component={NewAsset} />
+
+        <Route path="*" component={FourOhFour} />
       </Route>
       <Route path="/admin/login" component={Login} />
     </Router>
