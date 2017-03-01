@@ -24,10 +24,6 @@ module.exports = {
     if (await Section.findOne({ slug })) throw new Error('There is already a section with that slug.');
 
     const newSection = new Section(params.data);
-
-    newSection.slug = slug;
-    newSection.dateCreated = Date.now();
-
     const savedSection = await newSection.save();
 
     root.io.emit('new-section', savedSection);

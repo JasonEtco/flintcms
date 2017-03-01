@@ -28,11 +28,8 @@ module.exports = {
     }
 
     const data = await h.reduceToObj(params.data.fields, 'fieldSlug', 'value', params.data);
+
     const newEntry = new Entry(data);
-
-    newEntry.dateCreated = Date.now();
-    newEntry.slug = slug;
-
     const savedEntry = await newEntry.save();
 
     if (!savedEntry) throw new Error('Error adding new blog post');

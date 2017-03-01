@@ -34,7 +34,7 @@ const UserSchema = new Schema({
   },
   dateCreated: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
   entries: [{
     type: Schema.Types.ObjectId,

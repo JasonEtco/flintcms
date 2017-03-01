@@ -23,10 +23,6 @@ module.exports = {
     if (await Field.findOne({ slug })) throw new Error('There is already a field with that slug.');
 
     const newField = new Field(params.data);
-
-    newField.slug = slug;
-    newField.dateCreated = Date.now();
-
     const savedField = await newField.save();
 
     root.io.emit('new-field', savedField);

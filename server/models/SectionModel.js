@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const h = require('../utils/helpers');
 
 const Schema = mongoose.Schema;
 
@@ -10,6 +11,7 @@ const SectionSchema = new Schema({
   slug: {
     type: String,
     required: true,
+    unique: true,
   },
   template: {
     type: String,
@@ -17,12 +19,17 @@ const SectionSchema = new Schema({
   },
   dateCreated: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
   fields: [{
     type: Schema.Types.ObjectId,
     ref: 'Field',
   }],
+});
+
+SectionSchema.pre('validate', function (next) {
+  this.slug = h.slugify(this.title);
+  next();
 });
 
 module.exports = mongoose.model('Section', SectionSchema, 'sections');
