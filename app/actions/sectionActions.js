@@ -1,5 +1,4 @@
 import { push } from 'react-router-redux';
-import { DELETE_ENTRY } from './entryActions';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import h from '../utils/helpers';

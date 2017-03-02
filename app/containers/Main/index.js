@@ -4,7 +4,6 @@ import { fetchEntriesIfNeeded } from '../../actions/entryActions';
 import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
 import { fetchFieldsIfNeeded } from '../../actions/fieldActions';
 import { fetchAssetsIfNeeded } from '../../actions/assetActions';
-import { newToast } from '../../actions/uiActions';
 import Toast from '../../components/Toast';
 import types from '../../utils/types';
 import SocketEvents from '../../utils/socketEvents';
@@ -43,14 +42,6 @@ export default class Main extends Component {
     events.listen();
   }
 
-  toast() {
-    this.props.dispatch(newToast({
-      message: `Testing: ${Date.now()}`,
-      style: 'default',
-      dateCreated: Date.now(),
-    }));
-  }
-
   render() {
     const { user, entries, sections, fields, assets, ui, dispatch } = this.props;
     if (user.isFetching
@@ -61,7 +52,7 @@ export default class Main extends Component {
 
     return (
       <main className="main">
-        <MainNav newToast={this.toast} />
+        <MainNav />
         {React.cloneElement(this.props.children, {
           ...this.props,
           key: this.props.location.pathname,
