@@ -26,7 +26,6 @@ module.exports = {
     newAsset.filesize = size;
     newAsset.width = 3;
     newAsset.height = 3;
-    newAsset.size = 3;
     newAsset.mimetype = mimetype;
 
     const savedAsset = await newAsset.save();
