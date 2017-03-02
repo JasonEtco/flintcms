@@ -58,10 +58,10 @@ const storeWrapper = (
 
         <Route path="settings/assets" component={Assets} />
         <Route path="settings/assets/new" component={NewAsset} />
-
-        <Route path="*" component={FourOhFour} />
       </Route>
       <Route path="/admin/login" component={Login} />
+
+      <Route path="*" component={FourOhFour} />
     </Router>
   </Provider>
 );
