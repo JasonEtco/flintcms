@@ -40,7 +40,6 @@ const routes = {
   index: path.resolve(__dirname, '..', 'templates', 'index.hbs'),
 };
 
-
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
 
@@ -49,19 +48,17 @@ app.use('/graphql', require('./apps/graphql'));
 
 app.get('/', (req, res) => compile('index', { name: 'Jason' }).then(r => res.send(r)));
 
-app.get('/all', (req, res) => {
-  getEntryData()
-    .then(data => compile(routes.index, { entries: data.toObject() }))
-    .then(r => res.send(r));
+app.get('/all', async (req, res) => {
+  const EntryData = await getEntryData(req.params.slug);
+  const compiled = await compile(routes.index, { entries: EntryData.toObject() });
+  res.send(compiled);
 });
 
-app.get('/:slug', (req, res) => {
-  getEntryData(req.params.slug)
-    .then(data => getTemplateFromEntry(data)
-      .then(({ template }) => compile(template, data.toObject()))
-      .catch(err => new Error(err)))
-    .then(r => res.send(r))
-    .catch(err => new Error(err));
+app.get('/:slug', async (req, res) => {
+  const EntryData = await getEntryData(req.params.slug);
+  const data = await getTemplateFromEntry(EntryData);
+  const compiled = await compile(data.template, data.toObject());
+  res.send(compiled);
 });
 
 http.listen(port, () => console.log(`[HTTP Server] Running at http://localhost:${port}`));
