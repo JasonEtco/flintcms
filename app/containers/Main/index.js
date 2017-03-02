@@ -23,11 +23,6 @@ export default class Main extends Component {
     dispatch: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.toast = this.toast.bind(this);
-  }
-
   componentDidMount() {
     const { dispatch, socket } = this.props;
 
