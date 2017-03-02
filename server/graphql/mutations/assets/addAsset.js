@@ -15,16 +15,7 @@ module.exports = {
     },
   },
   async resolve(root, args) {
-    const newAsset = new Asset();
-
-    const { title, filename, mimetype, size, width, height } = args.data;
-
-    newAsset.title = title;
-    newAsset.filename = filename;
-    newAsset.filesize = size;
-    newAsset.width = width;
-    newAsset.height = height;
-    newAsset.mimetype = mimetype;
+    const newAsset = new Asset(args.data);
 
     const savedAsset = await newAsset.save();
 

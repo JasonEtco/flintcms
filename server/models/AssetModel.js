@@ -27,7 +27,7 @@ const AssetSchema = new Schema({
     type: Number,
     required: true,
   },
-  filesize: {
+  size: {
     type: Number,
     required: true,
   },

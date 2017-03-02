@@ -42,14 +42,14 @@ module.exports = {
         const { size } = await fsStatPromise(pathToFile).catch(err => new Error(err));
         const { width, height, mimetype } = await getAssetDetails(pathToFile);
 
-        const newAsset = new Asset();
-
-        newAsset.title = file;
-        newAsset.filename = file;
-        newAsset.filesize = size;
-        newAsset.width = width;
-        newAsset.height = height;
-        newAsset.mimetype = mimetype;
+        const newAsset = new Asset({
+          title: file,
+          filename: file,
+          size,
+          width,
+          height,
+          mimetype,
+        });
 
         const savedAsset = await newAsset.save();
         if (!savedAsset) throw new Error('There was a problem saving the asset.');
