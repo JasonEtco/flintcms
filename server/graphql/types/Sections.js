@@ -16,6 +16,10 @@ const outputType = new GraphQLObjectType({
       type: new GraphQLList(new GraphQLNonNull(GraphQLID)),
       description: '`id`s of fields',
     },
+    dateCreated: {
+      type: GraphQLString,
+      description: 'Date Created',
+    },
   },
 });
 

@@ -80,6 +80,7 @@ export function fetchSectionsIfNeeded() {
           title
           slug
           fields
+          dateCreated
         }
       }`,
     };
