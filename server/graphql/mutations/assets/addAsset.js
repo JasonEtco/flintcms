@@ -17,15 +17,13 @@ module.exports = {
   async resolve(root, args) {
     const newAsset = new Asset();
 
-    const { title, filename, mimetype, size } = args.data;
-    const extP = title.split(/[\s.]+/);
+    const { title, filename, mimetype, size, width, height } = args.data;
 
     newAsset.title = title;
-    newAsset.extension = extP[extP.length - 1];
     newAsset.filename = filename;
     newAsset.filesize = size;
-    newAsset.width = 3;
-    newAsset.height = 3;
+    newAsset.width = width;
+    newAsset.height = height;
     newAsset.mimetype = mimetype;
 
     const savedAsset = await newAsset.save();

@@ -5,6 +5,7 @@ const express = require('express');
 const multer = require('multer');
 const { graphql } = require('graphql');
 
+const getAssetDetails = require('../../utils/getAssetDetails');
 const schema = require('../../graphql');
 
 const router = express.Router();
@@ -20,15 +21,21 @@ router.get('/assets', (req, res) => {
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-router.post('/assets', upload.single('file'), (req, res) => {
-  const { originalname, buffer, size, mimetype } = req.file;
+router.post('/assets', upload.single('file'), async (req, res) => {
   process.nextTick(async () => {
-    console.log(req.file);
+    const { originalname, buffer, size, mimetype } = req.file;
+    const pathToFile = path.join(__dirname, '..', '..', '..', 'assets', originalname);
+
+    await fs.writeFile(pathToFile, buffer, err => new Error(err));
+    const { width, height } = await getAssetDetails(pathToFile);
+
     const query = `mutation {
       addAsset(data: {
        title: "${originalname}",
        filename: "${originalname}",
        size: ${size},
+       width: ${width},
+       height: ${height},
        mimetype: "${mimetype}"
      }) {
        _id
@@ -42,11 +49,9 @@ router.post('/assets', upload.single('file'), (req, res) => {
      }
     }`;
 
-    fs.writeFileSync(path.join(__dirname, '..', '..', '..', 'assets', originalname), buffer);
 
-    const { data, errors } = await graphql(schema, query);
-    console.log(data, errors);
-    res.end('success');
+    const { errors } = await graphql(schema, query);
+    res.end(errors.length > 0 ? 'error' : 'success');
   });
 });
 

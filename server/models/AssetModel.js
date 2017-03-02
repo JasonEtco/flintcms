@@ -37,4 +37,10 @@ const AssetSchema = new Schema({
   },
 });
 
+AssetSchema.pre('validate', function (next) {
+  const ext = this.filename.split(/[\s.]+/);
+  this.extension = ext[ext.length - 1];
+  next();
+});
+
 module.exports = mongoose.model('Asset', AssetSchema, 'assets');

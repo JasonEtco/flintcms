@@ -44,10 +44,7 @@ module.exports = {
 
         const newAsset = new Asset();
 
-        const extP = file.split(/[\s.]+/);
-
         newAsset.title = file;
-        newAsset.extension = extP[extP.length - 1];
         newAsset.filename = file;
         newAsset.filesize = size;
         newAsset.width = width;

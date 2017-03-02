@@ -75,5 +75,11 @@ exports.inputType = new GraphQLInputObjectType({
     size: {
       type: GraphQLInt,
     },
+    width: {
+      type: GraphQLInt,
+    },
+    height: {
+      type: GraphQLInt,
+    },
   },
 });
