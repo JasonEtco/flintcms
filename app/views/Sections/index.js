@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import moment from 'moment';
+import h from '../../utils/helpers';
 import Page from '../../containers/Page';
 import Table from '../../components/Table';
 import TitleBar from '../../components/TitleBar';
@@ -26,7 +26,10 @@ export default class Sections extends Component {
         component: <Link to={`/admin/settings/sections/${props.slug}`}>{props.title}</Link>,
       },
       slug: props.slug,
-      dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
+      dateCreated: {
+        value: new Date(props.dateCreated).getTime(),
+        component: h.formatDate(props.dateCreated),
+      },
       delete: {
         sortBy: false,
         component: <button className="table__delete" onClick={() => this.deleteSection(props._id)}><Icon icon="circleWithLine" /></button>,

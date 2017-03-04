@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import moment from 'moment';
 import h from '../../utils/helpers';
 import Page from '../../containers/Page';
 import Table from '../../components/Table';
@@ -18,7 +17,10 @@ export default class Assets extends Component {
       title: props.title,
       filename: props.filename,
       size: h.formatBytes(props.size, 0),
-      dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
+      dateCreated: {
+        value: new Date(props.dateCreated).getTime(),
+        component: h.formatDate(props.dateCreated),
+      },
     }));
 
     return (
