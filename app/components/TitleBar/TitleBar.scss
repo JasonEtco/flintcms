@@ -13,4 +13,8 @@
         font-size: 1.6rem;
         font-weight: 500;
     }
+
+    &__children {
+        .btn + .btn { margin-left: 0.5em; }
+    }
 }

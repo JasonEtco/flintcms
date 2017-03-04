@@ -62,8 +62,8 @@ export default class Entry extends Component {
     return (
       <Page name="entry" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title={title}>
-          <Button onClick={this.Submit} type="submit">Save Entry</Button>
-          <Button onClick={this.deleteEntry}>Delete Entry</Button>
+          <Button small onClick={this.Submit} type="submit">Save Entry</Button>
+          <Button small onClick={this.deleteEntry}>Delete Entry</Button>
         </TitleBar>
         <div className="content">
           <div className="page__inner">
