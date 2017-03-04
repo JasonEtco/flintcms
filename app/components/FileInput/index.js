@@ -60,6 +60,7 @@ export default class FileInput extends Component {
         required={required}
         disabled={disabled}
         ref={(r) => { this[name] = r; }}
+        accept="image/*"
       />
     );
 
