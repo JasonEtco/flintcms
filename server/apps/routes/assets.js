@@ -44,7 +44,7 @@ router.post('/assets', upload.single('file'), async (req, res) => {
        _id
        title
        filename
-       filesize
+       size
        mimetype
        width
        height
