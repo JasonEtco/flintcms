@@ -112,7 +112,7 @@ export function updateEntry(_id, data) {
           style: 'success',
         }));
       })
-      .catch(err => console.log(err));
+      .catch(err => new Error(err));
   };
 }
 
@@ -147,7 +147,7 @@ export function deleteEntry(id) {
         }
         dispatch(push('/admin/entries'));
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => new Error(err));
   };
 }
 
