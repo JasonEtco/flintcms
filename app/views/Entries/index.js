@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
-import moment from 'moment';
 import types from '../../utils/types';
 import { deleteEntry } from '../../actions/entryActions';
 import h from '../../utils/helpers';
@@ -70,7 +69,10 @@ export default class Entries extends Component {
         component: <Link to={`/admin/entries/${h.getSlugFromId(sections, props.section)}/${props._id}`}>{props.title}</Link>,
       },
       slug: props.slug,
-      dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
+      dateCreated: {
+        value: new Date(props.dateCreated).getTime(),
+        component: h.formatDate(props.dateCreated),
+      },
       author: h.getPropFromProp(users.users, { _id: props.author }, 'username'),
       delete: {
         sortBy: false,

@@ -1,4 +1,5 @@
 import { browserHistory } from 'react-router';
+import moment from 'moment';
 
 const helpers = {
   getSlugFromId(arr, id) {
@@ -47,11 +48,31 @@ const helpers = {
       ...arr.slice(index + 1),
     ];
   },
-  sortArrayOfObjByString(arr, str, direction) {
+  sortArrayOfObjByString(arr, key, direction = 'ASC') {
     return arr.sort((a, b) => {
-      if ((a[str].value || a[str]) < (b[str].value || b[str])) return direction === 'ASC' ? -1 : 1;
-      if ((a[str].value || a[str]) > (b[str].value || b[str])) return direction === 'ASC' ? 1 : -1;
-      return 0;
+      if (!a.hasOwnProperty(key) ||
+        !b.hasOwnProperty(key)) {
+        return 0;
+      }
+
+      const aVal = a[key].value || a[key];
+      const bVal = b[key].value || b[key];
+
+      const varA = (typeof aVal === 'string') ?
+        aVal.toUpperCase() : aVal;
+      const varB = (typeof bVal === 'string') ?
+        bVal.toUpperCase() : bVal;
+
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      return (
+        (direction === 'DESC') ?
+        (comparison * -1) : comparison
+      );
     });
   },
   filterObj(str, obj) {
@@ -99,6 +120,11 @@ const helpers = {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return `${parseFloat((bytes / (k ** i)).toFixed(dm))} ${sizes[i]}`;
+  },
+  formatDate(date) {
+    const dateObj = moment(new Date(date));
+    if (dateObj.diff(Date.now(), 'weeks') < -1) return dateObj.format('DD/MM/YYYY');
+    return dateObj.fromNow();
   },
 };
 
