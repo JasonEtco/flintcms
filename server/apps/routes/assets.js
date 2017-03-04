@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const path = require('path');
-const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
+const jimp = require('jimp');
 const { graphql } = require('graphql');
 
-const getAssetDetails = require('../../utils/getAssetDetails');
 const schema = require('../../graphql');
 
 const router = express.Router();
@@ -23,15 +22,18 @@ const upload = multer({ storage });
 
 router.post('/assets', upload.single('file'), async (req, res) => {
   process.nextTick(async () => {
-    const { originalname, buffer, size, mimetype } = req.file;
+    const { body, file } = req;
+    const { originalname, buffer, size, mimetype } = file;
+
     const pathToFile = path.join(__dirname, '..', '..', '..', 'assets', originalname);
 
-    await fs.writeFile(pathToFile, buffer, err => new Error(err));
-    const { width, height } = await getAssetDetails(pathToFile);
+    const jimpFile = await jimp.read(buffer);
+    const { width, height } = jimpFile.bitmap;
+    await jimpFile.write(pathToFile);
 
     const query = `mutation {
       addAsset(data: {
-       title: "${originalname}",
+       title: "${body.title}",
        filename: "${originalname}",
        size: ${size},
        width: ${width},
@@ -50,7 +52,7 @@ router.post('/assets', upload.single('file'), async (req, res) => {
     }`;
 
     const { errors } = await graphql(schema, query);
-    res.end(errors.length > 0 ? 'error' : 'success');
+    res.end(errors.length > 0 ? errors : 'success');
   });
 });
 

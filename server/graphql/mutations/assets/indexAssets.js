@@ -1,64 +1,42 @@
 const {
   GraphQLList,
 } = require('graphql');
-const fs = require('fs');
 const path = require('path');
 const getAssetDetails = require('../../../utils/getAssetDetails');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Assets');
+const { readdirAsync } = require('../../../utils/fsPromises');
 
 const Asset = mongoose.model('Asset');
-
-function fsDirPromise(pathToAssets) {
-  return new Promise((resolve, reject) => {
-    fs.readdir(pathToAssets, (err, files) => {
-      if (err) reject(err);
-      else resolve(files);
-    });
-  });
-}
-
-function fsStatPromise(file) {
-  return new Promise((resolve, reject) => {
-    fs.stat(file, (err, f) => {
-      if (err) reject(err);
-      else resolve(f);
-    });
-  });
-}
 
 module.exports = {
   type: new GraphQLList(outputType),
   args: {},
   async resolve(root) {
     const pathToAssets = path.join(__dirname, '..', '..', '..', '..', 'assets');
-    const files = await fsDirPromise(pathToAssets);
+    const files = await readdirAsync(pathToAssets);
 
     const savedFiles = await files.map(async (file) => {
       const fileInDB = await Asset.findOne({ filename: file });
+      if (fileInDB) return fileInDB;
 
-      if (!fileInDB) {
-        const pathToFile = path.resolve(pathToAssets, file);
-        const { size } = await fsStatPromise(pathToFile).catch(err => new Error(err));
-        const { width, height, mimetype } = await getAssetDetails(pathToFile);
+      const pathToFile = path.resolve(pathToAssets, file);
+      const { width, height, mimetype, size } = await getAssetDetails(pathToFile);
 
-        const newAsset = new Asset({
-          title: file,
-          filename: file,
-          size,
-          width,
-          height,
-          mimetype,
-        });
+      const newAsset = new Asset({
+        title: file,
+        filename: file,
+        size,
+        width,
+        height,
+        mimetype,
+      });
 
-        const savedAsset = await newAsset.save();
-        if (!savedAsset) throw new Error('There was a problem saving the asset.');
+      const savedAsset = await newAsset.save();
+      if (!savedAsset) throw new Error('There was a problem saving the asset.');
 
-        root.io.emit('new-asset', savedAsset);
-        return savedAsset;
-      }
-
-      return false;
+      root.io.emit('new-asset', savedAsset);
+      return savedAsset;
     });
 
     return savedFiles;

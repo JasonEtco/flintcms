@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import serialize from 'form-serialize';
 import { newAsset } from '../../actions/assetActions';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
