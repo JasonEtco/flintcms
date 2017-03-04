@@ -53,7 +53,11 @@ router.post('/assets', upload.single('file'), async (req, res) => {
     }`;
 
     const { errors } = await graphql(schema, query);
-    res.end(errors !== undefined && errors.length > 0 ? 'error' : 'success');
+    if (errors !== undefined && errors.length > 0) {
+      res.status(500).json(errors);
+    } else {
+      res.end('success');
+    }
   });
 });
 
