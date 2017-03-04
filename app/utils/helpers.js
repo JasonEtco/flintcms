@@ -92,6 +92,14 @@ const helpers = {
   checkFor(arr, f, w) {
     return arr.some(v => v.f === w);
   },
+  formatBytes(bytes, decimals) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1000;
+    const dm = decimals + 1 || 3;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / (k ** i)).toFixed(dm))} ${sizes[i]}`;
+  },
 };
 
 export default helpers;

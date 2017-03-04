@@ -114,7 +114,7 @@ export default class Table extends Component {
                       className={btnClass}
                       onClick={() => this.handleSort(column)}
                     >
-                      {p[column]}
+                      {p[column] || column}
                     </button>
                   </th>
                 );

@@ -29,6 +29,12 @@ export function fetchAssetsIfNeeded() {
       query: `{
         assets {
           _id
+          title
+          filename
+          size
+          width
+          height
+          dateCreated
         }
       }`,
     };

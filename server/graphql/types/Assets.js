@@ -46,13 +46,13 @@ exports.outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
     },
     width: {
-      type: GraphQLInt,
+      type: new GraphQLNonNull(GraphQLInt),
     },
     height: {
-      type: GraphQLInt,
+      type: new GraphQLNonNull(GraphQLInt),
     },
-    filesize: {
-      type: GraphQLInt,
+    size: {
+      type: new GraphQLNonNull(GraphQLInt),
     },
     mimetype: {
       type: new GraphQLNonNull(GraphQLString),

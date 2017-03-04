@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
+import h from '../../utils/helpers';
 import Page from '../../containers/Page';
 import Table from '../../components/Table';
 import TitleBar from '../../components/TitleBar';
@@ -16,6 +17,7 @@ export default class Assets extends Component {
     const reduced = assets.assets.map(props => ({
       title: props.title,
       filename: props.filename,
+      size: h.formatBytes(props.size, 0),
       dateCreated: moment(new Date(props.dateCreated)).format('DD/MM/YYYY'),
     }));
 
