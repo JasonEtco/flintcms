@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-exports.readdirAsync = pathToAssets => new Promise((resolve, reject) => {
-  fs.readdir(pathToAssets, (err, files) => {
+exports.readdirAsync = (path, options = { encoding: 'utf8' }) => new Promise((resolve, reject) => {
+  fs.readdir(path, options, (err, files) => {
     if (err) reject(err);
     else resolve(files);
   });

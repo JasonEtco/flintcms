@@ -29,7 +29,8 @@ router.post('/assets', upload.single('file'), async (req, res) => {
 
     const jimpFile = await jimp.read(buffer);
     const { width, height } = jimpFile.bitmap;
-    await jimpFile.write(pathToFile);
+    const writtenFile = await jimpFile.write(pathToFile);
+    if (!writtenFile) throw new Error('There was an erroring saving your file.');
 
     const query = `mutation {
       addAsset(data: {
@@ -52,7 +53,7 @@ router.post('/assets', upload.single('file'), async (req, res) => {
     }`;
 
     const { errors } = await graphql(schema, query);
-    res.end(errors.length > 0 ? errors : 'success');
+    res.end(errors !== undefined && errors.length > 0 ? 'error' : 'success');
   });
 });
 
