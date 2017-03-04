@@ -4,6 +4,9 @@ const express = require('express');
 const multer = require('multer');
 const jimp = require('jimp');
 const { graphql } = require('graphql');
+const app = require('../../index');
+
+const io = app.get('io');
 
 const schema = require('../../graphql');
 
@@ -52,11 +55,11 @@ router.post('/assets', upload.single('file'), async (req, res) => {
      }
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors, data } = await graphql(schema, query, { io });
     if (errors !== undefined && errors.length > 0) {
       res.status(500).json(errors);
     } else {
-      res.end('success');
+      res.status(200).json(data);
     }
   });
 });

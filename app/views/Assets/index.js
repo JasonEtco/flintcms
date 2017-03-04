@@ -6,10 +6,6 @@ import Table from '../../components/Table';
 import TitleBar from '../../components/TitleBar';
 
 export default class Assets extends Component {
-  static propTypes = {
-    assets: PropTypes.object.isRequired,
-  }
-
   render() {
     const { assets } = this.props;
 

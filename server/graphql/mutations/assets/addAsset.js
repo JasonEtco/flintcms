@@ -21,7 +21,7 @@ module.exports = {
 
     if (!savedAsset) throw new Error('There was a problem saving the asset.');
 
-    // root.io.emit('new-asset', savedAsset);
+    root.io.emit('new-asset', savedAsset);
     return savedAsset;
   },
 };

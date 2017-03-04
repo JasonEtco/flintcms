@@ -2,6 +2,7 @@ import React from 'react';
 import { NEW_SECTION, DELETE_SECTION } from '../actions/sectionActions';
 import { NEW_ENTRY, DELETE_ENTRY } from '../actions/entryActions';
 import { NEW_FIELD, DELETE_FIELD } from '../actions/fieldActions';
+import { NEW_ASSET, DELETE_ASSET } from '../actions/assetActions';
 import { newToast } from '../actions/uiActions';
 import store from './store';
 
@@ -16,8 +17,8 @@ export default class SocketEvents {
       const { fields } = store.getState().fields;
       if (!fields.some(field => field._id === addField._id)) {
         this.dispatch({ type: NEW_FIELD, addField });
-        this.dispatch(newToast({ message: <span><b>{addField.title}</b> was just added!</span>, style: 'default' }));
       }
+      this.dispatch(newToast({ message: <span><b>{addField.title}</b> was just added!</span>, style: 'default' }));
     });
   }
 
@@ -26,8 +27,28 @@ export default class SocketEvents {
       const { fields } = store.getState().fields;
       if (fields.some(field => field._id === _id)) {
         this.dispatch({ type: DELETE_FIELD, id: _id });
-        this.dispatch(newToast({ message: 'A field was just deleted.', style: 'default' }));
       }
+      this.dispatch(newToast({ message: 'A field was just deleted.', style: 'default' }));
+    });
+  }
+
+  newAsset() {
+    this.socket.on('new-asset', (addAsset) => {
+      const { assets } = store.getState().assets;
+      if (!assets.some(asset => asset._id === addAsset._id)) {
+        this.dispatch({ type: NEW_ASSET, addAsset });
+      }
+      this.dispatch(newToast({ message: <span><b>{addAsset.title}</b> was just added!</span>, style: 'default' }));
+    });
+  }
+
+  deleteAsset() {
+    this.socket.on('delete-asset', ({ _id }) => {
+      const { assets } = store.getState().assets;
+      if (assets.some(asset => asset._id === _id)) {
+        this.dispatch({ type: DELETE_ASSET, id: _id });
+      }
+      this.dispatch(newToast({ message: 'An asset was just deleted.', style: 'default' }));
     });
   }
 
@@ -36,8 +57,8 @@ export default class SocketEvents {
       const { entries } = store.getState().entries;
       if (!entries.some(entry => entry._id === addEntry._id)) {
         this.dispatch({ type: NEW_ENTRY, addEntry });
-        this.dispatch(newToast({ message: <span><b>{addEntry.title}</b> was just added!</span>, style: 'default' }));
       }
+      this.dispatch(newToast({ message: <span><b>{addEntry.title}</b> was just added!</span>, style: 'default' }));
     });
   }
 
@@ -46,11 +67,11 @@ export default class SocketEvents {
       const { entries } = store.getState().entries;
       if (entries.some(entry => entry._id === _id)) {
         this.dispatch({ type: DELETE_ENTRY, id: _id });
-        this.dispatch(newToast({
-          message: <span><b>{title}</b> has been deleted.</span>,
-          style: 'success',
-        }));
       }
+      this.dispatch(newToast({
+        message: <span><b>{title}</b> has been deleted.</span>,
+        style: 'success',
+      }));
     });
   }
 
@@ -59,8 +80,8 @@ export default class SocketEvents {
       const { sections } = store.getState().sections;
       if (!sections.some(section => section._id === addSection._id)) {
         this.dispatch({ type: NEW_SECTION, addSection });
-        this.dispatch(newToast({ message: <span><b>{addSection.title}</b> was just added!</span>, style: 'default' }));
       }
+      this.dispatch(newToast({ message: <span><b>{addSection.title}</b> was just added!</span>, style: 'default' }));
     });
   }
 
@@ -74,22 +95,26 @@ export default class SocketEvents {
 
       if (sections.sections.some(section => section._id === _id)) {
         this.dispatch({ type: DELETE_SECTION, _id });
-        this.dispatch(newToast({ message: 'An section was just deleted.', style: 'default' }));
       }
+      this.dispatch(newToast({ message: 'An section was just deleted.', style: 'default' }));
     });
   }
 
   listen() {
-    // Listen for new or delete Fields
+    // Listen for new or deleted Fields
     this.newField();
     this.deleteField();
 
-    // Listen for new or delete Entries
+    // Listen for new or deleted Entries
     this.newEntry();
     this.deleteEntry();
 
-    // Listen for new or delete Sections
+    // Listen for new or deleted Sections
     this.newSection();
     this.deleteSection();
+
+    // Listen for new or deleted Assets
+    this.newAsset();
+    this.deleteAsset();
   }
 }

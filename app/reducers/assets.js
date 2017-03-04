@@ -30,7 +30,7 @@ export default function assets(state = {}, action) {
         ...state,
         assets: [
           ...state.assets,
-          action.json,
+          action.addAsset,
         ],
       };
     }
