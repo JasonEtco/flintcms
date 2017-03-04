@@ -46,6 +46,8 @@ const port = isDeveloping ? 4000 : process.env.PORT;
 app.use('/admin', require('./apps/admin'));
 app.use('/graphql', require('./apps/graphql'));
 
+app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
+
 app.get('/', (req, res) => compile('index', { name: 'Jason' }).then(r => res.send(r)));
 
 app.get('/all', async (req, res) => {
