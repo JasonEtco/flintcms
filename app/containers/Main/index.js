@@ -5,6 +5,7 @@ import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
 import { fetchFieldsIfNeeded } from '../../actions/fieldActions';
 import { fetchAssetsIfNeeded } from '../../actions/assetActions';
 import Toast from '../../components/Toast';
+import Modals from '../Modals';
 import types from '../../utils/types';
 import SocketEvents from '../../utils/socketEvents';
 import './Main.scss';
@@ -56,6 +57,7 @@ export default class Main extends Component {
         <div className="toasts">
           {ui.toasts.map(t => <Toast dispatch={dispatch} key={t.dateCreated} {...t} />)}
         </div>
+        <Modals {...this.props} />
       </main>
     );
   }

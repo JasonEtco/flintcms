@@ -1,6 +1,8 @@
 import {
   NEW_TOAST,
   DELETE_TOAST,
+  OPEN_MODAL,
+  CLOSE_MODALS,
 } from '../actions/uiActions';
 
 export default function ui(state = {}, action) {
@@ -32,6 +34,24 @@ export default function ui(state = {}, action) {
         ],
       };
     }
+
+    case OPEN_MODAL: {
+      return {
+        ...state,
+        modalIsOpen: true,
+        currentModal: action.currentModal,
+      };
+    }
+
+    // Close any active modal
+    case CLOSE_MODALS: {
+      return {
+        ...state,
+        modalIsOpen: false,
+        currentModal: null,
+      };
+    }
+
 
     default:
       return state;

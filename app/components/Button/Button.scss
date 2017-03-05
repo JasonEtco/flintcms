@@ -18,5 +18,16 @@
 
     &--yes { background-color: $orange; }
 
+    &--subtle {
+        border-color: transparent;
+        background-color: transparent;
+        color: $grey;
+
+        &:hover {
+            border-color: $grey-light;
+            background-color: $grey-light;
+        }
+    }
+
     &--small { font-size: 0.8rem; }
 }

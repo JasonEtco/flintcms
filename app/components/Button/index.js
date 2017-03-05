@@ -6,7 +6,7 @@ export default class Button extends Component {
   static propTypes = {
     onClick: PropTypes.func,
     type: PropTypes.oneOf(['button', 'submit', 'reset']),
-    kind: PropTypes.oneOf(['yes', 'no']),
+    kind: PropTypes.oneOf(['yes', 'no', 'subtle']),
     disabled: PropTypes.bool,
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
     small: PropTypes.bool,

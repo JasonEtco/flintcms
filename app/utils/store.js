@@ -12,6 +12,7 @@ const defaultState = {
   assets: { isFetching: true },
   ui: {
     toasts: [],
+    modalIsOpen: false,
   },
 };
 const routerMiddle = routerMiddleware(browserHistory);

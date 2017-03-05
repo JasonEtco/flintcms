@@ -8,6 +8,8 @@ import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import SecondaryNav from '../../components/SecondaryNav';
 import Table from '../../components/Table';
+import ConfirmModal from '../../components/Modals/ConfirmModal';
+import { openModal } from '../../actions/uiActions';
 
 const localStorageKey = 'flint:lastSection';
 
@@ -34,8 +36,15 @@ export default class Entries extends Component {
     }
   }
 
-  deleteEntry(id) {
-    this.props.dispatch(deleteEntry(id));
+  confirmDelete(id) {
+    this.props.dispatch(
+      openModal(
+        <ConfirmModal
+          confirm={() => this.props.dispatch(deleteEntry(id))}
+          message="Are you sure you want to delete this entry?"
+        />,
+      ),
+    );
   }
 
   render() {
@@ -76,7 +85,7 @@ export default class Entries extends Component {
       author: h.getPropFromProp(users.users, { _id: props.author }, 'username'),
       delete: {
         sortBy: false,
-        component: <button className="table__delete" onClick={() => this.deleteEntry(props._id)}><Icon icon="circleWithLine" /></button>,
+        component: <button className="table__delete" onClick={() => this.confirmDelete(props._id)}><Icon icon="circleWithLine" /></button>,
       },
     }));
 
