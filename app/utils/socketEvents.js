@@ -18,7 +18,7 @@ export default class SocketEvents {
       if (!fields.some(field => field._id === addField._id)) {
         this.dispatch({ type: NEW_FIELD, addField });
       }
-      this.dispatch(newToast({ message: <span><b>{addField.title}</b> was just added!</span>, style: 'default' }));
+      this.dispatch(newToast(<span><b>{addField.title}</b> was just added!</span>));
     });
   }
 
@@ -28,7 +28,7 @@ export default class SocketEvents {
       if (fields.some(field => field._id === _id)) {
         this.dispatch({ type: DELETE_FIELD, id: _id });
       }
-      this.dispatch(newToast({ message: 'A field was just deleted.', style: 'default' }));
+      this.dispatch(newToast('A field was just deleted.'));
     });
   }
 
@@ -38,7 +38,7 @@ export default class SocketEvents {
       if (!assets.some(asset => asset._id === addAsset._id)) {
         this.dispatch({ type: NEW_ASSET, addAsset });
       }
-      this.dispatch(newToast({ message: <span><b>{addAsset.title}</b> was just added!</span>, style: 'default' }));
+      this.dispatch(newToast(<span><b>{addAsset.title}</b> was just added!</span>));
     });
   }
 
@@ -48,7 +48,7 @@ export default class SocketEvents {
       if (assets.some(asset => asset._id === _id)) {
         this.dispatch({ type: DELETE_ASSET, id: _id });
       }
-      this.dispatch(newToast({ message: 'An asset was just deleted.', style: 'default' }));
+      this.dispatch(newToast('An asset was just deleted.'));
     });
   }
 
@@ -58,7 +58,7 @@ export default class SocketEvents {
       if (!entries.some(entry => entry._id === addEntry._id)) {
         this.dispatch({ type: NEW_ENTRY, addEntry });
       }
-      this.dispatch(newToast({ message: <span><b>{addEntry.title}</b> was just added!</span>, style: 'default' }));
+      this.dispatch(newToast(<span><b>{addEntry.title}</b> was just added!</span>));
     });
   }
 
@@ -81,7 +81,7 @@ export default class SocketEvents {
       if (!sections.some(section => section._id === addSection._id)) {
         this.dispatch({ type: NEW_SECTION, addSection });
       }
-      this.dispatch(newToast({ message: <span><b>{addSection.title}</b> was just added!</span>, style: 'default' }));
+      this.dispatch(newToast(<span><b>{addSection.title}</b> was just added!</span>));
     });
   }
 
@@ -96,7 +96,7 @@ export default class SocketEvents {
       if (sections.sections.some(section => section._id === _id)) {
         this.dispatch({ type: DELETE_SECTION, _id });
       }
-      this.dispatch(newToast({ message: 'An section was just deleted.', style: 'default' }));
+      this.dispatch(newToast('An section was just deleted.'));
     });
   }
 

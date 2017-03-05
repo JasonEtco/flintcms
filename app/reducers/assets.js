@@ -2,6 +2,7 @@ import {
   REQUEST_ASSETS,
   RECEIVE_ASSETS,
   NEW_ASSET,
+  DELETE_ASSET,
 } from '../actions/assetActions';
 
 export default function assets(state = {}, action) {
@@ -31,6 +32,19 @@ export default function assets(state = {}, action) {
         assets: [
           ...state.assets,
           action.addAsset,
+        ],
+      };
+    }
+
+    case DELETE_ASSET: {
+      const assetIndex = state.assets.findIndex(asset => asset._id === action.id);
+      if (assetIndex === -1) return state;
+
+      return {
+        ...state,
+        assets: [
+          ...state.assets.slice(0, assetIndex),
+          ...state.assets.slice(assetIndex + 1),
         ],
       };
     }

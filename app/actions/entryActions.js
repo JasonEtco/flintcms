@@ -122,7 +122,6 @@ export function deleteEntry(id) {
       query: `mutation ($_id:ID!) {
         removeEntry(_id: $_id) {
           _id
-          title
         }
       }
       `,

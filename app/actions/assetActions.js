@@ -1,10 +1,14 @@
+import React from 'react';
 import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
+import graphFetcher from '../utils/graphFetcher';
 import h from '../utils/helpers';
+import { newToast } from './uiActions';
 
 export const REQUEST_ASSETS = 'REQUEST_ASSETS';
 export const RECEIVE_ASSETS = 'RECEIVE_ASSETS';
 export const NEW_ASSET = 'NEW_ASSET';
+export const DELETE_ASSET = 'DELETE_ASSET';
 
 export function newAsset(formData) {
   return (dispatch, getState) =>
@@ -25,6 +29,47 @@ export function newAsset(formData) {
         }
       })
       .catch(err => new Error(err));
+}
+
+export function deleteAsset(id) {
+  return (dispatch, getState) => {
+    const query = {
+      query: `mutation ($_id:ID!) {
+        removeAsset(_id: $_id) {
+          _id
+        }
+      }
+      `,
+      variables: {
+        _id: id,
+      },
+    };
+
+    return graphFetcher(query)
+      .then((json) => {
+        const { removeAsset } = json.data;
+        const { assets } = getState().entries;
+
+        // Only add the delete the asset from store if it exists
+        // In case socket event happens first
+        if (h.checkFor(assets, '_id', removeAsset._id)) {
+          dispatch({ type: DELETE_ASSET, id: removeAsset._id });
+          dispatch(newToast({
+            message: <span><b>{removeAsset.title}</b> has been deleted.</span>,
+            style: 'success',
+          }));
+        }
+        dispatch(push('/admin/settings/assets'));
+      })
+      .catch((error) => {
+        if (error.response) {
+          error.response.data.errors.forEach(err => dispatch(newToast({
+            message: err.message,
+            style: 'error',
+          })));
+        }
+      });
+  };
 }
 
 export function fetchAssetsIfNeeded() {

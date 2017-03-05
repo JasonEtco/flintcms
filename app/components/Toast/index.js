@@ -6,9 +6,13 @@ import './Toast.scss';
 export default class Toast extends Component {
   static propTypes = {
     message: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-    style: PropTypes.oneOf(['default', 'success', 'error']).isRequired,
+    style: PropTypes.oneOf(['default', 'success', 'error']),
     dateCreated: PropTypes.number.isRequired,
     dispatch: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    style: 'default',
   }
 
   constructor(props) {
