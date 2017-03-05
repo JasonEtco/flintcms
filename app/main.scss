@@ -18,3 +18,28 @@ body {
 }
 
 .content { background-color: white; }
+
+.no-script {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: $grey-light;
+
+    h1 {
+        max-width: 300px;
+        padding: 2em;
+        border-radius: 3px;
+        border: 1px solid $grey;
+        background-color: white;
+        font-weight: 500;
+        font-size: $size2;
+    }
+
+    a {
+        color: $orange;
+        font-size: $size0;
+    }
+}
