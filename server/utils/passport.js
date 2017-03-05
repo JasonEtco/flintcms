@@ -31,11 +31,10 @@ module.exports = (passport) => {
 
         newUser.username = username;
         newUser.password = newUser.generateHash(password);
-        newUser.dateCreated = Date.now();
 
         return newUser.save().then(u => done(null, u));
       })
-      .catch(err => console.log(err));
+      .catch(err => new Error(err));
     });
   }));
 
@@ -46,6 +45,6 @@ module.exports = (passport) => {
         if (!user.validateHash(password)) return done(null, false);
         return done(null, user);
       })
-      .catch(err => console.log(err));
+      .catch(err => new Error(err));
   }));
 };

@@ -9,7 +9,17 @@ exports.outputType = new GraphQLObjectType({
     username: {
       type: new GraphQLNonNull(GraphQLString),
     },
+    name: { type: new GraphQLObjectType({
+      name: 'UserName',
+      fields: {
+        first: { type: GraphQLString },
+        last: { type: GraphQLString },
+      },
+    }) },
     dateCreated: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    image: {
       type: new GraphQLNonNull(GraphQLString),
     },
   },
@@ -21,8 +31,18 @@ exports.inputType = new GraphQLInputObjectType({
     username: {
       type: new GraphQLNonNull(GraphQLString),
     },
+    name: { type: new GraphQLInputObjectType({
+      name: 'UserNameInput',
+      fields: {
+        first: { type: GraphQLString },
+        last: { type: GraphQLString },
+      },
+    }) },
     password: {
       type: new GraphQLNonNull(GraphQLString),
+    },
+    image: {
+      type: GraphQLString,
     },
   },
 });

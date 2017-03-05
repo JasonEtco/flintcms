@@ -4,16 +4,14 @@ const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  // name: {
-  //   first: {
-  //     type: String,
-  //     required: true,
-  //   },
-  //   last: {
-  //     type: String,
-  //     required: true,
-  //   },
-  // },
+  name: {
+    first: {
+      type: String,
+    },
+    last: {
+      type: String,
+    },
+  },
   username: {
     type: String,
     required: true,
@@ -30,7 +28,7 @@ const UserSchema = new Schema({
   // },
   image: {
     type: String,
-    default: 'assets/default_user.png',
+    default: '/assets/default_user.png',
   },
   dateCreated: {
     type: Date,

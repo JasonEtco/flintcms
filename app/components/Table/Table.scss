@@ -52,6 +52,13 @@
         }
 
         &--delete { width: 1em; }
+
+        &--image {
+            width: 3em;
+            height: 3em;
+
+            img { max-width: 100%; }
+        }
     }
 
     &__row {

@@ -1,4 +1,5 @@
 import Fetcher from '../utils/fetchClass';
+import GraphQLClass from '../utils/graphqlClass';
 
 export const REQUEST_USER = 'REQUEST_USER';
 export const RECEIVE_USER = 'RECEIVE_USER';
@@ -27,7 +28,22 @@ export function fetchUsersIfNeeded() {
       receive: RECEIVE_USERS,
     };
 
-    const fetcher = new Fetcher(fetcherOptions);
+    const query = {
+      query: `{
+        users {
+          _id
+          username
+          name {
+            first
+            last
+          }
+          dateCreated
+          image
+        }
+      }`,
+    };
+
+    const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());
   };
 }
