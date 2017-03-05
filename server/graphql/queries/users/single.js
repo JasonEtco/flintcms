@@ -4,13 +4,13 @@ const {
 } = require('graphql');
 const mongoose = require('mongoose');
 
-const UserType = require('../../types/User');
+const { outputType } = require('../../types/Users');
 const getProjection = require('../../get-projection');
 
 const User = mongoose.model('User');
 
 module.exports = {
-  type: UserType,
+  type: outputType,
   args: {
     _id: {
       name: '_id',
