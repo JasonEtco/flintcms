@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const { browsers } = require('./browser');
 
 module.exports = {
   entry: [
@@ -29,6 +30,7 @@ module.exports = {
         screw_ie8: true,
       },
     }),
+    new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
@@ -47,7 +49,7 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel',
       query: {
-        presets: ['es2015', 'stage-0', 'react'],
+        presets: [['env', { targets: { browsers } }], 'es2015', 'stage-0', 'react'],
         plugins: ['transform-runtime'],
       },
     }, {
@@ -68,7 +70,7 @@ module.exports = {
     }],
   },
   postcss: [
-    autoprefixer,
+    autoprefixer({ browsers }),
   ],
   sassLoader: {
     data: '@import "tools";',
