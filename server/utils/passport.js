@@ -24,17 +24,17 @@ module.exports = (passport) => {
   });
 
   passport.use('local-signup', new LocalStrategy(strategyOptions, (req, username, password, done) => {
-    process.nextTick(() => {
-      User.findOne({ username }).then((user) => {
-        if (user) return done(null, false);
-        const newUser = new User();
+    process.nextTick(async () => {
+      const foundUser = await User.findOne({ username });
+      if (foundUser) return done(null, false);
 
-        newUser.username = username;
-        newUser.password = newUser.generateHash(password);
+      const newUser = new User(req.body);
 
-        return newUser.save().then(u => done(null, u));
-      })
-      .catch(err => new Error(err));
+      newUser.password = newUser.generateHash(password);
+
+      const savedUser = await newUser.save();
+      if (!savedUser) throw new Error('Could not save the user!');
+      return done(null, savedUser);
     });
   }));
 
