@@ -9,22 +9,22 @@ const User = mongoose.model('User');
 module.exports = {
   type: new GraphQLNonNull(outputType),
   args: {
-    data: {
-      name: 'data',
+    user: {
+      name: 'user',
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, params) {
-    const { username, password } = params.data;
+  async resolve(root, args) {
+    const { username, password } = args.user;
     if (!username) throw new Error('You must include a username.');
 
     if (await User.findOne({ username })) throw new Error('There is already a user with that username.');
 
-    const newUser = new User({
-      username,
-      password: User.generateHash(password),
-    });
+    const newUser = new User(args.user);
+    newUser.password = await newUser.generateHash(password);
+
     const savedUser = await newUser.save();
+    if (!savedUser) throw new Error('Could not save the User');
 
     root.io.emit('new-user', savedUser);
     return savedUser;

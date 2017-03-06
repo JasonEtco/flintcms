@@ -21,6 +21,11 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   // usergroup: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'UserGroup',

@@ -1,6 +1,7 @@
 import {
   REQUEST_USERS,
   RECEIVE_USERS,
+  NEW_USER,
 } from '../actions/userActions';
 
 export default function users(state = {}, action) {
@@ -21,6 +22,16 @@ export default function users(state = {}, action) {
         isFetching: false,
         didInvalidate: false,
         lastUpdated: action.receivedAt,
+      };
+    }
+
+    case NEW_USER: {
+      return {
+        ...state,
+        users: [
+          ...state.users,
+          action.addUser,
+        ],
       };
     }
 

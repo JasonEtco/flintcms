@@ -1,11 +1,61 @@
+import { push } from 'react-router-redux';
 import Fetcher from '../utils/fetchClass';
+import graphFetcher from '../utils/graphFetcher';
 import GraphQLClass from '../utils/graphqlClass';
+import h from '../utils/helpers';
+import { newToast } from './uiActions';
 
 export const REQUEST_USER = 'REQUEST_USER';
 export const RECEIVE_USER = 'RECEIVE_USER';
+export const NEW_USER = 'NEW_USER';
 
 export const REQUEST_USERS = 'REQUEST_USERS';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
+
+export function newUser(user) {
+  return (dispatch, getState) => {
+    const query = {
+      query: `mutation ($user: UserInput!) {
+        addUser(user: $user) {
+          _id
+          username
+          email
+          name {
+            first
+            last
+          }
+          dateCreated
+          image
+        }
+      }`,
+      variables: {
+        user,
+      },
+    };
+
+    return graphFetcher(query)
+      .then((json) => {
+        const { users } = getState();
+        const { addUser } = json.data.data;
+
+        // Only add the new entry to store if it doesn't already exist
+        // In case socket event happens first
+        if (!h.checkFor(users.users, '_id', addUser._id)) {
+          dispatch({ type: NEW_USER, addUser });
+        }
+
+        dispatch(push('/admin/users'));
+      })
+      .catch((error) => {
+        if (error.response) {
+          error.response.data.errors.forEach(err => dispatch(newToast({
+            message: err.message,
+            style: 'error',
+          })));
+        }
+      });
+  };
+}
 
 export function fetchUserIfNeeded() {
   return (dispatch, getState) => {

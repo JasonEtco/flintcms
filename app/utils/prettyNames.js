@@ -7,6 +7,7 @@ const names = {
   delete: 'Delete',
   size: 'File Size',
   username: 'Username',
+  name: 'Name',
 };
 
 export default names;

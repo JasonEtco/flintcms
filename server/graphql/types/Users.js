@@ -6,6 +6,9 @@ exports.outputType = new GraphQLObjectType({
     _id: {
       type: new GraphQLNonNull(GraphQLID),
     },
+    email: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
     username: {
       type: new GraphQLNonNull(GraphQLString),
     },
@@ -28,6 +31,9 @@ exports.outputType = new GraphQLObjectType({
 exports.inputType = new GraphQLInputObjectType({
   name: 'UserInput',
   fields: {
+    email: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
     username: {
       type: new GraphQLNonNull(GraphQLString),
     },

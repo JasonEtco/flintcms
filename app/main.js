@@ -9,9 +9,10 @@ import Main from './containers/Main';
 
 import Home from './views/Home';
 import FourOhFour from './views/404';
+import Login from './containers/Login';
 
 import Users from './views/Users';
-import Login from './containers/Login';
+import NewUser from './views/NewUser';
 
 import Entry from './views/Entry';
 import Entries from './views/Entries';
@@ -42,6 +43,7 @@ const storeWrapper = (
       <Route path="/admin" component={App}>
         <IndexRoute component={Home} />
         <Route path="users" component={Users} />
+        <Route path="users/new" component={NewUser} />
 
         <Route path="entries(/:section)" component={Entries} />
         <Route path="entries/:section/new" component={NewEntry} />

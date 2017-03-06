@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import h from '../../utils/helpers';
-import Icon from '../../utils/icons';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import Table from '../../components/Table';
 
-export default class Entries extends Component {
+export default class Users extends Component {
   render() {
     const { users } = this.props;
 
@@ -15,6 +15,7 @@ export default class Entries extends Component {
         component: <img src={props.image} alt={props.username} />,
       },
       username: props.username,
+      name: `${props.name.first} ${props.name.last}`,
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
         component: h.formatDate(props.dateCreated),
@@ -23,7 +24,9 @@ export default class Entries extends Component {
 
     return (
       <Page name="users">
-        <TitleBar title="Users" />
+        <TitleBar title="Users">
+          <Link to="/admin/users/new" className="btn btn--small">New User</Link>
+        </TitleBar>
 
         <div className="content">
           <div className="page__inner">
