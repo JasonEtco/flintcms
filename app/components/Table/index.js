@@ -19,7 +19,16 @@ Cell.defaultProps = { children: '-' };
 
 export default class Table extends Component {
   static propTypes = {
-    data: PropTypes.array.isRequired,
+    data: PropTypes.arrayOf((propValue, key, componentName, location, propName) => {
+      const msg = `Invalid prop  \`${propName}\` supplied to \`${componentName}\`.`;
+      if (typeof propValue !== 'object') {
+        return new Error(`${msg} Must be an array of objects.`);
+      }
+      if (!Object.prototype.hasOwnProperty.call(propValue[key], 'key')) {
+        return new Error(`${msg} Needs a "key" prop.`);
+      }
+      return true;
+    }).isRequired,
     showSearch: PropTypes.bool,
     sortBy: PropTypes.string,
   }
@@ -36,9 +45,6 @@ export default class Table extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = { sortBy: props.sortBy, direction: 'DESC', search: '' };
-
-    // eslint-disable-next-line no-console
-    if (props.data.every(v => v.key === undefined)) console.error('You must include a key for each row!');
   }
 
 
