@@ -4,8 +4,9 @@ import h from '../../utils/helpers';
 import Icon from '../../utils/icons';
 import Page from '../../containers/Page';
 import Table from '../../components/Table';
+import Button from '../../components/Button';
 import TitleBar from '../../components/TitleBar';
-import { deleteAsset } from '../../actions/assetActions';
+import { deleteAsset, indexAssets } from '../../actions/assetActions';
 
 export default class Assets extends Component {
   static propTypes = {
@@ -46,6 +47,7 @@ export default class Assets extends Component {
     return (
       <Page name="assets">
         <TitleBar title="Assets">
+          <Button onClick={indexAssets} small>Index Asset</Button>
           <Link to="/admin/settings/assets/new" className="btn btn--small">New Asset</Link>
         </TitleBar>
 

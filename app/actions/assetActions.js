@@ -9,6 +9,7 @@ export const REQUEST_ASSETS = 'REQUEST_ASSETS';
 export const RECEIVE_ASSETS = 'RECEIVE_ASSETS';
 export const NEW_ASSET = 'NEW_ASSET';
 export const DELETE_ASSET = 'DELETE_ASSET';
+export const INDEX_ASSETS = 'INDEX_ASSETS';
 
 export function newAsset(formData) {
   return (dispatch, getState) =>
@@ -57,6 +58,27 @@ export function deleteAsset(id) {
           }));
         }
         dispatch(push('/admin/settings/assets'));
+      })
+      .catch((error) => {
+        if (error.response) dispatch(errorToasts(error.response.data.errors));
+      });
+  };
+}
+
+export function indexAssets() {
+  return (dispatch) => {
+    const query = `mutation {
+      indexAssets {
+        _id
+      }
+    }`;
+
+    return graphFetcher(query)
+      .then((json) => {
+        console.log(json);
+        // Only add the delete the asset from store if it exists
+        // In case socket event happens first
+        dispatch({ type: INDEX_ASSETS, json });
       })
       .catch((error) => {
         if (error.response) dispatch(errorToasts(error.response.data.errors));
