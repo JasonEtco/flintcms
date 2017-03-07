@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import target from './utils/target';
 import { collectTarget } from './utils/collect';
 import c from './utils/constants';
-import FieldTargetCard from './FIeldTargetCard';
+import FieldTargetCard from './FieldTargetCard';
 
 class FieldTarget extends Component {
   static propTypes = {

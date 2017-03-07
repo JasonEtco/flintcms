@@ -35,9 +35,9 @@ export default class Section extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { dispatch } = this.props;
+    const { dispatch } = this.props; // eslint-disable-line
     // TODO: Change to updateSection
-    // dispatch(newSection(this.title.value, this.template.value, this.state.fields));
+    // dispatch(updateSection(this.title.value, this.template.value, this.state.fields));
   }
 
   toggleField(id) {
@@ -52,6 +52,7 @@ export default class Section extends Component {
 
   render() {
     const { fields } = this.props.fields;
+    const activeFields = fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1);
 
     return (
       <Page name="section">
@@ -94,7 +95,7 @@ export default class Section extends Component {
               />
 
               <FieldLayout
-                activeFields={fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1)}
+                activeFields={activeFields}
                 fields={fields}
                 ref={(r) => { this.fieldLayout = r; }}
               />

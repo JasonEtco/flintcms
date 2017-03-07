@@ -24,8 +24,10 @@ export default class NewAsset extends Component {
     e.preventDefault();
 
     if (!this.upload.asset.value) {
+      // eslint-disable-next-line no-alert
       alert('Please select an image to upload');
     } else if (!this.upload.asset.value.match(/(?:gif|jpg|png|bmp|jpeg)$/)) {
+      // eslint-disable-next-line no-alert
       alert('The uploaded file is not an image!');
     } else {
       const formData = new FormData();

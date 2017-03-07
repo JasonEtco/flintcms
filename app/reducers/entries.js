@@ -63,7 +63,7 @@ export default function entries(state = {}, action) {
         ...state,
         entries: [
           ...state.entries.slice(0, entryIndex),
-          update(state.entries[entryIndex], { $merge: { _id, title, fields }}),
+          update(state.entries[entryIndex], { $merge: { _id, title, fields } }),
           ...state.entries.slice(entryIndex + 1),
         ],
       };

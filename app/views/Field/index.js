@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import Page from '../../containers/Page';
 import Fields from '../../components/Fields';
 import Input from '../../components/Input';
-import Button from '../../components/Button';
 import TitleBar from '../../components/TitleBar';
 
 export default class Field extends Component {

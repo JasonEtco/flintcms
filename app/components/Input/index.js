@@ -101,7 +101,9 @@ export default class Input extends Component {
     return (
       <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
-        {instructions && <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} />}
+        {instructions &&
+          <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} />  // eslint-disable-line react/no-danger
+        }
         {input}
       </div>
     );

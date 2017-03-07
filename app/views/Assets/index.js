@@ -26,6 +26,7 @@ export default class Assets extends Component {
     const { assets } = this.props;
 
     const reduced = assets.assets.map(props => ({
+      key: props._id,
       title: {
         value: props.title,
         component: <a href={`/assets/${props.filename}`} rel="noopener noreferrer" target="_blank">{props.title}</a>,

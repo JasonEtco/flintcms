@@ -22,7 +22,7 @@ class FieldLayout extends Component {
     this.state = { fields: props.activeFields };
   }
 
-  addField(field, index) {
+  addField(field) {
     const { fields } = this.state;
     const newFields = [...fields, field];
     this.setState({ fields: newFields });

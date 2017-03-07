@@ -50,7 +50,8 @@ UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.g
 
 // Validate hash
 // Can't use arrow function because of (this) binding
-UserSchema.methods.validateHash = function (password) { // eslint-disable-line func-names
+// eslint-disable-next-line func-names
+UserSchema.methods.validateHash = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 

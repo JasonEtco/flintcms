@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
 import React, { Component, PropTypes } from 'react';
 import { ChromePicker } from 'react-color';
 import './Color.scss';

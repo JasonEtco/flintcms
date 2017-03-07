@@ -21,5 +21,6 @@ graphql.use('/', graphqlHTTP(req => ({
   },
 })));
 
+// eslint-disable-next-line no-console
 console.log('[App: GraphQL] initialized.');
 module.exports = graphql;

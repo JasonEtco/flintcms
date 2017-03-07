@@ -40,4 +40,5 @@ class FieldTargetCard extends Component {
   }
 }
 
+// eslint-disable-next-line max-len
 export default DragSource(c.FIELD, source, collectSource)(DropTarget(c.FIELD, target, collectTarget)(FieldTargetCard));

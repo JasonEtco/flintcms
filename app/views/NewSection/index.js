@@ -50,6 +50,8 @@ export default class NewSection extends Component {
 
   render() {
     const { fields } = this.props.fields;
+    const activeFields = fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1);
+
     const links = [
       { label: 'Settings', path: '/admin/settings' },
       { label: 'Sections', path: '/admin/settings/sections' },
@@ -94,7 +96,7 @@ export default class NewSection extends Component {
             />
 
             <FieldLayout
-              activeFields={fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1)}
+              activeFields={activeFields}
               fields={fields}
               ref={(r) => { this.fieldLayout = r; }}
             />

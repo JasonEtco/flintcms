@@ -5,20 +5,11 @@ import p from '../../utils/prettyNames';
 import Input from '../Input';
 import './Table.scss';
 
-const Cell = ({ column, children }) => {
-  let content;
-  if (children.component) {
-    content = children.component;
-  } else {
-    content = children;
-  }
-
-  return (
-    <td className={`table__cell table__cell--${column}`}>
-      {content}
-    </td>
-  );
-};
+const Cell = ({ column, children }) => (
+  <td className={`table__cell table__cell--${column}`}>
+    {children.component || children }
+  </td>
+);
 
 Cell.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -45,6 +36,9 @@ export default class Table extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = { sortBy: props.sortBy, direction: 'DESC', search: '' };
+
+    // eslint-disable-next-line no-console
+    if (props.data.every(v => v.key === undefined)) console.error('You must include a key for each row!');
   }
 
 
@@ -67,17 +61,19 @@ export default class Table extends Component {
     if (search !== '' && showSearch) {
       filtered = data.filter((t) => {
         const re = new RegExp(search.replace(/[/\\^$*+?()|[\]]/g, '\\$&'), 'i');
-        for (const prop in t) {
-          if (typeof t[prop] === 'string' && t[prop].search(re) > -1) return true;
-          if (typeof t[prop] === 'object' && t[prop].value.search(re) > -1) return true;
-        }
+        Object.keys(t).forEach((prop) => {
+          if ((typeof t[prop] === 'string' && t[prop].search(re) > -1)
+           || (typeof t[prop] === 'object' && t[prop].value.search(re) > -1)) return true;
+          return false;
+        });
         return false;
       });
     }
 
     const columns = filtered
       .reduce((prev, curr) => [...prev, ...Object.keys(curr)], [])
-      .filter((el, i, self) => i === self.indexOf(el));
+      .filter((el, i, self) => i === self.indexOf(el))
+      .filter(el => el !== 'key');
 
     const sorted = h.sortArrayOfObjByString(filtered, sortBy, direction);
 
@@ -113,17 +109,15 @@ export default class Table extends Component {
                     <button
                       className={btnClass}
                       onClick={() => this.handleSort(column)}
-                    >
-                      {p[column] || column}
-                    </button>
+                    >{p[column] || column}</button>
                   </th>
                 );
               })}
             </tr>
           </thead>
           <tbody>
-            {sorted.map((tr, i) =>
-              <tr className="table__row" key={i}>{columns.map(column =>
+            {sorted.map(tr =>
+              <tr className="table__row" key={tr.key}>{columns.map(column =>
                 <Cell key={column} column={column}>{tr[column]}</Cell>)}
               </tr>)}
           </tbody>

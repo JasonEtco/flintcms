@@ -49,7 +49,6 @@ export default class RichText extends Component {
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
     defaultValue: PropTypes.string,
-    contentState: PropTypes.object,
   }
 
   static defaultProps = {
@@ -94,7 +93,10 @@ export default class RichText extends Component {
 
 
     this.focus = () => this[props.name].focus();
-    this.onChange = editorState => this.setState({ editorState, value: stateToHTML(editorState.getCurrentContent()) });
+    this.onChange = editorState => this.setState({
+      editorState,
+      value: stateToHTML(editorState.getCurrentContent()),
+    });
 
     this.promptForLink = this.promptForLink.bind(this);
     this.onURLChange = e => this.setState({ urlValue: e.target.value });
@@ -212,7 +214,9 @@ export default class RichText extends Component {
     return (
       <div className="rich-text-wrapper form-element">
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
-        {instructions && <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} />}
+        {instructions
+          && <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
+        }
         <ToolBar
           editorState={editorState}
           toggleInlineStyle={this.toggleInlineStyle}

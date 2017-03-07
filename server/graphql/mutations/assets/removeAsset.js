@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const { outputType } = require('../../types/Assets');
-const getProjection = require('../../get-projection');
 
 const Asset = mongoose.model('Asset');
 

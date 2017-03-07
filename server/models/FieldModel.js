@@ -29,6 +29,8 @@ const FieldSchema = new Schema({
   },
 });
 
+// Can't use arrow function because of (this) binding
+// eslint-disable-next-line func-names
 FieldSchema.pre('validate', function (next) {
   this.slug = h.slugify(this.title);
   next();

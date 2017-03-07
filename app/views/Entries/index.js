@@ -73,6 +73,7 @@ export default class Entries extends Component {
     const navLinks = sections.map(sec => ({ label: sec.title, path: `/admin/entries/${sec.slug}` }));
 
     const reduced = filtered.map(props => ({
+      key: props._id,
       title: {
         value: props.title,
         component: <Link to={`/admin/entries/${h.getSlugFromId(sections, props.section)}/${props._id}`}>{props.title}</Link>,

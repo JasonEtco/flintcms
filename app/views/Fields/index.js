@@ -15,6 +15,7 @@ export default class Fields extends Component {
     const { fields } = this.props;
 
     const reduced = fields.fields.map(props => ({
+      key: props._id,
       title: {
         value: props.title,
         component: <Link to={`/admin/settings/fields/${props._id}`}>{props.title}</Link>,

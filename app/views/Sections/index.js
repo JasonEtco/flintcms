@@ -21,6 +21,7 @@ export default class Sections extends Component {
     const { sections } = this.props;
 
     const reduced = sections.sections.map(props => ({
+      key: props._id,
       title: {
         value: props.title,
         component: <Link to={`/admin/settings/sections/${props.slug}`}>{props.title}</Link>,

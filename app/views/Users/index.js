@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import h from '../../utils/helpers';
 import Page from '../../containers/Page';
@@ -6,10 +6,19 @@ import TitleBar from '../../components/TitleBar';
 import Table from '../../components/Table';
 
 export default class Users extends Component {
+  static propTypes = {
+    users: PropTypes.object,
+  }
+
+  static defaultProps = {
+    users: null,
+  }
+
   render() {
     const { users } = this.props;
 
     const reduced = users.users.map(props => ({
+      key: props._id,
       image: {
         sortBy: false,
         component: <img src={props.image} alt={props.username} />,

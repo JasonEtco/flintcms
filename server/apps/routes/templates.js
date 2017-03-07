@@ -7,15 +7,16 @@ const router = express.Router();
 router.get('/templates', (req, res) => {
   const walkSync = (dir, filelist) => {
     const files = fs.readdirSync(dir);
-    filelist = filelist || [];
+    let newFilelist = filelist || [];
+
     files.forEach((file) => {
       if (fs.statSync(path.join(dir, file)).isDirectory() && !file.startsWith('_')) {
-        filelist = walkSync(path.join(dir, file), filelist);
+        newFilelist = walkSync(path.join(dir, file), newFilelist);
       } else if (!file.startsWith('_')) {
-        filelist.push(file);
+        newFilelist.push(file);
       }
     });
-    return filelist;
+    return newFilelist;
   };
   const pathToTemplates = path.resolve(__dirname, '..', '..', 'templates');
 

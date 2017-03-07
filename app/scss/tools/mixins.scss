@@ -1,11 +1,13 @@
+// stylelint-disable no-browser-hacks, at-rule-empty-line-before
+
 @mixin box-shadow($depth) {
     box-shadow: 0 #{2 * $depth}px #{4 * $depth}px rgba(black, 0.1 * $depth);
 }
 
 // Media-Queries
-$on-mobile:        768px;
-$on-tablet:        1024px;
-$on-laptop:        1500px;
+$on-mobile: 768px;
+$on-tablet: 1024px;
+$on-laptop: 1500px;
 
 @mixin media($max-width) {
     @media screen and (max-width: $max-width) {
@@ -33,11 +35,14 @@ $on-laptop:        1500px;
 
     @if $direction == 'top' {
         border-bottom-color: $color;
-    } @else if $direction == 'bottom' {
+    }
+    @else if $direction == 'bottom' {
         border-top-color: $color;
-    } @else if $direction == 'right' {
+    }
+    @else if $direction == 'right' {
         border-left-color: $color;
-    } @else if $direction == 'left' {
+    }
+    @else if $direction == 'left' {
         border-right-color: $color;
     }
 }

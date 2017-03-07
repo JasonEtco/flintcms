@@ -27,6 +27,8 @@ const SectionSchema = new Schema({
   }],
 });
 
+// Can't use arrow function because of (this) binding
+// eslint-disable-next-line func-names
 SectionSchema.pre('validate', function (next) {
   this.slug = h.slugify(this.title);
   next();

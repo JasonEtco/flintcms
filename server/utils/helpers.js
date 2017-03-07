@@ -15,7 +15,9 @@ const helpers = {
       .replace(/--+/g, '-');
   },
   reduceToObj(arr, key, value, start) {
-    return arr.reduce((prev, curr) => Object.assign({}, prev, { [curr[key]]: curr[value] }), start || {});
+    return arr
+      .reduce((prev, curr) =>
+      Object.assign({}, prev, { [curr[key]]: curr[value] }), start || {});
   },
 };
 

@@ -27,7 +27,9 @@ export default function sections(state = {}, action) {
     }
 
     case NEW_SECTION: {
-      const sectionIndex = state.sections.findIndex(section => section._id === action.addSection._id);
+      const sectionIndex = state.sections
+        .findIndex(section => section._id === action.addSection._id);
+
       if (sectionIndex !== -1) return state;
 
       return {

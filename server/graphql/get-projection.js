@@ -1,6 +1,4 @@
 module.exports = function getProjection(fieldASTs) {
-  return fieldASTs.fieldNodes[0].selectionSet.selections.reduce((projections, selection) => {
-    projections[selection.name.value] = 1;
-    return projections;
-  }, {});
+  return fieldASTs.fieldNodes[0].selectionSet.selections.reduce((projections, selection) =>
+    Object.assign({}, projections, { [selection.name.value]: 1 }), {});
 };
