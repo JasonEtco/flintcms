@@ -29,6 +29,9 @@
       "at-rule-empty-line-before": "never"
     }
   },
+  "jest": {
+    "coverageDirectory": "__coverage__"
+  },
   "dependencies": {
     "autoprefixer": "^6.7.0",
     "axios": "^0.15.3",
