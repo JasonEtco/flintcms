@@ -3,7 +3,7 @@ import Fetcher from '../utils/fetchClass';
 import graphFetcher from '../utils/graphFetcher';
 import GraphQLClass from '../utils/graphqlClass';
 import h from '../utils/helpers';
-import { newToast } from './uiActions';
+import { errorToasts } from './uiActions';
 
 export const REQUEST_USER = 'REQUEST_USER';
 export const RECEIVE_USER = 'RECEIVE_USER';
@@ -47,12 +47,7 @@ export function newUser(user) {
         dispatch(push('/admin/users'));
       })
       .catch((error) => {
-        if (error.response) {
-          error.response.data.errors.forEach(err => dispatch(newToast({
-            message: err.message,
-            style: 'error',
-          })));
-        }
+        if (error.response) dispatch(errorToasts(error.response.data.errors));
       });
   };
 }

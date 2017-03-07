@@ -2,6 +2,7 @@ import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import h from '../utils/helpers';
+import { errorToasts } from './uiActions';
 
 export const REQUEST_SECTIONS = 'REQUEST_SECTIONS';
 export const RECEIVE_SECTIONS = 'RECEIVE_SECTIONS';
@@ -60,7 +61,9 @@ export function deleteSection(id) {
         dispatch({ type: DELETE_SECTION, id: removeSection._id });
         dispatch(push('/admin/settings/sections'));
       })
-      .catch(err => new Error(err));
+      .catch((error) => {
+        if (error.response) dispatch(errorToasts(error.response.data.errors));
+      });
   };
 }
 

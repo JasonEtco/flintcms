@@ -1,5 +1,6 @@
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
+import { errorToasts } from './uiActions';
 
 export const REQUEST_FIELDS = 'REQUEST_FIELDS';
 export const RECEIVE_FIELDS = 'RECEIVE_FIELDS';
@@ -29,7 +30,9 @@ export function newField(title, type, instructions) {
         const { addField } = json.data.data;
         dispatch({ type: NEW_FIELD, addField });
       })
-      .catch(err => new Error(err));
+      .catch((error) => {
+        if (error.response) dispatch(errorToasts(error.response.data.errors));
+      });
   };
 }
 

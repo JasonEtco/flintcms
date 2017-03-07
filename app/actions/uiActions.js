@@ -22,6 +22,13 @@ export function newToast(toast) {
   };
 }
 
+export function errorToasts(errors) {
+  return dispatch => errors.forEach(err => dispatch(newToast({
+    message: err.message,
+    style: 'error',
+  })));
+}
+
 export function deleteToast(dateCreated) {
   return {
     type: DELETE_TOAST,

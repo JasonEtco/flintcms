@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import h from '../utils/helpers';
-import { newToast } from './uiActions';
+import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
@@ -67,12 +67,7 @@ export function newEntry(title, section, rawOptions) {
         dispatch(push(`/admin/entries/${sectionSlug}/${addEntry._id}`));
       })
       .catch((error) => {
-        if (error.response) {
-          error.response.data.errors.forEach(err => dispatch(newToast({
-            message: err.message,
-            style: 'error',
-          })));
-        }
+        if (error.response) dispatch(errorToasts(error.response.data.errors));
       });
   };
 }

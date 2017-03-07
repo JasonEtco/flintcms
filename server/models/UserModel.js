@@ -49,7 +49,8 @@ const UserSchema = new Schema({
 UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync());
 
 // Validate hash
-UserSchema.methods.validateHash = function (password) {
+// Can't use arrow function because of (this) binding
+UserSchema.methods.validateHash = function (password) { // eslint-disable-line func-names
   return bcrypt.compareSync(password, this.password);
 };
 

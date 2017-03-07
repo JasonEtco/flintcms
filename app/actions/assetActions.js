@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import h from '../utils/helpers';
-import { newToast } from './uiActions';
+import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_ASSETS = 'REQUEST_ASSETS';
 export const RECEIVE_ASSETS = 'RECEIVE_ASSETS';
@@ -62,12 +62,7 @@ export function deleteAsset(id) {
         dispatch(push('/admin/settings/assets'));
       })
       .catch((error) => {
-        if (error.response) {
-          error.response.data.errors.forEach(err => dispatch(newToast({
-            message: err.message,
-            style: 'error',
-          })));
-        }
+        if (error.response) dispatch(errorToasts(error.response.data.errors));
       });
   };
 }
