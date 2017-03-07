@@ -16,18 +16,13 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, params) {
-    const slug = h.slugify(params.data.title);
+  async resolve(root, args) {
+    const slug = h.slugify(args.data.title);
 
-    if (!await Section.findById(params.data.section)) {
-      throw new Error('That section does not exist.');
-    }
+    if (!await Section.findById(args.data.section)) throw new Error('That section does not exist.');
+    if (await Entry.findOne({ slug })) throw new Error('There is already an entry with that slug.');
 
-    if (await Entry.findOne({ slug })) {
-      throw new Error('There is already an entry with that slug.');
-    }
-
-    const data = await h.reduceToObj(params.data.fields, 'fieldSlug', 'value', params.data);
+    const data = await h.reduceToObj(args.data.fields, 'fieldSlug', 'value', args.data);
 
     const newEntry = new Entry(data);
     const savedEntry = await newEntry.save();

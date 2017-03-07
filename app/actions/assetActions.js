@@ -33,19 +33,16 @@ export function newAsset(formData) {
 
 export function deleteAsset(id) {
   return (dispatch, getState) => {
-    const query = {
-      query: `mutation ($_id:ID!) {
-        removeAsset(_id: $_id) {
-          _id
-        }
+    const query = `mutation ($_id:ID!) {
+      removeAsset(_id: $_id) {
+        _id
       }
-      `,
-      variables: {
-        _id: id,
-      },
+    }`;
+    const variables = {
+      _id: id,
     };
 
-    return graphFetcher(query)
+    return graphFetcher(query, variables)
       .then((json) => {
         const { removeAsset } = json.data;
         const { assets } = getState().entries;
@@ -75,19 +72,17 @@ export function fetchAssetsIfNeeded() {
       receive: RECEIVE_ASSETS,
     };
 
-    const query = {
-      query: `{
-        assets {
-          _id
-          title
-          filename
-          size
-          width
-          height
-          dateCreated
-        }
-      }`,
-    };
+    const query = `{
+      assets {
+        _id
+        title
+        filename
+        size
+        width
+        height
+        dateCreated
+      }
+    }`;
 
     const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());

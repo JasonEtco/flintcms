@@ -21,7 +21,9 @@ export default class GraphQLFetcher {
       dispatch({ type: this.request });
       return fetch('/graphql', {
         method: 'POST',
-        body: JSON.stringify(this.query),
+        body: JSON.stringify({
+          query: this.query,
+        }),
         credentials: 'same-origin',
         headers: new Headers({
           'Content-Type': 'application/json',

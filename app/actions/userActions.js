@@ -14,26 +14,25 @@ export const RECEIVE_USERS = 'RECEIVE_USERS';
 
 export function newUser(user) {
   return (dispatch, getState) => {
-    const query = {
-      query: `mutation ($user: UserInput!) {
-        addUser(user: $user) {
-          _id
-          username
-          email
-          name {
-            first
-            last
-          }
-          dateCreated
-          image
+    const query = `mutation ($user: UserInput!) {
+      addUser(user: $user) {
+        _id
+        username
+        email
+        name {
+          first
+          last
         }
-      }`,
-      variables: {
-        user,
-      },
+        dateCreated
+        image
+      }
+    }`;
+
+    const variables = {
+      user,
     };
 
-    return graphFetcher(query)
+    return graphFetcher(query, variables)
       .then((json) => {
         const { users } = getState();
         const { addUser } = json.data.data;
@@ -73,20 +72,18 @@ export function fetchUsersIfNeeded() {
       receive: RECEIVE_USERS,
     };
 
-    const query = {
-      query: `{
-        users {
-          _id
-          username
-          name {
-            first
-            last
-          }
-          dateCreated
-          image
+    const query = `{
+      users {
+        _id
+        username
+        name {
+          first
+          last
         }
-      }`,
-    };
+        dateCreated
+        image
+      }
+    }`;
 
     const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());

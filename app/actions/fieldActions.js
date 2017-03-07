@@ -8,24 +8,26 @@ export const NEW_FIELD = 'NEW_FIELD';
 
 export function newField(title, type, instructions) {
   return (dispatch) => {
-    const query = {
-      query: `mutation {
-        addField(data: {
-          title: "${title}",
-          type: "${type}",
-          instructions: "${instructions}",
-        }) {
-          _id
-          title
-          slug
-          instructions
-          type
-          dateCreated
-        }
-      }`,
+    const query = `mutation ($data: FieldInput!) {
+      addField(data: $data) {
+        _id
+        title
+        slug
+        instructions
+        type
+        dateCreated
+      }
+    }`;
+
+    const variables = {
+      data: {
+        title,
+        type,
+        instructions,
+      },
     };
 
-    return graphFetcher(query)
+    return graphFetcher(query, variables)
       .then((json) => {
         const { addField } = json.data.data;
         dispatch({ type: NEW_FIELD, addField });
@@ -44,18 +46,16 @@ export function fetchFieldsIfNeeded() {
       receive: RECEIVE_FIELDS,
     };
 
-    const query = {
-      query: `{
-        fields {
-          _id
-          title
-          instructions
-          type
-          dateCreated
-          slug
-        }
-      }`,
-    };
+    const query = `{
+      fields {
+        _id
+        title
+        instructions
+        type
+        dateCreated
+        slug
+      }
+    }`;
 
     const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());

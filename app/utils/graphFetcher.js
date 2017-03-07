@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default function graphFetcher({ query, variables }) {
+export default function graphFetcher(query, variables = {}) {
   return axios.post('/graphql', {
     query,
     variables,

@@ -16,11 +16,11 @@ async function formatFields(fields, stateFields) {
 
   const options = await Object.keys(fields).map((key) => {
     const fieldId = stateFields.find(field => key === field.slug)._id;
-    return `{
-      fieldId: ${JSON.stringify(fieldId)},
-      fieldSlug: ${JSON.stringify(key)},
-      value: ${JSON.stringify(fields[key])},
-    }`;
+    return {
+      fieldId,
+      fieldSlug: key,
+      value: fields[key],
+    };
   });
   return options;
 }
@@ -30,30 +30,32 @@ export function newEntry(title, section, rawOptions) {
     const { entries, fields, sections, user } = getState();
     const options = await formatFields(rawOptions, fields.fields);
 
-    const query = {
-      query: `mutation {
-        addEntry(data: {
-          title: "${title}",
-          section: "${section}",
-          fields: [${options}],
-          author: "${user._id}",
-        }) {
-          _id
-          title
-          slug
-          fields {
-            fieldId
-            fieldSlug
-            value
-          }
-          section
-          author
-          dateCreated
+    const query = `mutation ($data: EntriesInput!) {
+      addEntry(data: $data) {
+        _id
+        title
+        slug
+        fields {
+          fieldId
+          fieldSlug
+          value
         }
-      }`,
+        section
+        author
+        dateCreated
+      }
+    }`;
+
+    const variables = {
+      data: {
+        title,
+        section,
+        fields: options,
+        author: user._id,
+      },
     };
 
-    return graphFetcher(query)
+    return graphFetcher(query, variables)
       .then((json) => {
         const { addEntry } = json.data.data;
 
@@ -78,27 +80,27 @@ export function updateEntry(_id, data) {
     const { title, ...fields } = data;
     const options = await formatFields(fields, state.fields.fields);
 
-    const query = {
-      query: `mutation ($_id: ID!) {
-        updateEntry(_id: $_id, data: {
-          title: "${title}",
-          fields: [${options}]
-        }) {
-          _id
-          title
-          fields {
-            fieldId
-            fieldSlug
-            value
-          }
+    const query = `mutation ($_id: ID!, $data: EntriesInput!) {
+      updateEntry(_id: $_id, data: $data) {
+        _id
+        title
+        fields {
+          fieldId
+          fieldSlug
+          value
         }
-      }`,
-      variables: {
-        _id,
+      }
+    }`;
+
+    const variables = {
+      _id,
+      data: {
+        title,
+        fields: options,
       },
     };
 
-    return graphFetcher(query)
+    return graphFetcher(query, variables)
       .then((json) => {
         const updatedEntry = json.data.data.updateEntry;
         dispatch({ type: UPDATE_ENTRY, updateEntry: updatedEntry });
@@ -113,22 +115,22 @@ export function updateEntry(_id, data) {
 
 export function deleteEntry(id) {
   return (dispatch, getState) => {
-    const query = {
-      query: `mutation ($_id:ID!) {
-        removeEntry(_id: $_id) {
-          _id
-        }
+    const query = `mutation ($_id:ID!) {
+      removeEntry(_id: $_id) {
+        _id
+        title
       }
-      `,
-      variables: {
-        _id: id,
-      },
+    }`;
+
+    const variables = {
+      _id: id,
     };
 
-    return graphFetcher(query)
+    return graphFetcher(query, variables)
       .then((json) => {
         const { removeEntry } = json.data;
         const { entries } = getState().entries;
+        dispatch(push('/admin/entries'));
 
         // Only add the delete the entry from store if it exists
         // In case socket event happens first
@@ -139,7 +141,6 @@ export function deleteEntry(id) {
             style: 'success',
           }));
         }
-        dispatch(push('/admin/entries'));
       })
       .catch(err => new Error(err));
   };
@@ -154,23 +155,21 @@ export function fetchEntriesIfNeeded() {
       receive: RECEIVE_ENTRIES,
     };
 
-    const query = {
-      query: `{
-        entries {
-          _id
-          title
-          slug
-          author
-          dateCreated
-          section
-          fields {
-            fieldId
-            fieldSlug
-            value
-          }
+    const query = `{
+      entries {
+        _id
+        title
+        slug
+        author
+        dateCreated
+        section
+        fields {
+          fieldId
+          fieldSlug
+          value
         }
-      }`,
-    };
+      }
+    }`;
 
     const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());

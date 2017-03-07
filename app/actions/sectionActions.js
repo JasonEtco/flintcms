@@ -11,22 +11,24 @@ export const DELETE_SECTION = 'DELETE_SECTION';
 
 export function newSection(title, template, fields) {
   return (dispatch, getState) => {
-    const query = {
-      query: `mutation {
-        addSection(data: {
-          title: "${title}",
-          fields: ${JSON.stringify(fields)},
-          template: "${template}",
-        }) {
+    const query = `mutation ($data: SectionsInput!) {
+        addSection(data: $data) {
           _id
           title
           slug
           fields
         }
-      }`,
+      }`;
+
+    const variables = {
+      data: {
+        title,
+        fields,
+        template,
+      },
     };
 
-    return graphFetcher(query)
+    return graphFetcher(query, variables)
       .then((json) => {
         const { addSection } = json.data.data;
         const { sections } = getState().sections;
@@ -41,21 +43,19 @@ export function newSection(title, template, fields) {
   };
 }
 
-export function deleteSection(id) {
+export function deleteSection(_id) {
   return (dispatch) => {
-    const query = {
-      query: `mutation ($_id:ID!) {
-        removeSection(_id: $_id) {
-          _id
-        }
+    const query = `mutation ($_id:ID!) {
+      removeSection(_id: $_id) {
+        _id
       }
-      `,
-      variables: {
-        _id: id,
-      },
+    }`;
+
+    const variables = {
+      _id,
     };
 
-    return graphFetcher(query)
+    return graphFetcher(query, variables)
       .then((json) => {
         const { removeSection } = json.data;
         dispatch({ type: DELETE_SECTION, id: removeSection._id });
@@ -75,17 +75,15 @@ export function fetchSectionsIfNeeded() {
       receive: RECEIVE_SECTIONS,
     };
 
-    const query = {
-      query: `{
-        sections {
-          _id
-          title
-          slug
-          fields
-          dateCreated
-        }
-      }`,
-    };
+    const query = `{
+      sections {
+        _id
+        title
+        slug
+        fields
+        dateCreated
+      }
+    }`;
 
     const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());
