@@ -50,8 +50,8 @@ const helpers = {
   },
   sortArrayOfObjByString(arr, key, direction = 'ASC') {
     return arr.sort((a, b) => {
-      if (!a.hasOwnProperty(key) ||
-        !b.hasOwnProperty(key)) {
+      if (!Object.prototype.hasOwnProperty.call(a, key) ||
+        !Object.prototype.hasOwnProperty.call(b, key)) {
         return 0;
       }
 
