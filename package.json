@@ -13,6 +13,7 @@
     "start": "nodemon --ignore app server/index.js",
     "build": "rimraf admin && cross-env NODE_ENV=production webpack --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
+    "test": "jest --coverage",
     "serve": "node server/index.js",
     "local": "cross-env NODE_ENV=production PORT=4000 npm run serve",
     "heroku-postbuild": "npm run build"
