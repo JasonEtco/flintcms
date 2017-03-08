@@ -17,19 +17,29 @@ module.exports = {
     },
   }),
   args: {},
-  async resolve(root) {
+  async resolve() {
+    // TODO: Use Promise.all to have
+    // removedFiles/savedFiles run at the same time
+
     const pathToAssets = path.join(__dirname, '..', '..', '..', '..', 'assets');
+
+    // List of all assets already indexed
+    const dbFiles = await Asset.find().exec();
+
+    // If there is a file in the directory, but does not exist
+    // in the DB, we should add it to the DB.
+
+    // Get current file list
     const files = await readdirAsync(pathToAssets);
 
-    // TODO: Allow for other file types
-    const filtered = await files
-      .filter(f => f.match(/(?:gif|jpg|png|bmp|jpeg)$/))
-      .filter(async (f) => {
-        const fileInDB = await Asset.findOne({ filename: f }).exec();
-        return !fileInDB;
-      });
+    // Filter out assets already in DB, and assets of wrong format
+    const savedFiles = await files.filter(f =>
+      // Check if file is in list of indexed assets
+      dbFiles.findIndex(dbf => dbf.filename === f) === -1
 
-    const savedFiles = await filtered.map(async (file) => {
+      // TODO: Allow for other file types
+      && f.match(/(?:gif|jpg|png|bmp|jpeg)$/))
+    .map(async (file) => {
       const pathToFile = path.resolve(pathToAssets, file);
       const { width, height, mimetype, size } = await getAssetDetails(pathToFile);
 
@@ -47,7 +57,9 @@ module.exports = {
       return savedAsset;
     });
 
-    const dbFiles = await Asset.find().exec();
+
+    // If there is a document in the DB, but the file doesn't exists
+    // we should remove it from the DB
     const removedFiles = await dbFiles
       .filter(file => !fs.existsSync(path.join(pathToAssets, file.filename)))
       .map(async (file) => {
