@@ -46,7 +46,7 @@ export function deleteAsset(id) {
     return graphFetcher(query, variables)
       .then((json) => {
         const { removeAsset } = json.data;
-        const { assets } = getState().entries;
+        const { assets } = getState().assets;
 
         // Only add the delete the asset from store if it exists
         // In case socket event happens first
@@ -66,19 +66,35 @@ export function deleteAsset(id) {
 }
 
 export function indexAssets() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const query = `mutation {
       indexAssets {
-        _id
+        savedFiles {
+          _id
+          title
+          filename
+          size
+          width
+          height
+          dateCreated
+        }
+        removedFiles {
+          _id
+        }
       }
     }`;
 
     return graphFetcher(query)
       .then((json) => {
-        console.log(json);
-        // Only add the delete the asset from store if it exists
-        // In case socket event happens first
-        dispatch({ type: INDEX_ASSETS, json });
+        const { savedFiles, removedFiles } = json.data.data.indexAssets;
+        const { assets } = getState();
+
+        savedFiles.forEach((addAsset) => {
+          if (!h.checkFor(assets.assets, '_id', addAsset._id)) {
+            dispatch({ type: NEW_ASSET, addAsset });
+          }
+        });
+        removedFiles.forEach(o => dispatch({ type: DELETE_ASSET, id: o._id }));
       })
       .catch((error) => {
         if (error.response) dispatch(errorToasts(error.response.data.errors));
