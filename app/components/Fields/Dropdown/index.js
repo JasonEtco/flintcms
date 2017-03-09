@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import './Dropdown.scss';
 
 export const DropdownChild = ({ children }) => <div className="dropdown__child">{children}</div>;
-DropdownChild.propTypes = { children: PropTypes.object.isRequired }
+DropdownChild.propTypes = { children: PropTypes.any.isRequired };
 
 export default class Dropdown extends Component {
   static propTypes = {
@@ -72,7 +72,7 @@ export default class Dropdown extends Component {
       <div className="dropdown-wrapper form-element">
         {label && <span className="input__label">{label}</span>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <div className={classes}>
+        <div className={classes} role="listbox" aria-expanded={open} aria-label={label || name}>
           <button
             className="dropdown__btn"
             type="button"
@@ -82,6 +82,7 @@ export default class Dropdown extends Component {
           <div className="dropdown__options">
             {options.map(opt => (
               <button
+                role="option"
                 type="button"
                 key={opt.value}
                 onClick={() => this.onClick(opt.value)}
