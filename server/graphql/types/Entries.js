@@ -51,10 +51,13 @@ const outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLID),
     },
     slug: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    status: {
+      type: new GraphQLNonNull(GraphQLString),
     },
     dateCreated: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
     author: {
       type: new GraphQLNonNull(GraphQLID),

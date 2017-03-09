@@ -98,6 +98,9 @@ const helpers = {
   formatStringWithCode(str) {
     return str.replace(/`(\S+)`/g, '<code>$1</code>');
   },
+  capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  },
   arrayMove(arr, oldIndex, newIndex) {
     const arrCopy = [...arr];
 

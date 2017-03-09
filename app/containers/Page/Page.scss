@@ -10,7 +10,12 @@
         flex-grow: 2;
     }
 
-    &__form { flex-grow: 2; }
+    &__form {
+        display: flex;
+        overflow-y: auto;
+        flex-direction: column;
+        flex-grow: 2;
+    }
 }
 
 .content {

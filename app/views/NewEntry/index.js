@@ -2,8 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
 import { newEntry } from '../../actions/entryActions';
 import Page from '../../containers/Page';
+import Aside from '../../containers/Aside';
 import TitleBar from '../../components/TitleBar';
 import Input from '../../components/Input';
+import StatusDot from '../../components/StatusDot';
+import Dropdown, { DropdownChild } from '../../components/Fields/Dropdown';
 import Button from '../../components/Button';
 import renderOption from '../../utils/renderOption';
 import h from '../../utils/helpers';
@@ -33,10 +36,10 @@ export default class NewEntry extends Component {
   onSubmit(e) {
     e.preventDefault();
     const { sections, params } = this.props;
-    const { title, ...rest } = serialize(this.page.form, { hash: true });
+    const { title, ...fields } = serialize(this.page.form, { hash: true });
     const sectionId = h.getPropFromProp(sections.sections, { slug: params.section }, '_id');
 
-    this.props.dispatch(newEntry(title, sectionId, rest));
+    this.props.dispatch(newEntry(title, sectionId, fields));
   }
 
   handleTitleChange(title) {
@@ -87,6 +90,21 @@ export default class NewEntry extends Component {
 
             {sectionFields.map(field => renderOption(field))}
           </div>
+
+          <Aside>
+            <Dropdown
+              ref={(r) => { this.status = r; }}
+              name="status"
+              label="Status"
+              full
+              defaultValue="draft"
+              options={[
+                { label: 'Live', component: <DropdownChild>Live<StatusDot status="live" /></DropdownChild>, value: 'live' },
+                { label: 'Draft', component: <DropdownChild>Draft<StatusDot status="draft" /></DropdownChild>, value: 'draft' },
+                { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status="disabled" /></DropdownChild>, value: 'disabled' },
+              ]}
+            />
+          </Aside>
         </div>
       </Page>
     );

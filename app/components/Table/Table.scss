@@ -51,7 +51,7 @@
             &:hover { text-decoration: underline; }
         }
 
-        &--delete { width: 1em; }
+        &--delete, &--status { width: 1em; }
 
         &--image {
             width: 3em;
@@ -70,13 +70,15 @@
     }
 
     &__delete {
+        display: flex;
         padding: 0;
         border: none;
         margin: 0;
         background: none;
+        cursor: pointer;
 
-        svg {
-            fill: $grey;
-        }
+        svg { fill: $grey; }
+
+        &:hover svg { fill: darken($grey, 10%); }
     }
 }

@@ -8,6 +8,7 @@ import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import SecondaryNav from '../../components/SecondaryNav';
 import Table from '../../components/Table';
+import StatusDot from '../../components/StatusDot';
 import ConfirmModal from '../../components/Modals/ConfirmModal';
 import { openModal } from '../../actions/uiActions';
 
@@ -84,6 +85,10 @@ export default class Entries extends Component {
         component: h.formatDate(props.dateCreated),
       },
       author: h.getPropFromProp(users.users, { _id: props.author }, 'username'),
+      status: {
+        sortBy: false,
+        component: <StatusDot status={props.status} />,
+      },
       delete: {
         sortBy: false,
         component: <button className="table__delete" onClick={() => this.confirmDelete(props._id)}><Icon icon="circleWithLine" /></button>,

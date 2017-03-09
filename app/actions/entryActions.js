@@ -35,6 +35,7 @@ export function newEntry(title, section, rawOptions) {
         _id
         title
         slug
+        status
         fields {
           fieldId
           fieldSlug
@@ -163,6 +164,7 @@ export function fetchEntriesIfNeeded() {
         author
         dateCreated
         section
+        status
         fields {
           fieldId
           fieldSlug

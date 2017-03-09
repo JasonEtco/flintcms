@@ -1,20 +1,29 @@
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import './Dropdown.scss';
+
+export const DropdownChild = ({ children }) => <div className="dropdown__child">{children}</div>;
+DropdownChild.propTypes = { children: PropTypes.object.isRequired }
 
 export default class Dropdown extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
+      component: PropTypes.object,
       value: PropTypes.string.isRequired,
     })).isRequired,
     label: PropTypes.string,
     instructions: PropTypes.string,
+    full: PropTypes.bool,
+    defaultValue: PropTypes.string,
   }
 
   static defaultProps = {
     label: null,
     instructions: null,
+    full: false,
+    defaultValue: null,
   }
 
   constructor(props) {
@@ -26,10 +35,10 @@ export default class Dropdown extends Component {
 
     this.state = {
       open: false,
-      value: props.options[0].value,
+      value: props.defaultValue || props.options[0].value,
     };
 
-    this.value = props.options[0].value;
+    this.value = props.defaultValue || props.options[0].value;
   }
 
   componentDidMount() { window.addEventListener('click', this.hide); }
@@ -50,14 +59,20 @@ export default class Dropdown extends Component {
   }
 
   render() {
-    const { options, label, instructions, name } = this.props;
+    const { options, label, instructions, name, full } = this.props;
     const { value, open } = this.state;
+
+    const classes = classnames(
+      'dropdown',
+      { 'is-open': open },
+      { 'dropdown--full': full },
+    );
 
     return (
       <div className="dropdown-wrapper form-element">
         {label && <span className="input__label">{label}</span>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <div className={open ? 'dropdown is-open' : 'dropdown'}>
+        <div className={classes}>
           <button
             className="dropdown__btn"
             type="button"
@@ -71,7 +86,7 @@ export default class Dropdown extends Component {
                 key={opt.value}
                 onClick={() => this.onClick(opt.value)}
                 className={value === opt.value ? 'dropdown__opt is-active' : 'dropdown__opt'}
-              >{opt.label}</button>
+              >{opt.component || opt.label}</button>
             ))}
           </div>
         </div>

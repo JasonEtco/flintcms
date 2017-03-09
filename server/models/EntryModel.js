@@ -42,6 +42,11 @@ const EntrySchema = new Schema({
     ref: 'User',
     required: true,
   },
+  status: {
+    type: String,
+    enum: ['live', 'draft', 'disabled'],
+    default: 'disabled',
+  },
 });
 
 // Can't use arrow function because of (this) binding

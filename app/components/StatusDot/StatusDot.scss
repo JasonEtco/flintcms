@@ -1,0 +1,22 @@
+.status {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+
+    &--live {
+        border-color: darken($green, 10%);
+        background-color: $green;
+    }
+
+    &--draft {
+        border-color: $orange-dark;
+        background-color: $orange;
+    }
+
+    &--disabled {
+        border-color: darken($grey, 10%);
+        background-color: $grey;
+    }
+}
