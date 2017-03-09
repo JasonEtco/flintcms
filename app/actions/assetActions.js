@@ -88,6 +88,7 @@ export function indexAssets() {
       .then((json) => {
         const { savedFiles, removedFiles } = json.data.data.indexAssets;
         const { assets } = getState();
+        dispatch(newToast('Assets have been re-indexed!'));
 
         savedFiles.forEach((addAsset) => {
           if (!h.checkFor(assets.assets, '_id', addAsset._id)) {
