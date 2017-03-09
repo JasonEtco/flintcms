@@ -9,7 +9,7 @@ import Cell from './Cell';
 export default class Table extends Component {
   static propTypes = {
     data: PropTypes.arrayOf((propValue, key, componentName, location, propName) => {
-      const msg = `Invalid prop  \`${propName}\` supplied to \`${componentName}\`.`;
+      const msg = `Invalid prop \`${propName}\` supplied to \`${componentName}\`.`;
       if (typeof propValue !== 'object') {
         return new Error(`${msg} Must be an array of objects.`);
       }
