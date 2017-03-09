@@ -1,21 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import classnames from 'classnames';
 import h from '../../utils/helpers';
-import p from '../../utils/prettyNames';
 import Input from '../Input';
 import './Table.scss';
 
-const Cell = ({ column, children }) => (
-  <td className={`table__cell table__cell--${column}`}>
-    {children.component || children }
-  </td>
-);
-
-Cell.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  column: PropTypes.string.isRequired,
-};
-Cell.defaultProps = { children: '-' };
+import THead from './THead';
+import Cell from './Cell';
 
 export default class Table extends Component {
   static propTypes = {
@@ -43,10 +32,9 @@ export default class Table extends Component {
 
     this.handleSort = this.handleSort.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
+    this.filterer = this.filterer.bind(this);
     this.state = { sortBy: props.sortBy, direction: 'DESC', search: '' };
   }
-
 
   handleSort(sortBy) {
     if (sortBy === this.state.sortBy) {
@@ -59,21 +47,26 @@ export default class Table extends Component {
     this.setState({ search });
   }
 
+  filterer(row) {
+    const { search } = this.state;
+    const re = new RegExp(search.replace(/[/\\^$*+?()|[\]]/g, '\\$&'), 'i');
+
+    let flag = false;
+    Object.keys(row).forEach((key) => {
+      const v = row[key];
+      if (typeof v === 'object' && v.sortBy !== false && v.value !== undefined && v.value.toString().search(re) !== -1) flag = true;
+      if (v.toString().search(re) !== -1) flag = true;
+    });
+    return flag;
+  }
+
   render() {
     const { data, showSearch } = this.props;
     const { sortBy, direction, search } = this.state;
 
     let filtered = data;
     if (search !== '' && showSearch) {
-      filtered = data.filter((t) => {
-        const re = new RegExp(search.replace(/[/\\^$*+?()|[\]]/g, '\\$&'), 'i');
-        Object.keys(t).forEach((prop) => {
-          if ((typeof t[prop] === 'string' && t[prop].search(re) > -1)
-           || (typeof t[prop] === 'object' && t[prop].value.search(re) > -1)) return true;
-          return false;
-        });
-        return false;
-      });
+      filtered = data.filter(this.filterer);
     }
 
     const columns = filtered
@@ -99,24 +92,17 @@ export default class Table extends Component {
           <thead>
             <tr className="table__row">
               {columns.map((column) => {
-                const btnClass = classnames(
-                  'table__header__btn',
-                  { 'is-active': sortBy === column },
-                  { desc: sortBy === column && direction === 'DESC' },
-                  { asc: sortBy === column && direction === 'ASC' },
-                );
-
                 const first = data.find(c => c[column]);
                 const has = typeof first[column].sortBy === 'boolean' && first[column].sortBy === false;
 
-                if (has) return <th key={column} />;
                 return (
-                  <th className="table__header" key={column}>
-                    <button
-                      className={btnClass}
-                      onClick={() => this.handleSort(column)}
-                    >{p[column] || column}</button>
-                  </th>
+                  <THead
+                    key={column}
+                    sortBy={sortBy}
+                    column={column}
+                    direction={direction}
+                    has={has}
+                  />
                 );
               })}
             </tr>
