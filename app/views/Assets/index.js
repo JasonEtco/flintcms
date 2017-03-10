@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import h from '../../utils/helpers';
-import Icon from '../../utils/icons';
+import DeleteIcon from '../../components/DeleteIcon';
 import Page from '../../containers/Page';
 import Table from '../../components/Table';
 import Button from '../../components/Button';
@@ -19,16 +19,12 @@ export default class Assets extends Component {
     dispatch: null,
   }
 
-  deleteAsset(id) {
-    this.props.dispatch(deleteAsset(id));
-  }
-
   indexAssets() {
     this.props.dispatch(indexAssets());
   }
 
   render() {
-    const { assets } = this.props;
+    const { assets, dispatch } = this.props;
 
     const reduced = assets.assets.map(props => ({
       key: props._id,
@@ -44,7 +40,11 @@ export default class Assets extends Component {
       },
       delete: {
         sortBy: false,
-        component: <button className="table__delete" onClick={() => this.deleteAsset(props._id)}><Icon icon="circleWithLine" /></button>,
+        component: <DeleteIcon
+          dispatch={dispatch}
+          onClick={() => dispatch(deleteAsset(props._id))}
+          message="Are you sure you want to delete this asset?"
+        />,
       },
     }));
 

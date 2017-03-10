@@ -5,7 +5,7 @@ import Page from '../../containers/Page';
 import Table from '../../components/Table';
 import TitleBar from '../../components/TitleBar';
 import types from '../../utils/types';
-import Icon from '../../utils/icons';
+import DeleteIcon from '../../components/DeleteIcon';
 import { deleteSection } from '../../actions/sectionActions';
 
 export default class Sections extends Component {
@@ -13,12 +13,8 @@ export default class Sections extends Component {
     ...types.sections,
   }
 
-  deleteSection(id) {
-    this.props.dispatch(deleteSection(id));
-  }
-
   render() {
-    const { sections } = this.props;
+    const { sections, dispatch } = this.props;
 
     const reduced = sections.sections.map(props => ({
       key: props._id,
@@ -33,7 +29,11 @@ export default class Sections extends Component {
       },
       delete: {
         sortBy: false,
-        component: <button className="table__delete" onClick={() => this.deleteSection(props._id)}><Icon icon="circleWithLine" /></button>,
+        component: <DeleteIcon
+          dispatch={dispatch}
+          onClick={() => dispatch(deleteSection(props._id))}
+          message="Are you sure you want to delete this asset?"
+        />,
       },
     }));
 

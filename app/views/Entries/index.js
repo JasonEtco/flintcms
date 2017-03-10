@@ -3,14 +3,12 @@ import { Link, browserHistory } from 'react-router';
 import types from '../../utils/types';
 import { deleteEntry } from '../../actions/entryActions';
 import h from '../../utils/helpers';
-import Icon from '../../utils/icons';
+import DeleteIcon from '../../components/DeleteIcon';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import SecondaryNav from '../../components/SecondaryNav';
 import Table from '../../components/Table';
 import StatusDot from '../../components/StatusDot';
-import ConfirmModal from '../../components/Modals/ConfirmModal';
-import { openModal } from '../../actions/uiActions';
 
 const localStorageKey = 'flint:lastSection';
 
@@ -37,19 +35,8 @@ export default class Entries extends Component {
     }
   }
 
-  confirmDelete(id) {
-    this.props.dispatch(
-      openModal(
-        <ConfirmModal
-          confirm={() => this.props.dispatch(deleteEntry(id))}
-          message="Are you sure you want to delete this entry?"
-        />,
-      ),
-    );
-  }
-
   render() {
-    const { users, params } = this.props;
+    const { users, params, dispatch } = this.props;
     const { entries } = this.props.entries;
     const { sections } = this.props.sections;
 
@@ -91,7 +78,11 @@ export default class Entries extends Component {
       },
       delete: {
         sortBy: false,
-        component: <button className="table__delete" onClick={() => this.confirmDelete(props._id)}><Icon icon="circleWithLine" /></button>,
+        component: <DeleteIcon
+          dispatch={dispatch}
+          onClick={() => dispatch(deleteEntry(props._id))}
+          message="Are you sure you want to delete this entry?"
+        />,
       },
     }));
 

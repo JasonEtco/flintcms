@@ -2,6 +2,7 @@ import {
   REQUEST_FIELDS,
   RECEIVE_FIELDS,
   NEW_FIELD,
+  DELETE_FIELD,
 } from '../actions/fieldActions';
 
 export default function fields(state = {}, action) {
@@ -31,6 +32,19 @@ export default function fields(state = {}, action) {
         fields: [
           ...state.fields,
           action.addField,
+        ],
+      };
+    }
+
+    case DELETE_FIELD: {
+      const fieldIndex = state.fields.findIndex(field => field._id === action.id);
+      if (fieldIndex === -1) return state;
+
+      return {
+        ...state,
+        fields: [
+          ...state.fields.slice(0, fieldIndex),
+          ...state.fields.slice(fieldIndex + 1),
         ],
       };
     }

@@ -24,7 +24,7 @@ module.exports = {
       .exec();
 
     if (!removedField) {
-      throw new Error('Error removing blog post');
+      throw new Error('Error removing field');
     }
 
     root.io.emit('delete-field', removedField);
