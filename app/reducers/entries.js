@@ -36,7 +36,7 @@ export default function entries(state = {}, action) {
         ...state,
         entries: [
           ...state.entries,
-          action.addEntry,
+          { ...action.addEntry, full: true },
         ],
       };
     }
@@ -63,7 +63,7 @@ export default function entries(state = {}, action) {
         ...state,
         entries: [
           ...state.entries.slice(0, entryIndex),
-          update(state.entries[entryIndex], { $merge: { _id, title, fields } }),
+          update(state.entries[entryIndex], { $merge: { title, fields, full: true } }),
           ...state.entries.slice(entryIndex + 1),
         ],
       };

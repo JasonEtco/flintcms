@@ -7,7 +7,7 @@ import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { deleteEntry, updateEntry } from '../../actions/entryActions';
+import { deleteEntry, updateEntry, entryDetails } from '../../actions/entryActions';
 
 export default class Entry extends Component {
   static propTypes = {
@@ -32,6 +32,11 @@ export default class Entry extends Component {
     this.entry = entries.entries.find(e => e._id === id);
   }
 
+  componentDidMount() {
+    const { dispatch, params } = this.props;
+    dispatch(entryDetails(params.id));
+  }
+
   onSubmit(e) {
     e.preventDefault();
     const data = serialize(this.page.form, { hash: true });
@@ -49,7 +54,18 @@ export default class Entry extends Component {
 
   render() {
     const { sections, entries, params } = this.props;
-    const { section, title, _id, fields } = entries.entries.find(e => e._id === params.id);
+    const {
+      section,
+      title,
+      _id,
+      fields,
+      full,
+      status,
+    } = entries.entries.find(e => e._id === params.id);
+
+    // TODO: Show Loader
+    if (full === undefined) return null;
+
     const sectionSlug = h.getSlugFromId(sections.sections, section);
     const sectionName = h.getPropFromProp(sections.sections, { _id: section }, 'title');
 

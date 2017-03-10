@@ -10,6 +10,7 @@ export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
 export const NEW_ENTRY = 'NEW_ENTRY';
 export const UPDATE_ENTRY = 'UPDATE_ENTRY';
 export const DELETE_ENTRY = 'DELETE_ENTRY';
+export const ENTRY_DETAILS = 'ENTRY_DETAILS';
 
 async function formatFields(fields, stateFields) {
   if (fields.length <= 0) return fields;
@@ -25,7 +26,7 @@ async function formatFields(fields, stateFields) {
   return options;
 }
 
-export function newEntry(title, section, rawOptions) {
+export function newEntry(title, section, status, rawOptions) {
   return async (dispatch, getState) => {
     const { entries, fields, sections, user } = getState();
     const options = await formatFields(rawOptions, fields.fields);
@@ -51,6 +52,7 @@ export function newEntry(title, section, rawOptions) {
       data: {
         title,
         section,
+        status,
         fields: options,
         author: user._id,
       },
@@ -147,6 +149,38 @@ export function deleteEntry(id) {
   };
 }
 
+export function entryDetails(_id) {
+  return (dispatch) => {
+    const query = `query ($_id:ID!) {
+      entry(_id: $_id) {
+        _id
+        title
+        slug
+        author
+        dateCreated
+        section
+        status
+        fields {
+          fieldId
+          fieldSlug
+          value
+        }
+      }
+    }`;
+
+    const variables = {
+      _id,
+    };
+
+    return graphFetcher(query, variables)
+      .then((json) => {
+        const { entry } = json.data.data;
+        dispatch({ type: UPDATE_ENTRY, updateEntry: entry });
+      })
+      .catch(err => new Error(err));
+  };
+}
+
 
 export function fetchEntriesIfNeeded() {
   return (dispatch, getState) => {
@@ -165,11 +199,6 @@ export function fetchEntriesIfNeeded() {
         dateCreated
         section
         status
-        fields {
-          fieldId
-          fieldSlug
-          value
-        }
       }
     }`;
 

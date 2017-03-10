@@ -35,10 +35,10 @@ export default class NewEntry extends Component {
   onSubmit(e) {
     e.preventDefault();
     const { sections, params } = this.props;
-    const { title, ...fields } = serialize(this.page.form, { hash: true });
+    const { title, status, ...fields } = serialize(this.page.form, { hash: true });
     const sectionId = h.getPropFromProp(sections.sections, { slug: params.section }, '_id');
 
-    this.props.dispatch(newEntry(title, sectionId, fields));
+    this.props.dispatch(newEntry(title, sectionId, status, fields));
   }
 
   render() {

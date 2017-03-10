@@ -20,7 +20,7 @@ module.exports = {
     const projection = getProjection(ast);
 
     return Entry
-      .findById(args.id)
+      .findById(args._id)
       .select(projection)
       .exec();
   },

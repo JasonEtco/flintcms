@@ -55,6 +55,7 @@ const outputType = new GraphQLObjectType({
     },
     status: {
       type: new GraphQLNonNull(GraphQLString),
+      description: 'Live, Draft or Disabled',
     },
     dateCreated: {
       type: new GraphQLNonNull(GraphQLString),
@@ -76,6 +77,10 @@ const inputType = new GraphQLInputObjectType({
     title: {
       type: GraphQLString,
       description: 'Title of the entry.',
+    },
+    status: {
+      type: GraphQLString,
+      description: 'Live, Draft or Disabled',
     },
     section: {
       type: GraphQLID,
