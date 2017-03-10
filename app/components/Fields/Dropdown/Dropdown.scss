@@ -16,9 +16,9 @@
         visibility: hidden;
         transform: translateY(-0.5em);
         transition:
-            opacity 150ms $standard,
-            visibility 150ms $standard,
-            transform 150ms $standard;
+            opacity 150ms $exit,
+            visibility 150ms $exit,
+            transform 150ms $exit;
     }
 
     &__inner {
@@ -102,6 +102,7 @@
             visibility: visible;
             opacity: 1;
             transform: translateY(0);
+            transition-timing-function: $enter;
         }
     }
 }
