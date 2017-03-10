@@ -3,14 +3,6 @@
     display: inline-block;
     font-size: 0.8rem;
 
-    &--full {
-        width: 100%;
-
-        .dropdown__btn {
-            width: 100%;
-        }
-    }
-
     &__options {
         position: absolute;
         top: 100%;
@@ -27,6 +19,19 @@
             opacity 150ms $standard,
             visibility 150ms $standard,
             transform 150ms $standard;
+    }
+
+    &__inner {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        > * {
+            &:not(:first-child) { margin-left: 0.6em; }
+        }
+
+        > .status { flex-shrink: 0; }
+
     }
 
     &__child {
@@ -64,6 +69,14 @@
             position: relative;
             top: 2px;
             @include triangle(bottom, 4px, $grey);
+        }
+    }
+
+    &--full {
+        width: 100%;
+
+        .dropdown__btn {
+            width: 100%;
         }
     }
 

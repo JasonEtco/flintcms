@@ -28,10 +28,9 @@ export default class NewEntry extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
   }
 
-  state = { title: '' };
+  state = { title: '', status: 'draft' };
 
   onSubmit(e) {
     e.preventDefault();
@@ -40,10 +39,6 @@ export default class NewEntry extends Component {
     const sectionId = h.getPropFromProp(sections.sections, { slug: params.section }, '_id');
 
     this.props.dispatch(newEntry(title, sectionId, fields));
-  }
-
-  handleTitleChange(title) {
-    this.setState({ title });
   }
 
   render() {
@@ -73,7 +68,7 @@ export default class NewEntry extends Component {
               ref={(r) => { this.title = r; }}
               required
               full
-              onChange={this.handleTitleChange}
+              onChange={title => this.setState({ title })}
             />
 
             <Input
@@ -98,12 +93,15 @@ export default class NewEntry extends Component {
               label="Status"
               full
               defaultValue="draft"
+              onChange={status => this.setState({ status })}
               options={[
                 { label: 'Live', component: <DropdownChild>Live<StatusDot status="live" /></DropdownChild>, value: 'live' },
                 { label: 'Draft', component: <DropdownChild>Draft<StatusDot status="draft" /></DropdownChild>, value: 'draft' },
                 { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status="disabled" /></DropdownChild>, value: 'disabled' },
               ]}
-            />
+            >
+              <StatusDot status={this.state.status} />
+            </Dropdown>
           </Aside>
         </div>
       </Page>

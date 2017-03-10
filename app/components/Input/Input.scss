@@ -22,10 +22,11 @@
 
     &__label {
         display: block;
+        margin-bottom: 0.4em;
         font-weight: 700;
         font-size: 0.8rem;
 
-        + .input__instructions, + .input {
+        + .input__instructions {
             margin-top: 0.4em;
         }
     }
