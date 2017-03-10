@@ -34,6 +34,11 @@ module.exports = {
         to: 'assets',
         ignore: ['fonts/**/*'],
       },
+      {
+        context: path.join(__dirname, '..', 'app'),
+        from: 'manifest.json',
+        to: '',
+      },
     ]),
   ],
   module: {

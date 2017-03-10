@@ -44,6 +44,7 @@ const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
 
 app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
+app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
 app.use('/admin', require('./apps/admin'));
 app.use('/graphql', require('./apps/graphql'));
 
