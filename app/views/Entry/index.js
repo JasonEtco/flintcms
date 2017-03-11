@@ -7,8 +7,6 @@ import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Aside from '../../containers/Aside';
-import StatusDot from '../../components/StatusDot';
-import Dropdown, { DropdownChild } from '../../components/Fields/Dropdown';
 import { deleteEntry, updateEntry, entryDetails } from '../../actions/entryActions';
 
 export default class Entry extends Component {
@@ -66,6 +64,7 @@ export default class Entry extends Component {
       full,
       status,
       fields,
+      dateCreated,
     } = entries.entries.find(e => e._id === params.id);
 
     // TODO: Render loader
@@ -90,23 +89,8 @@ export default class Entry extends Component {
             <Input label="Title" defaultValue={title} name="title" full required />
             {sectionObj.fields.map(fieldId => this.renderFields(fields, fieldId))}
           </div>
-          <Aside>
-            <Dropdown
-              ref={(r) => { this.status = r; }}
-              name="status"
-              label="Status"
-              full
-              defaultValue={status}
-              onChange={s => this.setState({ status: s })}
-              options={[
-                { label: 'Live', component: <DropdownChild>Live<StatusDot status="live" /></DropdownChild>, value: 'live' },
-                { label: 'Draft', component: <DropdownChild>Draft<StatusDot status="draft" /></DropdownChild>, value: 'draft' },
-                { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status="disabled" /></DropdownChild>, value: 'disabled' },
-              ]}
-            >
-              <StatusDot status={this.state.status || status} />
-            </Dropdown>
-          </Aside>
+
+          <Aside status={status} dateCreated={dateCreated} />
         </div>
       </Page>
     );

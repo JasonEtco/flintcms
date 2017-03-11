@@ -55,7 +55,7 @@ export default function entries(state = {}, action) {
     }
 
     case UPDATE_ENTRY: {
-      const { _id, title, fields } = action.updateEntry;
+      const { _id } = action.updateEntry;
       const entryIndex = state.entries.findIndex(entry => entry._id === _id);
       if (entryIndex === -1) return state;
 
@@ -63,7 +63,7 @@ export default function entries(state = {}, action) {
         ...state,
         entries: [
           ...state.entries.slice(0, entryIndex),
-          update(state.entries[entryIndex], { $merge: { title, fields, full: true } }),
+          update(state.entries[entryIndex], { $merge: { ...action.updateEntry, full: true } }),
           ...state.entries.slice(entryIndex + 1),
         ],
       };

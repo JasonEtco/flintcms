@@ -87,6 +87,7 @@ export function updateEntry(_id, data) {
       updateEntry(_id: $_id, data: $data) {
         _id
         title
+        status
         fields {
           fieldId
           fieldSlug

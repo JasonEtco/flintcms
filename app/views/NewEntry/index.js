@@ -5,8 +5,6 @@ import Page from '../../containers/Page';
 import Aside from '../../containers/Aside';
 import TitleBar from '../../components/TitleBar';
 import Input from '../../components/Input';
-import StatusDot from '../../components/StatusDot';
-import Dropdown, { DropdownChild } from '../../components/Fields/Dropdown';
 import Button from '../../components/Button';
 import renderOption from '../../utils/renderOption';
 import h from '../../utils/helpers';
@@ -86,23 +84,7 @@ export default class NewEntry extends Component {
             {sectionFields.map(field => renderOption(field))}
           </div>
 
-          <Aside>
-            <Dropdown
-              ref={(r) => { this.status = r; }}
-              name="status"
-              label="Status"
-              full
-              defaultValue="draft"
-              onChange={status => this.setState({ status })}
-              options={[
-                { label: 'Live', component: <DropdownChild>Live<StatusDot status="live" /></DropdownChild>, value: 'live' },
-                { label: 'Draft', component: <DropdownChild>Draft<StatusDot status="draft" /></DropdownChild>, value: 'draft' },
-                { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status="disabled" /></DropdownChild>, value: 'disabled' },
-              ]}
-            >
-              <StatusDot status={this.state.status} />
-            </Dropdown>
-          </Aside>
+          <Aside />
         </div>
       </Page>
     );
