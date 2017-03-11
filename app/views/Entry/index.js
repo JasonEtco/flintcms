@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
 import types from '../../utils/types';
-import h from '../../utils/helpers';
 import renderOption from '../../utils/renderOption';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import Aside from '../../containers/Aside';
+import StatusDot from '../../components/StatusDot';
+import Dropdown, { DropdownChild } from '../../components/Fields/Dropdown';
 import { deleteEntry, updateEntry, entryDetails } from '../../actions/entryActions';
 
 export default class Entry extends Component {
@@ -23,14 +25,12 @@ export default class Entry extends Component {
 
   constructor(props) {
     super(props);
-
-    const { entries, params } = props;
-    const { id } = params;
     this.renderFields = this.renderFields.bind(this);
     this.deleteEntry = this.deleteEntry.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.entry = entries.entries.find(e => e._id === id);
   }
+
+  state = { status: null }
 
   componentDidMount() {
     const { dispatch, params } = this.props;
@@ -39,40 +39,44 @@ export default class Entry extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    const { params, dispatch } = this.props;
     const data = serialize(this.page.form, { hash: true });
-    this.props.dispatch(updateEntry(this.entry._id, data));
+    dispatch(updateEntry(params.id, data));
   }
 
   deleteEntry() {
-    this.props.dispatch(deleteEntry(this.entry._id));
+    const { params, dispatch } = this.props;
+    dispatch(deleteEntry(params.id));
   }
 
-  renderFields(field) {
-    const foundField = this.props.fields.fields.find(f => f._id === field.fieldId);
-    return renderOption(foundField, field.value);
+  renderFields(entryFields, fieldId) {
+    const { fields } = this.props.fields;
+    const foundField = fields.find(f => f._id === fieldId);
+    const entryField = entryFields.find(f => f.fieldId === fieldId);
+    return renderOption(foundField, entryField ? entryField.value : null);
   }
 
   render() {
-    const { sections, entries, params } = this.props;
+    const { sections, params, entries } = this.props;
+
     const {
       section,
       title,
       _id,
-      fields,
       full,
       status,
+      fields,
     } = entries.entries.find(e => e._id === params.id);
 
-    // TODO: Show Loader
+    // TODO: Render loader
     if (full === undefined) return null;
 
-    const sectionSlug = h.getSlugFromId(sections.sections, section);
-    const sectionName = h.getPropFromProp(sections.sections, { _id: section }, 'title');
+    const sectionObj = sections.sections.find(s => s._id === section);
 
     const links = [
       { label: 'Entries', path: '/admin/entries' },
-      { label: sectionName, path: `/admin/entries/${sectionSlug}` },
-      { label: title, path: `/admin/entries/${sectionSlug}/${_id}` },
+      { label: sectionObj.title, path: `/admin/entries/${sectionObj.slug}` },
+      { label: title, path: `/admin/entries/${sectionObj.slug}/${_id}` },
     ];
 
     return (
@@ -84,8 +88,25 @@ export default class Entry extends Component {
         <div className="content">
           <div className="page__inner">
             <Input label="Title" defaultValue={title} name="title" full required />
-            {fields.map(field => this.renderFields(field))}
+            {sectionObj.fields.map(fieldId => this.renderFields(fields, fieldId))}
           </div>
+          <Aside>
+            <Dropdown
+              ref={(r) => { this.status = r; }}
+              name="status"
+              label="Status"
+              full
+              defaultValue={status}
+              onChange={s => this.setState({ status: s })}
+              options={[
+                { label: 'Live', component: <DropdownChild>Live<StatusDot status="live" /></DropdownChild>, value: 'live' },
+                { label: 'Draft', component: <DropdownChild>Draft<StatusDot status="draft" /></DropdownChild>, value: 'draft' },
+                { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status="disabled" /></DropdownChild>, value: 'disabled' },
+              ]}
+            >
+              <StatusDot status={this.state.status || status} />
+            </Dropdown>
+          </Aside>
         </div>
       </Page>
     );
