@@ -28,7 +28,7 @@ async function formatFields(fields, stateFields) {
 
 export function newEntry(title, section, status, rawOptions) {
   return async (dispatch, getState) => {
-    const { entries, fields, sections, user } = getState();
+    const { fields, sections, user } = getState();
     const options = await formatFields(rawOptions, fields.fields);
 
     const query = `mutation ($data: EntriesInput!) {
@@ -62,12 +62,11 @@ export function newEntry(title, section, status, rawOptions) {
       .then((json) => {
         const { addEntry } = json.data.data;
 
-        // Only add the new entry to store if it doesn't already exist
-        // In case socket event happens first
-        if (!h.checkFor(entries.entries, '_id', addEntry._id)) {
-          dispatch({ type: NEW_ENTRY, addEntry });
-        }
-
+        dispatch({ type: NEW_ENTRY, addEntry });
+        dispatch(newToast({
+          message: <span><b>{addEntry.title}</b> has been created!</span>,
+          style: 'success',
+        }));
         const sectionSlug = h.getSlugFromId(sections.sections, addEntry.section);
         dispatch(push(`/admin/entries/${sectionSlug}/${addEntry._id}`));
       })
@@ -119,7 +118,7 @@ export function updateEntry(_id, data) {
 }
 
 export function deleteEntry(id) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const query = `mutation ($_id:ID!) {
       removeEntry(_id: $_id) {
         _id
@@ -134,18 +133,12 @@ export function deleteEntry(id) {
     return graphFetcher(query, variables)
       .then((json) => {
         const { removeEntry } = json.data;
-        const { entries } = getState().entries;
         dispatch(push('/admin/entries'));
-
-        // Only add the delete the entry from store if it exists
-        // In case socket event happens first
-        if (h.checkFor(entries, '_id', removeEntry._id)) {
-          dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
-          dispatch(newToast({
-            message: <span><b>{removeEntry.title}</b> has been deleted.</span>,
-            style: 'success',
-          }));
-        }
+        dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
+        dispatch(newToast({
+          message: <span><b>{removeEntry.title}</b> has been deleted.</span>,
+          style: 'success',
+        }));
       })
       .catch(err => new Error(err));
   };

@@ -27,7 +27,9 @@ module.exports = {
       throw new Error('Error removing entry');
     }
 
-    root.io.emit('delete-entry', removedEntry);
+    const socket = root.io.sockets.connected[root.req.body.socket];
+    socket.broadcast.emit('delete-entry', removedEntry);
+
     return removedEntry;
   },
 };

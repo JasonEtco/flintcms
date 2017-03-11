@@ -1,7 +1,6 @@
 import React from 'react';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
-import h from '../utils/helpers';
 import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_FIELDS = 'REQUEST_FIELDS';
@@ -42,7 +41,7 @@ export function newField(title, type, instructions) {
 }
 
 export function deleteField(_id) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const query = `mutation ($_id:ID!) {
       removeField(_id: $_id) {
         _id
@@ -57,17 +56,11 @@ export function deleteField(_id) {
     return graphFetcher(query, variables)
       .then((json) => {
         const { removeField } = json.data;
-        const { fields } = getState().fields;
-
-        // Only add the delete the entry from store if it exists
-        // In case socket event happens first
-        if (h.checkFor(fields, '_id', removeField._id)) {
-          dispatch({ type: DELETE_FIELD, id: removeField._id });
-          dispatch(newToast({
-            message: <span><b>{removeField.title}</b> has been deleted.</span>,
-            style: 'success',
-          }));
-        }
+        dispatch({ type: DELETE_FIELD, id: removeField._id });
+        dispatch(newToast({
+          message: <span><b>{removeField.title}</b> has been deleted.</span>,
+          style: 'success',
+        }));
       })
       .catch(err => new Error(err));
   };

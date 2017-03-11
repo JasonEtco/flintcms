@@ -1,8 +1,10 @@
+import update from 'immutability-helper';
 import {
   REQUEST_SECTIONS,
   RECEIVE_SECTIONS,
   NEW_SECTION,
   DELETE_SECTION,
+  UPDATE_SECTION,
 } from '../actions/sectionActions';
 
 export default function sections(state = {}, action) {
@@ -49,6 +51,21 @@ export default function sections(state = {}, action) {
         ...state,
         sections: [
           ...state.sections.slice(0, sectionIndex),
+          ...state.sections.slice(sectionIndex + 1),
+        ],
+      };
+    }
+
+    case UPDATE_SECTION: {
+      const { _id } = action.updateSection;
+      const sectionIndex = state.sections.findIndex(section => section._id === _id);
+      if (sectionIndex === -1) return state;
+
+      return {
+        ...state,
+        sections: [
+          ...state.sections.slice(0, sectionIndex),
+          update(state.sections[sectionIndex], { $merge: { ...action.updateSection, full: true } }),
           ...state.sections.slice(sectionIndex + 1),
         ],
       };

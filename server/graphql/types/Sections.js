@@ -20,6 +20,9 @@ const outputType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'Date Created',
     },
+    template: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
   },
 });
 

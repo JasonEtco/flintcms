@@ -28,7 +28,10 @@ module.exports = {
     const savedEntry = await newEntry.save();
 
     if (!savedEntry) throw new Error('Error adding new entry');
-    root.io.emit('new-entry', savedEntry);
+
+    const socket = root.io.sockets.connected[root.req.body.socket];
+    socket.broadcast.emit('new-entry', savedEntry);
+
     return savedEntry;
   },
 };

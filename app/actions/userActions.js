@@ -2,7 +2,6 @@ import { push } from 'react-router-redux';
 import Fetcher from '../utils/fetchClass';
 import graphFetcher from '../utils/graphFetcher';
 import GraphQLClass from '../utils/graphqlClass';
-import h from '../utils/helpers';
 import { errorToasts } from './uiActions';
 
 export const REQUEST_USER = 'REQUEST_USER';
@@ -13,7 +12,7 @@ export const REQUEST_USERS = 'REQUEST_USERS';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 
 export function newUser(user) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const query = `mutation ($user: UserInput!) {
       addUser(user: $user) {
         _id
@@ -34,15 +33,8 @@ export function newUser(user) {
 
     return graphFetcher(query, variables)
       .then((json) => {
-        const { users } = getState();
         const { addUser } = json.data.data;
-
-        // Only add the new entry to store if it doesn't already exist
-        // In case socket event happens first
-        if (!h.checkFor(users.users, '_id', addUser._id)) {
-          dispatch({ type: NEW_USER, addUser });
-        }
-
+        dispatch({ type: NEW_USER, addUser });
         dispatch(push('/admin/users'));
       })
       .catch((error) => {

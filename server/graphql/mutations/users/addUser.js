@@ -26,7 +26,9 @@ module.exports = {
     const savedUser = await newUser.save();
     if (!savedUser) throw new Error('Could not save the User');
 
-    root.io.emit('new-user', savedUser);
+    const socket = root.io.sockets.connected[root.req.body.socket];
+    socket.broadcast.emit('new-user', savedUser);
+
     return savedUser;
   },
 };

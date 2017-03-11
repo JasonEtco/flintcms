@@ -15,17 +15,19 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, params) {
-    const { title } = params.data;
+  async resolve(root, args) {
+    const { title } = args.data;
     if (!title) throw new Error('You must include a title.');
 
     const slug = h.slugify(title);
     if (await Field.findOne({ slug })) throw new Error('There is already a field with that slug.');
 
-    const newField = new Field(params.data);
+    const newField = new Field(args.data);
     const savedField = await newField.save();
 
-    root.io.emit('new-field', savedField);
+    const socket = root.io.sockets.connected[root.req.body.socket];
+    socket.broadcast.emit('new-field', savedField);
+
     return savedField;
   },
 };

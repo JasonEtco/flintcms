@@ -26,11 +26,11 @@ module.exports = {
 
     Entry.remove({ section: args._id }).exec();
 
-    if (!removedSection) {
-      throw new Error('Error removing section');
-    }
+    if (!removedSection) throw new Error('Error removing section');
 
-    root.io.emit('delete-section', removedSection);
+    const socket = root.io.sockets.connected[root.req.body.socket];
+    socket.broadcast.emit('delete-section', removedSection);
+
     return removedSection;
   },
 };

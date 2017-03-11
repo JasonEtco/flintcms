@@ -3,9 +3,9 @@ const {
   GraphQLID,
 } = require('graphql');
 const mongoose = require('mongoose');
-const { inputType, outputType } = require('../../types/Entries');
+const { inputType, outputType } = require('../../types/Sections');
 
-const Entry = mongoose.model('Entry');
+const Section = mongoose.model('Section');
 
 module.exports = {
   type: new GraphQLNonNull(outputType),
@@ -20,17 +20,16 @@ module.exports = {
     },
   },
   async resolve(root, { _id, data }) {
-    if (!await Entry.findById(_id)) {
-      throw new Error('There is no Entry with this ID');
+    if (!await Section.findById(_id)) {
+      throw new Error('There is no Section with this ID');
     }
 
-    const updatedEntry = await Entry.findByIdAndUpdate(_id, data, { new: true });
-
-    if (!updatedEntry) throw new Error('Error updating entry');
+    const updatedSection = await Section.findByIdAndUpdate(_id, data, { new: true });
+    if (!updatedSection) throw new Error('Error updating Section');
 
     const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('update-entry', updatedEntry);
+    socket.broadcast.emit('update-section', updatedSection);
 
-    return updatedEntry;
+    return updatedSection;
   },
 };

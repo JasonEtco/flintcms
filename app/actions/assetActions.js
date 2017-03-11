@@ -2,7 +2,6 @@ import React from 'react';
 import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
-import h from '../utils/helpers';
 import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_ASSETS = 'REQUEST_ASSETS';
@@ -12,7 +11,7 @@ export const DELETE_ASSET = 'DELETE_ASSET';
 export const INDEX_ASSETS = 'INDEX_ASSETS';
 
 export function newAsset(formData) {
-  return (dispatch, getState) =>
+  return dispatch =>
     fetch('/admin/api/assets', {
       method: 'POST',
       body: formData,
@@ -20,20 +19,14 @@ export function newAsset(formData) {
     }).then(res => res.json())
       .then((json) => {
         dispatch(push('/admin/settings/assets'));
-        const { assets } = getState();
         const { addAsset } = json.data.data;
-
-        // Only add the new entry to store if it doesn't already exist
-        // In case socket event happens first
-        if (!h.checkFor(assets.assets, '_id', addAsset._id)) {
-          dispatch({ type: NEW_ASSET, addAsset });
-        }
+        dispatch({ type: NEW_ASSET, addAsset });
       })
       .catch(err => new Error(err));
 }
 
 export function deleteAsset(id) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const query = `mutation ($_id:ID!) {
       removeAsset(_id: $_id) {
         _id
@@ -46,17 +39,12 @@ export function deleteAsset(id) {
     return graphFetcher(query, variables)
       .then((json) => {
         const { removeAsset } = json.data;
-        const { assets } = getState().assets;
 
-        // Only add the delete the asset from store if it exists
-        // In case socket event happens first
-        if (h.checkFor(assets, '_id', removeAsset._id)) {
-          dispatch({ type: DELETE_ASSET, id: removeAsset._id });
-          dispatch(newToast({
-            message: <span><b>{removeAsset.title}</b> has been deleted.</span>,
-            style: 'success',
-          }));
-        }
+        dispatch({ type: DELETE_ASSET, id: removeAsset._id });
+        dispatch(newToast({
+          message: <span><b>{removeAsset.title}</b> has been deleted.</span>,
+          style: 'success',
+        }));
         dispatch(push('/admin/settings/assets'));
       })
       .catch((error) => {
@@ -66,7 +54,7 @@ export function deleteAsset(id) {
 }
 
 export function indexAssets() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const query = `mutation {
       indexAssets {
         savedFiles {
@@ -87,13 +75,10 @@ export function indexAssets() {
     return graphFetcher(query)
       .then((json) => {
         const { savedFiles, removedFiles } = json.data.data.indexAssets;
-        const { assets } = getState();
         dispatch(newToast('Assets have been re-indexed!'));
 
         savedFiles.forEach((addAsset) => {
-          if (!h.checkFor(assets.assets, '_id', addAsset._id)) {
-            dispatch({ type: NEW_ASSET, addAsset });
-          }
+          dispatch({ type: NEW_ASSET, addAsset });
         });
         removedFiles.forEach(o => dispatch({ type: DELETE_ASSET, id: o._id }));
       })
