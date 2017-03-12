@@ -1,8 +1,26 @@
-const mongoose = require('mongoose');
+const { graphql } = require('graphql');
+const schema = require('../graphql');
 
-const Entry = mongoose.model('Entry');
 
-module.exports = (slug) => {
-  if (slug) return Entry.findOne({ slug });
-  return Entry.find();
+module.exports = async (slug) => {
+  const query = `{
+    entry (slug: "${slug}", status: "live") {
+      _id
+      title
+      slug
+      status
+      dateCreated
+      section
+      author
+      fields {
+        fieldSlug
+        value
+      }
+    }
+  }`;
+
+  const { data: { entry }, errors } = await graphql(schema, query);
+  if (errors !== undefined || entry === undefined) throw new Error(404);
+
+  return entry;
 };

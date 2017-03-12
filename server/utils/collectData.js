@@ -4,7 +4,7 @@ const h = require('./helpers');
 
 module.exports = async function collectData(entryData) {
   const query = `{
-    entries {
+    entries (status: "live") {
       _id
       title
       slug

@@ -1,5 +1,6 @@
 const {
   GraphQLList,
+  GraphQLString,
 } = require('graphql');
 
 const mongoose = require('mongoose');
@@ -11,12 +12,17 @@ const getProjection = require('../../get-projection');
 
 module.exports = {
   type: new GraphQLList(outputType),
-  args: {},
+  args: {
+    status: {
+      name: 'status',
+      type: GraphQLString,
+    },
+  },
   resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
 
     return Entry
-      .find()
+      .find(args)
       .select(projection)
       .exec();
   },

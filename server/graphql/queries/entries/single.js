@@ -1,6 +1,6 @@
 const {
   GraphQLID,
-  GraphQLNonNull,
+  GraphQLString,
 } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Entries');
@@ -13,14 +13,18 @@ module.exports = {
   args: {
     _id: {
       name: '_id',
-      type: new GraphQLNonNull(GraphQLID),
+      type: GraphQLID,
+    },
+    slug: {
+      name: 'slug',
+      type: GraphQLString,
     },
   },
   resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
 
     return Entry
-      .findById(args._id)
+      .findOne(args)
       .select(projection)
       .exec();
   },
