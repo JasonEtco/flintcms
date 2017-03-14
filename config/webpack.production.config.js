@@ -17,7 +17,6 @@ module.exports = {
     publicPath: '/admin',
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '..', 'app', 'index.tpl.html'),
       inject: 'body',
@@ -26,11 +25,9 @@ module.exports = {
     new ExtractTextPlugin('[name]-[hash].min.css'),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
-        warnings: false,
         screw_ie8: true,
       },
     }),
-    new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
@@ -52,35 +49,62 @@ module.exports = {
     loaders: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: [['env', { targets: { browsers } }], 'es2015', 'stage-0', 'react'],
-        plugins: ['transform-runtime'],
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            'react',
+            'es2015',
+            'stage-0',
+            'react-hmre',
+          ],
+          plugins: ['transform-runtime'],
+        },
       },
     }, {
-      test: /\.json/,
-      loader: 'json',
-    }, {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract(['css', 'sass!postcss?sourceMap']),
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true,
+            data: '@import "tools";',
+            includePaths: [
+              path.resolve(__dirname, '../app/scss/tools'),
+            ],
+            postcss: [
+              autoprefixer({ browsers }),
+            ],
+          },
+        }],
+      }),
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
-      loaders: [
-        'file?hash=sha512&digest=hex&name=[hash].[ext]',
-        'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false',
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            hash: 'sha512',
+            digest: 'hex',
+            name: '[hash].[ext]',
+          },
+        },
+        {
+          loader: 'image-webpack-loader',
+          options: {
+            bypassOnDebug: true,
+          },
+        },
       ],
     }, {
       test: /\.(eot|svg|ttf|woff?)$/,
-      loader: 'file?name=assets/fonts/[name].[ext]',
+      use: {
+        loader: 'file-loader',
+        options: {
+          name: 'assets/fonts/[name].[ext]',
+        },
+      },
     }],
-  },
-  postcss: [
-    autoprefixer({ browsers }),
-  ],
-  sassLoader: {
-    data: '@import "tools";',
-    includePaths: [
-      path.resolve(__dirname, '..', 'app', 'scss', 'tools'),
-    ],
   },
 };

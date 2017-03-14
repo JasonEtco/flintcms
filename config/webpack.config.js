@@ -21,9 +21,8 @@ module.exports = {
       inject: 'body',
       filename: 'index.html',
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
@@ -42,37 +41,66 @@ module.exports = {
     ]),
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: [
-          'react',
-          'es2015',
-          'stage-0',
-          'react-hmre',
-        ],
-        plugins: ['transform-runtime'],
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            'react',
+            'es2015',
+            'stage-0',
+            'react-hmre',
+          ],
+          plugins: ['transform-runtime'],
+        },
       },
     }, {
       test: /\.scss$/,
-      loaders: ['style', 'css', 'sass?sourceMap'],
+      use: [{
+        loader: 'style-loader',
+      }, {
+        loader: 'css-loader',
+        options: {
+          sourceMap: true,
+        },
+      }, {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: true,
+          data: '@import "tools";',
+          includePaths: [
+            path.resolve(__dirname, '../app/scss/tools'),
+          ],
+        },
+      }],
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
-      loaders: [
-        'file?hash=sha512&digest=hex&name=[hash].[ext]',
-        'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false',
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            hash: 'sha512',
+            digest: 'hex',
+            name: '[hash].[ext]',
+          },
+        },
+        {
+          loader: 'image-webpack-loader',
+          options: {
+            bypassOnDebug: true,
+          },
+        },
       ],
     }, {
       test: /\.(eot|svg|ttf|woff?)$/,
-      loader: 'file?name=assets/fonts/[name].[ext]',
+      use: {
+        loader: 'file-loader',
+        options: {
+          name: 'assets/fonts/[name].[ext]',
+        },
+      },
     }],
-  },
-  sassLoader: {
-    data: '@import "tools";',
-    includePaths: [
-      path.resolve(__dirname, '../app/scss/tools'),
-    ],
   },
 };
