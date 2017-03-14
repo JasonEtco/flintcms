@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
-const { browsers } = require('./browser');
+const browsers = require('./browsers');
 
 module.exports = {
   entry: [
@@ -46,16 +46,7 @@ module.exports = {
         options: {
           presets: [
             ['env', {
-              targets: {
-                browsers: [
-                  'last 2 versions',
-                  'ios_saf >= 8',
-                  'not IE <= 10',
-                  'chrome >= 49',
-                  'firefox >= 49',
-                  '> 1%',
-                ],
-              },
+              targets: { browsers },
               debug: false,
               loose: true,
               modules: false,
@@ -87,7 +78,7 @@ module.exports = {
               path.resolve(__dirname, '../app/scss/tools'),
             ],
             postcss: [
-              autoprefixer({ browsers }),
+              autoprefixer(browsers),
             ],
           },
         }],

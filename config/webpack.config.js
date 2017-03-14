@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const browsers = require('./browsers');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -48,16 +49,7 @@ module.exports = {
         options: {
           presets: [
             ['env', {
-              targets: {
-                browsers: [
-                  'last 2 versions',
-                  'ios_saf >= 8',
-                  'not IE <= 10',
-                  'chrome >= 49',
-                  'firefox >= 49',
-                  '> 1%',
-                ],
-              },
+              targets: { browsers },
               debug: false,
               loose: true,
               modules: false,
