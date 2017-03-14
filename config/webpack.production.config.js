@@ -70,15 +70,17 @@ module.exports = {
       use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: ['css-loader', {
+          loader: 'postcss-loader',
+          options: {
+            plugins: () => [autoprefixer(browsers)],
+          },
+        }, {
           loader: 'sass-loader',
           options: {
             sourceMap: true,
             data: '@import "tools";',
             includePaths: [
               path.resolve(__dirname, '../app/scss/tools'),
-            ],
-            postcss: [
-              autoprefixer(browsers),
             ],
           },
         }],
