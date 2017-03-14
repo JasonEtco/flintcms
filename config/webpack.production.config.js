@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -46,11 +45,33 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           presets: [
+            ['env', {
+              targets: {
+                browsers: [
+                  'last 2 versions',
+                  'ios_saf >= 8',
+                  'not IE <= 10',
+                  'chrome >= 49',
+                  'firefox >= 49',
+                  '> 1%',
+                ],
+              },
+              debug: false,
+              loose: true,
+              modules: false,
+              useBuiltIns: true,
+            }],
             'react',
-            'es2015',
-            'stage-0',
           ],
-          plugins: ['transform-runtime'],
+          plugins: [
+            [
+              'transform-object-rest-spread',
+              { useBuiltIns: true },
+            ],
+            'transform-runtime',
+            'transform-class-properties',
+            'transform-flow-strip-types',
+          ],
         },
       },
     }, {
