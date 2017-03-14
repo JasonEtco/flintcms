@@ -2,8 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const BabiliPlugin = require('babili-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
 const { browsers } = require('./browser');
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
       inject: 'body',
       filename: 'index.html',
     }),
-    new BabiliPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin('[name]-[hash].min.css'),
     new CopyWebpackPlugin([
       {
