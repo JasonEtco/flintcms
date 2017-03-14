@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
@@ -12,10 +13,8 @@ export const INDEX_ASSETS = 'INDEX_ASSETS';
 
 export function newAsset(formData) {
   return dispatch =>
-    fetch('/admin/api/assets', {
-      method: 'POST',
-      body: formData,
-      credentials: 'same-origin',
+    axios.post('/admin/api/assets', formData, {
+      withCredentials: true,
     }).then(res => res.json())
       .then((json) => {
         dispatch(push('/admin/settings/assets'));

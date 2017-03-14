@@ -1,5 +1,4 @@
 import { push } from 'react-router-redux';
-import Fetcher from '../utils/fetchClass';
 import graphFetcher from '../utils/graphFetcher';
 import GraphQLClass from '../utils/graphqlClass';
 import { errorToasts } from './uiActions';
@@ -51,7 +50,20 @@ export function fetchUserIfNeeded() {
       receive: RECEIVE_USER,
     };
 
-    const fetcher = new Fetcher(fetcherOptions);
+    const query = `{
+      user {
+        _id
+        username
+        name {
+          first
+          last
+        }
+        dateCreated
+        image
+      }
+    }`;
+
+    const fetcher = new GraphQLClass(fetcherOptions, query);
     return fetcher.beginFetch(dispatch, getState());
   };
 }

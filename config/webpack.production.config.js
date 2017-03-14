@@ -8,7 +8,6 @@ const { browsers } = require('./browser');
 
 module.exports = {
   entry: [
-    'whatwg-fetch',
     path.resolve(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
@@ -23,14 +22,7 @@ module.exports = {
       filename: 'index.html',
     }),
     new ExtractTextPlugin('[name]-[hash].min.css'),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        screw_ie8: true,
-      },
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    }),
+    new webpack.optimize.UglifyJsPlugin(),
     new CopyWebpackPlugin([
       {
         context: path.join(__dirname, '..', 'app'),
@@ -46,7 +38,7 @@ module.exports = {
     ]),
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
       use: {

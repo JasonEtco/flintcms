@@ -1,3 +1,4 @@
+import axios from 'axios';
 import h from './helpers';
 
 export default class GraphQLFetcher {
@@ -19,20 +20,16 @@ export default class GraphQLFetcher {
   fetch() {
     return (dispatch) => {
       dispatch({ type: this.request });
-      return fetch('/graphql', {
-        method: 'POST',
-        body: JSON.stringify({
-          query: this.query,
-        }),
-        credentials: 'same-origin',
+      return axios.post('/graphql', {
+        query: this.query,
+        withCredentials: true,
         headers: new Headers({
           'Content-Type': 'application/json',
         }),
       })
-        .then(response => response.json())
         .then((json) => {
-          h.receiveIfAuthed(json)
-            .then(dispatch(this.receiveJSON(json)));
+          h.receiveIfAuthed(json.data)
+            .then(dispatch(this.receiveJSON(json.data)));
         })
         .catch(err => new Error(err));
     };
