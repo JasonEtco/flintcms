@@ -31,8 +31,11 @@ export default class Entry extends Component {
   state = { status: null }
 
   componentDidMount() {
-    const { dispatch, params } = this.props;
-    dispatch(entryDetails(params.id));
+    const { dispatch, params, entries } = this.props;
+    const { full } = entries.entries.find(e => e._id === params.id);
+    if (!full || full === undefined) {
+      dispatch(entryDetails(params.id));
+    }
   }
 
   onSubmit(e) {
