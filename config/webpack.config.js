@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  devtool: 'eval-source-map',
+  devtool: 'cheap-module-source-map',
   entry: [
     'webpack-hot-middleware/client?reload=true&dynamicPublicPath=true',
     path.join(__dirname, '..', 'app', 'main.js'),

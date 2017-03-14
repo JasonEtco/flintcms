@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { post } from 'axios';
 import h from './helpers';
 
 export default class GraphQLFetcher {
@@ -20,7 +20,7 @@ export default class GraphQLFetcher {
   fetch() {
     return (dispatch) => {
       dispatch({ type: this.request });
-      return axios.post('/graphql', {
+      return post('/graphql', {
         query: this.query,
         withCredentials: true,
         headers: new Headers({

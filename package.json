@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "nodemon --ignore app server/index.js",
-    "build": "rimraf admin && cross-env NODE_ENV=production webpack --config ./config/webpack.production.config.js --progress --profile --colors",
+    "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
     "test": "jest --coverage",
     "serve": "node server/index.js",
@@ -41,6 +41,7 @@
     "babel-preset-react": "^6.22.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.22.0",
+    "babili-webpack-plugin": "^0.0.11",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.16.0",
     "classnames": "^2.2.5",
