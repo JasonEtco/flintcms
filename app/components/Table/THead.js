@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import p from '../../utils/prettyNames';
 
-const THead = ({ sortBy, column, direction, has }) => {
+const THead = ({ sortBy, column, direction, has, onClick }) => {
   const btnClass = classnames(
     'table__header__btn',
     { 'is-active': sortBy === column },
@@ -15,7 +15,7 @@ const THead = ({ sortBy, column, direction, has }) => {
     <th className="table__header" key={column}>
       <button
         className={btnClass}
-        onClick={() => this.handleSort(column)}
+        onClick={onClick}
       >{p[column] || column}</button>
     </th>
   );
@@ -26,6 +26,7 @@ THead.propTypes = {
   column: PropTypes.string.isRequired,
   direction: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
   has: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default THead;

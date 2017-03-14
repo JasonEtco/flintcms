@@ -102,6 +102,7 @@ export default class Table extends Component {
                     column={column}
                     direction={direction}
                     has={has}
+                    onClick={() => this.handleSort(column)}
                   />
                 );
               })}
