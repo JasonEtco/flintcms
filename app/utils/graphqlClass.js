@@ -23,9 +23,6 @@ export default class GraphQLFetcher {
       return post('/graphql', {
         query: this.query,
         withCredentials: true,
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
       })
         .then((json) => {
           h.receiveIfAuthed(json.data)

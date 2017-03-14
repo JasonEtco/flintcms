@@ -8,8 +8,5 @@ export default function graphFetcher(query, variables = {}) {
     variables,
     socket: id,
     withCredentials: true,
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
   });
 }
