@@ -7,6 +7,7 @@ const browsers = require('./browsers');
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
+    'babel-polyfill',
     'webpack-hot-middleware/client?reload=true&dynamicPublicPath=true',
     path.join(__dirname, '..', 'app', 'main.js'),
   ],
@@ -50,6 +51,7 @@ module.exports = {
           presets: [
             ['env', {
               targets: { browsers },
+              include: ['es6.array.find'],
               debug: false,
               loose: true,
               modules: false,
@@ -65,7 +67,6 @@ module.exports = {
             ],
             'transform-runtime',
             'transform-class-properties',
-            'transform-flow-strip-types',
           ],
         },
       },

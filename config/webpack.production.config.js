@@ -8,6 +8,7 @@ const browsers = require('./browsers');
 
 module.exports = {
   entry: [
+    'babel-polyfill',
     path.resolve(__dirname, '..', 'app', 'main.js'),
   ],
   output: {
@@ -51,6 +52,7 @@ module.exports = {
               loose: true,
               modules: false,
               useBuiltIns: true,
+              include: ['es6.array.find'],
             }],
             'react',
           ],
@@ -61,7 +63,6 @@ module.exports = {
             ],
             'transform-runtime',
             'transform-class-properties',
-            'transform-flow-strip-types',
           ],
         },
       },
