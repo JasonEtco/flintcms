@@ -39,13 +39,16 @@ export default class NewEntry extends Component {
     this.props.dispatch(newEntry(title, sectionId, status, fields));
   }
 
+  renderFields(fieldId) {
+    const { fields } = this.props.fields;
+    const foundField = fields.find(f => f._id === fieldId);
+    return renderOption(foundField);
+  }
+
   render() {
-    const { sections, fields, params } = this.props;
+    const { sections, params } = this.props;
     const { section } = params;
     const sectionObj = sections.sections.find(sec => sec.slug === section);
-    const sectionFields = fields.fields
-      .filter(field => sectionObj.fields.indexOf(field._id) !== -1);
-
     const sectionName = h.getPropFromProp(sections.sections, { slug: section }, 'title');
 
     const links = [
@@ -81,7 +84,7 @@ export default class NewEntry extends Component {
               value={h.slugify(this.state.title)}
             />
 
-            {sectionFields.map(field => renderOption(field))}
+            {sectionObj.fields.map(fieldId => this.renderFields(fieldId))}
           </div>
 
           <Aside />

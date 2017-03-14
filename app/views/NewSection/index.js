@@ -22,7 +22,6 @@ export default class NewSection extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.toggleField = this.toggleField.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
   }
 
@@ -36,16 +35,6 @@ export default class NewSection extends Component {
 
   handleTitleChange(title) {
     this.setState({ title });
-  }
-
-  toggleField(id) {
-    const { fields } = this.state;
-    const index = fields.indexOf(id);
-    if (index !== -1) {
-      this.setState({ fields: [...fields.slice(0, index), ...fields.slice(index + 1)] });
-    } else {
-      this.setState({ fields: [...fields, id] });
-    }
   }
 
   render() {
