@@ -28,6 +28,7 @@ export default class Page extends Component {
     const classes = classnames(
       'page',
       { [`page--${name}`]: true },
+      { 'has-form': onSubmit },
       { 'has-breadcrumbs': links && links.length > 0 },
     );
 
