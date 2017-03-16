@@ -73,8 +73,18 @@ export default class DatePicker extends Component {
     this.setState({ open: !this.state.open });
   }
 
+  isActive = ({ year, month, day }) => {
+    const date = new Date(this.state.value);
+    return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
+  }
+
+  today = () => {
+    const value = new Date().toLocaleString();
+    this.setState({ value });
+  }
+
   renderDates = () => {
-    const { year, month, value } = this.state;
+    const { year, month } = this.state;
 
     const lastMonthDays = daysInMonth(month - 1, year);
     const thisMonthDays = daysInMonth(month, year);
@@ -97,7 +107,7 @@ export default class DatePicker extends Component {
           <DayTile
             key={i}
             day={day}
-            isActive={new Date(value).getTime() === new Date(year, month, day).getTime()}
+            isActive={this.isActive({ year, month, day })}
             onClick={() => this.selectDate({ year, month, day })}
           />);
       }
@@ -144,7 +154,9 @@ export default class DatePicker extends Component {
           <div className="datepicker__dates">
             {this.renderDates()}
           </div>
+          <button className="datepicker__today" type="button" onClick={this.today}>Today</button>
         </div>}
+
       </div>
     );
   }

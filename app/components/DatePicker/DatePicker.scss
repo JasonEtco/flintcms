@@ -78,4 +78,19 @@
             outline: none;
         }
     }
+
+    &__today {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0.6em;
+        border: none;
+        border-top: 1px solid $grey-light;
+        background: none;
+        font-family: inherit;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $grey-light;
+        }
+    }
 }
