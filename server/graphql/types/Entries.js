@@ -93,6 +93,9 @@ const inputType = new GraphQLInputObjectType({
       type: new GraphQLList(FieldTypeInput),
       description: 'A list of the fields used in the entry.',
     },
+    dateCreated: {
+      type: GraphQLString,
+    },
   },
 });
 

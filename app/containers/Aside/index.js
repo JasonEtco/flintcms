@@ -1,15 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import StatusDot from '../../components/StatusDot';
 import Dropdown, { DropdownChild } from '../../components/Fields/Dropdown';
+import DatePicker from '../../components/DatePicker';
 import './Aside.scss';
 
 export default class Aside extends Component {
   static propTypes = {
     status: PropTypes.oneOf(['live', 'draft', 'disabled']),
+    dateCreated: PropTypes.string,
   }
 
   static defaultProps = {
     status: 'draft',
+    dateCreated: null,
   }
 
   constructor(props) {
@@ -23,6 +26,7 @@ export default class Aside extends Component {
 
   render() {
     const { status } = this.state;
+    const { dateCreated } = this.props;
 
     return (
       <aside className="aside">
@@ -40,6 +44,8 @@ export default class Aside extends Component {
         >
           <StatusDot status={this.state.status} />
         </Dropdown>
+
+        <DatePicker name="dateCreated" label="Date Created" value={dateCreated} />
       </aside>
     );
   }

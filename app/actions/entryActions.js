@@ -26,7 +26,7 @@ async function formatFields(fields, stateFields) {
   return options;
 }
 
-export function newEntry(title, section, status, rawOptions) {
+export function newEntry(title, section, status, dateCreated, rawOptions) {
   return async (dispatch, getState) => {
     const { fields, sections, user } = getState();
     const options = await formatFields(rawOptions, fields.fields);
@@ -53,6 +53,7 @@ export function newEntry(title, section, status, rawOptions) {
         title,
         section,
         status,
+        dateCreated,
         fields: options,
         author: user._id,
       },

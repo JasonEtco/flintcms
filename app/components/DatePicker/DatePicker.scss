@@ -1,0 +1,81 @@
+.datepicker {
+    &-wrapper {
+        position: relative;
+    }
+
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    width: 250px;
+    @extend %card;
+    padding: 0;
+    font-size: $size0;
+
+    &__controls {
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 1em;
+        justify-content: space-between;
+
+        &__btn {
+            padding: 0.2em;
+            border: none;
+            margin: 0;
+            background: none;
+            cursor: pointer;
+            outline: none;
+
+            &:hover svg { fill: $orange; }
+        }
+    }
+
+    &__days {
+        display: flex;
+        padding: 0 1em;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    &__day {
+        width: calc(100% / 7);
+    }
+
+    &__dates {
+        display: flex;
+        border-top: 1px solid $grey-light;
+        border-left: 1px solid $grey-light;
+        margin: 1em;
+        flex-wrap: wrap;
+    }
+
+    &__date {
+        box-sizing: border-box;
+        width: calc(100% / 7);
+        padding: 0.3em;
+        border: none;
+        border-right: 1px solid $grey-light;
+        border-bottom: 1px solid $grey-light;
+        background: none;
+        font-family: inherit;
+        text-align: center;
+
+        &:not(.is-disabled) {
+            cursor: pointer;
+
+            &:hover {
+                background-color: $grey-light;
+            }
+        }
+
+        &.is-active {
+            background: $grey-light;
+        }
+
+        &.is-disabled {
+            color: $grey-light;
+            outline: none;
+        }
+    }
+}
