@@ -13,6 +13,15 @@ function daysInMonth(month, year) {
   return new Date(year, month + 1, 0).getDate();
 }
 
+function seperateDateObj(dateObj = new Date()) {
+  return {
+    month: dateObj.getMonth(),
+    year: dateObj.getFullYear(),
+    day: dateObj.getDate(),
+    value: dateObj.toLocaleString(),
+  };
+}
+
 export default class DatePicker extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
@@ -31,11 +40,12 @@ export default class DatePicker extends Component {
     super(props);
     const { value } = props;
     this.value = value;
+    const { month, year } = seperateDateObj();
 
     this.state = {
       open: false,
-      month: new Date().getMonth(),
-      year: new Date().getFullYear(),
+      month,
+      year,
       value,
     };
   }
@@ -73,16 +83,14 @@ export default class DatePicker extends Component {
     this.setState({ open: !this.state.open });
   }
 
-  isActive = ({ year, month, day }) => {
-    const date = new Date(this.state.value);
-    return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
+  isActive = (date) => {
+    const { year, month, day } = seperateDateObj(new Date(this.state.value));
+    return year === date.year && month === date.month && day === date.day;
   }
 
   today = () => {
     const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    const value = today.toLocaleString();
+    const { year, month, value } = seperateDateObj(today);
     this.setState({ value, month, year });
   }
 
@@ -92,7 +100,7 @@ export default class DatePicker extends Component {
     const lastMonthDays = daysInMonth(month - 1, year);
     const thisMonthDays = daysInMonth(month, year);
 
-    const offset = new Date(year, month).getDay();
+    const { day: offset } = seperateDateObj(new Date(year, month));
     const dates = [];
 
     for (let i = 0; i < thisMonthDays + offset; i++) {
