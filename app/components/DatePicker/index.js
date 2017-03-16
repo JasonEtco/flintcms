@@ -30,17 +30,14 @@ export default class DatePicker extends Component {
   constructor(props) {
     super(props);
     const { value } = props;
-    const month = new Date().getMonth();
-    const year = new Date().getFullYear();
-    const td = new Date().getDate();
-    const today = new Date(year, month, td);
+    const today = new Date().toLocaleString();
+    this.value = today;
 
-    this.value = today.toLocaleString();
     this.state = {
       open: false,
-      month,
-      year,
-      value: value || today.toLocaleString(),
+      month: new Date().getMonth(),
+      year: new Date().getFullYear(),
+      value: value || today,
     };
   }
 
@@ -118,15 +115,20 @@ export default class DatePicker extends Component {
       <div className="datepicker-wrapper form-element">
         {label && <span className="input__label">{label}</span>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <input
-          className="input"
-          type="text"
-          name={name}
-          value={inputVal}
-          onClick={this.handleToggle}
-          ref={(r) => { this.input = r; }}
-          readOnly
-        />
+        <div className="input-icon-wrapper">
+          <input
+            className="input"
+            type="text"
+            name={name}
+            value={inputVal}
+            onClick={this.handleToggle}
+            ref={(r) => { this.input = r; }}
+            readOnly
+          />
+          <button type="button" className="input__icon" onClick={this.handleToggle}>
+            <Icon icon="calendar" />
+          </button>
+        </div>
         {open && <div className="datepicker" aria-expanded={open} onClick={e => e.stopPropagation()}>
           <div className="datepicker__controls">
             <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e, false)}>
