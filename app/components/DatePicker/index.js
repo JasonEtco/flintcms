@@ -22,7 +22,7 @@ export default class DatePicker extends Component {
   }
 
   static defaultProps = {
-    value: null,
+    value: '333',
     label: null,
     instructions: null,
   }
@@ -30,14 +30,13 @@ export default class DatePicker extends Component {
   constructor(props) {
     super(props);
     const { value } = props;
-    const today = new Date().toLocaleString();
-    this.value = today;
+    this.value = value;
 
     this.state = {
       open: false,
       month: new Date().getMonth(),
       year: new Date().getFullYear(),
-      value: value || today,
+      value,
     };
   }
 

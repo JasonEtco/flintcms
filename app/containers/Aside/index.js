@@ -12,7 +12,7 @@ export default class Aside extends Component {
 
   static defaultProps = {
     status: 'draft',
-    dateCreated: null,
+    dateCreated: new Date().toLocaleString(),
   }
 
   constructor(props) {
