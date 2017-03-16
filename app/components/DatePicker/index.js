@@ -22,7 +22,7 @@ export default class DatePicker extends Component {
   }
 
   static defaultProps = {
-    value: '333',
+    value: new Date().toLocaleString(),
     label: null,
     instructions: null,
   }
