@@ -79,8 +79,11 @@ export default class DatePicker extends Component {
   }
 
   today = () => {
-    const value = new Date().toLocaleString();
-    this.setState({ value });
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    const value = today.toLocaleString();
+    this.setState({ value, month, year });
   }
 
   renderDates = () => {
