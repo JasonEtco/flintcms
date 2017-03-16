@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-const webpack = require('webpack');
+const BabiliPlugin = require('babili-webpack-plugin');
 const browsers = require('./browsers');
 
 module.exports = {
@@ -22,7 +22,8 @@ module.exports = {
       inject: 'body',
       filename: 'index.html',
     }),
-    new webpack.optimize.UglifyJsPlugin(),
+    // new webpack.optimize.UglifyJsPlugin(),
+    new BabiliPlugin(),
     new ExtractTextPlugin('[name]-[hash].min.css'),
     new CopyWebpackPlugin([
       {
@@ -52,7 +53,6 @@ module.exports = {
               loose: true,
               modules: false,
               useBuiltIns: true,
-              include: ['es6.array.find'],
             }],
             'react',
           ],

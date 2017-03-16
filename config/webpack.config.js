@@ -51,7 +51,6 @@ module.exports = {
           presets: [
             ['env', {
               targets: { browsers },
-              include: ['es6.array.find'],
               debug: false,
               loose: true,
               modules: false,
