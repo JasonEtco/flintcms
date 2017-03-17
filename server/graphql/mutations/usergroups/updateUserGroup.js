@@ -1,6 +1,7 @@
 const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/UserGroups');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -23,8 +24,7 @@ module.exports = {
 
     if (!updatedUserGroup) throw new Error('Error updating UserGroup');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('update-usergroup', updatedUserGroup);
+    emitSocketEvent(root, 'update-usergroup', updatedUserGroup);
 
     return updatedUserGroup;
   },

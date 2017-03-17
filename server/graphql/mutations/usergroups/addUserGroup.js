@@ -1,6 +1,7 @@
 const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/UserGroups');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -18,8 +19,7 @@ module.exports = {
 
     if (!savedUserGroup) throw new Error('Error adding new entry');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('new-usergroup', savedUserGroup);
+    emitSocketEvent(root, 'new-usergroup', savedUserGroup);
 
     return savedUserGroup;
   },

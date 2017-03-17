@@ -1,10 +1,8 @@
-const {
-  GraphQLNonNull,
-  GraphQLID,
-} = require('graphql');
+const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Entries');
 const getProjection = require('../../get-projection');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const Entry = mongoose.model('Entry');
 
@@ -23,12 +21,9 @@ module.exports = {
       .findByIdAndRemove(args._id, { select: projection })
       .exec();
 
-    if (!removedEntry) {
-      throw new Error('Error removing entry');
-    }
+    if (!removedEntry) throw new Error('Error removing entry');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('delete-entry', removedEntry);
+    emitSocketEvent(root, 'delete-entry', removedEntry);
 
     return removedEntry;
   },

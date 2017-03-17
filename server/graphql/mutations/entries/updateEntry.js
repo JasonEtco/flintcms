@@ -1,9 +1,7 @@
-const {
-  GraphQLNonNull,
-  GraphQLID,
-} = require('graphql');
+const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Entries');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const Entry = mongoose.model('Entry');
 
@@ -20,16 +18,13 @@ module.exports = {
     },
   },
   async resolve(root, { _id, data }) {
-    if (!await Entry.findById(_id)) {
-      throw new Error('There is no Entry with this ID');
-    }
+    if (!await Entry.findById(_id)) throw new Error('There is no Entry with this ID');
 
     const updatedEntry = await Entry.findByIdAndUpdate(_id, data, { new: true });
 
     if (!updatedEntry) throw new Error('Error updating entry');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('update-entry', updatedEntry);
+    emitSocketEvent(root, 'update-entry', updatedEntry);
 
     return updatedEntry;
   },

@@ -1,10 +1,8 @@
-const {
-  GraphQLNonNull,
-  GraphQLID,
-} = require('graphql');
+const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Fields');
 const getProjection = require('../../get-projection');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const Field = mongoose.model('Field');
 const Section = mongoose.model('Section');
@@ -32,8 +30,7 @@ module.exports = {
 
     if (!removedField) throw new Error('Error removing field');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('delete-field', removedField);
+    emitSocketEvent(root, 'delete-field', removedField);
 
     return removedField;
   },

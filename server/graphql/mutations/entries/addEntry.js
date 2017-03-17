@@ -1,9 +1,8 @@
-const {
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Entries');
 const h = require('../../../utils/helpers');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const Entry = mongoose.model('Entry');
 const Section = mongoose.model('Section');
@@ -29,8 +28,7 @@ module.exports = {
 
     if (!savedEntry) throw new Error('Error adding new entry');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('new-entry', savedEntry);
+    emitSocketEvent(root, 'new-entry', savedEntry);
 
     return savedEntry;
   },

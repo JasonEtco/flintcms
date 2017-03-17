@@ -4,6 +4,7 @@ const {
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Sections');
 const h = require('../../../utils/helpers');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const Section = mongoose.model('Section');
 
@@ -26,8 +27,7 @@ module.exports = {
     const newSection = new Section(args.data);
     const savedSection = await newSection.save();
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('new-section', savedSection);
+    emitSocketEvent(root, 'new-section', savedSection);
 
     return savedSection;
   },

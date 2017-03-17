@@ -1,8 +1,7 @@
-const {
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Users');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const User = mongoose.model('User');
 
@@ -26,8 +25,7 @@ module.exports = {
     const savedUser = await newUser.save();
     if (!savedUser) throw new Error('Could not save the User');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('new-user', savedUser);
+    emitSocketEvent(root, 'new-user', savedUser);
 
     return savedUser;
   },

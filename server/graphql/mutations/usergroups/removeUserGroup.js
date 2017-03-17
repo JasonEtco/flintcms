@@ -2,6 +2,7 @@ const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/UserGroups');
 const getProjection = require('../../get-projection');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -22,8 +23,7 @@ module.exports = {
 
     if (!removedUserGroup) throw new Error('Error removing user group');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('delete-usergroup', removedUserGroup);
+    emitSocketEvent(root, 'delete-usergroup', removedUserGroup);
 
     return removedUserGroup;
   },

@@ -5,6 +5,7 @@ const {
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Sections');
 const getProjection = require('../../get-projection');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const Section = mongoose.model('Section');
 const Entry = mongoose.model('Entry');
@@ -28,8 +29,7 @@ module.exports = {
 
     if (!removedSection) throw new Error('Error removing section');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('delete-section', removedSection);
+    emitSocketEvent(root, 'delete-section', removedSection);
 
     return removedSection;
   },

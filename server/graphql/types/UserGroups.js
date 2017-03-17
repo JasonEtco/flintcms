@@ -1,4 +1,4 @@
-const { GraphQLList, GraphQLBoolean, GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
+const { GraphQLBoolean, GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
 
 const PermissionsType = new GraphQLObjectType({
   name: 'PermissionsType',
@@ -102,8 +102,10 @@ exports.outputType = new GraphQLObjectType({
     _id: {
       type: new GraphQLNonNull(GraphQLID),
     },
+    title: { type: new GraphQLNonNull(GraphQLString) },
+    slug: { type: new GraphQLNonNull(GraphQLString) },
     permissions: {
-      type: new GraphQLList(PermissionsType),
+      type: new GraphQLNonNull(PermissionsType),
     },
   },
 });
@@ -111,8 +113,9 @@ exports.outputType = new GraphQLObjectType({
 exports.inputType = new GraphQLInputObjectType({
   name: 'UserGroupInput',
   fields: {
+    title: { type: new GraphQLNonNull(GraphQLString) },
     permissions: {
-      type: new GraphQLList(PermissionsTypeInput),
+      type: new GraphQLNonNull(PermissionsTypeInput),
     },
   },
 });

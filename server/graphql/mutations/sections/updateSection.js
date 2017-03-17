@@ -1,9 +1,7 @@
-const {
-  GraphQLNonNull,
-  GraphQLID,
-} = require('graphql');
+const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Sections');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const Section = mongoose.model('Section');
 
@@ -20,15 +18,12 @@ module.exports = {
     },
   },
   async resolve(root, { _id, data }) {
-    if (!await Section.findById(_id)) {
-      throw new Error('There is no Section with this ID');
-    }
+    if (!await Section.findById(_id)) throw new Error('There is no Section with this ID');
 
     const updatedSection = await Section.findByIdAndUpdate(_id, data, { new: true });
     if (!updatedSection) throw new Error('Error updating Section');
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('update-section', updatedSection);
+    emitSocketEvent(root, 'update-section', updatedSection);
 
     return updatedSection;
   },

@@ -1,9 +1,8 @@
-const {
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Fields');
 const h = require('../../../utils/helpers');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
 
 const Field = mongoose.model('Field');
 
@@ -25,8 +24,7 @@ module.exports = {
     const newField = new Field(args.data);
     const savedField = await newField.save();
 
-    const socket = root.io.sockets.connected[root.req.body.socket];
-    socket.broadcast.emit('new-field', savedField);
+    emitSocketEvent(root, 'new-field', savedField);
 
     return savedField;
   },
