@@ -26,11 +26,11 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
-  // usergroup: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'UserGroup',
-  //   required: true,
-  // },
+  usergroup: {
+    type: Schema.Types.ObjectId,
+    ref: 'UserGroup',
+    required: true,
+  },
   image: {
     type: String,
     default: '/assets/default_user.png',

@@ -25,3 +25,4 @@ require('../models/SectionModel');
 require('../models/EntryModel');
 require('../models/FieldModel');
 require('../models/AssetModel');
+require('../models/UserGroupModel');
