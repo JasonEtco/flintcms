@@ -80,7 +80,7 @@ export function newEntry(title, section, status, dateCreated, rawOptions) {
 export function updateEntry(_id, data) {
   return async (dispatch, getState) => {
     const state = getState();
-    const { title, status, ...fields } = data;
+    const { title, status, dateCreated, ...fields } = data;
     const options = await formatFields(fields, state.fields.fields);
 
     const query = `mutation ($_id: ID!, $data: EntriesInput!) {
@@ -101,6 +101,7 @@ export function updateEntry(_id, data) {
       data: {
         title,
         status,
+        dateCreated,
         fields: options,
       },
     };
