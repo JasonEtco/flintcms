@@ -129,6 +129,11 @@ const helpers = {
     if (dateObj.diff(Date.now(), 'weeks') < -1) return dateObj.format('DD/MM/YYYY');
     return dateObj.fromNow();
   },
+  reduceToObj(arr, key, value, start = {}) {
+    return arr
+      .reduce((prev, curr) =>
+      Object.assign({}, prev, { [curr[key]]: curr[value] }), start);
+  },
 };
 
 export default helpers;

@@ -12,6 +12,7 @@ export default class Checkbox extends Component {
     instructions: PropTypes.string,
     disabled: PropTypes.bool,
     defaultValue: PropTypes.bool,
+    formElement: PropTypes.bool,
     value: PropTypes.bool,
   }
 
@@ -23,6 +24,7 @@ export default class Checkbox extends Component {
     disabled: false,
     defaultValue: false,
     value: null,
+    formElement: true,
   }
 
   constructor(props) {
@@ -39,10 +41,10 @@ export default class Checkbox extends Component {
 
   render() {
     const { checked } = this.state;
-    const { disabled, className, label, instructions, name } = this.props;
+    const { disabled, className, label, instructions, name, formElement } = this.props;
     const wrapperClasses = classnames(
       'checkbox-wrapper',
-      'form-element',
+      { 'form-element': formElement },
       { 'checkbox-wrapper--disabled': disabled },
       className,
     );
@@ -58,7 +60,7 @@ export default class Checkbox extends Component {
         </button>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <input name={name} type="checkbox" hidden value={checked} />
+        <input name={name} type="checkbox" hidden value={checked} checked={checked} />
       </div>
     );
   }

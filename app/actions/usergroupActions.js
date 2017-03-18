@@ -15,6 +15,26 @@ export function newUserGroup(data) {
     const query = `mutation ($data: UserGroupInput!) {
       addUserGroup(data: $data) {
         _id
+        title
+        slug
+        dateCreated
+        permissions {
+          canAddSections
+          canDeleteSections
+          canEditSections
+          canAddFields
+          canDeleteFields
+          canEditFields
+          canAddEntries
+          canDeleteEntries
+          canOnlyEditOwnEntries
+          canEditLive
+          canEditDrafts
+          canSeeDrafts
+          canChangeEntryStatus
+          canManageUsers
+          canManageUserGroups
+        }
       }
     }`;
 
@@ -26,7 +46,7 @@ export function newUserGroup(data) {
       .then((json) => {
         const { addUserGroup } = json.data.data;
         dispatch({ type: NEW_USERGROUP, addUserGroup });
-        dispatch(push('/admin/users'));
+        dispatch(push('/admin/settings/usergroups'));
       })
       .catch(errorToasts);
   };
