@@ -23,6 +23,10 @@ export default class Settings extends Component {
       { label: 'Assets', path: '/admin/settings/assets', icon: 'pencil' },
     ];
 
+    const management = [
+      { label: 'User Groups', path: '/admin/settings/usergroups', icon: 'stack' },
+    ];
+
     return (
       <Page name="settings">
         <TitleBar title="Settings" />
@@ -31,6 +35,15 @@ export default class Settings extends Component {
             <section className="settings__section">
               <h2 className="settings__section__title">Content</h2>
               {content.map(l =>
+                <Link className="settings__link" key={l.path} to={l.path}>
+                  <Icon icon={l.icon} width={48} height={48} />
+                  {l.label}
+                </Link>)}
+            </section>
+
+            <section className="settings__section">
+              <h2 className="settings__section__title">Management</h2>
+              {management.map(l =>
                 <Link className="settings__link" key={l.path} to={l.path}>
                   <Icon icon={l.icon} width={48} height={48} />
                   {l.label}

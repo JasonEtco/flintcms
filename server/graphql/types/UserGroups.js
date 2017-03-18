@@ -109,6 +109,7 @@ exports.outputType = new GraphQLObjectType({
     },
     title: { type: new GraphQLNonNull(GraphQLString) },
     slug: { type: new GraphQLNonNull(GraphQLString) },
+    dateCreated: { type: new GraphQLNonNull(GraphQLString) },
     permissions: {
       type: new GraphQLNonNull(PermissionsType),
     },

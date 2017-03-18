@@ -13,6 +13,10 @@ const UserGroupSchema = new Schema({
     required: true,
     unique: true,
   },
+  dateCreated: {
+    type: Date,
+    default: Date.now,
+  },
   permissions: {
     // Sections
     canAddSections: {
@@ -91,4 +95,4 @@ UserGroupSchema.pre('validate', function (next) {
   next();
 });
 
-module.exports = mongoose.model('UserGroup', UserGroupSchema, 'user_groups');
+module.exports = mongoose.model('UserGroup', UserGroupSchema, 'usergroups');

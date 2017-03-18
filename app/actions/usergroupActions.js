@@ -44,6 +44,8 @@ export function fetchUserGroupsIfNeeded() {
       usergroups {
         _id
         title
+        slug
+        dateCreated
         permissions {
           canAddSections
           canDeleteSections

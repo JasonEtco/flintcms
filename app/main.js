@@ -22,6 +22,10 @@ import Section from './views/Section';
 import Sections from './views/Sections';
 import NewSection from './views/NewSection';
 
+import UserGroup from './views/UserGroup';
+import UserGroups from './views/UserGroups';
+import NewUserGroup from './views/NewUserGroup';
+
 import Field from './views/Field';
 import Fields from './views/Fields';
 import NewField from './views/NewField';
@@ -53,6 +57,10 @@ const storeWrapper = (
         <Route path="settings/sections" component={Sections} />
         <Route path="settings/sections/new" component={NewSection} />
         <Route path="settings/sections/:slug" component={Section} />
+
+        <Route path="settings/usergroups" component={UserGroups} />
+        <Route path="settings/usergroups/new" component={NewUserGroup} />
+        <Route path="settings/usergroups/:slug" component={UserGroup} />
 
         <Route path="settings/fields" component={Fields} />
         <Route path="settings/fields/new" component={NewField} />
