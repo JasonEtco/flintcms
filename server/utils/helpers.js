@@ -14,10 +14,10 @@ const helpers = {
       .replace(/[^a-z0-9-]/g, '')  // Remove disallowed symbols
       .replace(/--+/g, '-');
   },
-  reduceToObj(arr, key, value, start) {
+  reduceToObj(arr, key, value, start = {}) {
     return arr
       .reduce((prev, curr) =>
-      Object.assign({}, prev, { [curr[key]]: curr[value] }), start || {});
+      Object.assign({}, prev, { [curr[key]]: curr[value] }), start);
   },
 };
 
