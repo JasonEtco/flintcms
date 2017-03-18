@@ -1,0 +1,38 @@
+.checkbox {
+    &-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    position: relative;
+    width: 1em;
+    height: 1em;
+    border: 1px solid $grey-light;
+    border-radius: 3px;
+    background: none;
+
+    svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        fill: $grey-dark;
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 101ms $exit;
+    }
+
+    &.is-checked {
+        border-color: $grey;
+
+        svg {
+            transform: translate(-50%, -50%) scale(1);
+            transition-duration: 200ms;
+            transition-timing-function: $bounce;
+        }
+    }
+
+    + .input__label {
+        margin-left: 1em;
+        margin-bottom: 0;
+        font-weight: 500;
+    }
+}

@@ -9,27 +9,27 @@ import Checkbox from '../../components/Checkbox';
 
 const permissions = [
   // Sections
-  { name: 'canAddSections', defaultValue: false, label: 'canAddSections' }, 
-  { name: 'canDeleteSections', defaultValue: false, label: 'canDeleteSections' }, 
-  { name: 'canEditSections', defaultValue: false, label: 'canEditSections' }, 
+  { name: 'canAddSections', defaultValue: false, label: 'Can Add Sections' },
+  { name: 'canDeleteSections', defaultValue: false, label: 'Can Delete Sections' },
+  { name: 'canEditSections', defaultValue: false, label: 'Can Edit Sections' },
 
   // Fields
-  { name: 'canAddFields', defaultValue: false, label: 'canAddFields' }, 
-  { name: 'canDeleteFields', defaultValue: false, label: 'canDeleteFields' }, 
-  { name: 'canEditFields', defaultValue: false, label: 'canEditFields' }, 
+  { name: 'canAddFields', defaultValue: false, label: 'Can Add Fields' },
+  { name: 'canDeleteFields', defaultValue: false, label: 'Can Delete Fields' },
+  { name: 'canEditFields', defaultValue: false, label: 'Can Edit Fields' },
 
   // Entries
-  { name: 'canAddEntries', defaultValue: false, label: 'canAddEntries' }, 
-  { name: 'canDeleteEntries', defaultValue: false, label: 'canDeleteEntries' }, 
-  { name: 'canOnlyEditOwnEntries', defaultValue: false, label: 'canOnlyEditOwnEntries' }, 
-  { name: 'canEditLive', defaultValue: false, label: 'canEditLive' }, 
-  { name: 'canSeeDrafts', defaultValue: false, label: 'canSeeDrafts' }, 
-  { name: 'canEditDrafts', defaultValue: false, label: 'canEditDrafts' }, 
-  { name: 'canChangeEntryStatus', defaultValue: false, label: 'canChangeEntryStatus' }, 
+  { name: 'canAddEntries', defaultValue: false, label: 'Can Add Entries' },
+  { name: 'canDeleteEntries', defaultValue: false, label: 'Can Delete Entries' },
+  { name: 'canOnlyEditOwnEntries', defaultValue: false, label: 'Can Only Edit Own Entries' },
+  { name: 'canEditLive', defaultValue: false, label: 'Can EditLive' },
+  { name: 'canSeeDrafts', defaultValue: false, label: 'Can SeeDrafts' },
+  { name: 'canEditDrafts', defaultValue: false, label: 'Can EditDrafts' },
+  { name: 'canChangeEntryStatus', defaultValue: false, label: 'Can Change Entry Status' },
 
   // Users
-  { name: 'canManageUsers', defaultValue: false, label: 'canManageUsers' }, 
-  { name: 'canManageUserGroups', defaultValue: false, label: 'canManageUserGroups' }, 
+  { name: 'canManageUsers', defaultValue: false, label: 'Can Manage Users' },
+  { name: 'canManageUserGroups', defaultValue: false, label: 'Can Manage User Groups' },
 ];
 
 export default class NewUserGroup extends Component {

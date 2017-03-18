@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import Icon from '../../utils/icons';
+import './Checkbox.scss';
 
 export default class Checkbox extends Component {
   static propTypes = {
@@ -30,25 +32,33 @@ export default class Checkbox extends Component {
   }
 
   toggle() {
-    this.setState({ checked: !this.state.checked });
+    this.setState({ checked: !this.state.checked }, () => {
+      if (this.props.onChange) this.props.onChange(this.state.checked);
+    });
   }
 
   render() {
     const { checked } = this.state;
     const { disabled, className, label, instructions, name } = this.props;
-    const classes = classnames(
+    const wrapperClasses = classnames(
       'checkbox-wrapper',
       'form-element',
       { 'checkbox-wrapper--disabled': disabled },
       className,
     );
+    const boxClasses = classnames(
+      'checkbox',
+      { 'is-checked': checked },
+    );
 
     return (
-      <div className={classes}>
+      <div className={wrapperClasses}>
+        <button type="button" id={name} role="checkbox" aria-checked={checked} onClick={this.toggle} className={boxClasses}>
+          <Icon width={10} height={10} icon="checkmark" />
+        </button>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <button onClick={this.toggle}>{checked ? 'Yes' : 'No'}</button>
-        hi!
+        <input name={name} type="checkbox" hidden value={checked} />
       </div>
     );
   }
