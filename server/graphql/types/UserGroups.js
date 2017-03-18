@@ -19,6 +19,7 @@ const PermissionsType = new GraphQLObjectType({
     canOnlyEditOwnEntries: { type: GraphQLBoolean },
     canEditLive: { type: GraphQLBoolean },
     canEditDrafts: { type: GraphQLBoolean },
+    canSeeDrafts: { type: GraphQLBoolean },
     canChangeEntryStatus: { type: GraphQLBoolean },
 
     // Users
@@ -76,6 +77,10 @@ const PermissionsTypeInput = new GraphQLInputObjectType({
       defaultValue: false,
     },
     canEditDrafts: {
+      type: GraphQLBoolean,
+      defaultValue: false,
+    },
+    canSeeDrafts: {
       type: GraphQLBoolean,
       defaultValue: false,
     },

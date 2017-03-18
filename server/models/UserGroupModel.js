@@ -59,6 +59,10 @@ const UserGroupSchema = new Schema({
       type: Boolean,
       default: false,
     },
+    canSeeDrafts: {
+      type: Boolean,
+      default: false,
+    },
     canEditDrafts: {
       type: Boolean,
       default: false,

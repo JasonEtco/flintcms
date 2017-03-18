@@ -115,7 +115,9 @@ export function updateEntry(_id, data) {
           style: 'success',
         }));
       })
-      .catch(err => new Error(err));
+      .catch((error) => {
+        if (error.response) dispatch(errorToasts(error.response.data.errors));
+      });
   };
 }
 
