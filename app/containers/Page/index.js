@@ -27,20 +27,26 @@ export default class Page extends Component {
     const { name, children, links, onSubmit } = this.props;
     const classes = classnames(
       'page',
-      { [`page--${name}`]: true },
-      { 'has-form': onSubmit },
+      `page--${name}`,
+      { 'page--form': onSubmit },
       { 'has-breadcrumbs': links && links.length > 0 },
     );
 
-    let content = children;
     if (onSubmit) {
-      content = <form className="page__form" onSubmit={onSubmit} ref={(r) => { this.form = r; }}>{children}</form>;
+      return (
+        <form className={classes} onSubmit={onSubmit} ref={(r) => { this.form = r; }}>
+          {links && <Breadcrumbs links={links} />}
+          {children}
+
+          <Footer />
+        </form>
+      );
     }
 
     return (
       <section className={classes}>
         {links && <Breadcrumbs links={links} />}
-        {content}
+        {children}
 
         <Footer />
       </section>
