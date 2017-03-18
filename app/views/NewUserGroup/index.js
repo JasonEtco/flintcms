@@ -5,7 +5,7 @@ import Page from '../../containers/Page';
 import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
-import Checkbox from '../../components/Checkbox';
+import Checkboxes from '../../components/Checkbox/Checkboxes';
 
 const permissions = [
   // Sections
@@ -84,7 +84,7 @@ export default class NewUserGroup extends Component {
 
             Permissions
 
-            {permissions.map(perm => <Checkbox key={perm.name} {...perm} />)}
+            <Checkboxes checkboxes={permissions} name="permissions" />
           </div>
         </div>
       </Page>
