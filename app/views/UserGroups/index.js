@@ -32,7 +32,7 @@ export default class UserGroups extends Component {
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteUserGroup(props._id))}
-          message="Are you sure you want to delete this asset?"
+          message="Are you sure you want to delete this user group?"
         />,
       },
     }));

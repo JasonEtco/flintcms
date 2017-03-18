@@ -2,6 +2,7 @@ import {
   REQUEST_USERGROUPS,
   RECEIVE_USERGROUPS,
   NEW_USERGROUP,
+  DELETE_USERGROUP,
 } from '../actions/usergroupActions';
 
 export default function users(state = {}, action) {
@@ -31,6 +32,19 @@ export default function users(state = {}, action) {
         usergroups: [
           ...state.usergroups,
           action.addUserGroup,
+        ],
+      };
+    }
+
+    case DELETE_USERGROUP: {
+      const usergroupIndex = state.usergroups.findIndex(usergroup => usergroup._id === action.id);
+      if (usergroupIndex === -1) return state;
+
+      return {
+        ...state,
+        usergroups: [
+          ...state.usergroups.slice(0, usergroupIndex),
+          ...state.usergroups.slice(usergroupIndex + 1),
         ],
       };
     }

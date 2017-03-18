@@ -1,11 +1,13 @@
+import React from 'react';
 import { push } from 'react-router-redux';
 import graphFetcher from '../utils/graphFetcher';
 import GraphQLClass from '../utils/graphqlClass';
-import { errorToasts } from './uiActions';
+import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_USERGROUP = 'REQUEST_USERGROUP';
 export const RECEIVE_USERGROUP = 'RECEIVE_USERGROUP';
 export const NEW_USERGROUP = 'NEW_USERGROUP';
+export const DELETE_USERGROUP = 'DELETE_USERGROUP';
 
 export const REQUEST_USERGROUPS = 'REQUEST_USERGROUPS';
 export const RECEIVE_USERGROUPS = 'RECEIVE_USERGROUPS';
@@ -47,6 +49,33 @@ export function newUserGroup(data) {
         const { addUserGroup } = json.data.data;
         dispatch({ type: NEW_USERGROUP, addUserGroup });
         dispatch(push('/admin/settings/usergroups'));
+      })
+      .catch(errorToasts);
+  };
+}
+
+export function deleteUserGroup(id) {
+  return (dispatch) => {
+    const query = `mutation ($_id:ID!) {
+      removeUserGroup(_id: $_id) {
+        _id
+        title
+      }
+    }`;
+
+    const variables = {
+      _id: id,
+    };
+
+    return graphFetcher(query, variables)
+      .then((json) => {
+        const { removeUserGroup } = json.data.data;
+        dispatch({ type: DELETE_USERGROUP, id: removeUserGroup._id });
+        dispatch(push('/admin/settings/usergroups'));
+        dispatch(newToast({
+          message: <span><b>{removeUserGroup.title}</b> has been deleted.</span>,
+          style: 'success',
+        }));
       })
       .catch(errorToasts);
   };

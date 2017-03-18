@@ -3,6 +3,7 @@ import { NEW_SECTION, DELETE_SECTION, UPDATE_SECTION } from '../actions/sectionA
 import { NEW_ENTRY, DELETE_ENTRY, UPDATE_ENTRY } from '../actions/entryActions';
 import { NEW_FIELD, DELETE_FIELD } from '../actions/fieldActions';
 import { NEW_ASSET, DELETE_ASSET } from '../actions/assetActions';
+import { NEW_USERGROUP, DELETE_USERGROUP } from '../actions/usergroupActions';
 import { newToast } from '../actions/uiActions';
 import store from './store';
 
@@ -57,10 +58,21 @@ export default class SocketEvents {
   deleteEntry() {
     this.socket.on('delete-entry', ({ _id, title }) => {
       this.dispatch({ type: DELETE_ENTRY, id: _id });
-      this.dispatch(newToast({
-        message: <span><b>{title}</b> has been deleted.</span>,
-        style: 'success',
-      }));
+      this.dispatch(newToast(<span><b>{title}</b> has been deleted.</span>));
+    });
+  }
+
+  newUserGroup() {
+    this.socket.on('new-usergroup', (addUserGroup) => {
+      this.dispatch({ type: NEW_USERGROUP, addUserGroup });
+      this.dispatch(newToast(<span><b>{addUserGroup.title}</b> was just added!</span>));
+    });
+  }
+
+  deleteUserGroup() {
+    this.socket.on('delete-usergroup', ({ _id, title }) => {
+      this.dispatch({ type: DELETE_USERGROUP, id: _id });
+      this.dispatch(newToast(<span><b>{title}</b> has been deleted.</span>));
     });
   }
 
@@ -98,7 +110,12 @@ export default class SocketEvents {
 
     // Listen for new or deleted Entries
     this.newEntry();
+    this.updateEntry();
     this.deleteEntry();
+
+    // Listen for new or deleted User Groups
+    this.newUserGroup();
+    this.deleteUserGroup();
 
     // Listen for new or deleted Sections
     this.newSection();
