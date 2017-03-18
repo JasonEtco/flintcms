@@ -4,6 +4,7 @@ import { fetchEntriesIfNeeded } from '../../actions/entryActions';
 import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
 import { fetchFieldsIfNeeded } from '../../actions/fieldActions';
 import { fetchAssetsIfNeeded } from '../../actions/assetActions';
+import { fetchUserGroupsIfNeeded } from '../../actions/usergroupActions';
 import Toast from '../../components/Toast';
 import Modals from '../Modals';
 import types from '../../utils/types';
@@ -33,6 +34,7 @@ export default class Main extends Component {
     dispatch(fetchSectionsIfNeeded());
     dispatch(fetchFieldsIfNeeded());
     dispatch(fetchAssetsIfNeeded());
+    dispatch(fetchUserGroupsIfNeeded());
 
     const events = new SocketEvents(socket, dispatch);
     events.listen();
