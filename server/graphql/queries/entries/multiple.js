@@ -17,13 +17,16 @@ module.exports = {
   },
   async resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
-    const perms = await getUserPermissions(ctx.user._id);
 
-    if (!perms.canSeeDrafts) {
-      return Entry
-        .find({ status: 'live' })
-        .select(projection)
-        .exec();
+    if (ctx.user) {
+      const perms = await getUserPermissions(ctx.user._id);
+
+      if (!perms.canSeeDrafts) {
+        return Entry
+          .find({ status: 'live' })
+          .select(projection)
+          .exec();
+      }
     }
 
     return Entry
