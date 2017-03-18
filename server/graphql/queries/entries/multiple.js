@@ -18,7 +18,7 @@ module.exports = {
   async resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
 
-    if (ctx.user) {
+    if (ctx !== undefined && ctx.user !== undefined) {
       const perms = await getUserPermissions(ctx.user._id);
 
       if (!perms.canSeeDrafts) {
