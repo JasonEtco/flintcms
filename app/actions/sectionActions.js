@@ -36,9 +36,7 @@ export function newSection(title, template, fields) {
         dispatch({ type: NEW_SECTION, addSection });
         dispatch(push(`/admin/entries/${addSection.slug}`));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 
@@ -72,7 +70,7 @@ export function updateSection(_id, title, template, fields) {
           style: 'success',
         }));
       })
-      .catch(err => new Error(err));
+      .catch(errorToasts);
   };
 }
 
@@ -94,9 +92,7 @@ export function deleteSection(_id) {
         dispatch({ type: DELETE_SECTION, id: removeSection._id });
         dispatch(push('/admin/settings/sections'));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 

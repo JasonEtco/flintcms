@@ -24,10 +24,10 @@ module.exports = {
 
     const perms = await getUserPermissions(ctx.user._id);
 
+    const isOwnEntry = foundEntry.author.toString() === ctx.user._id.toString();
+
     // If user can edit entries that aren't their own
-    const authorId = foundEntry.author.toString();
-    const userId = ctx.user._id.toString();
-    if (authorId !== userId && perms.canOnlyEditOwnEntries) {
+    if (!isOwnEntry && perms.canOnlyEditOwnEntries) {
       throw new Error('You are not allowed to edit this entry. Sorry!');
     }
 
@@ -37,7 +37,7 @@ module.exports = {
     }
 
     // If user can edit live entries
-    if (foundEntry.status.toString() === 'live' && !perms.canEditLive) {
+    if (foundEntry.status.toString() === 'live' && !perms.canEditLive && !isOwnEntry) {
       throw new Error('You are not allowed to edit a live entry. Sorry!');
     }
 

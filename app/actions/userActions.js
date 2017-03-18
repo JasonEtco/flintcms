@@ -36,9 +36,7 @@ export function newUser(user) {
         dispatch({ type: NEW_USER, addUser });
         dispatch(push('/admin/users'));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 

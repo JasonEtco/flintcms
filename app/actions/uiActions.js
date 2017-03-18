@@ -1,3 +1,5 @@
+import store from '../utils/store';
+
 export const NEW_TOAST = 'NEW_TOAST';
 export const DELETE_TOAST = 'DELETE_TOAST';
 export const OPEN_MODAL = 'OPEN_MODAL';
@@ -22,8 +24,12 @@ export function newToast(toast) {
   };
 }
 
-export function errorToasts(errors) {
-  return dispatch => errors.forEach(err => dispatch(newToast({
+export function errorToasts(error) {
+  if (!error.response) return;
+  const { dispatch } = store;
+  const { errors } = error.response.data;
+
+  errors.forEach(err => dispatch(newToast({
     message: err.message,
     style: 'error',
   })));

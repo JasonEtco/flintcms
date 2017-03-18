@@ -46,9 +46,7 @@ export function deleteAsset(id) {
         }));
         dispatch(push('/admin/settings/assets'));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 
@@ -81,9 +79,7 @@ export function indexAssets() {
         });
         removedFiles.forEach(o => dispatch({ type: DELETE_ASSET, id: o._id }));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 

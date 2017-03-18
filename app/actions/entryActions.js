@@ -71,9 +71,7 @@ export function newEntry(title, section, status, dateCreated, rawOptions) {
         const sectionSlug = h.getSlugFromId(sections.sections, addEntry.section);
         dispatch(push(`/admin/entries/${sectionSlug}/${addEntry._id}`));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 
@@ -115,9 +113,7 @@ export function updateEntry(_id, data) {
           style: 'success',
         }));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 
@@ -137,28 +133,21 @@ export function deleteEntry(id) {
     return graphFetcher(query, variables)
       .then((json) => {
         const { removeEntry } = json.data;
-        dispatch(push('/admin/entries'));
         dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
+        dispatch(push('/admin/entries'));
         dispatch(newToast({
           message: <span><b>{removeEntry.title}</b> has been deleted.</span>,
           style: 'success',
         }));
       })
-      .catch(err => new Error(err));
+      .catch(errorToasts);
   };
 }
 
 export function entryDetails(_id) {
   return (dispatch) => {
     const query = `query ($_id:ID!) {
-      entry(_id: $_id) {
-        _id
-        title
-        slug
-        author
-        dateCreated
-        section
-        status
+      entry (_id: $_id) {
         fields {
           fieldId
           fieldSlug
@@ -174,9 +163,9 @@ export function entryDetails(_id) {
     return graphFetcher(query, variables)
       .then((json) => {
         const { entry } = json.data.data;
-        dispatch({ type: UPDATE_ENTRY, updateEntry: entry });
+        dispatch({ type: UPDATE_ENTRY, updateEntry: { _id, ...entry } });
       })
-      .catch(err => new Error(err));
+      .catch(errorToasts);
   };
 }
 

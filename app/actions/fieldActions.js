@@ -34,9 +34,7 @@ export function newField(title, type, instructions) {
         const { addField } = json.data.data;
         dispatch({ type: NEW_FIELD, addField });
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 
@@ -62,7 +60,7 @@ export function deleteField(_id) {
           style: 'success',
         }));
       })
-      .catch(err => new Error(err));
+      .catch(errorToasts);
   };
 }
 
