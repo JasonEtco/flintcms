@@ -23,7 +23,7 @@ export default class Toast extends Component {
   state = { leaving: false, entering: true }
 
   componentDidMount() {
-    window.requestAnimationFrame(() => this.setState({ entering: false }));
+    setTimeout(() => this.setState({ entering: false }), 0);
 
     setTimeout(() => {
       this.setState({ leaving: true });
