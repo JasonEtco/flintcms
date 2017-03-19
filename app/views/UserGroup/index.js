@@ -34,8 +34,8 @@ export default class UserGroup extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { dispatch } = this.props;
-    const { title, template, fields } = serialize(this.page.form, { hash: true });
-    dispatch(updateUserGroup(this.usergroup._id, title, template, fields));
+    const data = serialize(this.page.form, { hash: true });
+    dispatch(updateUserGroup(this.usergroup._id, data));
   }
 
   render() {
