@@ -132,7 +132,7 @@ export function deleteEntry(id) {
 
     return graphFetcher(query, variables)
       .then((json) => {
-        const { removeEntry } = json.data;
+        const { removeEntry } = json.data.data;
         dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
         dispatch(push('/admin/entries'));
         dispatch(newToast({
