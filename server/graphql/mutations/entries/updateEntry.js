@@ -27,17 +27,17 @@ module.exports = {
     const isOwnEntry = foundEntry.author.toString() === ctx.user._id.toString();
 
     // If user can edit entries that aren't their own
-    if (!isOwnEntry && perms.canOnlyEditOwnEntries) {
+    if (!isOwnEntry && perms.entries.canOnlyEditOwnEntries) {
       throw new Error('You are not allowed to edit this entry. Sorry!');
     }
 
     // If user can edit the status of entries
-    if (data.status !== foundEntry.status.toString() && !perms.canChangeEntryStatus) {
+    if (data.status !== foundEntry.status.toString() && !perms.entries.canChangeEntryStatus) {
       throw new Error('You are not allowed to change the status of entries. Sorry!');
     }
 
     // If user can edit live entries
-    if (foundEntry.status.toString() === 'live' && !perms.canEditLive && !isOwnEntry) {
+    if (foundEntry.status.toString() === 'live' && !perms.entries.canEditLive && !isOwnEntry) {
       throw new Error('You are not allowed to edit a live entry. Sorry!');
     }
 

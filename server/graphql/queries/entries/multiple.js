@@ -21,7 +21,7 @@ module.exports = {
     if (ctx !== undefined && ctx.user !== undefined) {
       const perms = await getUserPermissions(ctx.user._id);
 
-      if (!perms.canSeeDrafts) {
+      if (!perms.entries.canSeeDrafts) {
         return Entry
           .find({ status: 'live' })
           .select(projection)
