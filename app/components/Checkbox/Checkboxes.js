@@ -4,14 +4,16 @@ import Checkbox from './index';
 export default class Checkboxes extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
     checkboxes: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   render() {
-    const { checkboxes, name } = this.props;
+    const { checkboxes, name, label } = this.props;
 
     return (
       <div className="checkbox-group form-element">
+        <span className="checkbox-group__label">{label}</span>
         {checkboxes.map(check => <Checkbox key={check.name} formElement={false} {...check} name={`${name}[${check.name}]`} />)}
       </div>
     );

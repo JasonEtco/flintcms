@@ -60,7 +60,7 @@ export default class Checkbox extends Component {
         </button>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <input name={name} type="checkbox" hidden value={checked} checked={checked} />
+        <input name={name} type="checkbox" hidden readOnly value={checked} checked={checked} />
       </div>
     );
   }

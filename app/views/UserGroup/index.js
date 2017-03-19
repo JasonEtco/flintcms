@@ -4,7 +4,9 @@ import Page from '../../containers/Page';
 import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
+import Checkboxes from '../../components/Checkbox/Checkboxes';
 import { updateUserGroup } from '../../actions/usergroupActions';
+import permissions from '../../utils/permissions';
 
 export default class UserGroup extends Component {
   static propTypes = {
@@ -37,6 +39,16 @@ export default class UserGroup extends Component {
   }
 
   render() {
+    const { usergroups, params } = this.props;
+    const { slug } = params;
+    const groupPerms = usergroups.usergroups.find(g => g.slug === slug).permissions;
+
+    const { sections, entries, users, fields } = Object.keys(permissions).reduce((prev, curr) => ({
+      ...prev,
+      [curr]: permissions[curr]
+        .map(perm => ({ ...perm, defaultValue: groupPerms[curr][perm.name] })),
+    }), {});
+
     return (
       <Page name="usergroup" onSubmit={this.handleSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title={this.usergroup.title}>
@@ -52,6 +64,11 @@ export default class UserGroup extends Component {
               full
               defaultValue={this.usergroup.title}
             />
+
+            <Checkboxes label="Sections" checkboxes={sections} name="permissions[sections]" />
+            <Checkboxes label="Entries" checkboxes={entries} name="permissions[entries]" />
+            <Checkboxes label="Users" checkboxes={users} name="permissions[users]" />
+            <Checkboxes label="Fields" checkboxes={fields} name="permissions[fields]" />
           </div>
         </div>
       </Page>

@@ -12,31 +12,42 @@ export const DELETE_USERGROUP = 'DELETE_USERGROUP';
 export const REQUEST_USERGROUPS = 'REQUEST_USERGROUPS';
 export const RECEIVE_USERGROUPS = 'RECEIVE_USERGROUPS';
 
+const contents = `
+  _id
+  title
+  slug
+  dateCreated
+  permissions {
+    sections {
+      canAddSections
+      canDeleteSections
+      canEditSections
+    }
+    fields {
+      canAddFields
+      canDeleteFields
+      canEditFields
+    }
+    entries {
+      canAddEntries
+      canDeleteEntries
+      canOnlyEditOwnEntries
+      canEditLive
+      canEditDrafts
+      canSeeDrafts
+      canChangeEntryStatus
+    }
+    users {
+      canManageUsers
+      canManageUserGroups
+    }
+  }`;
+
 export function newUserGroup(data) {
   return (dispatch) => {
     const query = `mutation ($data: UserGroupInput!) {
       addUserGroup(data: $data) {
-        _id
-        title
-        slug
-        dateCreated
-        permissions {
-          canAddSections
-          canDeleteSections
-          canEditSections
-          canAddFields
-          canDeleteFields
-          canEditFields
-          canAddEntries
-          canDeleteEntries
-          canOnlyEditOwnEntries
-          canEditLive
-          canEditDrafts
-          canSeeDrafts
-          canChangeEntryStatus
-          canManageUsers
-          canManageUserGroups
-        }
+        ${contents}
       }
     }`;
 
@@ -91,27 +102,7 @@ export function fetchUserGroupsIfNeeded() {
 
     const query = `{
       usergroups {
-        _id
-        title
-        slug
-        dateCreated
-        permissions {
-          canAddSections
-          canDeleteSections
-          canEditSections
-          canAddFields
-          canDeleteFields
-          canEditFields
-          canAddEntries
-          canDeleteEntries
-          canOnlyEditOwnEntries
-          canEditLive
-          canEditDrafts
-          canSeeDrafts
-          canChangeEntryStatus
-          canManageUsers
-          canManageUserGroups
-        }
+        ${contents}
       }
     }`;
 

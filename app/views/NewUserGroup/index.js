@@ -6,32 +6,8 @@ import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Checkboxes from '../../components/Checkbox/Checkboxes';
+import permissions from '../../utils/permissions';
 import h from '../../utils/helpers';
-
-const permissions = [
-  // Sections
-  { name: 'canAddSections', defaultValue: false, label: 'Can Add Sections' },
-  { name: 'canDeleteSections', defaultValue: false, label: 'Can Delete Sections' },
-  { name: 'canEditSections', defaultValue: false, label: 'Can Edit Sections' },
-
-  // Fields
-  { name: 'canAddFields', defaultValue: false, label: 'Can Add Fields' },
-  { name: 'canDeleteFields', defaultValue: false, label: 'Can Delete Fields' },
-  { name: 'canEditFields', defaultValue: false, label: 'Can Edit Fields' },
-
-  // Entries
-  { name: 'canAddEntries', defaultValue: false, label: 'Can Add Entries' },
-  { name: 'canDeleteEntries', defaultValue: false, label: 'Can Delete Entries' },
-  { name: 'canOnlyEditOwnEntries', defaultValue: false, label: 'Can Only Edit Own Entries' },
-  { name: 'canEditLive', defaultValue: false, label: 'Can Edit Live' },
-  { name: 'canSeeDrafts', defaultValue: false, label: 'Can See Drafts' },
-  { name: 'canEditDrafts', defaultValue: false, label: 'Can Edit Drafts' },
-  { name: 'canChangeEntryStatus', defaultValue: false, label: 'Can Change Entry Status' },
-
-  // Users
-  { name: 'canManageUsers', defaultValue: false, label: 'Can Manage Users' },
-  { name: 'canManageUserGroups', defaultValue: false, label: 'Can Manage User Groups' },
-];
 
 export default class NewUserGroup extends Component {
   static propTypes = {
@@ -53,9 +29,7 @@ export default class NewUserGroup extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { title, permissions: perms } = serialize(this.page.form, { hash: true });
-    const reducedPerms = h.reduceToObj(permissions, 'name', 'defaultValue');
-    const data = { title, permissions: { ...reducedPerms, ...perms } };
+    const data = serialize(this.page.form, { hash: true });
     this.props.dispatch(newUserGroup(data));
   }
 
@@ -71,7 +45,7 @@ export default class NewUserGroup extends Component {
 
     return (
       <Page name="new-usergroup" links={links} onSubmit={this.handleSubmit} ref={(r) => { this.page = r; }}>
-        <TitleBar title="New UserGroup">
+        <TitleBar title="New User Group">
           <Button onClick={this.handleSubmit} small type="submit">Save</Button>
         </TitleBar>
         <div className="content">
@@ -85,9 +59,10 @@ export default class NewUserGroup extends Component {
               onChange={this.handleTitleChange}
             />
 
-            Permissions
-
-            <Checkboxes checkboxes={permissions} name="permissions" />
+            <Checkboxes label="Sections" checkboxes={permissions.sections} name="permissions[sections]" />
+            <Checkboxes label="Entries" checkboxes={permissions.entries} name="permissions[entries]" />
+            <Checkboxes label="Users" checkboxes={permissions.users} name="permissions[users]" />
+            <Checkboxes label="Fields" checkboxes={permissions.fields} name="permissions[fields]" />
           </div>
         </div>
       </Page>

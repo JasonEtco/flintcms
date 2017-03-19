@@ -18,72 +18,73 @@ const UserGroupSchema = new Schema({
     default: Date.now,
   },
   permissions: {
-    // Sections
-    canAddSections: {
-      type: Boolean,
-      default: false,
+    sections: {
+      canAddSections: {
+        type: Boolean,
+        default: false,
+      },
+      canDeleteSections: {
+        type: Boolean,
+        default: false,
+      },
+      canEditSections: {
+        type: Boolean,
+        default: false,
+      },
     },
-    canDeleteSections: {
-      type: Boolean,
-      default: false,
+    fields: {
+      canAddFields: {
+        type: Boolean,
+        default: false,
+      },
+      canDeleteFields: {
+        type: Boolean,
+        default: false,
+      },
+      canEditFields: {
+        type: Boolean,
+        default: false,
+      },
     },
-    canEditSections: {
-      type: Boolean,
-      default: false,
+    entries: {
+      canAddEntries: {
+        type: Boolean,
+        default: false,
+      },
+      canDeleteEntries: {
+        type: Boolean,
+        default: false,
+      },
+      canOnlyEditOwnEntries: {
+        type: Boolean,
+        default: false,
+      },
+      canEditLive: {
+        type: Boolean,
+        default: false,
+      },
+      canSeeDrafts: {
+        type: Boolean,
+        default: false,
+      },
+      canEditDrafts: {
+        type: Boolean,
+        default: false,
+      },
+      canChangeEntryStatus: {
+        type: Boolean,
+        default: false,
+      },
     },
-
-    // Fields
-    canAddFields: {
-      type: Boolean,
-      default: false,
-    },
-    canDeleteFields: {
-      type: Boolean,
-      default: false,
-    },
-    canEditFields: {
-      type: Boolean,
-      default: false,
-    },
-
-    // Entries
-    canAddEntries: {
-      type: Boolean,
-      default: false,
-    },
-    canDeleteEntries: {
-      type: Boolean,
-      default: false,
-    },
-    canOnlyEditOwnEntries: {
-      type: Boolean,
-      default: false,
-    },
-    canEditLive: {
-      type: Boolean,
-      default: false,
-    },
-    canSeeDrafts: {
-      type: Boolean,
-      default: false,
-    },
-    canEditDrafts: {
-      type: Boolean,
-      default: false,
-    },
-    canChangeEntryStatus: {
-      type: Boolean,
-      default: false,
-    },
-
-    // Users
-    canManageUsers: {
-      type: Boolean,
-      default: false,
-    },
-    canManageUserGroups: {
-      type: Boolean,
-      default: false,
+    users: {
+      canManageUsers: {
+        type: Boolean,
+        default: false,
+      },
+      canManageUserGroups: {
+        type: Boolean,
+        default: false,
+      },
     },
   },
 });

@@ -1,102 +1,133 @@
 const { GraphQLBoolean, GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
 
+const entries = {
+  canAddEntries: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canDeleteEntries: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canOnlyEditOwnEntries: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canEditLive: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canEditDrafts: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canSeeDrafts: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canChangeEntryStatus: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+};
+
+const sections = {
+  canAddSections: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canDeleteSections: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canEditSections: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+};
+
+const fields = {
+  canAddFields: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canDeleteFields: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canEditFields: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+};
+
+const users = {
+  canManageUsers: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+  canManageUserGroups: {
+    type: GraphQLBoolean,
+    defaultValue: false,
+  },
+};
+
 const PermissionsType = new GraphQLObjectType({
   name: 'PermissionsType',
   fields: {
-    // Sections
-    canAddSections: { type: GraphQLBoolean },
-    canDeleteSections: { type: GraphQLBoolean },
-    canEditSections: { type: GraphQLBoolean },
-
-    // Fields
-    canAddFields: { type: GraphQLBoolean },
-    canDeleteFields: { type: GraphQLBoolean },
-    canEditFields: { type: GraphQLBoolean },
-
-    // Entries
-    canAddEntries: { type: GraphQLBoolean },
-    canDeleteEntries: { type: GraphQLBoolean },
-    canOnlyEditOwnEntries: { type: GraphQLBoolean },
-    canEditLive: { type: GraphQLBoolean },
-    canEditDrafts: { type: GraphQLBoolean },
-    canSeeDrafts: { type: GraphQLBoolean },
-    canChangeEntryStatus: { type: GraphQLBoolean },
-
-    // Users
-    canManageUsers: { type: GraphQLBoolean },
-    canManageUserGroups: { type: GraphQLBoolean },
+    sections: {
+      type: new GraphQLObjectType({
+        name: 'PermissionsTypeSections',
+        fields: sections,
+      }),
+    },
+    fields: {
+      type: new GraphQLObjectType({
+        name: 'PermissionsTypeFields',
+        fields,
+      }),
+    },
+    entries: {
+      type: new GraphQLObjectType({
+        name: 'PermissionsTypeEntries',
+        fields: entries,
+      }),
+    },
+    users: {
+      type: new GraphQLObjectType({
+        name: 'usersPermissionsTypeUsers',
+        fields: users,
+      }),
+    },
   },
 });
 
 const PermissionsTypeInput = new GraphQLInputObjectType({
   name: 'PermissionsTypeInput',
   fields: {
-    // Sections
-    canAddSections: {
-      type: GraphQLBoolean,
-      defaultValue: false,
+    sections: {
+        type: new GraphQLInputObjectType({
+        name: 'PermissionsTypeInputSections',
+        fields: sections,
+      }),
     },
-    canDeleteSections: {
-      type: GraphQLBoolean,
-      defaultValue: false,
+    fields: {
+      type: new GraphQLInputObjectType({
+        name: 'PermissionsTypeInputFields',
+        fields,
+      }),
     },
-    canEditSections: {
-      type: GraphQLBoolean,
-      defaultValue: false,
+    entries: {
+      type: new GraphQLInputObjectType({
+        name: 'PermissionsTypeInputEntries',
+        fields: entries,
+      }),
     },
-
-    // Fields
-    canAddFields: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canDeleteFields: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canEditFields: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-
-    // Entries
-    canAddEntries: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canDeleteEntries: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canOnlyEditOwnEntries: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canEditLive: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canEditDrafts: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canSeeDrafts: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canChangeEntryStatus: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-
-    // Users
-    canManageUsers: {
-      type: GraphQLBoolean,
-      defaultValue: false,
-    },
-    canManageUserGroups: {
-      type: GraphQLBoolean,
-      defaultValue: false,
+    users: {
+      type: new GraphQLInputObjectType({
+        name: 'usersPermissionsTypeInputUsers',
+        fields: users,
+      }),
     },
   },
 });

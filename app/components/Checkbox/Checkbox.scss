@@ -11,6 +11,17 @@
     border-radius: 3px;
     background: none;
 
+    &-group {
+        .checkbox-wrapper + .checkbox-wrapper { margin-top: 0.4em; }
+
+        &__label {
+            display: block;
+            margin-bottom: 0.4em;
+            font-weight: 700;
+            font-size: $size0;
+        }
+    }
+
     svg {
         position: absolute;
         top: 50%;
