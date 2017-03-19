@@ -10,7 +10,7 @@ export const NEW_SECTION = 'NEW_SECTION';
 export const DELETE_SECTION = 'DELETE_SECTION';
 export const UPDATE_SECTION = 'UPDATE_SECTION';
 
-export function newSection(title, template, fields) {
+export function newSection({ title, template, fields }) {
   return (dispatch) => {
     const query = `mutation ($data: SectionsInput!) {
         addSection(data: $data) {
@@ -19,6 +19,7 @@ export function newSection(title, template, fields) {
           title
           slug
           fields
+          dateCreated
         }
       }`;
 
@@ -34,13 +35,17 @@ export function newSection(title, template, fields) {
       .then((json) => {
         const { addSection } = json.data.data;
         dispatch({ type: NEW_SECTION, addSection });
+        dispatch(newToast({
+          message: <span><b>{addSection.title}</b> has been created!</span>,
+          style: 'success',
+        }));
         dispatch(push(`/admin/entries/${addSection.slug}`));
       })
       .catch(errorToasts);
   };
 }
 
-export function updateSection(_id, title, template, fields) {
+export function updateSection(_id, { title, template, fields }) {
   return async (dispatch) => {
     const query = `mutation ($_id: ID!, $data: SectionsInput!) {
       updateSection(_id: $_id, data: $data) {
@@ -79,6 +84,7 @@ export function deleteSection(_id) {
     const query = `mutation ($_id:ID!) {
       removeSection(_id: $_id) {
         _id
+        title
       }
     }`;
 
@@ -88,8 +94,12 @@ export function deleteSection(_id) {
 
     return graphFetcher(query, variables)
       .then((json) => {
-        const { removeSection } = json.data;
-        dispatch({ type: DELETE_SECTION, id: removeSection._id });
+        const { removeSection } = json.data.data;
+        dispatch({ type: DELETE_SECTION, _id: removeSection._id });
+        dispatch(newToast({
+          message: <span><b>{removeSection.title}</b> has been deleted!</span>,
+          style: 'success',
+        }));
         dispatch(push('/admin/settings/sections'));
       })
       .catch(errorToasts);

@@ -32,7 +32,7 @@ export default class Sections extends Component {
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteSection(props._id))}
-          message="Are you sure you want to delete this asset?"
+          message="Are you sure you want to delete this section and all entries in it?"
         />,
       },
     }));

@@ -29,8 +29,8 @@ export default class NewSection extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { title, template, fields } = serialize(this.page.form, { hash: true });
-    this.props.dispatch(newSection(title, template, fields));
+    const data = serialize(this.page.form, { hash: true });
+    this.props.dispatch(newSection(data));
   }
 
   handleTitleChange(title) {
@@ -63,10 +63,9 @@ export default class NewSection extends Component {
             />
 
             <Input
-              name="handle"
-              label="Section Handle"
-              instructions="You can use this handle to reference this specific entry in a template."
-              ref={(r) => { this.handle = r; }}
+              name="slug"
+              label="Section Slug"
+              instructions="You can use this slug to reference this specific entry in a template."
               required
               full
               code

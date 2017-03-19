@@ -59,6 +59,18 @@ export default class NewUserGroup extends Component {
               onChange={this.handleTitleChange}
             />
 
+            <Input
+              name="slug"
+              label="User Group slug"
+              instructions="You can use this slug to reference this specific entry in a template."
+              ref={(r) => { this.slug = r; }}
+              required
+              full
+              code
+              disabled
+              value={h.slugify(this.state.title)}
+            />
+
             <Checkboxes label="Sections" checkboxes={permissions.sections} name="permissions[sections]" />
             <Checkboxes label="Entries" checkboxes={permissions.entries} name="permissions[entries]" />
             <Checkboxes label="Users" checkboxes={permissions.users} name="permissions[users]" />

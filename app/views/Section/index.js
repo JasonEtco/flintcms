@@ -38,8 +38,8 @@ export default class Section extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { dispatch } = this.props;
-    const { title, template, fields } = serialize(this.page.form, { hash: true });
-    dispatch(updateSection(this.section._id, title, template, fields));
+    const data = serialize(this.page.form, { hash: true });
+    dispatch(updateSection(this.section._id, data));
   }
 
   toggleField(id) {
@@ -76,12 +76,11 @@ export default class Section extends Component {
               name="handle"
               label="Section Handle"
               instructions="You can use this handle to reference this specific entry in a template."
-              ref={(r) => { this.handle = r; }}
               required
               full
               code
-              disabled
-              value={h.slugify(this.section.slug)}
+              disableds
+              value={this.section.slug}
             />
 
             <Input
