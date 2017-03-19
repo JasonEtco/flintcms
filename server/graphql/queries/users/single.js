@@ -15,7 +15,7 @@ module.exports = {
     },
   },
   resolve(root, args, ctx, ast) {
-    const _id = args._id || root.session.passport.user._id;
+    const _id = args._id || root.req.user._id;
     const projection = getProjection(ast);
 
     return User
