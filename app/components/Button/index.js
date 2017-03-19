@@ -31,6 +31,10 @@ export default class Button extends Component {
       { 'btn--big': big },
     );
 
+    if (type === 'submit') {
+      return <input type="submit" disabled={disabled} className={classes} value={children} />;
+    }
+
     return (
       <button
         className={classes}
