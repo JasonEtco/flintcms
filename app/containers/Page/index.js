@@ -6,9 +6,9 @@ import Footer from '../Footer';
 
 export default class Page extends Component {
   static propTypes = {
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
     ]).isRequired,
     links: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
