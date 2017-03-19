@@ -8,7 +8,7 @@ export const REQUEST_USERGROUP = 'REQUEST_USERGROUP';
 export const RECEIVE_USERGROUP = 'RECEIVE_USERGROUP';
 export const NEW_USERGROUP = 'NEW_USERGROUP';
 export const DELETE_USERGROUP = 'DELETE_USERGROUP';
-export const UPDATE_USERGROUP = 'DELETE_USERGROUP';
+export const UPDATE_USERGROUP = 'UPDATE_USERGROUP';
 
 export const REQUEST_USERGROUPS = 'REQUEST_USERGROUPS';
 export const RECEIVE_USERGROUPS = 'RECEIVE_USERGROUPS';
@@ -110,6 +110,7 @@ export function updateUserGroup(_id, data) {
       .then((json) => {
         const updatedUserGroup = json.data.data.updateUserGroup;
         dispatch({ type: UPDATE_USERGROUP, updateUserGroup: updatedUserGroup });
+        dispatch(push('/admin/settings/usergroups'));
         dispatch(newToast({
           message: <span><b>{updatedUserGroup.title}</b> has been updated!</span>,
           style: 'success',
