@@ -10,6 +10,7 @@ import sections from '../reducers/sections';
 import fields from '../reducers/fields';
 import assets from '../reducers/assets';
 import ui from '../reducers/ui';
+import siteConfig from '../../config';
 
 const socket = io();
 
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   fields,
   assets,
   ui,
+  site: (state = siteConfig) => state,
   socket: (state = socket) => state,
   routing: routerReducer,
 });

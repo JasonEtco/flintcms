@@ -11,11 +11,19 @@ NavItem.propTypes = {
 };
 
 export default class MainNav extends Component {
+  static propTypes = {
+    siteName: PropTypes.string,
+  }
+
+  static defaultProps = {
+    siteName: 'Example Flint Site',
+  }
+
   render() {
     return (
       <nav className="nav">
         <a href="/" target="_blank" rel="noopener noreferrer" className="nav__sitename">
-          Example Flint Site
+          {this.props.siteName}
         </a>
         <ul className="nav__list">
           <NavItem to="/admin"><Icon icon="home" />Home</NavItem>

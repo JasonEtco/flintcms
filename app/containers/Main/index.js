@@ -17,6 +17,7 @@ export default class Main extends Component {
   static propTypes = {
     ...types.entries,
     ...types.sections,
+    site: PropTypes.object.isRequired,
     socket: PropTypes.object.isRequired,
     ui: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
@@ -41,7 +42,7 @@ export default class Main extends Component {
   }
 
   render() {
-    const { user, entries, sections, fields, assets, ui, dispatch } = this.props;
+    const { user, entries, sections, fields, assets, ui, dispatch, site } = this.props;
     if (user.isFetching
       || entries.isFetching
       || sections.isFetching
@@ -50,7 +51,7 @@ export default class Main extends Component {
 
     return (
       <main className="main">
-        <MainNav />
+        <MainNav siteName={site.siteName} />
         {React.cloneElement(this.props.children, {
           ...this.props,
           key: this.props.location.pathname,
