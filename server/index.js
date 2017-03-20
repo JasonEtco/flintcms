@@ -19,7 +19,9 @@ const compile = require('./utils/compile');
 const getEntryData = require('./utils/getEntryData');
 const getTemplateFromEntry = require('./utils/getTemplateFromEntry');
 
-const app = module.exports = express();
+const app = express();
+module.exports = app;
+
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
