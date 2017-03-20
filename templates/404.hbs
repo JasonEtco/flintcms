@@ -1,0 +1,10 @@
+{{#extend 'base'}}
+  {{#content 'body'}}
+    404 you huge nerd!
+    <div class="entries">
+      {{#each flint.entries}}
+        <a href="/{{slug}}" style="color: {{color}}">{{title}}</a>
+      {{/each}}
+    </div>
+  {{/content}}
+{{/extend}}

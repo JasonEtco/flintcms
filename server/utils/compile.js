@@ -2,8 +2,9 @@ const Handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 const collectData = require('./collectData');
+const siteConfig = require('../../config');
 
-module.exports = async (template, data) => {
+module.exports = async (template, data = {}) => {
   const compiledData = await collectData(data);
 
   return new Promise((resolve, reject) => {
@@ -13,10 +14,10 @@ module.exports = async (template, data) => {
     fs.readFile(templatePath, 'utf-8', async (err, file) => {
       if (err) reject(err);
 
-      const compiled = Handlebars.compile(file);
-      let html = compiled(compiledData);
+      const compiled = await Handlebars.compile(file);
+      let html = await compiled(compiledData);
 
-      if (process.env.DEBUG) {
+      if (process.env.DEBUG || siteConfig.debugMode) {
         const scr = `
         console.log('%cFlint Debug Mode', 'color: #fe6300; font-weight: bold; font-size: 1.2rem;');
 

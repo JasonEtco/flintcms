@@ -15,9 +15,9 @@ require('./utils/passport')(passport);
 require('./utils/registerHelpers');
 require('./utils/registerPartials');
 const compile = require('./utils/compile');
+const fourOhFourHandler = require('./utils/fourOhFourHandler');
 
 const getEntryData = require('./utils/getEntryData');
-const getTemplateFromEntry = require('./utils/getTemplateFromEntry');
 
 const app = express();
 module.exports = app;
@@ -49,15 +49,12 @@ app.use('/graphql', require('./apps/graphql'));
 app.get('/', (req, res) => compile('index', { name: 'Jason' }).then(r => res.send(r)));
 
 app.get('/:slug', async (req, res) => {
-  await getEntryData(req.params.slug)
-    .then(async (EntryData) => {
-      const data = await getTemplateFromEntry(EntryData);
-      const compiled = await compile(data.template, data.toObject());
-      res.send(compiled);
-    })
-    .catch(() => res.status(404).send('404!'));
+  const EntryData = await getEntryData(req.params.slug);
+  if (!EntryData) fourOhFourHandler(res);
+
+  const { data, template } = EntryData;
+  const compiled = await compile(template, data);
+  res.send(compiled);
 });
 
 http.listen(port, () => console.log(`[HTTP Server] Running at http://localhost:${port}`));
-
-module.exports = app;

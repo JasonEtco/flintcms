@@ -17,6 +17,10 @@ module.exports = {
       name: 'slug',
       type: GraphQLString,
     },
+    status: {
+      name: 'slug',
+      type: GraphQLString,
+    },
   },
   async resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);

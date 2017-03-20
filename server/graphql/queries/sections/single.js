@@ -1,9 +1,6 @@
-const {
-  GraphQLID,
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLID, GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
-const { outputType } = require('../../types/Entries');
+const { outputType } = require('../../types/Sections');
 const getProjection = require('../../get-projection');
 
 const Section = mongoose.model('Section');
@@ -20,7 +17,7 @@ module.exports = {
     const projection = getProjection(ast);
 
     return Section
-      .findById(args.id)
+      .findById(args._id)
       .select(projection)
       .exec();
   },
