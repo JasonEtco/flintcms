@@ -51,9 +51,7 @@ app.get('/', (req, res) => compile('index', { name: 'Jason' }).then(r => res.sen
 app.get('/:slug', async (req, res) => {
   const EntryData = await getEntryData(req.params.slug);
   if (!EntryData) fourOhFourHandler(res);
-
-  const { data, template } = EntryData;
-  const compiled = await compile(template, data);
+  const compiled = await compile(EntryData.template, EntryData);
   res.send(compiled);
 });
 

@@ -68,6 +68,11 @@ const outputType = new GraphQLObjectType({
       type: new GraphQLList(FieldType),
       description: 'A list of the fields used in the entry.',
     },
+    template: {
+      type: GraphQLString,
+      description: 'The template of the entry',
+      resolve: entry => entry.getTemplate(),
+    },
   }),
 });
 

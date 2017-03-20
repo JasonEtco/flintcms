@@ -12,6 +12,7 @@ module.exports = async (slug) => {
       status
       dateCreated
       section
+      template
       author
       fields {
         fieldSlug
@@ -27,18 +28,5 @@ module.exports = async (slug) => {
     throw new Error(404);
   }
 
-  const sectionQuery = `{
-    section (_id: "${entry.section}") {
-      template
-    }
-  }`;
-
-  const { data: { section }, errors: sectionErrors } = await graphql(schema, sectionQuery);
-
-  if (sectionErrors !== undefined || section === undefined) {
-    console.log(sectionErrors);
-    throw new Error(404);
-  }
-
-  return { data: entry, template: section.template };
+  return entry;
 };
