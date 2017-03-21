@@ -12,6 +12,18 @@ export const UPDATE_ENTRY = 'UPDATE_ENTRY';
 export const DELETE_ENTRY = 'DELETE_ENTRY';
 export const ENTRY_DETAILS = 'ENTRY_DETAILS';
 
+/**
+ * Formats fields by key/value pairs into a larger, more descriptive object
+ * @param {Object} fields
+ * @param {Object} stateFields
+ *
+ * @typedef {Object} FieldObject
+ * @property {String} fieldId - Mongo ID of the Field
+ * @property {String} fieldSlug - Slug of the Field's title
+ * @property {Any} value - the value for this field in the Entry
+ *
+ * @returns {FieldObject}
+ */
 async function formatFields(fields, stateFields) {
   if (fields.length <= 0) return fields;
 
@@ -26,6 +38,14 @@ async function formatFields(fields, stateFields) {
   return options;
 }
 
+/**
+ * Creates a new Entry
+ * @param {string} title
+ * @param {string} section
+ * @param {string} status
+ * @param {string} dateCreated
+ * @param {object} rawOptions
+ */
 export function newEntry(title, section, status, dateCreated, rawOptions) {
   return async (dispatch, getState) => {
     const { fields, sections, user } = getState();
@@ -75,6 +95,11 @@ export function newEntry(title, section, status, dateCreated, rawOptions) {
   };
 }
 
+/**
+ * Saves updates of an existing Entry
+ * @param {string} _id
+ * @param {object} data
+ */
 export function updateEntry(_id, data) {
   return async (dispatch, getState) => {
     const state = getState();
@@ -117,7 +142,11 @@ export function updateEntry(_id, data) {
   };
 }
 
-export function deleteEntry(id) {
+/**
+ * Posts to GraphQL to delete an Entry
+ * @param {string} _id
+ */
+export function deleteEntry(_id) {
   return (dispatch) => {
     const query = `mutation ($_id:ID!) {
       removeEntry(_id: $_id) {
@@ -127,7 +156,7 @@ export function deleteEntry(id) {
     }`;
 
     const variables = {
-      _id: id,
+      _id,
     };
 
     return graphFetcher(query, variables)
@@ -144,6 +173,10 @@ export function deleteEntry(id) {
   };
 }
 
+/**
+ * Gets the details (fields object) of an Entry
+ * @param {string} _id - Mongo ID of Entry.
+ */
 export function entryDetails(_id) {
   return (dispatch) => {
     const query = `query ($_id:ID!) {

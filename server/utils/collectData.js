@@ -2,7 +2,13 @@ const { graphql } = require('graphql');
 const schema = require('../graphql');
 const h = require('./helpers');
 
-module.exports = async function collectData(entryData) {
+/**
+ * Collects all of the entries, sections, users and fields
+ * and prepares them for us in a template
+ * @param {Object} entryData
+ * @returns {Object} An object containg the specific entry data and all the other collected data
+ */
+async function collectData(entryData) {
   const query = `{
     entries (status: "live") {
       _id
@@ -39,4 +45,6 @@ module.exports = async function collectData(entryData) {
   const bigData = await Object.assign({}, { entry: entryData }, { flint: formatted });
 
   return bigData;
-};
+}
+
+module.exports = collectData;

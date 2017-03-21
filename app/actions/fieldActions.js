@@ -8,6 +8,12 @@ export const RECEIVE_FIELDS = 'RECEIVE_FIELDS';
 export const NEW_FIELD = 'NEW_FIELD';
 export const DELETE_FIELD = 'DELETE_FIELD';
 
+/**
+ * Creates a new Field
+ * @param {String} title
+ * @param {String} type
+ * @param {String} instructions
+ */
 export function newField(title, type, instructions) {
   return (dispatch) => {
     const query = `mutation ($data: FieldInput!) {
@@ -38,6 +44,10 @@ export function newField(title, type, instructions) {
   };
 }
 
+/**
+ * Deletes a Field from the database.
+ * @param {String} _id - Mongo ID of Field.
+ */
 export function deleteField(_id) {
   return (dispatch) => {
     const query = `mutation ($_id:ID!) {

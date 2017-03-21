@@ -11,6 +11,11 @@ export const NEW_ASSET = 'NEW_ASSET';
 export const DELETE_ASSET = 'DELETE_ASSET';
 export const INDEX_ASSETS = 'INDEX_ASSETS';
 
+/**
+ * Uploads a new Asset to the file system and
+ * adds it to the database.
+ * @param {Object} formData - Form formData
+ */
 export function newAsset(formData) {
   return dispatch =>
     post('/admin/api/assets', formData, {
@@ -24,7 +29,11 @@ export function newAsset(formData) {
       .catch(err => new Error(err));
 }
 
-export function deleteAsset(id) {
+/**
+ * Deletes an Asset from the database and the local file system
+ * @param {String} _id - Mongo ID of the Asset
+ */
+export function deleteAsset(_id) {
   return (dispatch) => {
     const query = `mutation ($_id:ID!) {
       removeAsset(_id: $_id) {
@@ -32,7 +41,7 @@ export function deleteAsset(id) {
       }
     }`;
     const variables = {
-      _id: id,
+      _id,
     };
 
     return graphFetcher(query, variables)
@@ -50,6 +59,10 @@ export function deleteAsset(id) {
   };
 }
 
+/**
+ * Re-indexs all assets; deletes non-existant files from the DB
+ * and adds DB entries for new files that aren't already there
+ */
 export function indexAssets() {
   return (dispatch) => {
     const query = `mutation {

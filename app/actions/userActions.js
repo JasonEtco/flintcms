@@ -10,6 +10,10 @@ export const NEW_USER = 'NEW_USER';
 export const REQUEST_USERS = 'REQUEST_USERS';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 
+/**
+ * Adds a new user to the database
+ * @param {Object} user
+ */
 export function newUser(user) {
   return (dispatch) => {
     const query = `mutation ($user: UserInput!) {

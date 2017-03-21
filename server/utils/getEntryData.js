@@ -3,7 +3,12 @@
 const { graphql } = require('graphql');
 const schema = require('../graphql');
 
-module.exports = async (slug) => {
+/**
+ * Query the database for the Entry data
+ * @param {String} slug
+ * @returns {Object} Entry object
+ */
+async function getEntryData(slug) {
   const query = `{
     entry (slug: "${slug}", status: "live") {
       _id
@@ -29,4 +34,6 @@ module.exports = async (slug) => {
   }
 
   return entry;
-};
+}
+
+module.exports = getEntryData;

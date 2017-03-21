@@ -10,6 +10,13 @@ export const NEW_SECTION = 'NEW_SECTION';
 export const DELETE_SECTION = 'DELETE_SECTION';
 export const UPDATE_SECTION = 'UPDATE_SECTION';
 
+/**
+ * Creates a new Section
+ * @param {Object} param0 - New Section data
+ * @param {String} param0.title
+ * @param {String} param0.template
+ * @param {Array} param0.fields
+ */
 export function newSection({ title, template, fields }) {
   return (dispatch) => {
     const query = `mutation ($data: SectionsInput!) {
@@ -45,6 +52,14 @@ export function newSection({ title, template, fields }) {
   };
 }
 
+/**
+ * Updates a Section document.
+ * @param {String} _id - Mongo ID of the Section to update.
+ * @param {Object} param1 - Section Object
+ * @param {String} param1.title
+ * @param {String} param1.template
+ * @param {Array} param1.fields
+ */
 export function updateSection(_id, { title, template, fields }) {
   return async (dispatch) => {
     const query = `mutation ($_id: ID!, $data: SectionsInput!) {
@@ -79,6 +94,10 @@ export function updateSection(_id, { title, template, fields }) {
   };
 }
 
+/**
+ * Deletes a Section from the database.
+ * @param {String} _id - Mongo ID of Section.
+ */
 export function deleteSection(_id) {
   return (dispatch) => {
     const query = `mutation ($_id:ID!) {

@@ -4,7 +4,13 @@ const path = require('path');
 const collectData = require('./collectData');
 const siteConfig = require('../../config');
 
-module.exports = async (template, data = {}) => {
+/**
+ * Compiles template/data with Handlebars into an HTML string
+ * @param {String} template - The filename of the template to compile with
+ * @param {Object} data
+ * @returns {String} HTML String
+ */
+async function compile(template, data = {}) {
   const compiledData = await collectData(data);
 
   return new Promise((resolve, reject) => {
@@ -38,4 +44,6 @@ module.exports = async (template, data = {}) => {
       resolve(html);
     });
   });
-};
+}
+
+module.exports = compile;

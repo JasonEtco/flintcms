@@ -44,6 +44,10 @@ const contents = `
     }
   }`;
 
+/**
+ * Adds a new User Group to the database.
+ * @param {Object} data - User Group Object
+ */
 export function newUserGroup(data) {
   return (dispatch) => {
     const query = `mutation ($data: UserGroupInput!) {
@@ -66,7 +70,11 @@ export function newUserGroup(data) {
   };
 }
 
-export function deleteUserGroup(id) {
+/**
+ * Deletes a User Group.
+ * @param {String} _id
+ */
+export function deleteUserGroup(_id) {
   return (dispatch) => {
     const query = `mutation ($_id:ID!) {
       removeUserGroup(_id: $_id) {
@@ -76,7 +84,7 @@ export function deleteUserGroup(id) {
     }`;
 
     const variables = {
-      _id: id,
+      _id,
     };
 
     return graphFetcher(query, variables)
@@ -93,6 +101,11 @@ export function deleteUserGroup(id) {
   };
 }
 
+/**
+ * Updates a User Group
+ * @param {String} _id - Mongo ID of the User Group
+ * @param {Object} data - User Group Object
+ */
 export function updateUserGroup(_id, data) {
   return async (dispatch) => {
     const query = `mutation ($_id: ID!, $data: UserGroupInput!) {

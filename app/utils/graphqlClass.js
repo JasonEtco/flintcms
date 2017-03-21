@@ -1,7 +1,23 @@
 import { post } from 'axios';
 import h from './helpers';
 
+/**
+ * GraphQL Fetcher class
+ * Goes through the motions of requesting then receiving
+ * data, then dispatching the relevant reducer to affect
+ * the store's state.
+ * @class
+ */
 export default class GraphQLFetcher {
+  /**
+   * Constructor for the GraphQLFetcher
+   * @constructs
+   * @param {Object} options
+   * @param {String} options.receive
+   * @param {String} options.request
+   * @param {String} options.name
+   * @param {String} query
+   */
   constructor(options, query) {
     this.name = options.name;
     this.receive = options.receive;
@@ -9,6 +25,10 @@ export default class GraphQLFetcher {
     this.query = query;
   }
 
+  /**
+   * Dispatches reducer to receive JSON
+   * @param {Object} json
+   */
   receiveJSON(json) {
     return {
       type: this.receive,
