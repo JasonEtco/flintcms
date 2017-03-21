@@ -6,10 +6,10 @@ const helpers = {
    * @param {Function} next
    */
   loggedIn(req, res, next) {
-    if (!req.isAuthenticated() || req.user !== undefined) {
-      next();
-    } else {
+    if (!req.isAuthenticated() && !req.user) {
       res.json({ status: 401, redirect: '/admin/login' });
+    } else {
+      next();
     }
   },
   /**
