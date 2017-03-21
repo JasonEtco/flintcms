@@ -15,7 +15,6 @@ module.exports = {
     },
   },
   resolve(root, args, ctx, ast) {
-    console.log(root.req.user);
     const _id = args._id || ctx.user._id;
     const projection = getProjection(ast);
 
