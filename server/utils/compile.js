@@ -1,8 +1,8 @@
-const Handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 const collectData = require('./collectData');
 const siteConfig = require('../../config');
+const { nun, templatesDir } = require('./nunjucks');
 
 /**
  * Compiles template/data with Handlebars into an HTML string
@@ -14,14 +14,13 @@ async function compile(template, data = {}) {
   const compiledData = await collectData(data);
 
   return new Promise((resolve, reject) => {
-    const templateWithFormat = template.endsWith('.hbs') ? template : `${template}.hbs`;
-    const templatePath = path.resolve(__dirname, '..', '..', 'templates', templateWithFormat);
+    const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`;
+    const templatePath = path.resolve(templatesDir, templateWithFormat);
 
-    fs.readFile(templatePath, 'utf-8', async (err, file) => {
+    fs.readFile(templatePath, 'utf-8', async (err) => {
       if (err) reject(err);
 
-      const compiled = await Handlebars.compile(file);
-      let html = await compiled(compiledData);
+      let html = await nun.render(templatePath, compiledData);
 
       if (process.env.DEBUG || siteConfig.debugMode) {
         const scr = `

@@ -12,8 +12,6 @@ const passport = require('passport');
 require('./utils/database');
 require('./utils/passport')(passport);
 
-require('./utils/registerHelpers');
-require('./utils/registerPartials');
 const compile = require('./utils/compile');
 const fourOhFourHandler = require('./utils/fourOhFourHandler');
 
@@ -46,7 +44,13 @@ app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.js
 app.use('/admin', require('./apps/admin'));
 app.use('/graphql', require('./apps/graphql'));
 
-app.get('/', (req, res) => compile('index', { name: 'Jason' }).then(r => res.send(r)));
+
+// ===== Template Routes
+
+app.get('/', async (req, res) => {
+  const compiled = await compile('index', { name: 'Jason' });
+  res.send(compiled);
+});
 
 app.get('/:slug', async (req, res) => {
   const EntryData = await getEntryData(req.params.slug);

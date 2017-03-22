@@ -1,0 +1,11 @@
+{% extends "base.njk" %}
+
+{% block body %}
+  {% include "_partials/nav.njk" %}
+  <h1>{{ siteName }}</h1>
+  <h2>404 you nerd!</h2>
+
+
+  {#{{ entry | json | safe }}
+  {{ flint.entries | json | safe }}#}
+{% endblock %}

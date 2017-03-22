@@ -50,6 +50,10 @@ const outputType = new GraphQLObjectType({
     section: {
       type: new GraphQLNonNull(GraphQLID),
     },
+    sectionSlug: {
+      type: GraphQLString,
+      resolve: entry => entry.getSectionSlug(),
+    },
     slug: {
       type: new GraphQLNonNull(GraphQLString),
     },

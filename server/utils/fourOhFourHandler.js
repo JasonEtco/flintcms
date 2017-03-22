@@ -1,7 +1,7 @@
 const compile = require('./compile');
 const path = require('path');
 
-const fourOhFour = path.join(__dirname, '..', '..', 'templates', '404.hbs');
+const fourOhFour = path.join(__dirname, '..', '..', 'templates', '404');
 
 module.exports = async (res) => {
   const compiled = await compile(fourOhFour);
