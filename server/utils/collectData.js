@@ -75,7 +75,12 @@ async function collectData(entry) {
   const { data } = await graphql(schema, query);
   const formattedEntries = await formatEntryFields(data.entries);
   const sections = await sectionEntries(data.sections, formattedEntries);
-  const flint = await Object.assign({}, data, { sections });
+  const flint = Object.assign({}, data, {
+    sections,
+    section(section) {
+      return this.sections[section];
+    },
+  });
 
   return {
     entry,

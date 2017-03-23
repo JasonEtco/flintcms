@@ -1,6 +1,6 @@
 {% extends "base.njk" %}
-{% set blog = flint.sections.blog %}
-{% set dif = flint.sections['a-different-section'] %}
+{% set blog = flint.section('blog') %}
+{% set dif = flint.section('a-different-section') %}
 
 {% block body %}
   {% include "_partials/nav.njk" %}
