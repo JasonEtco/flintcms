@@ -5,7 +5,6 @@ import FieldLayout from '../../containers/FieldLayout';
 import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
-import h from '../../utils/helpers';
 import { updateSection } from '../../actions/sectionActions';
 
 export default class Section extends Component {

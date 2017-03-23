@@ -17,7 +17,7 @@ async function compileSass() {
       fs.mkdirSync(cssPath);
     }
 
-    const file = await fs.writeFileAsync(path.join(cssPath, 'main.css'), res.css);
+    const file = await writeFileAsync(path.join(cssPath, 'main.css'), res.css);
     console.log(file);
   });
 

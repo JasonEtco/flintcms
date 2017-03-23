@@ -106,7 +106,7 @@ const PermissionsTypeInput = new GraphQLInputObjectType({
   name: 'PermissionsTypeInput',
   fields: {
     sections: {
-        type: new GraphQLInputObjectType({
+      type: new GraphQLInputObjectType({
         name: 'PermissionsTypeInputSections',
         fields: sections,
       }),
