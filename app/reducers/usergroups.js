@@ -52,7 +52,6 @@ export default function users(state = {}, action) {
     }
 
     case UPDATE_USERGROUP: {
-      console.log('Here!');
       const { _id } = action.updateUserGroup;
       const usergroupIndex = state.usergroups.findIndex(usergroup => usergroup._id === _id);
       if (usergroupIndex === -1) return state;
