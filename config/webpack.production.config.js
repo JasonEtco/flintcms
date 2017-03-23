@@ -28,8 +28,8 @@ module.exports = {
     new CopyWebpackPlugin([
       {
         context: path.join(__dirname, '..', 'app'),
-        from: path.join('public', 'assets'),
-        to: path.join('public', 'assets'),
+        from: 'assets',
+        to: 'assets',
         ignore: ['fonts/**/*'],
       },
       {
