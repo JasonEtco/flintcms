@@ -52,8 +52,8 @@ app.get('/', async (req, res) => {
   res.send(compiled);
 });
 
-app.get('/:slug', async (req, res) => {
-  const EntryData = await getEntryData(req.params.slug);
+app.get('/:section/:slug', async (req, res) => {
+  const EntryData = await getEntryData(req.params);
   if (!EntryData) fourOhFourHandler(res);
   const compiled = await compile(EntryData.template, EntryData);
   res.send(compiled);

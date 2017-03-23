@@ -1,5 +1,6 @@
 <nav>
-  {% for entry in flint.entries %}
-    <a href="/{{entry.slug}}">{{entry.title}}</a>
+  Blog!
+  {% for entry in flint.sections.blog.entries %}
+    <a href="{{entry.url}}">{{entry.title}}</a>
   {% endfor %}
 </nav>

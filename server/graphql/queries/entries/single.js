@@ -5,6 +5,7 @@ const getProjection = require('../../get-projection');
 const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Entry = mongoose.model('Entry');
+const Section = mongoose.model('Section');
 
 module.exports = {
   type: outputType,
@@ -21,6 +22,10 @@ module.exports = {
       name: 'slug',
       type: GraphQLString,
     },
+    section: {
+      name: 'section',
+      type: GraphQLString,
+    },
   },
   async resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
@@ -34,6 +39,14 @@ module.exports = {
           .select(projection)
           .exec();
       }
+    }
+
+    if (args.section) {
+      const { _id: section } = await Section.findOne({ slug: args.section }).select('_id').lean().exec();
+      return Entry
+        .findOne(Object.assign({}, args, { section }))
+        .select(projection)
+        .exec();
     }
 
     return Entry

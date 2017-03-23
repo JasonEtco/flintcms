@@ -66,4 +66,12 @@ EntrySchema.methods.getTemplate = async function () {
   return section.template;
 };
 
+// eslint-disable-next-line func-names
+EntrySchema.methods.getUrl = async function () {
+  const section = await Section.findById(this.section).select('slug').lean();
+  if (!section) throw new Error('The Section could not be found');
+
+  return `/${section.slug}/${this.slug}`;
+};
+
 module.exports = mongoose.model('Entry', EntrySchema, 'entries');

@@ -1,11 +1,24 @@
 {% extends "base.njk" %}
+{% set blog = flint.sections.blog %}
+{% set dif = flint.sections['a-different-section'] %}
 
 {% block body %}
   {% include "_partials/nav.njk" %}
   <h1>{{ siteName }}</h1>
   <h2>{{ entry.title }}</h2>
 
+  {#{{ entry | json | safe }}#}
+  {#{{ flint | json | safe }}#}
 
-  {#{{ entry | json | safe }}
-  {{ flint.entries | json | safe }}#}
+    <h2>{{blog.title}}</h2>
+
+    {% for ent in blog.entries %}
+      <h3><a href="{{ent.url}}">{{ent.title}}</a></h3>
+    {% endfor %}
+
+    <h2>{{dif.title}}</h2>
+
+    {% for ent in dif.entries %}
+      <h3><a href="{{ent.url}}">{{ent.title}}</a></h3>
+    {% endfor %}
 {% endblock %}

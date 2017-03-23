@@ -8,9 +8,9 @@ const schema = require('../graphql');
  * @param {String} slug
  * @returns {Object} Entry object
  */
-async function getEntryData(slug) {
+async function getEntryData({ slug, section }) {
   const query = `{
-    entry (slug: "${slug}", status: "live") {
+    entry (slug: "${slug}", status: "live", section: "${section}") {
       _id
       title
       slug
