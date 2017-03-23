@@ -32,29 +32,33 @@ async function removeFiles(dbFiles) {
  */
 async function saveFiles(dbFiles) {
   const files = await readdirAsync(pathToAssets);
-  files.filter(f =>
-      // Check if file is in list of indexed assets
-      dbFiles.findIndex(dbf => dbf.filename === f) === -1
+  const filtered = await files.filter(f =>
+    // Check if file is in list of indexed assets
+    dbFiles.findIndex(dbf => dbf.filename === f) === -1
 
-      // TODO: Allow for other file types
-      && f.match(/\.(jpe?g|png|gif|svg)$/i))
-    .map(async (file) => {
-      const pathToFile = path.resolve(pathToAssets, file);
-      const { width, height, mimetype, size } = await getAssetDetails(pathToFile);
+    // TODO: Allow for other file types
+    && f.match(/\.(jpe?g|png|gif|svg)$/i));
 
-      const newAsset = new Asset({
-        title: file,
-        filename: file,
-        size,
-        width,
-        height,
-        mimetype,
-      });
+  const ret = await filtered.map(async (file) => {
+    const pathToFile = path.resolve(pathToAssets, file);
+    const { width, height, mimetype, size } = await getAssetDetails(pathToFile);
 
-      const savedAsset = await newAsset.save();
-      if (!savedAsset) throw new Error(`There was a problem saving the asset: ${file}.`);
-      return savedAsset;
+    const newAsset = new Asset({
+      title: file,
+      filename: file,
+      size,
+      width,
+      height,
+      mimetype,
     });
+
+    const savedAsset = await newAsset.save();
+    if (!savedAsset) throw new Error(`There was a problem saving the asset: ${file}.`);
+    return savedAsset;
+  });
+
+  console.log(ret);
+  return ret;
 }
 
 module.exports = {
@@ -73,20 +77,21 @@ module.exports = {
     // List of all assets already indexed
     const dbFiles = await Asset.find().exec();
 
-    // const savedFiles = await saveFiles(dbFiles);
-    // const removedFiles = await removeFiles(dbFiles);
-    const vals = await Promise.all([
-      saveFiles(dbFiles),
-      removeFiles(dbFiles),
-    ]);
+    const savedFiles = await saveFiles(dbFiles);
+    const removedFiles = await removeFiles(dbFiles);
+    // const vals = await Promise.all([
+    //   saveFiles(dbFiles),
+    //   removeFiles(dbFiles),
+    // ]);
 
-    console.log(vals);
+    console.log(savedFiles, removedFiles);
 
     // return Promise.all([savedFiles, removedFiles])
     //   .then(values => ({ savedFiles: values[0], removedFiles: values[1] }))
     //   .catch(error => new Error(error));
 
-    if (!savedFiles || !removedFiles) throw new Error('There was a problem indexing the assets.');
-    return { savedFiles, removedFiles };
+    // if (!savedFiles || !removedFiles) throw new Error('There was a problem indexing the assets.');
+    // return { savedFiles, removedFiles };
+    return { savedFiles: [], removedFiles: [] };
   },
 };
