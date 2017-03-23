@@ -12,7 +12,7 @@ async function compileSass() {
   sass.render({
     file: pathToSCSS,
   }, async (err, res) => {
-    const cssPath = path.join(__dirname, '..', '..', 'css');
+    const cssPath = path.join(__dirname, '..', '..', 'public');
     if (!fs.existsSync(cssPath)) {
       fs.mkdirSync(cssPath);
     }

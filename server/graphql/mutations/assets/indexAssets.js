@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const { outputType } = require('../../types/Assets');
 const { readdirAsync } = require('../../../utils/fsPromises');
 
+const pathToAssets = path.join(__dirname, '..', '..', '..', '..', 'public', 'assets');
 const Asset = mongoose.model('Asset');
 
 module.exports = {
@@ -20,8 +21,6 @@ module.exports = {
   async resolve() {
     // TODO: Use Promise.all to have
     // removedFiles/savedFiles run at the same time
-
-    const pathToAssets = path.join(__dirname, '..', '..', '..', '..', 'assets');
 
     // List of all assets already indexed
     const dbFiles = await Asset.find().exec();

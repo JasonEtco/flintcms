@@ -28,7 +28,7 @@ router.post('/assets', upload.single('file'), async (req, res) => {
     const { body, file } = req;
     const { originalname, buffer, size, mimetype } = file;
 
-    const pathToFile = path.join(__dirname, '..', '..', '..', 'assets', originalname);
+    const pathToFile = path.join(__dirname, '..', '..', '..', 'public', 'assets', originalname);
 
     const jimpFile = await jimp.read(buffer);
     const { width, height } = jimpFile.bitmap;
