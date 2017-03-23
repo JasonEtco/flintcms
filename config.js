@@ -17,5 +17,6 @@ module.exports = {
   siteName: 'Jason\'s Amazing Blog',
   siteUrl: 'http://jasonsblog.com',
   debugMode: true,
+  scssEntryPoint: 'scss/main.scss',
 };
 

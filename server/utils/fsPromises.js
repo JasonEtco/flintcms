@@ -13,3 +13,10 @@ exports.statAsync = file => new Promise((resolve, reject) => {
     else resolve(f);
   });
 });
+
+exports.writeFileAsync = (file, data, options = { encoding: 'utf8' }) => new Promise((resolve, reject) => {
+  fs.writeFile(file, data, options, (err, f) => {
+    if (err) reject(err);
+    else resolve(f);
+  });
+});

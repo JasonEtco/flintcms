@@ -17,4 +17,6 @@ nun.addGlobal('getContext', () => this.ctx);
 
 nun.addFilter('json', obj => `<pre><code>${JSON.stringify(obj, null, 2)}</code></pre>`);
 
+nunjucks.precompile(templatesDir, { env: nun });
+
 exports.nun = nun;

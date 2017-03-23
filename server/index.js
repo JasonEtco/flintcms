@@ -15,6 +15,7 @@ require('./utils/passport')(passport);
 const compile = require('./utils/compile');
 const fourOhFourHandler = require('./utils/fourOhFourHandler');
 
+require('./utils/compileSass')();
 const getEntryData = require('./utils/getEntryData');
 
 const app = express();
