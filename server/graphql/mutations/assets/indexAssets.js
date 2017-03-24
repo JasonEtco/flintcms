@@ -11,6 +11,7 @@ const Asset = mongoose.model('Asset');
 /**
  * Removes file documents from the database
  * @param {Object[]} dbFiles - Array of Files from the DataBase
+ * @param {String} pathToAssets - Path to asset folder
  * @returns {Object[]} An array of file objects that were deleted
  */
 async function removeFiles(dbFiles, pathToAssets) {
@@ -27,6 +28,7 @@ async function removeFiles(dbFiles, pathToAssets) {
 /**
  * Adds files to the database from the local file system
  * @param {Object[]} dbFiles - Array of Files from the DataBase
+ * @param {String} pathToAssets - Path to asset folder
  * @returns {Object[]} An array of file objects that were saved
  */
 async function saveFiles(dbFiles, pathToAssets) {
