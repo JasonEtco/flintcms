@@ -231,7 +231,7 @@ export function formatDate(date) {
 export function reduceToObj(arr, key, value, start = {}) {
   return arr
     .reduce((prev, curr) =>
-    Object.assig({}, prev, { [curr[key]]: curr[value] }), start);
+    Object.assign({}, prev, { [curr[key]]: curr[value] }), start);
 }
 
 /**
