@@ -5,7 +5,9 @@ const schema = require('../graphql');
 
 /**
  * Query the database for the Entry data
- * @param {String} slug
+ * @param {Object} entry
+ * @param {String} entry.slug
+ * @param {String} entry.section
  * @returns {Object} Entry object
  */
 async function getEntryData({ slug, section }) {
