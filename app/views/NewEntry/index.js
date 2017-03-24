@@ -7,7 +7,7 @@ import TitleBar from '../../components/TitleBar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import renderOption from '../../utils/renderOption';
-import h from '../../utils/helpers';
+import { getPropFromProp, slugify } from '../../utils/helpers';
 
 export default class NewEntry extends Component {
   static propTypes = {
@@ -34,7 +34,7 @@ export default class NewEntry extends Component {
     e.preventDefault();
     const { sections, params } = this.props;
     const { title, status, dateCreated, ...fields } = serialize(this.page.form, { hash: true });
-    const sectionId = h.getPropFromProp(sections.sections, { slug: params.section }, '_id');
+    const sectionId = getPropFromProp(sections.sections, { slug: params.section }, '_id');
 
     this.props.dispatch(newEntry(title, sectionId, status, dateCreated, fields));
   }
@@ -49,7 +49,7 @@ export default class NewEntry extends Component {
     const { sections, params } = this.props;
     const { section } = params;
     const sectionObj = sections.sections.find(sec => sec.slug === section);
-    const sectionName = h.getPropFromProp(sections.sections, { slug: section }, 'title');
+    const sectionName = getPropFromProp(sections.sections, { slug: section }, 'title');
 
     const links = [
       { label: sectionName, path: `/admin/entries/${section}` },
@@ -81,7 +81,7 @@ export default class NewEntry extends Component {
               full
               code
               disabled
-              value={h.slugify(this.state.title)}
+              value={slugify(this.state.title)}
             />
 
             {sectionObj.fields.map(fieldId => this.renderFields(fieldId))}

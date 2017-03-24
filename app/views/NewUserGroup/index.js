@@ -7,7 +7,7 @@ import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Checkboxes from '../../components/Checkbox/Checkboxes';
 import permissions from '../../utils/permissions';
-import h from '../../utils/helpers';
+import { slugify } from '../../utils/helpers';
 
 export default class NewUserGroup extends Component {
   static propTypes = {
@@ -68,7 +68,7 @@ export default class NewUserGroup extends Component {
               full
               code
               disabled
-              value={h.slugify(this.state.title)}
+              value={slugify(this.state.title)}
             />
 
             <Checkboxes label="Sections" checkboxes={permissions.sections} name="permissions[sections]" />

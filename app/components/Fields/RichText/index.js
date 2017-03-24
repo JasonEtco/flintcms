@@ -12,7 +12,7 @@ import {
 } from 'draft-js';
 import ToolBar from './ToolBar';
 import Icon from '../../../utils/icons';
-import h from '../../../utils/helpers';
+import { formatStringWithCode } from '../../../utils/helpers';
 import './RichText.scss';
 
 function findLinkEntities(contentBlock, callback, contentState) {
@@ -215,7 +215,7 @@ export default class RichText extends Component {
       <div className="rich-text-wrapper form-element">
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions
-          && <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
+          && <p className="input__instructions" dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
         }
         <ToolBar
           editorState={editorState}

@@ -1,5 +1,5 @@
 import { post } from 'axios';
-import h from './helpers';
+import { push } from 'react-router-redux';
 
 /**
  * GraphQL Fetcher class
@@ -45,8 +45,11 @@ export default class GraphQLFetcher {
         withCredentials: true,
       })
         .then((json) => {
-          h.receiveIfAuthed(json.data)
-            .then(dispatch(this.receiveJSON(json.data)));
+          if (json.status === 401 && json.redirect) {
+            dispatch(push(json.redirect));
+          } else {
+            dispatch(this.receiveJSON(json.data));
+          }
         })
         .catch(err => new Error(err));
     };

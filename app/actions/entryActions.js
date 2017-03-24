@@ -2,7 +2,7 @@ import React from 'react';
 import { push } from 'react-router-redux';
 import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
-import h from '../utils/helpers';
+import { getSlugFromId } from '../utils/helpers';
 import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
@@ -88,7 +88,7 @@ export function newEntry(title, section, status, dateCreated, rawOptions) {
           message: <span><b>{addEntry.title}</b> has been created!</span>,
           style: 'success',
         }));
-        const sectionSlug = h.getSlugFromId(sections.sections, addEntry.section);
+        const sectionSlug = getSlugFromId(sections.sections, addEntry.section);
         dispatch(push(`/admin/entries/${sectionSlug}/${addEntry._id}`));
       })
       .catch(errorToasts);

@@ -5,7 +5,7 @@ import Fields from '../../components/Fields';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import TitleBar from '../../components/TitleBar';
-import h from '../../utils/helpers';
+import { slugify } from '../../utils/helpers';
 
 export default class NewField extends Component {
   static propTypes = {
@@ -71,7 +71,7 @@ export default class NewField extends Component {
                 full
                 code
                 disabled
-                value={h.slugify(this.state.title)}
+                value={slugify(this.state.title)}
               />
 
               <Input

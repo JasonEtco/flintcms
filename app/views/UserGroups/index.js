@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import h from '../../utils/helpers';
+import { formatDate } from '../../utils/helpers';
 import Page from '../../containers/Page';
 import Table from '../../components/Table';
 import TitleBar from '../../components/TitleBar';
@@ -25,7 +25,7 @@ export default class UserGroups extends Component {
       slug: props.slug,
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
-        component: h.formatDate(props.dateCreated),
+        component: formatDate(props.dateCreated),
       },
       delete: {
         sortBy: false,

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import h from '../../utils/helpers';
+import { formatDate } from '../../utils/helpers';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import Table from '../../components/Table';
@@ -27,7 +27,7 @@ export default class Users extends Component {
       name: `${props.name.first} ${props.name.last}`,
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
-        component: h.formatDate(props.dateCreated),
+        component: formatDate(props.dateCreated),
       },
     }));
 

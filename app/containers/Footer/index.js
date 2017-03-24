@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import h from '../../utils/helpers';
+import { shuffle } from '../../utils/helpers';
 import FlintLogo from '../../components/FlintLogo';
 import './Footer.scss';
 
 const baseEmojis = ['🍍', '🕑', '🎏', '🔥', '🦄', '🍑', '🔑', '🙌', '❤️'];
 
 export default class Footer extends Component {
-  state = { emojis: h.shuffle(baseEmojis), i: 0 }
+  state = { emojis: shuffle(baseEmojis), i: 0 }
 
   randomizeEmoji() {
     const { emojis, i } = this.state;

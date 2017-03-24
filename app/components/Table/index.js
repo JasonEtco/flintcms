@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import h from '../../utils/helpers';
+import { sortArrayOfObjByString } from '../../utils/helpers';
 import Input from '../Input';
 import './Table.scss';
 
@@ -74,7 +74,7 @@ export default class Table extends Component {
       .filter((el, i, self) => i === self.indexOf(el))
       .filter(el => el !== 'key');
 
-    const sorted = h.sortArrayOfObjByString(filtered, sortBy, direction);
+    const sorted = sortArrayOfObjByString(filtered, sortBy, direction);
 
     return (
       <div className="table-wrapper">

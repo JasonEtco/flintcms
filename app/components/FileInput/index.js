@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import h from '../../utils/helpers';
+import { formatStringWithCode } from '../../utils/helpers';
 import './FileInput.scss';
 
 export default class FileInput extends Component {
@@ -68,7 +68,7 @@ export default class FileInput extends Component {
       <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions &&
-          <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
+          <p className="input__instructions" dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
         }
         {input}
       </div>

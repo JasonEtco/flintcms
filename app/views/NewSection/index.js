@@ -6,7 +6,7 @@ import FieldLayout from '../../containers/FieldLayout';
 import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
-import h from '../../utils/helpers';
+import { slugify } from '../../utils/helpers';
 
 export default class NewSection extends Component {
   static propTypes = {
@@ -70,7 +70,7 @@ export default class NewSection extends Component {
               full
               code
               disabled
-              value={h.slugify(this.state.title)}
+              value={slugify(this.state.title)}
             />
 
             <Input

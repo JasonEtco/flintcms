@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import types from '../../utils/types';
 import { deleteEntry } from '../../actions/entryActions';
-import h from '../../utils/helpers';
+import { truncate, getIdFromSlug, getSlugFromId, formatDate, getPropFromProp } from '../../utils/helpers';
 import DeleteIcon from '../../components/DeleteIcon';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
@@ -57,21 +57,21 @@ export default class Entries extends Component {
     const { section } = params;
     const filtered = section === undefined
       ? entries
-      : entries.filter(e => e.section === h.getIdFromSlug(sections, section));
+      : entries.filter(e => e.section === getIdFromSlug(sections, section));
     const navLinks = sections.map(sec => ({ label: sec.title, path: `/admin/entries/${sec.slug}` }));
 
     const reduced = filtered.map(props => ({
       key: props._id,
       title: {
         value: props.title,
-        component: <Link to={`/admin/entries/${h.getSlugFromId(sections, props.section)}/${props._id}`}>{props.title}</Link>,
+        component: <Link to={`/admin/entries/${getSlugFromId(sections, props.section)}/${props._id}`}>{truncate(props.title, 30)}</Link>,
       },
       slug: props.slug,
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
-        component: h.formatDate(props.dateCreated),
+        component: formatDate(props.dateCreated),
       },
-      author: h.getPropFromProp(users.users, { _id: props.author }, 'username'),
+      author: getPropFromProp(users.users, { _id: props.author }, 'username'),
       status: {
         sortBy: false,
         component: <StatusDot status={props.status} />,
