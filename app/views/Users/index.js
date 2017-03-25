@@ -21,7 +21,7 @@ export default class Users extends Component {
       key: props._id,
       image: {
         sortBy: false,
-        component: <img src={props.image} alt={props.username} />,
+        component: <img src={`/public/assets/${props.image}`} alt={props.username} />,
       },
       username: props.username,
       name: `${props.name.first} ${props.name.last}`,

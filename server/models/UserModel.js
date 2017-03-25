@@ -35,7 +35,7 @@ const UserSchema = new Schema({
   },
   image: {
     type: String,
-    default: '/assets/default_user.png',
+    default: 'default_user.png',
   },
   dateCreated: {
     type: Date,
