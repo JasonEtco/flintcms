@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const camelcase = require('camelcase');
 const h = require('../utils/helpers');
 
 const Schema = mongoose.Schema;
@@ -9,6 +10,11 @@ const FieldSchema = new Schema({
     required: true,
   },
   slug: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  handle: {
     type: String,
     required: true,
     unique: true,
@@ -33,6 +39,7 @@ const FieldSchema = new Schema({
 // eslint-disable-next-line func-names
 FieldSchema.pre('validate', function (next) {
   this.slug = h.slugify(this.title);
+  this.handle = camelcase(this.title);
   next();
 });
 

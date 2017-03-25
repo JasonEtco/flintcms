@@ -1,14 +1,19 @@
 {% extends "base.njk" %}
-{% set blog = flint.section('blog') %}
-{% set dif = flint.section('a-different-section') %}
+{% set blog = flint.section('asdfsadf') %}
 
 {% block body %}
   {% include "_partials/nav.njk" %}
   <h1>{{ siteName }}</h1>
   <h2>{{ entry.title }}</h2>
 
-  {#{{ entry | json | safe }}#}
-  {#{{ flint | json | safe }}#}
+    {{ entry.test }}
+    {% if entry.richText %}
+      {{ entry.richText | safe }}
+    {% else %}
+      No rich text!
+    {% endif %}
+  {#{{ entry | json | safe }}
+  {{ flint | json | safe }}#}
 
     <h2>{{blog.title}}</h2>
 

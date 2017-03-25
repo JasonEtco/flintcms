@@ -26,7 +26,7 @@ module.exports = {
     if (!await Section.findById(args.data.section)) throw new Error('That section does not exist.');
     if (await Entry.findOne({ slug })) throw new Error('There is already an entry with that slug.');
 
-    const data = await h.reduceToObj(args.data.fields, 'fieldSlug', 'value', args.data);
+    const data = await h.reduceToObj(args.data.fields, 'handle', 'value', args.data);
 
     const newEntry = new Entry(data);
     const savedEntry = await newEntry.save();

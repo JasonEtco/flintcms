@@ -13,7 +13,7 @@ const FieldType = new GraphQLObjectType({
     fieldId: {
       type: new GraphQLNonNull(GraphQLID),
     },
-    fieldSlug: {
+    handle: {
       type: GraphQLString,
     },
     value: {
@@ -28,7 +28,7 @@ const FieldTypeInput = new GraphQLInputObjectType({
     fieldId: {
       type: new GraphQLNonNull(GraphQLID),
     },
-    fieldSlug: {
+    handle: {
       type: GraphQLString,
     },
     value: {

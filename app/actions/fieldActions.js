@@ -90,6 +90,7 @@ export function fetchFieldsIfNeeded() {
         type
         dateCreated
         slug
+        handle
       }
     }`;
 

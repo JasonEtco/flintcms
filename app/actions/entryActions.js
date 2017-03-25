@@ -19,7 +19,7 @@ export const ENTRY_DETAILS = 'ENTRY_DETAILS';
  *
  * @typedef {Object} FieldObject
  * @property {String} fieldId - Mongo ID of the Field
- * @property {String} fieldSlug - Slug of the Field's title
+ * @property {String} handle - Slug of the Field's title
  * @property {Any} value - the value for this field in the Entry
  *
  * @returns {FieldObject}
@@ -28,10 +28,10 @@ async function formatFields(fields, stateFields) {
   if (fields.length <= 0) return fields;
 
   const options = await Object.keys(fields).map((key) => {
-    const fieldId = stateFields.find(field => key === field.slug)._id;
+    const fieldId = stateFields.find(field => key === field.handle)._id;
     return {
       fieldId,
-      fieldSlug: key,
+      handle: key,
       value: fields[key],
     };
   });
@@ -59,7 +59,7 @@ export function newEntry(title, section, status, dateCreated, rawOptions) {
         status
         fields {
           fieldId
-          fieldSlug
+          handle
           value
         }
         section
@@ -113,7 +113,7 @@ export function updateEntry(_id, data) {
         status
         fields {
           fieldId
-          fieldSlug
+          handle
           value
         }
       }
@@ -183,7 +183,7 @@ export function entryDetails(_id) {
       entry (_id: $_id) {
         fields {
           fieldId
-          fieldSlug
+          handle
           value
         }
       }

@@ -12,6 +12,9 @@ const outputType = new GraphQLObjectType({
     slug: {
       type: GraphQLString,
     },
+    handle: {
+      type: GraphQLString,
+    },
     instructions: {
       type: GraphQLString,
     },

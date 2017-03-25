@@ -26,7 +26,7 @@ const EntrySchema = new Schema({
       ref: 'Field',
       required: true,
     },
-    fieldSlug: {
+    handle: {
       type: String,
       required: true,
     },

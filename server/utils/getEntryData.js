@@ -22,7 +22,7 @@ async function getEntryData({ slug, section }) {
       template
       author
       fields {
-        fieldSlug
+        handle
         value
       }
     }

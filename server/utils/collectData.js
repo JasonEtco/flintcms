@@ -8,7 +8,7 @@ const h = require('./helpers');
  * @returns {Object[]}
  */
 async function formatEntryFields(entries) {
-  return entries.map(entry => Object.assign({}, entry, h.reduceToObj(entry.fields, 'fieldSlug', 'value')));
+  return entries.map(entry => Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')));
 }
 
 /**
@@ -57,7 +57,7 @@ async function collectData(entry) {
       section
       url
       fields {
-        fieldSlug
+        handle
         value
       }
     }
@@ -83,7 +83,7 @@ async function collectData(entry) {
   });
 
   return {
-    entry,
+    entry: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
     flint,
   };
 }

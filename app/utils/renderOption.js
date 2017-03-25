@@ -7,47 +7,33 @@ import Fields from '../components/Fields';
  * @param {Any} [value]
  */
 export default function renderOption(field, value) {
+  const props = {
+    key: field._id,
+    name: field.handle,
+    label: field.title,
+    instructions: field.instructions,
+    defaultValue: value,
+  };
+
   switch (field.type) {
     case 'Dropdown':
       return (
         <Fields.Dropdown
-          key={field._id}
-          name={field.slug}
-          label={field.title}
-          instructions={field.instructions}
+          {...props}
           options={field.options}
-          defaultValue={value}
         />
       );
     case 'Text':
       return (
-        <Fields.Text
-          key={field._id}
-          name={field.slug}
-          label={field.title}
-          instructions={field.instructions}
-          defaultValue={value}
-        />
+        <Fields.Text {...props} />
       );
     case 'Color':
       return (
-        <Fields.Color
-          key={field._id}
-          name={field.slug}
-          label={field.title}
-          instructions={field.instructions}
-          defaultValue={value}
-        />
+        <Fields.Color {...props} />
       );
     case 'RichText':
       return (
-        <Fields.RichText
-          key={field._id}
-          name={field.slug}
-          label={field.title}
-          instructions={field.instructions}
-          defaultValue={value}
-        />
+        <Fields.RichText {...props} />
       );
 
     default:

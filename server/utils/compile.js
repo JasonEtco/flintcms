@@ -5,7 +5,7 @@ const siteConfig = require('../../config');
 const { nun, templatesDir } = require('./nunjucks');
 
 /**
- * Compiles template/data with Handlebars into an HTML string
+ * Compiles template/data with Nunjucks into an HTML string
  * @param {String} template - The filename of the template to compile with
  * @param {Object} data
  * @returns {String} HTML String
