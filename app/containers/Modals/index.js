@@ -32,12 +32,13 @@ export default class Modals extends Component {
   render() {
     const { currentModal, modalIsOpen } = this.props.ui;
 
+    if (currentModal === null || modalIsOpen === false) return false;
+
     const modalClasses = classnames(
       'modal-wrapper',
+      { 'modal-wrapper--full': currentModal.props.full },
       { 'is-active': modalIsOpen },
     );
-
-    if (currentModal === null || modalIsOpen === false) return false;
 
     return (
       <div className={modalClasses}>

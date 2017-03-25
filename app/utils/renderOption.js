@@ -17,26 +17,17 @@ export default function renderOption(field, value) {
 
   switch (field.type) {
     case 'Dropdown':
-      return (
-        <Fields.Dropdown
-          {...props}
-          options={field.options}
-        />
-      );
+      return <Fields.Dropdown {...props} options={field.options} />;
     case 'Text':
-      return (
-        <Fields.Text {...props} />
-      );
+      return <Fields.Text {...props} />;
     case 'Color':
-      return (
-        <Fields.Color {...props} />
-      );
+      return <Fields.Color {...props} />;
     case 'RichText':
-      return (
-        <Fields.RichText {...props} />
-      );
+      return <Fields.RichText {...props} />;
+    case 'Asset':
+      return <Fields.Asset {...props} />;
 
     default:
-      return false;
+      return null;
   }
 }

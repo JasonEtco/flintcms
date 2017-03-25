@@ -1,0 +1,20 @@
+.asset {
+    &__btn {
+        width: 4rem;
+        height: 4rem;
+        border: 1px solid $orange;
+        background: none;
+    }
+
+    &-modal {
+        &__assets {
+            display: flex;
+        }
+    }
+
+    &__tile {
+        width: 24%;
+
+        img { max-width: 100%; }
+    }
+}
