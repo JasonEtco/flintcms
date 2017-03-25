@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { outputType } = require('../../types/Fields');
 const getProjection = require('../../get-projection');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Field = mongoose.model('Field');
 const Section = mongoose.model('Section');
@@ -17,6 +18,9 @@ module.exports = {
     },
   },
   async resolve(root, { _id }, ctx, ast) {
+    const perms = await getUserPermissions(ctx.user._id);
+    if (!perms.fields.canAddFields) throw new Error('You do not have permission to create a new Field.');
+
     const projection = getProjection(ast);
     const removedField = await Field
       .findByIdAndRemove(_id, { select: projection })

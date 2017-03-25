@@ -2,6 +2,7 @@ const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/UserGroups');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -17,7 +18,10 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, { _id, data }) {
+  async resolve(root, { _id, data }, ctx) {
+    const perms = await getUserPermissions(ctx.user._id);
+    if (!perms.users.canManageUserGroups) throw new Error('You do not have permission to manage User Groups.');
+
     if (!await UserGroup.findById(_id)) throw new Error('There is no UserGroup with this ID');
 
     const updatedUserGroup = await UserGroup.findByIdAndUpdate(_id, data, { new: true });

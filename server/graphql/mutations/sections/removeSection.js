@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const { outputType } = require('../../types/Sections');
 const getProjection = require('../../get-projection');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Section = mongoose.model('Section');
 const Entry = mongoose.model('Entry');
@@ -19,6 +20,9 @@ module.exports = {
     },
   },
   async resolve(root, args, ctx, ast) {
+    const perms = await getUserPermissions(ctx.user._id);
+    if (!perms.sections.canDeleteSections) throw new Error('You do not have permission to delete Sections.');
+
     const projection = getProjection(ast);
 
     const removedSection = await Section
