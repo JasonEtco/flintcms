@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import store from '../../../utils/store';
+import Icon from '../../../utils/icons';
 import { openModal } from '../../../actions/uiActions';
 import AssetModal from './AssetModal';
 import './Asset.scss';
@@ -44,24 +45,20 @@ export default class Asset extends Component {
     const { name, label, instructions } = this.props;
     const { value } = this.state;
 
-    if (!value) {
-      return (
-        <div className="asset-wrapper form-element">
-          <button className="asset__btn" title="Pick an asset" type="button" onClick={this.toggle}>
-            NONE!
-          </button>
-        </div>
-      );
-    }
-
     return (
       <div className="asset-wrapper form-element">
         {label && <span className="input__label">{label}</span>}
         {instructions && <p className="input__instructions">{instructions}</p>}
 
         <button className="asset__btn" title="Pick an asset" type="button" onClick={this.toggle}>
-          <img src={`/public/assets/${value.filename}`} alt={value.title} />
-          <span className="asset__btn__title">{value.title}</span>
+          <div className="asset__btn__img-wrapper">
+            {value
+              ? <img src={`/public/assets/${value.filename}`} alt={value.title} />
+              : <Icon icon="image" width={32} height={32} />
+            }
+          </div>
+
+          {value && <h5 className="asset__btn__title">{value.title}</h5>}
         </button>
         <input type="text" name={name} value={JSON.stringify(value)} readOnly hidden />
       </div>

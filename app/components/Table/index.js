@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
 import React, { Component, PropTypes } from 'react';
 import { sortArrayOfObjByString } from '../../utils/helpers';
 import Input from '../Input';
@@ -20,11 +22,15 @@ export default class Table extends Component {
     }).isRequired,
     showSearch: PropTypes.bool,
     sortBy: PropTypes.string,
+    className: PropTypes.string,
+    onRowClick: PropTypes.func,
   }
 
   static defaultProps = {
     showSearch: true,
     sortBy: 'title',
+    className: '',
+    onRowClick: null,
   }
 
   constructor(props) {
@@ -61,7 +67,7 @@ export default class Table extends Component {
   }
 
   render() {
-    const { data, showSearch } = this.props;
+    const { data, showSearch, className, onRowClick } = this.props;
     const { sortBy, direction, search } = this.state;
 
     let filtered = data;
@@ -88,7 +94,7 @@ export default class Table extends Component {
             className="table__search"
           />
         }
-        <table className="table">
+        <table className={`table ${className}`}>
           <thead>
             <tr className="table__row">
               {columns.map((column) => {
@@ -110,7 +116,7 @@ export default class Table extends Component {
           </thead>
           <tbody>
             {sorted.map(tr =>
-              <tr className="table__row" key={tr.key}>{columns.map(column =>
+              <tr className="table__row" key={tr.key} onClick={() => onRowClick(tr.key)}>{columns.map(column =>
                 <Cell key={column} column={column}>{tr[column]}</Cell>)}
               </tr>)}
           </tbody>
