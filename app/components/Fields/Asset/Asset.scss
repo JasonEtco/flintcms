@@ -1,9 +1,26 @@
 .asset {
     &__btn {
-        width: 4rem;
-        height: 4rem;
-        border: 1px solid $orange;
+        position: relative;
+        width: 8rem;
+        height: 8rem;
+        border: 2px dotted $grey;
         background: none;
+
+        img {
+            width: 100%;
+        }
+
+        &__title {
+            position: absolute;
+            bottom: -1em;
+            left: 0;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.4em 0.6em;
+            border-radius: 3px;
+            background-color: $grey-light;
+            font-size: $size0;
+        }
     }
 
     &-modal {
@@ -13,7 +30,11 @@
     }
 
     &__tile {
-        width: 24%;
+        width: 19%;
+        max-width: 100px;
+        padding: 0.5em;
+        border: 2px dotted $grey;
+        background: none;
 
         img { max-width: 100%; }
     }

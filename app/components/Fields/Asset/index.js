@@ -31,14 +31,34 @@ export default class Asset extends Component {
 
   toggle() {
     const assets = store.getState().assets.assets;
-    store.dispatch(openModal(<AssetModal full onSelect={this.onSelect} assets={assets} />));
+    const { value } = this.state;
+    store.dispatch(openModal(
+      <AssetModal
+        value={value}
+        full
+        onSelect={this.onSelect}
+        assets={assets}
+      />));
   }
 
   render() {
+    const { value } = this.state;
+
+    if (!value) {
+      return (
+        <div className="asset-wrapper form-element">
+          <button className="asset__btn" title="Pick an asset" type="button" onClick={this.toggle}>
+            NONE!
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div className="asset-wrapper form-element">
         <button className="asset__btn" title="Pick an asset" type="button" onClick={this.toggle}>
-          {this.state.value}
+          <img src={`/public/assets/${value.filename}`} alt={value.title} />
+          <span className="asset__btn__title">{this.state.value.title}</span>
         </button>
       </div>
     );
