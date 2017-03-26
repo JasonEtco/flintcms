@@ -28,7 +28,7 @@ export default class Input extends Component {
     placeholder: null,
     big: false,
     full: false,
-    onChange: f => f,
+    onChange: null,
     className: null,
     instructions: null,
     required: false,
@@ -44,9 +44,9 @@ export default class Input extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange() {
-    const { name, onChange } = this.props;
-    const { value } = this[name];
+  handleChange({ target }) {
+    const { onChange } = this.props;
+    const { value } = target;
 
     this.value = value;
     onChange(value);
@@ -93,8 +93,7 @@ export default class Input extends Component {
         defaultValue={defaultValue}
         autoFocus={autoFocus}
         value={value}
-        onChange={() => this.handleChange()}
-        ref={(r) => { this[name] = r; }}
+        onChange={event => this.handleChange(event)}
       />
     );
 
