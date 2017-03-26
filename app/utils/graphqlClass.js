@@ -44,11 +44,11 @@ export default class GraphQLFetcher {
         query: this.query,
         withCredentials: true,
       })
-        .then((json) => {
-          if (json.status === 401 && json.redirect) {
-            dispatch(push(json.redirect));
+        .then(({ data }) => {
+          if (data.status === 401 && data.redirect) {
+            dispatch(push(data.redirect));
           } else {
-            dispatch(this.receiveJSON(json.data));
+            dispatch(this.receiveJSON(data));
           }
         })
         .catch(err => new Error(err));
