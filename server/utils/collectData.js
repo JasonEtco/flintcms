@@ -3,12 +3,33 @@ const schema = require('../graphql');
 const h = require('./helpers');
 
 /**
+ * Reduces an array of objects to one object using the key value pair parameters
+ * @param {Array} arr
+ * @param {String} key
+ * @param {String} value
+ * @param {Object} start
+ * @returns {Object}
+ */
+function reducer(arr, key, value, start = {}) {
+  return arr
+    .reduce((prev, curr) => {
+      try {
+        const obj = { [curr[key]]: JSON.parse(curr[value]) };
+        return Object.assign({}, prev, obj);
+      } catch (e) {
+        const obj = { [curr[key]]: curr[value] };
+        return Object.assign({}, prev, obj);
+      }
+    }, start);
+}
+
+/**
  * Adds organized key/value field pairs onto entries
  * @param {Object[]} entries - Array of Entry objects
  * @returns {Object[]}
  */
 async function formatEntryFields(entries) {
-  return entries.map(entry => Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')));
+  return entries.map(entry => Object.assign({}, entry, reducer(entry.fields, 'handle', 'value')));
 }
 
 /**
@@ -83,7 +104,7 @@ async function collectData(entry) {
   });
 
   return {
-    entry: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
+    entry: Object.assign({}, entry, reducer(entry.fields, 'handle', 'value')),
     flint,
   };
 }

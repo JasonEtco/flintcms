@@ -1,5 +1,5 @@
 {% extends "base.njk" %}
-{% set blog = flint.section('asdfsadf') %}
+{% set blog = flint.section('assssetttssss') %}
 
 {% block body %}
   {% include "_partials/nav.njk" %}
@@ -12,8 +12,11 @@
     {% else %}
       No rich text!
     {% endif %}
-  {#{{ entry | json | safe }}
-  {{ flint | json | safe }}#}
+
+    <img src="/public/assets/{{ entry.asssset.filename }}" alt="">
+
+  {{ entry | json | safe }}
+  {#{{ flint | json | safe }}#}
 
     <h2>{{blog.title}}</h2>
 

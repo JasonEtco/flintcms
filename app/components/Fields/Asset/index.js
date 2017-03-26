@@ -21,9 +21,8 @@ export default class Asset extends Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.onSelect = this.onSelect.bind(this);
+    this.state = { value: JSON.parse(props.defaultValue) };
   }
-
-  state = { value: null }
 
   onSelect(value) {
     this.setState({ value });
@@ -42,6 +41,7 @@ export default class Asset extends Component {
   }
 
   render() {
+    const { name, label, instructions } = this.props;
     const { value } = this.state;
 
     if (!value) {
@@ -56,10 +56,14 @@ export default class Asset extends Component {
 
     return (
       <div className="asset-wrapper form-element">
+        {label && <span className="input__label">{label}</span>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
+
         <button className="asset__btn" title="Pick an asset" type="button" onClick={this.toggle}>
           <img src={`/public/assets/${value.filename}`} alt={value.title} />
-          <span className="asset__btn__title">{this.state.value.title}</span>
+          <span className="asset__btn__title">{value.title}</span>
         </button>
+        <input type="text" name={name} value={JSON.stringify(value)} readOnly hidden />
       </div>
     );
   }
