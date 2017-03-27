@@ -5,6 +5,11 @@
         margin: 0;
         background: none;
 
+        &:focus {
+            border-color: lighten($blue, 30%);
+            box-shadow: 0 0 5px lighten($blue, 30%);
+        }
+
         svg {
             fill: $grey-light;
         }
@@ -18,8 +23,13 @@
             padding: 1em;
             border: 1px solid $grey-light;
             border-radius: 3px;
+            cursor: pointer;
 
             img { max-width: 100%; }
+
+            &:hover {
+                border-color: $grey;
+            }
         }
 
         &__title {

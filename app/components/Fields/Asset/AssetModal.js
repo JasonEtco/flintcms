@@ -59,7 +59,7 @@ export default class AssetModal extends Component {
     return (
       <div className="asset-modal">
         <div className="asset-modal__assets">
-          {reduced.length > 0 ? <Table onRowClick={this.onSelect} className="asset-modal__table" showSearch={false} data={reduced} /> : <h3>No assets!</h3>}
+          {reduced.length > 0 ? <Table onRowClick={this.onSelect} className="asset-modal__table" data={reduced} /> : <h3>No assets!</h3>}
         </div>
       </div>
     );
