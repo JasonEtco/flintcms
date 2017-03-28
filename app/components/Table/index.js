@@ -37,6 +37,7 @@ export default class Table extends Component {
     super(props);
 
     this.handleSort = this.handleSort.bind(this);
+    this.handleRowClick = this.handleRowClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.filterer = this.filterer.bind(this);
     this.state = { sortBy: props.sortBy, direction: 'DESC', search: '' };
@@ -66,8 +67,13 @@ export default class Table extends Component {
     return flag;
   }
 
+  handleRowClick(key) {
+    const { onRowClick } = this.props;
+    if (onRowClick) onRowClick(key);
+  }
+
   render() {
-    const { data, showSearch, className, onRowClick } = this.props;
+    const { data, showSearch, className } = this.props;
     const { sortBy, direction, search } = this.state;
 
     let filtered = data;
@@ -116,7 +122,7 @@ export default class Table extends Component {
           </thead>
           <tbody>
             {sorted.map(tr =>
-              <tr className="table__row" key={tr.key} onClick={() => onRowClick(tr.key)}>{columns.map(column =>
+              <tr className="table__row" key={tr.key} onClick={() => this.handleRowClick(tr.key)}>{columns.map(column =>
                 <Cell key={column} column={column}>{tr[column]}</Cell>)}
               </tr>)}
           </tbody>

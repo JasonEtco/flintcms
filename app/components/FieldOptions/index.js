@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 import React, { Component, PropTypes } from 'react';
 
 export default class FieldOptions extends Component {
@@ -11,7 +13,7 @@ export default class FieldOptions extends Component {
     return (
       <div>
         <h3>{type} Options</h3>
-        {(fields[type].fields || []).map(F => <F.type {...F} name={`options[${F.name}]`} />)}
+        {(fields[type].fields || []).map((F, i) => <F.type key={i} {...F} name={`options[${F.name}]`} />)}
       </div>
     );
   }

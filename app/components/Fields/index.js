@@ -4,6 +4,8 @@ import Color from './Color';
 import RichText from './RichText';
 import Asset from './Asset';
 import List from '../List';
+import Checkbox from '../Checkbox';
+import Checkboxes from '../Checkbox/Checkboxes';
 
 export default {
   Dropdown: {
@@ -23,5 +25,23 @@ export default {
   },
   Asset: {
     component: Asset,
+    fields: [
+      {
+        type: Checkboxes,
+        label: 'Allowed Extensions',
+        instructions: 'A list of allowed file extensions',
+        name: 'extension',
+        checkboxes: [{ name: 'png', label: 'png', value: true }, { name: 'jpg', label: 'jpg', value: true }],
+      },
+    ],
+  },
+  Checkbox: {
+    component: Checkbox,
+  },
+  Checkboxes: {
+    component: Checkboxes,
+    fields: [
+      { type: List, name: 'checkboxes' },
+    ],
   },
 };

@@ -3,11 +3,12 @@ import Page from '../../containers/Page';
 import Fields from '../../components/Fields';
 import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
+import FieldOptions from '../../components/FieldOptions';
 
 export default class Field extends Component {
   static propTypes = {
     // dispatch: PropTypes.func,
-    fields: PropTypes.object.isRequired,
+    fields: PropTypes.object,
     params: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
   }
@@ -21,14 +22,20 @@ export default class Field extends Component {
 
     const { fields, params } = props;
     const { id } = params;
-    this.field = fields.fields.find(e => e._id === id);
+    const field = fields.fields.find(e => e._id === id);
+    this.field = field;
+    this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.state = { type: field.type };
+  }
+
+  handleTypeChange(type) {
+    this.setState({ type });
   }
 
   render() {
     const { Dropdown } = Fields;
     const { slug, title, instructions } = this.field;
-    const FieldLabels = Object.keys(Fields).map(f => Fields[f].displayName);
-    const options = FieldLabels.map(n => ({ label: n, value: n }));
+    const options = Object.keys(Fields).map(n => ({ label: n, value: n }));
 
     const links = [
       { label: 'Settings', path: '/admin/settings' },
@@ -74,12 +81,17 @@ export default class Field extends Component {
                 defaultValue={instructions}
               />
 
-              <Dropdown
+              <Dropdown.component
+                name="type"
                 options={options}
+                onChange={this.handleTypeChange}
                 label="Field Type"
+                defaultValue={this.state.type}
                 instructions="The kind of field presented in the dashboard."
                 ref={(r) => { this.type = r; }}
               />
+
+              <FieldOptions fields={Fields} type={this.state.type} />
             </form>
           </div>
         </div>
