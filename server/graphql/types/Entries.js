@@ -6,6 +6,7 @@ const {
   GraphQLID,
   GraphQLList,
 } = require('graphql');
+const ObjectType = require('./objectType');
 
 const FieldType = new GraphQLObjectType({
   name: 'EntryFields',
@@ -17,7 +18,7 @@ const FieldType = new GraphQLObjectType({
       type: GraphQLString,
     },
     value: {
-      type: GraphQLString,
+      type: ObjectType,
     },
   }),
 });
@@ -32,7 +33,7 @@ const FieldTypeInput = new GraphQLInputObjectType({
       type: GraphQLString,
     },
     value: {
-      type: GraphQLString,
+      type: ObjectType,
     },
   }),
 });

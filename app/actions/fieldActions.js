@@ -14,7 +14,7 @@ export const DELETE_FIELD = 'DELETE_FIELD';
  * @param {String} type
  * @param {String} instructions
  */
-export function newField(title, type, instructions) {
+export function newField(data) {
   return (dispatch) => {
     const query = `mutation ($data: FieldInput!) {
       addField(data: $data) {
@@ -28,11 +28,7 @@ export function newField(title, type, instructions) {
     }`;
 
     const variables = {
-      data: {
-        title,
-        type,
-        instructions,
-      },
+      data,
     };
 
     return graphFetcher(query, variables)

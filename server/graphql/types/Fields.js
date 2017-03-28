@@ -1,4 +1,5 @@
-const { GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
+const { GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql/type');
+const ObjectType = require('./objectType');
 
 const outputType = new GraphQLObjectType({
   name: 'Field',
@@ -24,6 +25,9 @@ const outputType = new GraphQLObjectType({
     dateCreated: {
       type: GraphQLString,
     },
+    options: {
+      type: ObjectType,
+    },
   },
 });
 const inputType = new GraphQLInputObjectType({
@@ -37,6 +41,9 @@ const inputType = new GraphQLInputObjectType({
     },
     type: {
       type: GraphQLString,
+    },
+    options: {
+      type: ObjectType,
     },
   },
 });

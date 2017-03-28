@@ -30,7 +30,7 @@ export default class Assets extends Component {
       key: props._id,
       title: {
         value: props.title,
-        component: <a href={`/assets/${props.filename}`} rel="noopener noreferrer" target="_blank">{props.title}</a>,
+        component: <a href={`/public/assets/${props.filename}`} rel="noopener noreferrer" target="_blank">{props.title}</a>,
       },
       filename: props.filename,
       size: formatBytes(props.size, 0),

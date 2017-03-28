@@ -10,7 +10,7 @@ export default class Asset extends Component {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.object,
   }
 
   static defaultProps = {
@@ -22,7 +22,7 @@ export default class Asset extends Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.onSelect = this.onSelect.bind(this);
-    this.state = { value: JSON.parse(props.defaultValue) };
+    this.state = { value: props.defaultValue };
   }
 
   onSelect(value) {
@@ -44,6 +44,7 @@ export default class Asset extends Component {
   render() {
     const { name, label, instructions } = this.props;
     const { value } = this.state;
+    console.log(value);
 
     return (
       <div className="asset-wrapper form-element">
@@ -60,7 +61,7 @@ export default class Asset extends Component {
 
           {value && <h5 className="asset__btn__title">{value.title}</h5>}
         </button>
-        <input type="text" name={name} value={JSON.stringify(value)} readOnly hidden />
+        {Object.keys(value).map(key => <input key={key} type="text" name={`${name}[${key}]`} value={value[key]} readOnly hidden />)}
       </div>
     );
   }

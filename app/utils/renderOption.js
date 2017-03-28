@@ -8,6 +8,7 @@ import Fields from '../components/Fields';
  */
 export default function renderOption(field, value) {
   const props = {
+    ...field,
     key: field._id,
     name: field.handle,
     label: field.title,
@@ -15,19 +16,7 @@ export default function renderOption(field, value) {
     defaultValue: value,
   };
 
-  switch (field.type) {
-    case 'Dropdown':
-      return <Fields.Dropdown {...props} options={field.options} />;
-    case 'Text':
-      return <Fields.Text {...props} />;
-    case 'Color':
-      return <Fields.Color {...props} />;
-    case 'RichText':
-      return <Fields.RichText {...props} />;
-    case 'Asset':
-      return <Fields.Asset {...props} />;
+  const Component = Fields[field.type].component;
 
-    default:
-      return null;
-  }
+  return <Component {...props} />;
 }

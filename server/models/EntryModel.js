@@ -31,7 +31,7 @@ const EntrySchema = new Schema({
       required: true,
     },
     value: {
-      type: String,
+      type: Schema.Types.Mixed,
       required: true,
     },
   }],
