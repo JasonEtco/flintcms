@@ -1,7 +1,7 @@
 import React from 'react';
 import { NEW_SECTION, DELETE_SECTION, UPDATE_SECTION } from '../actions/sectionActions';
 import { NEW_ENTRY, DELETE_ENTRY, UPDATE_ENTRY } from '../actions/entryActions';
-import { NEW_FIELD, DELETE_FIELD } from '../actions/fieldActions';
+import { NEW_FIELD, DELETE_FIELD, UPDATE_FIELD } from '../actions/fieldActions';
 import { NEW_ASSET, DELETE_ASSET } from '../actions/assetActions';
 import { NEW_USERGROUP, DELETE_USERGROUP } from '../actions/usergroupActions';
 import { newToast } from '../actions/uiActions';
@@ -17,6 +17,13 @@ export default class SocketEvents {
     this.socket.on('new-field', (addField) => {
       this.dispatch({ type: NEW_FIELD, addField });
       this.dispatch(newToast(<span><b>{addField.title}</b> was just added!</span>));
+    });
+  }
+
+  updateField() {
+    this.socket.on('update-field', (updatedField) => {
+      this.dispatch({ type: UPDATE_FIELD, updatedField });
+      this.dispatch(newToast(<span><b>{updatedField.title}</b> was just added!</span>));
     });
   }
 
@@ -106,6 +113,7 @@ export default class SocketEvents {
   listen() {
     // Listen for new or deleted Fields
     this.newField();
+    this.updateField();
     this.deleteField();
 
     // Listen for new or deleted Entries

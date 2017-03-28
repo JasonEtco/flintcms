@@ -1,7 +1,9 @@
+import update from 'immutability-helper';
 import {
   REQUEST_FIELDS,
   RECEIVE_FIELDS,
   NEW_FIELD,
+  UPDATE_FIELD,
   DELETE_FIELD,
 } from '../actions/fieldActions';
 
@@ -44,6 +46,21 @@ export default function fields(state = {}, action) {
         ...state,
         fields: [
           ...state.fields.slice(0, fieldIndex),
+          ...state.fields.slice(fieldIndex + 1),
+        ],
+      };
+    }
+
+    case UPDATE_FIELD: {
+      const { _id } = action.updatedField;
+      const fieldIndex = state.fields.findIndex(field => field._id === _id);
+      if (fieldIndex === -1) return state;
+
+      return {
+        ...state,
+        fields: [
+          ...state.fields.slice(0, fieldIndex),
+          update(state.fields[fieldIndex], { $merge: action.updatedField }),
           ...state.fields.slice(fieldIndex + 1),
         ],
       };

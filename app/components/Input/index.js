@@ -28,7 +28,7 @@ export default class Input extends Component {
     placeholder: null,
     big: false,
     full: false,
-    onChange: null,
+    onChange: f => f,
     className: null,
     instructions: null,
     required: false,

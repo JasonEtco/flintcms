@@ -52,7 +52,7 @@ export default class NewField extends Component {
     return (
       <Page name="new-field" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title="New Field">
-          <Button onClick={this.onSubmit} small>Save</Button>
+          <Button onClick={this.onSubmit} type="submit" small>Save</Button>
         </TitleBar>
 
         <div className="content">
