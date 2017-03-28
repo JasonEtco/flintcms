@@ -6,14 +6,12 @@ export default class List extends Component {
     items: PropTypes.arrayOf(PropTypes.string),
     label: PropTypes.string,
     instructions: PropTypes.string,
-    required: PropTypes.bool,
   }
 
   static defaultProps = {
     items: [],
     label: null,
     instructions: null,
-    required: false,
   }
 
   constructor(props) {

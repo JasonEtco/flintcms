@@ -44,7 +44,6 @@ export default class Asset extends Component {
   render() {
     const { name, label, instructions } = this.props;
     const { value } = this.state;
-    console.log(value);
 
     return (
       <div className="asset-wrapper form-element">

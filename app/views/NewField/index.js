@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import serialize from 'form-serialize'
+import serialize from 'form-serialize';
 import { newField } from '../../actions/fieldActions';
 import Page from '../../containers/Page';
 import Fields from '../../components/Fields';
