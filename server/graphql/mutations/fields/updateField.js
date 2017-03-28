@@ -23,6 +23,7 @@ module.exports = {
     if (!foundField) throw new Error('There is no Field with this ID');
 
     const perms = await getUserPermissions(ctx.user._id);
+    if (!perms.fields.canEditFields) throw new Error('You do not have permission to edit fields.');
 
     const updatedField = await Field.findByIdAndUpdate(_id, data, { new: true });
 
