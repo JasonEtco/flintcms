@@ -28,6 +28,10 @@ export default class Assets extends Component {
 
     const reduced = assets.assets.map(props => ({
       key: props._id,
+      image: {
+        sortBy: false,
+        component: <a href={`/public/assets/${props.filename}`} rel="noopener noreferrer" target="_blank"><img src={`/public/assets/${props.filename}`} alt={props.filename} /></a>,
+      },
       title: {
         value: props.title,
         component: <a href={`/public/assets/${props.filename}`} rel="noopener noreferrer" target="_blank">{props.title}</a>,
