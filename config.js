@@ -14,8 +14,8 @@
 ============================================================================== */
 
 module.exports = {
-  siteName: 'Jason\'s Amazing Blog',
-  siteUrl: 'http://jasonsblog.com',
+  siteName: 'Generic Example Title',
+  siteUrl: 'http://example.com',
   debugMode: true,
   scssEntryPoint: 'scss/main.scss',
 };
