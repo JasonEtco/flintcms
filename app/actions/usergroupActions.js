@@ -1,7 +1,6 @@
 import React from 'react';
 import { push } from 'react-router-redux';
 import graphFetcher from '../utils/graphFetcher';
-import GraphQLClass from '../utils/graphqlClass';
 import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_USERGROUP = 'REQUEST_USERGROUP';
@@ -130,24 +129,5 @@ export function updateUserGroup(_id, data) {
         }));
       })
       .catch(errorToasts);
-  };
-}
-
-export function fetchUserGroupsIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'usergroups',
-      request: REQUEST_USERGROUPS,
-      receive: RECEIVE_USERGROUPS,
-    };
-
-    const query = `{
-      usergroups {
-        ${contents}
-      }
-    }`;
-
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
   };
 }

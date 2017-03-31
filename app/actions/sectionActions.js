@@ -1,6 +1,5 @@
 import React from 'react';
 import { push } from 'react-router-redux';
-import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import { newToast, errorToasts } from './uiActions';
 
@@ -122,29 +121,5 @@ export function deleteSection(_id) {
         dispatch(push('/admin/settings/sections'));
       })
       .catch(errorToasts);
-  };
-}
-
-export function fetchSectionsIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'sections',
-      request: REQUEST_SECTIONS,
-      receive: RECEIVE_SECTIONS,
-    };
-
-    const query = `{
-      sections {
-        _id
-        template
-        title
-        slug
-        fields
-        dateCreated
-      }
-    }`;
-
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
   };
 }

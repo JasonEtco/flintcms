@@ -1,6 +1,5 @@
 import React from 'react';
 import { push } from 'react-router-redux';
-import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import { getSlugFromId } from '../utils/helpers';
 import { newToast, errorToasts } from './uiActions';
@@ -199,31 +198,5 @@ export function entryDetails(_id) {
         dispatch({ type: UPDATE_ENTRY, updateEntry: { _id, ...entry } });
       })
       .catch(errorToasts);
-  };
-}
-
-
-export function fetchEntriesIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'entries',
-      request: REQUEST_ENTRIES,
-      receive: RECEIVE_ENTRIES,
-    };
-
-    const query = `{
-      entries {
-        _id
-        title
-        slug
-        author
-        dateCreated
-        section
-        status
-      }
-    }`;
-
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
   };
 }
