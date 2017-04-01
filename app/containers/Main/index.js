@@ -32,7 +32,9 @@ export default class Main extends Component {
 
   render() {
     const { ui, dispatch, site } = this.props;
-    if (Object.keys(this.props).some(key => this.props[key].isFetching)) return null;
+
+    const isFetching = Object.keys(this.props).some(key => this.props[key].isFetching);
+    if (isFetching) return null;
 
     return (
       <main className="main">
