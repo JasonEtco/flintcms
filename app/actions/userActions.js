@@ -1,6 +1,5 @@
 import { push } from 'react-router-redux';
 import graphFetcher from '../utils/graphFetcher';
-import GraphQLClass from '../utils/graphqlClass';
 import { errorToasts } from './uiActions';
 
 export const REQUEST_USER = 'REQUEST_USER';
@@ -41,57 +40,5 @@ export function newUser(user) {
         dispatch(push('/admin/users'));
       })
       .catch(errorToasts);
-  };
-}
-
-export function fetchUserIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'user',
-      request: REQUEST_USER,
-      receive: RECEIVE_USER,
-    };
-
-    const query = `{
-      user {
-        _id
-        username
-        name {
-          first
-          last
-        }
-        dateCreated
-        image
-      }
-    }`;
-
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
-  };
-}
-
-export function fetchUsersIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'users',
-      request: REQUEST_USERS,
-      receive: RECEIVE_USERS,
-    };
-
-    const query = `{
-      users {
-        _id
-        username
-        name {
-          first
-          last
-        }
-        dateCreated
-        image
-      }
-    }`;
-
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
   };
 }

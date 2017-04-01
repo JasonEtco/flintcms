@@ -1,6 +1,5 @@
 import React from 'react';
 import { push } from 'react-router-redux';
-import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import { newToast, errorToasts } from './uiActions';
 
@@ -109,30 +108,5 @@ export function deleteField(_id) {
         }));
       })
       .catch(errorToasts);
-  };
-}
-
-export function fetchFieldsIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'fields',
-      request: REQUEST_FIELDS,
-      receive: RECEIVE_FIELDS,
-    };
-
-    const query = `{
-      fields {
-        _id
-        title
-        instructions
-        type
-        dateCreated
-        slug
-        handle
-      }
-    }`;
-
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
   };
 }

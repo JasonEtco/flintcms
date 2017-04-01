@@ -1,7 +1,6 @@
 import React from 'react';
 import { post } from 'axios';
 import { push } from 'react-router-redux';
-import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
 import { newToast, errorToasts } from './uiActions';
 
@@ -93,30 +92,5 @@ export function indexAssets() {
         removedFiles.forEach(o => dispatch({ type: DELETE_ASSET, id: o._id }));
       })
       .catch(errorToasts);
-  };
-}
-
-export function fetchAssetsIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'assets',
-      request: REQUEST_ASSETS,
-      receive: RECEIVE_ASSETS,
-    };
-
-    const query = `{
-      assets {
-        _id
-        title
-        filename
-        size
-        width
-        height
-        dateCreated
-      }
-    }`;
-
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
   };
 }

@@ -1,10 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { fetchUserIfNeeded, fetchUsersIfNeeded } from '../../actions/userActions';
-import { fetchEntriesIfNeeded } from '../../actions/entryActions';
-import { fetchSectionsIfNeeded } from '../../actions/sectionActions';
-import { fetchFieldsIfNeeded } from '../../actions/fieldActions';
-import { fetchAssetsIfNeeded } from '../../actions/assetActions';
-import { fetchUserGroupsIfNeeded } from '../../actions/usergroupActions';
+import fetchData from '../../actions/fetchData';
 import Toast from '../../components/Toast';
 import Modals from '../Modals';
 import types from '../../utils/types';
@@ -29,13 +24,7 @@ export default class Main extends Component {
   componentDidMount() {
     const { dispatch, socket } = this.props;
 
-    dispatch(fetchUserIfNeeded());
-    dispatch(fetchUsersIfNeeded());
-    dispatch(fetchEntriesIfNeeded());
-    dispatch(fetchSectionsIfNeeded());
-    dispatch(fetchFieldsIfNeeded());
-    dispatch(fetchAssetsIfNeeded());
-    dispatch(fetchUserGroupsIfNeeded());
+    fetchData();
 
     const events = new SocketEvents(socket, dispatch);
     events.listen();
