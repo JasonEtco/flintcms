@@ -1,3 +1,4 @@
+import { push } from 'react-router-redux';
 import graphFetcher from '../utils/graphFetcher';
 import store from '../utils/store';
 import { RECEIVE_ENTRIES } from './entryActions';
@@ -96,6 +97,7 @@ export default async function bigFetch() {
   const { dispatch } = store;
   const { data, errors } = await graphFetcher(query);
 
+  if (data.status === 401) dispatch(push(data.redirect));
   if (errors) throw new Error('Error!', errors);
 
   const { sections, assets, entries, fields, user, users, usergroups } = data.data;
