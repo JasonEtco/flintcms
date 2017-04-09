@@ -49,7 +49,7 @@ app.use('/graphql', require('./apps/graphql'));
 // ===== Template Routes
 
 app.get('/', async (req, res) => {
-  const compiled = await compile('index', { name: 'Jason', fields: [] });
+  const compiled = await compile('index');
   res.send(compiled);
 });
 

@@ -13,7 +13,9 @@
       No rich text!
     {% endif %}
 
-    <img src="/public/assets/{{ entry.asssset.filename }}" alt="">
+    {% if entry.asssset %}
+      <img src="/public/assets/{{ entry.asssset.filename }}" alt="">
+    {% endif %}
 
   {{ entry | json | safe }}
   {#{{ flint | json | safe }}#}

@@ -10,7 +10,7 @@ const { nun, templatesDir } = require('./nunjucks');
  * @param {Object} data
  * @returns {String} HTML String
  */
-async function compile(template, data = {}) {
+async function compile(template, data) {
   const compiledData = await collectData(data);
 
   return new Promise((resolve, reject) => {

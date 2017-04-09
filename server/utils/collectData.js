@@ -11,6 +11,7 @@ async function formatEntryFields(entries) {
   return entries.map(entry => Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')));
 }
 
+
 /**
  * Organizes entries by section slug
  * @param {Object[]} dataSections - Array of Section objects
@@ -41,6 +42,7 @@ async function sectionEntries(dataSections, entries) {
 
   return sectionedEntries;
 }
+
 
 /**
  * Collects all of the entries, sections, users and fields
@@ -82,10 +84,14 @@ async function collectData(entry) {
     },
   });
 
-  return {
-    entry: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
-    flint,
-  };
+  if (entry) {
+    return {
+      entry: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
+      flint,
+    };
+  }
+
+  return { flint };
 }
 
 module.exports = collectData;
