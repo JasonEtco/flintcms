@@ -19,6 +19,16 @@ const query = `{
     status
   }
 
+  assets {
+    _id
+    title
+    filename
+    size
+    width
+    height
+    dateCreated
+  }
+
   fields {
     _id
     title
