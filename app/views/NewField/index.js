@@ -41,7 +41,7 @@ export default class NewField extends Component {
   }
 
   render() {
-    const { Dropdown } = Fields;
+    const { Dropdown, Toggle } = Fields;
     const options = Object.keys(Fields).map(n => ({ label: n, value: n }));
 
     const links = [
@@ -85,6 +85,12 @@ export default class NewField extends Component {
               instructions="Text that will help the author understand content is being asked for."
               ref={(r) => { this.instructions = r; }}
               full
+            />
+
+            <Toggle.component
+              name="required"
+              label="Required"
+              instructions="Should this field be required?"
             />
 
             <Dropdown.component

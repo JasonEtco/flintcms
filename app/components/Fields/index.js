@@ -3,6 +3,7 @@ import Text from './Text';
 import Color from './Color';
 import RichText from './RichText';
 import Asset from './Asset';
+import Toggle from './Toggle';
 import List from '../List';
 import Checkbox from '../Checkbox';
 import Checkboxes from '../Checkbox/Checkboxes';
@@ -37,6 +38,9 @@ export default {
   },
   Checkbox: {
     component: Checkbox,
+  },
+  Toggle: {
+    component: Toggle,
   },
   Checkboxes: {
     component: Checkboxes,
