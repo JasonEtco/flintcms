@@ -20,6 +20,10 @@ export default class Color extends Component {
     instructions: null,
   }
 
+  static validate(val) {
+    return val.length === 7 && val.startsWith('#');
+  }
+
   constructor(props) {
     super(props);
 
@@ -48,18 +52,6 @@ export default class Color extends Component {
     const { label, instructions, name, required } = this.props;
     const { color, open } = this.state;
 
-    const popover = {
-      position: 'absolute',
-      zIndex: '2',
-    };
-    const cover = {
-      position: 'fixed',
-      top: '0px',
-      right: '0px',
-      bottom: '0px',
-      left: '0px',
-    };
-
     const classes = classnames(
       'color-wrapper',
       'form-element',
@@ -77,13 +69,11 @@ export default class Color extends Component {
           style={{ backgroundColor: color }}
         />
         <div className={`color__picker ${open ? 'is-open' : ''}`}>
-          <div style={popover}>
-            <div style={cover} onClick={this.hide} />
-            <ChromePicker
-              color={color}
-              onChangeComplete={this.handleChangeComplete}
-            />
-          </div>
+          <div className="color__overlay" onClick={this.hide} />
+          <ChromePicker
+            color={color}
+            onChangeComplete={this.handleChangeComplete}
+          />
         </div>
 
         <input type="text" name={name} value={color} readOnly hidden />
