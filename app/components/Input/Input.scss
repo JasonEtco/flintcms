@@ -82,13 +82,5 @@
                 background-color: darken(white, 4%);
             }
         }
-
-        &--required {
-            .input__label::after {
-                content: '*';
-                margin-left: 0.4em;
-                color: $red;
-            }
-        }
     }
 }

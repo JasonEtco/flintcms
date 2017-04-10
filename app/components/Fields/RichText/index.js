@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import { stateToHTML } from 'draft-js-export-html';
 import {
   CompositeDecorator,
@@ -49,12 +50,18 @@ export default class RichText extends Component {
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
     defaultValue: PropTypes.string,
+    required: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     instructions: null,
     defaultValue: null,
     contentState: null,
+  }
+
+  static validate(val) {
+    console.log('Validating rich text!', val);
+    return val !== '' && val !== '<p><br></p>';
   }
 
   constructor(props) {
@@ -90,7 +97,6 @@ export default class RichText extends Component {
         urlValue: '',
       };
     }
-
 
     this.focus = () => this[props.name].focus();
     this.onChange = editorState => this.setState({
@@ -186,7 +192,7 @@ export default class RichText extends Component {
 
   render() {
     const { editorState, showURLInput, urlValue } = this.state;
-    const { name, label, instructions } = this.props;
+    const { name, label, instructions, required } = this.props;
 
     let urlInput;
     if (showURLInput) {
@@ -211,8 +217,14 @@ export default class RichText extends Component {
       );
     }
 
+    const classes = classnames(
+      'rich-text-wrapper',
+      'form-element',
+      { 'form-element--required': required },
+    );
+
     return (
-      <div className="rich-text-wrapper form-element">
+      <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions
           && <p className="input__instructions" dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
@@ -233,7 +245,7 @@ export default class RichText extends Component {
             ref={(r) => { this[name] = r; }}
           />
         </div>
-        <input type="text" readOnly hidden name={name} value={this.state.value} />
+        <input type="text" readOnly required={required} hidden name={name} value={this.state.value} />
       </div>
     );
   }

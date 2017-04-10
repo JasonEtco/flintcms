@@ -73,10 +73,10 @@ export default class Input extends Component {
     const classes = classnames(
       'input-wrapper',
       'form-element',
+      { 'form-element--required': required },
       { 'input-wrapper--big': big },
       { 'input-wrapper--full': full },
       { 'input-wrapper--code': code },
-      { 'input-wrapper--required': required },
       { 'input-wrapper--disabled': disabled },
       className,
     );

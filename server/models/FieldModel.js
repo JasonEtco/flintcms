@@ -26,6 +26,10 @@ const FieldSchema = new Schema({
     type: String,
     required: true,
   },
+  required: {
+    type: Boolean,
+    required: true,
+  },
   options: {
     type: Schema.Types.Mixed,
   },

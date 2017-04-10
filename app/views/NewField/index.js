@@ -27,7 +27,8 @@ export default class NewField extends Component {
 
   state = { title: '', type: 'Dropdown' }
 
-  onSubmit() {
+  onSubmit(e) {
+    e.preventDefault();
     const data = serialize(this.page.form, { hash: true });
     this.props.dispatch(newField(data));
   }

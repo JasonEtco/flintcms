@@ -37,6 +37,7 @@ const query = `{
     dateCreated
     slug
     handle
+    required
   }
 
   sections {

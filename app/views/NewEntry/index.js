@@ -33,6 +33,7 @@ export default class NewEntry extends Component {
   onSubmit(e) {
     e.preventDefault();
     const { sections, params } = this.props;
+    if (React.Children.toArray.every(c => c.validate())) console.error('Oi!');
     const { title, status, dateCreated, ...fields } = serialize(this.page.form, { hash: true });
     const sectionId = getPropFromProp(sections.sections, { slug: params.section }, '_id');
 

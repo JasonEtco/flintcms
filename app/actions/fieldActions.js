@@ -60,6 +60,7 @@ export function updateField(_id, data) {
         type
         dateCreated
         options
+        required
       }
     }`;
 

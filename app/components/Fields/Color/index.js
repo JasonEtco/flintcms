@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { ChromePicker } from 'react-color';
+import classnames from 'classnames';
 import './Color.scss';
 
 export default class Color extends Component {
@@ -10,6 +11,7 @@ export default class Color extends Component {
     defaultValue: PropTypes.string,
     label: PropTypes.string,
     instructions: PropTypes.string,
+    required: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -43,7 +45,7 @@ export default class Color extends Component {
   };
 
   render() {
-    const { label, instructions, name } = this.props;
+    const { label, instructions, name, required } = this.props;
     const { color, open } = this.state;
 
     const popover = {
@@ -58,8 +60,14 @@ export default class Color extends Component {
       left: '0px',
     };
 
+    const classes = classnames(
+      'color-wrapper',
+      'form-element',
+      { 'form-element--required': required },
+    );
+
     return (
-      <div className="color-wrapper form-element">
+      <div className={classes}>
         {label && <span className="input__label">{label}</span>}
         {instructions && <p className="input__instructions">{instructions}</p>}
         <button

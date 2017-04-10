@@ -7,7 +7,7 @@ export default class Toggle extends Component {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -34,9 +34,10 @@ export default class Toggle extends Component {
       <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <button className="toggle" onClick={() => this.setState({ isActive: !isActive })} type="button">
+        <button className="toggle" role="checkbox" aria-checked={isActive} onClick={() => this.setState({ isActive: !isActive })} type="button">
           <div className="toggle__marker" />
         </button>
+        <input name={name} type="checkbox" hidden readOnly value={isActive} checked={isActive} />
       </div>
     );
   }

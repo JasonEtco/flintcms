@@ -45,7 +45,7 @@ export default class Field extends Component {
   }
 
   render() {
-    const { Dropdown } = Fields;
+    const { Dropdown, Toggle } = Fields;
     const { fields, params } = this.props;
     const { slug, title, instructions } = fields.fields.find(e => e._id === params.id);
     const options = Object.keys(Fields).map(n => ({ label: n, value: n }));
@@ -93,6 +93,12 @@ export default class Field extends Component {
               ref={(r) => { this.instructions = r; }}
               full
               defaultValue={instructions}
+            />
+
+            <Toggle.component
+              name="required"
+              label="Required"
+              instructions="Should this field be required?"
             />
 
             <Dropdown.component
