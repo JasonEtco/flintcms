@@ -2,14 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
 import types from '../../utils/types';
 import renderOption from '../../utils/renderOption';
+import validateFields from '../../utils/validateFields';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Aside from '../../containers/Aside';
-import Fields from '../../components/Fields';
 import { deleteEntry, updateEntry, entryDetails } from '../../actions/entryActions';
-import { newToast } from '../../actions/uiActions';
 
 export default class Entry extends Component {
   static propTypes = {
@@ -40,32 +39,14 @@ export default class Entry extends Component {
     }
   }
 
-  onSubmit(evt) {
-    evt.preventDefault();
-    const { params, fields: f, dispatch } = this.props;
+  onSubmit(e) {
+    e.preventDefault();
+    const { params, dispatch } = this.props;
     const data = serialize(this.page.form, { hash: true });
     const { title, status, dateCreated, ...fields } = data;
 
-    // Validates fields using the appropriate validate method
-    const v = Object.keys(fields).filter((fieldHandle) => {
-      const { type } = f.fields.find(fld => fld.handle === fieldHandle);
-      if (Fields[type].component.validate) {
-        return Fields[type].component.validate(fields[fieldHandle]);
-      }
-      return true;
-    });
-
-    if (v.length !== 0) {
-      v.forEach((invalidField) => {
-        const fieldTitle = f.fields.find(fld => fld.handle === invalidField).title;
-        console.error(`"%c${fieldTitle}" received an invalid value.`, fields[invalidField]);
-        dispatch(newToast({
-          message: <span><strong>{fieldTitle}</strong> received an invalid value.</span>,
-          style: 'error',
-        }));
-      });
-      return;
-    }
+    const invalidFields = validateFields(fields);
+    if (invalidFields.length !== 0) return;
 
     dispatch(updateEntry(params.id, data));
   }

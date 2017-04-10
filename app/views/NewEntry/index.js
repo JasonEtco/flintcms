@@ -7,6 +7,7 @@ import TitleBar from '../../components/TitleBar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import renderOption from '../../utils/renderOption';
+import validateFields from '../../utils/validateFields';
 import { getPropFromProp, slugify } from '../../utils/helpers';
 
 export default class NewEntry extends Component {
@@ -32,12 +33,15 @@ export default class NewEntry extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { sections, params } = this.props;
-    if (React.Children.toArray.every(c => c.validate())) console.error('Oi!');
+    const { sections, params, dispatch } = this.props;
     const { title, status, dateCreated, ...fields } = serialize(this.page.form, { hash: true });
     const sectionId = getPropFromProp(sections.sections, { slug: params.section }, '_id');
 
-    this.props.dispatch(newEntry(title, sectionId, status, dateCreated, fields));
+    const invalidFields = validateFields(fields);
+    if (invalidFields.length !== 0) return;
+
+
+    dispatch(newEntry(title, sectionId, status, dateCreated, fields));
   }
 
   renderFields(fieldId) {

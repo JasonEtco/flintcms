@@ -60,7 +60,6 @@ export default class RichText extends Component {
   }
 
   static validate(val) {
-    console.log('Validating rich text!', val);
     return val !== '' && val !== '<p><br></p>';
   }
 
