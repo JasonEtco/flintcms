@@ -9,6 +9,8 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Aside from '../../containers/Aside';
 import { deleteEntry, updateEntry, entryDetails } from '../../actions/entryActions';
+import { openModal } from '../../actions/uiActions';
+import ConfirmModal from '../../components/Modals/ConfirmModal';
 
 export default class Entry extends Component {
   static propTypes = {
@@ -53,7 +55,12 @@ export default class Entry extends Component {
 
   deleteEntry() {
     const { params, dispatch } = this.props;
-    dispatch(deleteEntry(params.id));
+    dispatch(openModal(
+      <ConfirmModal
+        confirm={dispatch(deleteEntry(params.id))}
+        message={'Are you sure you want to delete this entry?'}
+      />),
+    );
   }
 
   renderFields(entryFields, fieldId) {
