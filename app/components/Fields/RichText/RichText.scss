@@ -69,7 +69,7 @@
 
     &__editor {
         overflow-y: auto;
-        height: 500px;
+        max-height: 500px;
         padding: 2em;
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
