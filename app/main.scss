@@ -5,6 +5,7 @@ html, body, .mount {
 }
 
 body {
+    overflow-y: hidden;
     background-color: $grey-lighter;
     font-family: $font;
 
