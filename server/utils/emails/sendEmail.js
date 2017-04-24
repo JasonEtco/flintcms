@@ -22,7 +22,9 @@ async function sendEmail(to, template, data) {
     html,
     text,
   }, (err) => {
-    console.log(err); // eslint-disable-line no-console
+    if (err) {
+      console.error(err); // eslint-disable-line no-console
+    }
   });
 }
 

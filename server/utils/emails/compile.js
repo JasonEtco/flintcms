@@ -1,13 +1,27 @@
 // const fs = require('fs');
+const sass = require('node-sass');
 const path = require('path');
 const { Inky } = require('inky');
 const juice = require('juice');
 const cheerio = require('cheerio');
 const nunjucks = require('nunjucks');
 
-const nun = nunjucks.configure(path.resolve(__dirname, 'templates'), {
+const pathToTemplates = path.resolve(__dirname, 'templates');
+const nun = nunjucks.configure(pathToTemplates, {
   noCache: process.env.NODE_ENV !== 'production',
 });
+
+function renderSass(file) {
+  return new Promise((res, rej) => {
+    sass.render({ file }, (err, result) => {
+      if (err) {
+        rej(err);
+      } else {
+        res(result);
+      }
+    });
+  });
+}
 
 /**
  * Compile an email template using Nunjucks/Inky
@@ -16,11 +30,20 @@ const nun = nunjucks.configure(path.resolve(__dirname, 'templates'), {
  * @returns {String}
  */
 async function compile(template, data) {
-  const templatePath = path.join(__dirname, 'templates', `${template}.html`);
+  const templatePath = path.join(pathToTemplates, `${template}.html`);
+
   const nunCompiled = await nun.render(templatePath, data);
+
   const inky = new Inky({});
-  const html = await cheerio.load(nunCompiled);
-  return inky.releaseTheKraken(html);
+  const cheerioString = await cheerio.load(nunCompiled);
+  const html = await inky.releaseTheKraken(cheerioString);
+
+  const pathToSCSS = path.join(pathToTemplates, 'styles', 'emails.scss');
+  const { css } = await renderSass(pathToSCSS);
+
+  const ret = await html.replace('<!-- <style> -->', `<style>${css.toString('utf-8')}</style>`);
+  const juiced = await juice(ret);
+  return juiced;
 }
 
 module.exports = compile;
