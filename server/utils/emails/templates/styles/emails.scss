@@ -1,3 +1,27 @@
+// stylelint-disable no-browser-hacks
+
+// Greys
+$grey-lighter: #fafafa;
+$grey-light: darken(#ebedef, 8%);
+$grey: #92989a;
+$grey-dark: #353739;
+$grey-darker: darken($grey-dark, 65%);
+
+// Brand Colors
+$orange: #fe6300;
+$orange-light: lighten($orange, 10%);
+$orange-dark: darken($orange, 10%);
+
+$blurple: #403f63;
+$blurple-light: lighten($blurple, 10%);
+$blurple-dark: darken($blurple, 10%);
+
+// UI Colors
+$red: #bf284e;
+$green: #4bb543;
+$yellow: yellow;
+$blue: #0080ff;
+
 body {
-    background-color: red;
+    background-color: $grey-light;
 }
