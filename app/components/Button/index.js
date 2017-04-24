@@ -11,6 +11,7 @@ export default class Button extends Component {
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
     small: PropTypes.bool,
     big: PropTypes.bool,
+    formElement: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -20,15 +21,17 @@ export default class Button extends Component {
     disabled: false,
     small: false,
     big: false,
+    formElement: false,
   }
 
   render() {
-    const { kind, type, onClick, disabled, children, small, big } = this.props;
+    const { kind, type, onClick, disabled, children, small, big, formElement } = this.props;
     const classes = classnames(
       'btn',
       { [`btn--${kind}`]: kind },
       { 'btn--small': small },
       { 'btn--big': big },
+      { 'form-element': formElement },
     );
 
     if (type === 'submit') {

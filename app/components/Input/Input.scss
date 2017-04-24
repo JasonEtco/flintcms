@@ -24,7 +24,7 @@
         display: block;
         margin-bottom: 0.4em;
         font-weight: 700;
-        font-size: 0.8rem;
+        font-size: $size0;
 
         + .input__instructions {
             margin-top: 0.4em;
@@ -39,7 +39,7 @@
             width: 80%;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
-            font-size: 0.8rem;
+            font-size: $size0;
 
             &__icon {
                 display: flex;
@@ -66,7 +66,7 @@
             padding: 0.9em;
             border-width: 2px;
             border-radius: 6px;
-            font-size: 1.1rem;
+            font-size: $size2;
         }
 
         &--code .input {
