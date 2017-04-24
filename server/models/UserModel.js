@@ -14,16 +14,15 @@ const UserSchema = new Schema({
       type: String,
     },
   },
-  username: {
+  password: {
+    type: String,
+  },
+  email: {
     type: String,
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  email: {
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -31,7 +30,7 @@ const UserSchema = new Schema({
   usergroup: {
     type: Schema.Types.ObjectId,
     ref: 'UserGroup',
-    required: true,
+    // required: true,
   },
   image: {
     type: String,
@@ -45,6 +44,9 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Entry',
   }],
+  token: {
+    type: String,
+  },
 });
 
 // Generate hash

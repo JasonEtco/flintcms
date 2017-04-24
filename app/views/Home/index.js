@@ -20,7 +20,7 @@ export default class Home extends Component {
     const { entries } = this.props.entries;
     const { sections } = this.props.sections;
 
-    if (sections.length === 0) {
+    if (!entries || !sections || sections.length === 0) {
       return (
         <Page name="home">
           <TitleBar title="Home" />
@@ -34,7 +34,7 @@ export default class Home extends Component {
       );
     }
 
-    const newEntries = [...entries].reverse().slice(0, 3);
+    const newEntries = entries.slice(entries.length - 4, entries.length - 1);
 
     return (
       <Page name="home">
@@ -45,8 +45,7 @@ export default class Home extends Component {
             <div className="page--home__column">
               <h3 className="subtitle">Recent Entries</h3>
               <ul>
-                {newEntries.map(e =>
-                  <li key={e._id}><Link to={`/admin/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>{e.title}</Link></li>)}
+                {newEntries.map(e => <li key={e._id}><Link to={`/admin/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>{e.title}</Link></li>)}
               </ul>
             </div>
           </div>

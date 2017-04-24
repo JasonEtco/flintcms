@@ -31,6 +31,9 @@ export default class MainNav extends Component {
           <NavItem to="/admin/users"><Icon icon="user" />Users</NavItem>
           <NavItem to="/admin/settings"><Icon icon="gear" />Settings</NavItem>
         </ul>
+        <a href="/admin/logout">
+          Logout
+        </a>
       </nav>
     );
   }

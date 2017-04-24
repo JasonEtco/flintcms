@@ -64,14 +64,6 @@ export default class NewUser extends Component {
             />
 
             <Input
-              name="password"
-              label="Password"
-              ref={(r) => { this.password = r; }}
-              required
-              full
-            />
-
-            <Input
               name="first"
               label="First Name"
               ref={(r) => { this.first = r; }}
