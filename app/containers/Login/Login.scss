@@ -18,7 +18,13 @@
         max-width: 90%;
     }
 
-    h1 { margin-top: 0; }
+    &__title {
+        display: block;
+        width: 100%;
+        margin-bottom: 1em;
+        font-size: $size2;
+        text-align: center;
+    }
 
     .input, .btn {
         display: block;
