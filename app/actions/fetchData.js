@@ -52,6 +52,7 @@ const query = `{
   user {
     _id
     username
+    email
     name {
       first
       last
