@@ -1,0 +1,21 @@
+.notification {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2em;
+    border-radius: 3px;
+    font-size: $size0;
+
+    svg { margin-right: 1em; }
+
+    &--warning { background-color: $yellow; }
+
+    &--error {
+        background-color: $red;
+        color: white;
+
+        svg { fill: white; }
+    }
+
+    &--success { background-color: $green; }
+}

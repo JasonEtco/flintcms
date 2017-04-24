@@ -10,6 +10,7 @@ import Main from './containers/Main';
 import Home from './views/Home';
 import FourOhFour from './views/404';
 import Login from './containers/Login';
+import SetPassword from './containers/SetPassword';
 
 import Users from './views/Users';
 import NewUser from './views/NewUser';
@@ -69,7 +70,9 @@ const storeWrapper = (
         <Route path="settings/assets" component={Assets} />
         <Route path="settings/assets/new" component={NewAsset} />
       </Route>
+
       <Route path="/admin/login" component={Login} />
+      <Route path="/admin/sp/:token" component={SetPassword} />
 
       <Route path="*" component={FourOhFour} />
     </Router>
