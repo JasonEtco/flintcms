@@ -3,13 +3,13 @@ const htmlToText = require('html-to-text');
 const compile = require('./compile');
 
 const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
+  host: process.env.MAIL_HOST || 'smtp.gmail.com',
+  port: process.env.MAIL_PORT || 465,
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
   },
-  secure: process.env.MAIL_SECURE,
+  secure: process.env.MAIL_SECURE || true,
 });
 
 // Verify Nodemail setup and connection
