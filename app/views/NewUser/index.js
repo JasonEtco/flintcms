@@ -20,10 +20,9 @@ export default class NewUser extends Component {
   }
 
   onSubmit() {
-    const { username, password, first, last, email } = this;
+    const { username, first, last, email } = this;
     this.props.dispatch(newUser({
       username: username.value,
-      password: password.value,
       email: email.value,
       name: {
         first: first.value,

@@ -44,9 +44,6 @@ exports.inputType = new GraphQLInputObjectType({
         last: { type: GraphQLString },
       },
     }) },
-    password: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
     image: {
       type: GraphQLString,
     },
