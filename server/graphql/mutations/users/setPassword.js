@@ -18,7 +18,7 @@ module.exports = {
     },
   },
   async resolve(root, { password, token }) {
-    const user = await User.findOne({ token, password: undefined });
+    const user = await User.findOne({ token });
     if (!user) throw new Error('Cannot find user');
 
     user.password = await user.generateHash(password);

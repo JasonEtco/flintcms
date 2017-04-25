@@ -9,6 +9,16 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
   },
+  secure: process.env.MAIL_SECURE,
+});
+
+// Verify Nodemail setup and connection
+transporter.verify((error) => {
+  if (error) {
+    console.log(error); // eslint-disable-line no-console
+  } else {
+    console.log('[Email Service] Server can send emails!'); // eslint-disable-line no-console
+  }
 });
 
 async function sendEmail(to, template, data) {
@@ -16,7 +26,7 @@ async function sendEmail(to, template, data) {
   const text = htmlToText.fromString(html);
 
   transporter.sendMail({
-    from: 'Do Not Reply <info@flint.com>',
+    from: 'FlintCMS - Do not reply <info@flint.com>',
     to,
     subject: data.subject,
     html,
