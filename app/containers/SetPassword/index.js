@@ -62,7 +62,7 @@ export default class Login extends Component {
         <FlintLogo />
         <form className="login__inner" onSubmit={this.handleSubmit}>
           <legend className="login__title">Set a new Password</legend>
-          {error && <Notification type="error">There was an error, please try again later</Notification>}
+          {error && <Notification type="error">There was an error, please try again later.</Notification>}
           <Input required onChange={this.checkInputs} ref={(r) => { this.password = r; }} name="password" big placeholder="Password" type="password" />
           <Input required onChange={this.checkInputs} ref={(r) => { this.confirm = r; }} name="confirm" big placeholder="Confirm Password" type="password" />
           {!same && <Notification type="error">Your passwords are not the same!</Notification>}
