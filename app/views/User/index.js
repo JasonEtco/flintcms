@@ -53,9 +53,8 @@ export default class User extends Component {
     const userTitle = user.name.first ? `${user.name.first} ${user.name.last}` : user.email;
 
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'Users', path: '/admin/settings/users' },
-      { label: userTitle, path: `/admin/settings/users/${params.id}` },
+      { label: 'Users', path: '/admin/users' },
+      { label: userTitle, path: `/admin/users/${params.id}` },
     ];
 
     return (
