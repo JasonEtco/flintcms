@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const permissions = require('../utils/permissions');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -7,15 +8,12 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   name: {
-    first: {
-      type: String,
-    },
-    last: {
-      type: String,
-    },
+    first: String,
+    last: String,
   },
   password: {
     type: String,
+    required: true,
   },
   email: {
     type: String,
@@ -24,13 +22,13 @@ const UserSchema = new Schema({
   },
   username: {
     type: String,
+    lowercase: true,
     required: true,
     unique: true,
   },
   usergroup: {
-    type: Schema.Types.ObjectId,
-    ref: 'UserGroup',
-    // required: true,
+    type: String,
+    default: 'admin',
   },
   image: {
     type: String,
@@ -40,13 +38,7 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  entries: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Entry',
-  }],
-  token: {
-    type: String,
-  },
+  token: String,
 });
 
 // Generate hash
@@ -61,6 +53,14 @@ UserSchema.methods.validateHash = function (password) {
 
 // eslint-disable-next-line func-names
 UserSchema.methods.getPermissions = async function () {
+  if (this.usergroup === 'admin') {
+    const perms = Object.keys(permissions).reduce((prev, curr) => Object.assign({}, prev, {
+      [curr]: permissions[curr].reduce((p, c) => Object.assign({}, p, { [c.name]: true }), {}),
+    }), {});
+
+    return perms;
+  }
+
   const usergroup = await UserGroup.findById(this.usergroup);
   if (!usergroup) throw new Error('The User Group could not be found');
 

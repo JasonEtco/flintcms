@@ -6,7 +6,7 @@ import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
 import Checkboxes from '../../components/Checkbox/Checkboxes';
 import { updateUserGroup } from '../../actions/usergroupActions';
-import permissions from '../../utils/permissions';
+import permissions from '../../../server/utils/permissions';
 
 export default class UserGroup extends Component {
   static propTypes = {
