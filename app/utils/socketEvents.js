@@ -4,6 +4,7 @@ import { NEW_ENTRY, DELETE_ENTRY, UPDATE_ENTRY } from '../actions/entryActions';
 import { NEW_FIELD, DELETE_FIELD, UPDATE_FIELD } from '../actions/fieldActions';
 import { NEW_ASSET, DELETE_ASSET } from '../actions/assetActions';
 import { NEW_USERGROUP, DELETE_USERGROUP } from '../actions/usergroupActions';
+import { UPDATE_USER } from '../actions/userActions';
 import { newToast } from '../actions/uiActions';
 import store from './store';
 
@@ -83,6 +84,12 @@ export default class SocketEvents {
     });
   }
 
+  updateSection() {
+    this.socket.on('update-user', (updateUser) => {
+      this.dispatch({ type: UPDATE_USER, updateUser });
+    });
+  }
+
   newSection() {
     this.socket.on('new-section', (addSection) => {
       this.dispatch({ type: NEW_SECTION, addSection });
@@ -124,6 +131,7 @@ export default class SocketEvents {
     // Listen for new or deleted User Groups
     this.newUserGroup();
     this.deleteUserGroup();
+    this.updateUser();
 
     // Listen for new or deleted Sections
     this.newSection();
