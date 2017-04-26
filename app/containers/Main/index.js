@@ -31,14 +31,14 @@ export default class Main extends Component {
   }
 
   render() {
-    const { ui, dispatch, site } = this.props;
+    const { ui, dispatch, site, user } = this.props;
 
     const isFetching = Object.keys(this.props).some(key => this.props[key].isFetching);
     if (isFetching) return null;
 
     return (
       <main className="main">
-        <MainNav siteName={site.siteName} />
+        <MainNav siteName={site.siteName} user={user} />
         {React.cloneElement(this.props.children, {
           ...this.props,
           key: this.props.location.pathname,

@@ -13,6 +13,14 @@ NavItem.propTypes = {
 export default class MainNav extends Component {
   static propTypes = {
     siteName: PropTypes.string,
+    user: PropTypes.shape({
+      _id: PropTypes.string,
+      name: {
+        first: PropTypes.string,
+        last: PropTypes.string,
+      },
+      email: PropTypes.string,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -20,6 +28,8 @@ export default class MainNav extends Component {
   }
 
   render() {
+    const { user } = this.props;
+
     return (
       <nav className="nav">
         <a href="/" target="_blank" rel="noopener noreferrer" className="nav__sitename">
@@ -31,9 +41,16 @@ export default class MainNav extends Component {
           <NavItem to="/admin/users"><Icon icon="user" />Users</NavItem>
           <NavItem to="/admin/settings"><Icon icon="gear" />Settings</NavItem>
         </ul>
-        <a href="/admin/logout">
-          Logout
-        </a>
+
+        <div className="nav__user">
+          <div className="nav__user__avatar">
+            <img src={`/public/assets/${user.image}`} alt={user.username} />
+          </div>
+          <div className="nav__user__text">
+            <Link className="nav__user__text__title" to={`/admin/users/${user._id}`}>Hey {user.name.first || user.username}!</Link>
+            <a className="nav__user__text__logout" href="/admin/logout">Logout</a>
+          </div>
+        </div>
       </nav>
     );
   }

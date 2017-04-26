@@ -1,4 +1,5 @@
 .nav {
+    position: relative;
     width: 220px;
     height: 100%;
     background-color: $grey-dark;
@@ -40,5 +41,42 @@
                 }
             }
         }
+    }
+
+    &__user {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 2em;
+        border-top: 1px solid darken($grey, 30%);
+        color: white;
+
+        &__text {
+            flex-grow: 2;
+
+            &__title {
+                margin-bottom: 0.4em;
+                color: white;
+            }
+
+            &__logout { color: $grey; }
+
+            &__title, &__logout {
+                display: block;
+                text-decoration: none;
+
+                &:hover { text-decoration: underline; }
+            }
+        }
+
+        &__avatar {
+            margin-right: 1em;
+            flex-basis: 2.5em;
+
+            img { width: 100%; }
+        }
+
     }
 }
