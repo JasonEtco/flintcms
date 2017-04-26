@@ -3,22 +3,29 @@
 {% block body %}
   <spacer size="32"></spacer>
 
-  <container>
-    <spacer size="16"></spacer>
-    <row><columns>
-      <center>FLINT LOGO</center>
-    </columns></row>
-
-    <row><columns>
-      <center><h1 style="text-align: center">Confirm your Account</h1></center>
-    </columns></row>
-
-    <row><columns>
-      <center>Congrats, there's a new account for you!</center>
-    </columns></row>
-
-    <row><columns>
-      <center><button href="http://localhost:4000/admin/verify?t={{token}}" class="small-expanded">Confirm here</button></center>
-    </columns></row>
+  <container class="no-bg">
+    <img width="150" src="cid:flintlogo" alt="FlintCMS" />
   </container>
+
+  <spacer size="16"></spacer>
+
+  <container class="main">
+    <spacer size="32"></spacer>
+
+    <row><columns>
+      <center><h1>Confirm your Account</h1></center>
+    </columns></row>
+
+    <row><columns>
+      <p>An administrator of <strong><a href="{{siteUrl}}">{{siteName}}</a></strong> has created an account for you using the FlintCMS dashboard. You will have to confirm your account and create a password using the link below.</p>
+    </columns></row>
+
+    <row><columns>
+      <center><button href="http://localhost:4000/admin/verify?t={{token}}" class="small-expanded">Confirm</button></center>
+    </columns></row>
+
+    <spacer size="16"></spacer>
+  </container>
+
+  <spacer size="48"></spacer>
 {% endblock body %}

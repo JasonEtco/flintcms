@@ -1,27 +1,23 @@
-// stylelint-disable no-browser-hacks
+@import '../../../../../app/scss/tools/variables';
+@import 'settings';
+@import 'foundation/foundation';
 
-// Greys
-$grey-lighter: #fafafa;
-$grey-light: darken(#ebedef, 8%);
-$grey: #92989a;
-$grey-dark: #353739;
-$grey-darker: darken($grey-dark, 65%);
+body, html, table.body {
+    background: $grey-light !important; 
+}
 
-// Brand Colors
-$orange: #fe6300;
-$orange-light: lighten($orange, 10%);
-$orange-dark: darken($orange, 10%);
+.container.main {
+    border-radius: $global-radius;
+    box-shadow: 0 2px 4px rgba(black, 0.1);
+}
 
-$blurple: #403f63;
-$blurple-light: lighten($blurple, 10%);
-$blurple-dark: darken($blurple, 10%);
+.container.no-bg {
+    background: none;
 
-// UI Colors
-$red: #bf284e;
-$green: #4bb543;
-$yellow: yellow;
-$blue: #0080ff;
+    small { color: $grey-light !important; }
+}
 
-body {
-    background-color: $grey-light;
+.line {
+    width: 50px !important;
+    background-color: $grey;
 }
