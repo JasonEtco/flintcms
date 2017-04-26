@@ -29,7 +29,9 @@ router.get('/verify', async (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/');
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
 });
 
 
