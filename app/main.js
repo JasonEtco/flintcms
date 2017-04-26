@@ -12,6 +12,7 @@ import FourOhFour from './views/404';
 import Login from './containers/Login';
 import SetPassword from './containers/SetPassword';
 
+import User from './views/User';
 import Users from './views/Users';
 import NewUser from './views/NewUser';
 
@@ -49,6 +50,7 @@ const storeWrapper = (
         <IndexRoute component={Home} />
         <Route path="users" component={Users} />
         <Route path="users/new" component={NewUser} />
+        <Route path="users/:id" component={User} />
 
         <Route path="entries(/:section)" component={Entries} />
         <Route path="entries/:section/new" component={NewEntry} />

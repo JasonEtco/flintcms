@@ -23,7 +23,10 @@ export default class Users extends Component {
         sortBy: false,
         component: <img src={`/public/assets/${props.image}`} alt={props.username} />,
       },
-      username: props.username,
+      username: {
+        value: props.username,
+        component: <Link to={`/admin/users/${props._id}`}>{props.username}</Link>,
+      },
       name: `${props.name.first} ${props.name.last}`,
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),

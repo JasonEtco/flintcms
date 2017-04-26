@@ -1,17 +1,22 @@
 import React, { Component, PropTypes } from 'react';
-import { newUser } from '../../actions/userActions';
+import { updateUser, userDetails } from '../../actions/userActions';
 import Page from '../../containers/Page';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import TitleBar from '../../components/TitleBar';
 
-export default class NewUser extends Component {
+export default class User extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
+    users: PropTypes.object,
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
     dispatch: null,
+    users: null,
   }
 
   constructor(props) {
@@ -19,9 +24,17 @@ export default class NewUser extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    const { dispatch, params, users } = this.props;
+    const { full } = users.users.find(e => e._id === params.id);
+    if (!full || full === undefined) {
+      dispatch(userDetails(params.id));
+    }
+  }
+
   onSubmit() {
-    const { username, first, last, email } = this;
-    this.props.dispatch(newUser({
+    const { username, first, last, email, props } = this;
+    this.props.dispatch(updateUser(props.params.id, {
       username: username.value,
       email: email.value,
       name: {
@@ -32,14 +45,22 @@ export default class NewUser extends Component {
   }
 
   render() {
+    const { users, params } = this.props;
+    const user = users.users.find(u => u._id === params.id);
+
+    if (user.full === undefined) return null;
+
+    const userTitle = user.name.first ? `${user.name.first} ${user.name.last}` : user.email;
+
     const links = [
       { label: 'Settings', path: '/admin/settings' },
       { label: 'Users', path: '/admin/settings/users' },
+      { label: userTitle, path: `/admin/settings/users/${params.id}` },
     ];
 
     return (
-      <Page name="new-user" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
-        <TitleBar title="New User">
+      <Page name="user" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
+        <TitleBar title={userTitle}>
           <Button onClick={this.onSubmit} small>Save</Button>
         </TitleBar>
 
@@ -52,6 +73,7 @@ export default class NewUser extends Component {
               ref={(r) => { this.email = r; }}
               required
               full
+              defaultValue={user.email}
             />
 
             <Input
@@ -60,6 +82,8 @@ export default class NewUser extends Component {
               ref={(r) => { this.username = r; }}
               required
               full
+              readOnly
+              defaultValue={user.username}
             />
 
             <Input
@@ -67,6 +91,7 @@ export default class NewUser extends Component {
               label="First Name"
               ref={(r) => { this.first = r; }}
               full
+              defaultValue={user.name.first}
             />
 
             <Input
@@ -74,6 +99,7 @@ export default class NewUser extends Component {
               label="Last Name"
               ref={(r) => { this.last = r; }}
               full
+              defaultValue={user.name.last}
             />
           </div>
         </div>

@@ -42,6 +42,7 @@ export default class Input extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.value = props.value || props.defaultValue || '';
   }
 
   handleChange({ target }) {
