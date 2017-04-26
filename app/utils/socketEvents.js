@@ -84,7 +84,7 @@ export default class SocketEvents {
     });
   }
 
-  updateSection() {
+  updateUser() {
     this.socket.on('update-user', (updateUser) => {
       this.dispatch({ type: UPDATE_USER, updateUser });
     });
