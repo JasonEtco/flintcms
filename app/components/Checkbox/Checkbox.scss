@@ -10,6 +10,7 @@
     border: 1px solid $grey-light;
     border-radius: 3px;
     background: none;
+    transition: background-color 150ms $standard;
 
     &-group {
         .checkbox-wrapper + .checkbox-wrapper { margin-top: 0.4em; }
@@ -26,13 +27,14 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        fill: $grey-dark;
+        fill: white;
         transform: translate(-50%, -50%) scale(0);
         transition: transform 101ms $exit;
     }
 
     &.is-checked {
         border-color: $grey;
+        background-color: $orange;
 
         svg {
             transform: translate(-50%, -50%) scale(1);

@@ -17,6 +17,7 @@ export default class Input extends Component {
     instructions: PropTypes.string,
     required: PropTypes.bool,
     autoFocus: PropTypes.bool,
+    autoCorrect: PropTypes.bool,
     disabled: PropTypes.bool,
     defaultValue: PropTypes.string,
     value: PropTypes.string,
@@ -37,6 +38,7 @@ export default class Input extends Component {
     defaultValue: undefined,
     value: undefined,
     autoFocus: false,
+    autoCorrect: false,
   }
 
   constructor(props) {
@@ -69,6 +71,7 @@ export default class Input extends Component {
       defaultValue,
       value,
       autoFocus,
+      autoCorrect,
     } = this.props;
 
     const classes = classnames(
@@ -95,6 +98,7 @@ export default class Input extends Component {
         autoFocus={autoFocus}
         value={value}
         onChange={event => this.handleChange(event)}
+        autoCorrect={autoCorrect}
       />
     );
 

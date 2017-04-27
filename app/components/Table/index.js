@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import { sortArrayOfObjByString } from '../../utils/helpers';
 import Input from '../Input';
 import './Table.scss';
@@ -21,6 +22,7 @@ export default class Table extends Component {
       return true;
     }).isRequired,
     showSearch: PropTypes.bool,
+    formElement: PropTypes.bool,
     sortBy: PropTypes.string,
     className: PropTypes.string,
     onRowClick: PropTypes.func,
@@ -31,6 +33,7 @@ export default class Table extends Component {
     sortBy: 'title',
     className: '',
     onRowClick: null,
+    formElement: false,
   }
 
   constructor(props) {
@@ -73,7 +76,7 @@ export default class Table extends Component {
   }
 
   render() {
-    const { data, showSearch, className } = this.props;
+    const { data, showSearch, className, formElement } = this.props;
     const { sortBy, direction, search } = this.state;
 
     let filtered = data;
@@ -87,9 +90,13 @@ export default class Table extends Component {
       .filter(el => el !== 'key');
 
     const sorted = sortArrayOfObjByString(filtered, sortBy, direction);
+    const classes = classnames(
+      'table-wrapper',
+      { 'form-element': formElement },
+    );
 
     return (
-      <div className="table-wrapper">
+      <div className={classes}>
         {showSearch &&
           <Input
             onChange={this.handleChange}
