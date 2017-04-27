@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
+const perms = require('../utils/permissions');
 const h = require('../utils/helpers');
 
 const Schema = mongoose.Schema;
+
+const permissions = Object.keys(perms).reduce((prev, curr) => Object.assign({}, prev, {
+  [curr]: perms[curr].reduce((p, c) => Object.assign({}, p, { [c.name]: {
+    type: Boolean,
+    default: c.defaultValue,
+  } }), {}),
+}), {});
 
 const UserGroupSchema = new Schema({
   title: {
@@ -17,76 +25,7 @@ const UserGroupSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  permissions: {
-    sections: {
-      canAddSections: {
-        type: Boolean,
-        default: false,
-      },
-      canDeleteSections: {
-        type: Boolean,
-        default: false,
-      },
-      canEditSections: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    fields: {
-      canAddFields: {
-        type: Boolean,
-        default: false,
-      },
-      canDeleteFields: {
-        type: Boolean,
-        default: false,
-      },
-      canEditFields: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    entries: {
-      canAddEntries: {
-        type: Boolean,
-        default: false,
-      },
-      canDeleteEntries: {
-        type: Boolean,
-        default: false,
-      },
-      canOnlyEditOwnEntries: {
-        type: Boolean,
-        default: false,
-      },
-      canEditLive: {
-        type: Boolean,
-        default: false,
-      },
-      canSeeDrafts: {
-        type: Boolean,
-        default: false,
-      },
-      canEditDrafts: {
-        type: Boolean,
-        default: false,
-      },
-      canChangeEntryStatus: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    users: {
-      canManageUsers: {
-        type: Boolean,
-        default: false,
-      },
-      canManageUserGroups: {
-        type: Boolean,
-        default: false,
-      },
-    },
-  },
+  permissions,
 });
 
 // Can't use arrow function because of (this) binding

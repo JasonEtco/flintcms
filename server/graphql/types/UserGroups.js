@@ -1,76 +1,13 @@
 const { GraphQLBoolean, GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
+const permissions = require('../../utils/permissions');
 
-const entries = {
-  canAddEntries: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canDeleteEntries: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canOnlyEditOwnEntries: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canEditLive: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canEditDrafts: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canSeeDrafts: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canChangeEntryStatus: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-};
-
-const sections = {
-  canAddSections: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canDeleteSections: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canEditSections: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-};
-
-const fields = {
-  canAddFields: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canDeleteFields: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canEditFields: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-};
-
-const users = {
-  canManageUsers: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-  canManageUserGroups: {
-    type: GraphQLBoolean,
-    defaultValue: false,
-  },
-};
+const { entries, sections, users, fields } = Object.keys(permissions)
+  .reduce((prev, curr) => Object.assign({}, prev, {
+    [curr]: permissions[curr].reduce((p, { name, defaultValue }) => Object.assign({}, p, { [name]: {
+      type: GraphQLBoolean,
+      defaultValue,
+    } }), {}),
+  }), {});
 
 const PermissionsType = new GraphQLObjectType({
   name: 'PermissionsType',
