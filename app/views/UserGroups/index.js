@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import { formatDate } from '../../utils/helpers';
 import Page from '../../containers/Page';
 import Table from '../../components/Table';
+import Checkbox from '../../components/Checkbox';
+import Dropdown from '../../components/Fields/Dropdown';
 import TitleBar from '../../components/TitleBar';
 import types from '../../utils/types';
 import DeleteIcon from '../../components/DeleteIcon';
@@ -13,8 +15,14 @@ export default class UserGroups extends Component {
     ...types.usergroups,
   }
 
+  handleDropdownChange(_id) {
+    // TODO: Hook up to DB entry
+    console.log(_id);
+  }
+
   render() {
     const { usergroups, dispatch } = this.props;
+    const usergroupNames = usergroups.usergroups.map(u => ({ label: u.title, value: u._id }));
 
     const reduced = usergroups.usergroups.map(props => ({
       key: props._id,
@@ -45,7 +53,14 @@ export default class UserGroups extends Component {
 
         <div className="content">
           <div className="page__inner">
-            {reduced.length > 0 ? <Table data={reduced} /> : <h3>No user groups!</h3>}
+            <Dropdown
+              label="Default User Group"
+              instructions="The default user group new users will be assigned" name="defaultUserGroup"
+              options={[{ label: 'Admin', value: 'admin' }, ...usergroupNames]}
+              onChange={this.handleDropdownChange}
+            />
+            <Checkbox label="Allow Public Registration" name="publicSignUp" />
+            {reduced.length > 0 ? <Table formElement data={reduced} /> : <h3>No user groups!</h3>}
           </div>
         </div>
       </Page>
