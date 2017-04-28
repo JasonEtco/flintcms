@@ -38,6 +38,14 @@ const helpers = {
       .reduce((prev, curr) =>
       Object.assign({}, prev, { [curr[key]]: curr[value] }), start);
   },
+  /**
+   * Capitalizes the first character of a string
+   * @param {String} str - String to capitalize
+   * @returns {String}
+   */
+  capitalizeFirstChar(str) {
+    return str.substring(0, 1).toUpperCase() + str.substring(1);
+  },
 };
 
 module.exports = helpers;

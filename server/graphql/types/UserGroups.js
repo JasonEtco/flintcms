@@ -1,73 +1,46 @@
 const { GraphQLBoolean, GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
-const permissions = require('../../utils/permissions');
 const { DateTime } = require('./CustomTypes');
+const permissions = require('../../utils/permissions');
+const { capitalizeFirstChar } = require('../../utils/helpers');
 
-const { entries, sections, users, fields } = Object.keys(permissions)
+// Reduce permissions to GraphQL-ready fields
+const perms = Object.keys(permissions)
   .reduce((prev, curr) => Object.assign({}, prev, {
-    [curr]: permissions[curr].reduce((p, { name, defaultValue }) => Object.assign({}, p, { [name]: {
-      type: GraphQLBoolean,
-      defaultValue,
-    } }), {}),
+    [curr]: permissions[curr].reduce((previous, { name, defaultValue }) =>
+      Object.assign({}, previous, { [name]: {
+        type: GraphQLBoolean,
+        defaultValue,
+      } }), {}),
   }), {});
+
+// Reduce permissions array to GraphQL-ready types, both input and output
+const { outputPerms, inputPerms } = Object.keys(perms).reduce((prev, curr) => ({
+  outputPerms: Object.assign(prev, {
+    [curr]: {
+      type: new GraphQLObjectType({
+        name: `PermissionsType${capitalizeFirstChar(curr)}`,
+        fields: perms[curr],
+      }),
+    },
+  }),
+  inputPerms: Object.assign(prev, {
+    [curr]: {
+      type: new GraphQLInputObjectType({
+        name: `PermissionsTypeInput${capitalizeFirstChar(curr)}`,
+        fields: perms[curr],
+      }),
+    },
+  }),
+}), {});
 
 const PermissionsType = new GraphQLObjectType({
   name: 'PermissionsType',
-  fields: {
-    sections: {
-      type: new GraphQLObjectType({
-        name: 'PermissionsTypeSections',
-        fields: sections,
-      }),
-    },
-    fields: {
-      type: new GraphQLObjectType({
-        name: 'PermissionsTypeFields',
-        fields,
-      }),
-    },
-    entries: {
-      type: new GraphQLObjectType({
-        name: 'PermissionsTypeEntries',
-        fields: entries,
-      }),
-    },
-    users: {
-      type: new GraphQLObjectType({
-        name: 'usersPermissionsTypeUsers',
-        fields: users,
-      }),
-    },
-  },
+  fields: outputPerms,
 });
 
 const PermissionsTypeInput = new GraphQLInputObjectType({
   name: 'PermissionsTypeInput',
-  fields: {
-    sections: {
-      type: new GraphQLInputObjectType({
-        name: 'PermissionsTypeInputSections',
-        fields: sections,
-      }),
-    },
-    fields: {
-      type: new GraphQLInputObjectType({
-        name: 'PermissionsTypeInputFields',
-        fields,
-      }),
-    },
-    entries: {
-      type: new GraphQLInputObjectType({
-        name: 'PermissionsTypeInputEntries',
-        fields: entries,
-      }),
-    },
-    users: {
-      type: new GraphQLInputObjectType({
-        name: 'usersPermissionsTypeInputUsers',
-        fields: users,
-      }),
-    },
-  },
+  fields: inputPerms,
 });
 
 exports.outputType = new GraphQLObjectType({
