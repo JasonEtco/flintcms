@@ -65,3 +65,10 @@ $bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transition: box-shadow 150ms $standard;
     will-change: box-shadow;
 }
+
+%focus {
+    &:focus {
+        border-color: lighten($blue, 25%);
+        box-shadow: 0 0 0 2px lighten($blue, 40%);
+    }
+}

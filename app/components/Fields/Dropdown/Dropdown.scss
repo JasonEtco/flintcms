@@ -58,12 +58,12 @@
         border: 1px solid $grey-light;
         background: white;
         min-width: 100px;
-
-        &:focus {
-            border-color: #7dafe8;
-            outline: none;
-            box-shadow: 0 0 5px #80caff;
-        }
+        outline: none;
+        transition:
+            background-color 150ms $standard,
+            border-color 150ms $standard,
+            box-shadow 150ms $standard;
+        @extend %focus;
 
         &::after {
             content: '';

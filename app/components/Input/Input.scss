@@ -7,12 +7,8 @@
     font-size: 0.9rem;
     line-height: 1.4;
     outline: none;
-    transition: box-shadow 300ms $standard, border-color 300ms $standard;
-
-    &:focus {
-        border-color: lighten($blue, 30%);
-        box-shadow: 0 0 5px lighten($blue, 30%);
-    }
+    transition: box-shadow 150ms $standard, border-color 150ms $standard;
+    @extend %focus;
 
     &__instructions {
         margin-top: 0;

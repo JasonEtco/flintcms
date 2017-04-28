@@ -4,11 +4,7 @@
         border: none;
         margin: 0;
         background: none;
-
-        &:focus {
-            border-color: lighten($blue, 30%);
-            box-shadow: 0 0 5px lighten($blue, 30%);
-        }
+        @extend %focus;
 
         svg {
             fill: $grey-light;
