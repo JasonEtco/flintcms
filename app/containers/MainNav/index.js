@@ -15,10 +15,10 @@ export default class MainNav extends Component {
     siteName: PropTypes.string,
     user: PropTypes.shape({
       _id: PropTypes.string,
-      name: {
+      name: PropTypes.shape({
         first: PropTypes.string,
         last: PropTypes.string,
-      },
+      }),
       email: PropTypes.string,
     }).isRequired,
   }
