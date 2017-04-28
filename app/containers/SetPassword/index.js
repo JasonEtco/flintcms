@@ -5,6 +5,7 @@ import Button from '../../components/Button';
 import Notification from '../../components/Notification';
 import FlintLogo from '../../components/FlintLogo';
 import graphFetcher from '../../utils/graphFetcher';
+import { siteLogo, siteName } from '../../../config';
 
 export default class Login extends Component {
   static propTypes = {
@@ -59,7 +60,7 @@ export default class Login extends Component {
     const { error, same } = this.state;
     return (
       <div className="login">
-        <FlintLogo />
+        {siteLogo ? <img style={{ maxWidth: '420px', maxHeight: '200px', margin: '1em auto' }} src={siteLogo} alt={siteName} /> : <FlintLogo width={140} height={80} />}
         <form className="login__inner" onSubmit={this.handleSubmit}>
           <legend className="login__title">Set a new Password</legend>
           {error && <Notification type="error">There was an error, please try again later.</Notification>}
@@ -68,6 +69,7 @@ export default class Login extends Component {
           {!same && <Notification type="error">Your passwords are not the same!</Notification>}
           <Button type="submit" formElement disabled={!same}>Set Password</Button>
         </form>
+        {siteLogo && <FlintLogo poweredBy width={100} height={25} />}
       </div>
     );
   }

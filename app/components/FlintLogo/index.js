@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import './FlintLogo.scss';
 
-const FlintLogo = () => (
-  <div className="flint-logo-wrapper">
-    <svg xmlns="http://www.w3.org/2000/svg" className="flint-logo" width="198.77" height="48.61" viewBox="0 0 198.77 48.61">
+const FlintLogo = ({ width, height, className, poweredBy }) => (
+  <div className={`flint-logo-wrapper ${className || ''}`}>
+    {poweredBy && <h6 className="flint-logo__poweredBy">Powered by</h6>}
+    <svg xmlns="http://www.w3.org/2000/svg" className="flint-logo" width={width} height={height} viewBox="0 0 198.77 48.61">
       <title>FlintCMS</title>
       <g className="flint-logo__flint">
         <path d="M13.4,12.43v3.25h7.26v7.46H13.4v25H4.64v-25H0V15.69H4.64V12.3C4.64,5,9.22.33,16.35.33A12.65,12.65,0,0,1,20.67,1V8.31A9.73,9.73,0,0,0,17.92,8C16,8,13.4,8.83,13.4,12.43Z" />
@@ -19,5 +21,19 @@ const FlintLogo = () => (
     </svg>
   </div>
 );
+
+FlintLogo.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number,
+  className: PropTypes.string,
+  poweredBy: PropTypes.bool,
+};
+
+FlintLogo.defaultProps = {
+  width: 198.77,
+  height: 48.61,
+  className: null,
+  poweredBy: false,
+};
 
 export default FlintLogo;

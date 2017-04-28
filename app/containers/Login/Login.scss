@@ -5,11 +5,10 @@
     align-items: center;
     justify-content: center;
 
-    .flint-logo {
-        width: 140px;
-        height: 80px;
+    .flint-logo-wrapper {
         margin: 3em 0 2em;
-        fill: $grey;
+
+        .flint-logo { fill: $grey; }
     }
 
     &__inner {

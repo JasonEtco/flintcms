@@ -19,12 +19,13 @@ export default class Login extends Component {
   render() {
     return (
       <div className="login">
-        {siteLogo ? <img style={{ maxWidth: '200px', margin: '1em auto' }} src={siteLogo} alt={siteName} /> : <FlintLogo />}
+        {siteLogo ? <img style={{ maxWidth: '420px', maxHeight: '200px', margin: '1em auto' }} src={siteLogo} alt={siteName} /> : <FlintLogo width={140} height={80} />}
         <form className="login__inner" action="/admin/login" method="post">
           <Input required onChange={this.checkInputs} ref={(r) => { this.email = r; }} name="email" autoFocus big placeholder="Email" type="email" />
           <Input required onChange={this.checkInputs} ref={(r) => { this.password = r; }} name="password" big placeholder="Password" type="password" />
           <Button type="submit" disabled={this.state.disableButton}>Log In</Button>
         </form>
+        {siteLogo && <FlintLogo poweredBy width={100} height={25} />}
       </div>
     );
   }
