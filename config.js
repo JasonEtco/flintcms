@@ -18,5 +18,6 @@ module.exports = {
   siteUrl: 'http://example.com',
   debugMode: true,
   scssEntryPoint: 'scss/main.scss',
+  siteLogo: '/public/assets/default_user.png',
 };
 
