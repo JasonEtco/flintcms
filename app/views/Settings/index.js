@@ -37,7 +37,7 @@ export default class Settings extends Component {
         <div className="content">
           <div className="page__inner">
             {Object.keys(sections).map(key => (
-              <section className="settings__section">
+              <section className="settings__section" key={key}>
                 <h2 className="settings__section__title">{key}</h2>
                 {sections[key].map(l =>
                   <Link className="settings__link" key={l.path} to={l.path}>
