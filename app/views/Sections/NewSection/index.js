@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
-import { newSection } from '../../actions/sectionActions';
-import Page from '../../containers/Page';
-import FieldLayout from '../../containers/FieldLayout';
-import Input from '../../components/Input';
-import TitleBar from '../../components/TitleBar';
-import Button from '../../components/Button';
-import { slugify } from '../../utils/helpers';
+import { newSection } from '../../../actions/sectionActions';
+import Page from '../../../containers/Page';
+import FieldLayout from '../../../containers/FieldLayout';
+import Input from '../../../components/Input';
+import TitleBar from '../../../components/TitleBar';
+import Button from '../../../components/Button';
+import { slugify } from '../../../utils/helpers';
 
 export default class NewSection extends Component {
   static propTypes = {

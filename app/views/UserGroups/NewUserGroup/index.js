@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
-import { newUserGroup } from '../../actions/usergroupActions';
-import Page from '../../containers/Page';
-import Input from '../../components/Input';
-import TitleBar from '../../components/TitleBar';
-import Button from '../../components/Button';
-import Checkboxes from '../../components/Checkbox/Checkboxes';
-import permissions from '../../../server/utils/permissions';
-import { slugify } from '../../utils/helpers';
+import { newUserGroup } from '../../../actions/usergroupActions';
+import Page from '../../../containers/Page';
+import Input from '../../../components/Input';
+import TitleBar from '../../../components/TitleBar';
+import Button from '../../../components/Button';
+import Checkboxes from '../../../components/Checkbox/Checkboxes';
+import permissions from '../../../../server/utils/permissions';
+import { slugify } from '../../../utils/helpers';
 
 export default class NewUserGroup extends Component {
   static propTypes = {

@@ -12,28 +12,28 @@ import FourOhFour from './views/404';
 import Login from './containers/Login';
 import SetPassword from './containers/SetPassword';
 
-import User from './views/User';
-import Users from './views/Users';
-import NewUser from './views/NewUser';
+import User from './views/Users/User';
+import Users from './views/Users/Users';
+import NewUser from './views/Users/NewUser';
 
-import Entry from './views/Entry';
-import Entries from './views/Entries';
-import NewEntry from './views/NewEntry';
+import Entry from './views/Entries/Entry';
+import Entries from './views/Entries/Entries';
+import NewEntry from './views/Entries/NewEntry';
 
-import Section from './views/Section';
-import Sections from './views/Sections';
-import NewSection from './views/NewSection';
+import Section from './views/Sections/Section';
+import Sections from './views/Sections/Sections';
+import NewSection from './views/Sections/NewSection';
 
-import UserGroup from './views/UserGroup';
-import UserGroups from './views/UserGroups';
-import NewUserGroup from './views/NewUserGroup';
+import UserGroup from './views/UserGroups/UserGroup';
+import UserGroups from './views/UserGroups/UserGroups';
+import NewUserGroup from './views/UserGroups/NewUserGroup';
 
-import Field from './views/Field';
-import Fields from './views/Fields';
-import NewField from './views/NewField';
+import Field from './views/Fields/Field';
+import Fields from './views/Fields/Fields';
+import NewField from './views/Fields/NewField';
 
-import Assets from './views/Assets';
-import NewAsset from './views/NewAsset';
+import Assets from './views/Assets/Assets';
+import NewAsset from './views/Assets/NewAsset';
 
 import Settings from './views/Settings';
 

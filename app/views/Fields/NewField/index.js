@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
-import { newField } from '../../actions/fieldActions';
-import Page from '../../containers/Page';
-import Fields from '../../components/Fields';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import TitleBar from '../../components/TitleBar';
-import { slugify } from '../../utils/helpers';
-import FieldOptions from '../../components/FieldOptions';
+import { newField } from '../../../actions/fieldActions';
+import Page from '../../../containers/Page';
+import Fields from '../../../components/Fields';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
+import TitleBar from '../../../components/TitleBar';
+import { slugify } from '../../../utils/helpers';
+import FieldOptions from '../../../components/FieldOptions';
 
 export default class NewField extends Component {
   static propTypes = {

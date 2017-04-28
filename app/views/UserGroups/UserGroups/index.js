@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { formatDate } from '../../utils/helpers';
-import Page from '../../containers/Page';
-import Table from '../../components/Table';
-import Checkbox from '../../components/Checkbox';
-import Dropdown from '../../components/Fields/Dropdown';
-import TitleBar from '../../components/TitleBar';
-import types from '../../utils/types';
-import DeleteIcon from '../../components/DeleteIcon';
-import { deleteUserGroup } from '../../actions/usergroupActions';
+import { formatDate } from '../../../utils/helpers';
+import Page from '../../../containers/Page';
+import Table from '../../../components/Table';
+import Checkbox from '../../../components/Checkbox';
+import Dropdown from '../../../components/Fields/Dropdown';
+import TitleBar from '../../../components/TitleBar';
+import types from '../../../utils/types';
+import DeleteIcon from '../../../components/DeleteIcon';
+import { deleteUserGroup } from '../../../actions/usergroupActions';
 
 export default class UserGroups extends Component {
   static propTypes = {

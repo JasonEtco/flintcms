@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
-import Page from '../../containers/Page';
-import Input from '../../components/Input';
-import TitleBar from '../../components/TitleBar';
-import Button from '../../components/Button';
-import Checkboxes from '../../components/Checkbox/Checkboxes';
-import { updateUserGroup } from '../../actions/usergroupActions';
-import permissions from '../../../server/utils/permissions';
+import Page from '../../../containers/Page';
+import Input from '../../../components/Input';
+import TitleBar from '../../../components/TitleBar';
+import Button from '../../../components/Button';
+import Checkboxes from '../../../components/Checkbox/Checkboxes';
+import { updateUserGroup } from '../../../actions/usergroupActions';
+import permissions from '../../../../server/utils/permissions';
 
 export default class UserGroup extends Component {
   static propTypes = {

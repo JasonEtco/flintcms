@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
-import types from '../../utils/types';
-import { deleteEntry } from '../../actions/entryActions';
-import { truncate, getIdFromSlug, getSlugFromId, formatDate, getPropFromProp } from '../../utils/helpers';
-import DeleteIcon from '../../components/DeleteIcon';
-import Page from '../../containers/Page';
-import TitleBar from '../../components/TitleBar';
-import SecondaryNav from '../../components/SecondaryNav';
-import Table from '../../components/Table';
-import StatusDot from '../../components/StatusDot';
+import types from '../../../utils/types';
+import { deleteEntry } from '../../../actions/entryActions';
+import { truncate, getIdFromSlug, getSlugFromId, formatDate, getPropFromProp } from '../../../utils/helpers';
+import DeleteIcon from '../../../components/DeleteIcon';
+import Page from '../../../containers/Page';
+import TitleBar from '../../../components/TitleBar';
+import SecondaryNav from '../../../components/SecondaryNav';
+import Table from '../../../components/Table';
+import StatusDot from '../../../components/StatusDot';
 
 const localStorageKey = 'flint:lastSection';
 

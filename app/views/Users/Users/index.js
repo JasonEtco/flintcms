@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { formatDate } from '../../utils/helpers';
-import Page from '../../containers/Page';
-import TitleBar from '../../components/TitleBar';
-import Table from '../../components/Table';
+import { formatDate } from '../../../utils/helpers';
+import Page from '../../../containers/Page';
+import TitleBar from '../../../components/TitleBar';
+import Table from '../../../components/Table';
 
 export default class Users extends Component {
   static propTypes = {

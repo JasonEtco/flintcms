@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
-import types from '../../utils/types';
-import renderOption from '../../utils/renderOption';
-import validateFields from '../../utils/validateFields';
-import Page from '../../containers/Page';
-import TitleBar from '../../components/TitleBar';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
-import Aside from '../../containers/Aside';
-import { deleteEntry, updateEntry, entryDetails } from '../../actions/entryActions';
-import { openModal } from '../../actions/uiActions';
-import ConfirmModal from '../../components/Modals/ConfirmModal';
+import types from '../../../utils/types';
+import renderOption from '../../../utils/renderOption';
+import validateFields from '../../../utils/validateFields';
+import Page from '../../../containers/Page';
+import TitleBar from '../../../components/TitleBar';
+import Button from '../../../components/Button';
+import Input from '../../../components/Input';
+import Aside from '../../../containers/Aside';
+import { deleteEntry, updateEntry, entryDetails } from '../../../actions/entryActions';
+import { openModal } from '../../../actions/uiActions';
+import ConfirmModal from '../../../components/Modals/ConfirmModal';
 
 export default class Entry extends Component {
   static propTypes = {

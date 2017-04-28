@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { updateUser, userDetails } from '../../actions/userActions';
-import Page from '../../containers/Page';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import TitleBar from '../../components/TitleBar';
+import { updateUser, userDetails } from '../../../actions/userActions';
+import Page from '../../../containers/Page';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
+import TitleBar from '../../../components/TitleBar';
 
 export default class User extends Component {
   static propTypes = {

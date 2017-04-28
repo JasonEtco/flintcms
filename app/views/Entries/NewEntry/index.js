@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
-import { newEntry } from '../../actions/entryActions';
-import Page from '../../containers/Page';
-import Aside from '../../containers/Aside';
-import TitleBar from '../../components/TitleBar';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import renderOption from '../../utils/renderOption';
-import validateFields from '../../utils/validateFields';
-import { getPropFromProp, slugify } from '../../utils/helpers';
+import { newEntry } from '../../../actions/entryActions';
+import Page from '../../../containers/Page';
+import Aside from '../../../containers/Aside';
+import TitleBar from '../../../components/TitleBar';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
+import renderOption from '../../../utils/renderOption';
+import validateFields from '../../../utils/validateFields';
+import { getPropFromProp, slugify } from '../../../utils/helpers';
 
 export default class NewEntry extends Component {
   static propTypes = {
