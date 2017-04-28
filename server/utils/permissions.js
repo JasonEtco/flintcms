@@ -25,6 +25,10 @@ const perms = {
     { name: 'canManageUsers', defaultValue: false, label: 'Can Manage Users' },
     { name: 'canManageUserGroups', defaultValue: false, label: 'Can Manage User Groups' },
   ],
+
+  site: [
+    { name: 'canManageSite', defaultValue: false, label: 'Can Manage Site Configuration' },
+  ],
 };
 
 exports.perms = perms;

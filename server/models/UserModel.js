@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
-const permissions = require('../utils/permissions');
+const { reducePermissionsToObject } = require('../utils/permissions');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -54,10 +54,7 @@ UserSchema.methods.validateHash = function (password) {
 // eslint-disable-next-line func-names
 UserSchema.methods.getPermissions = async function () {
   if (this.usergroup === 'admin') {
-    const perms = Object.keys(permissions).reduce((prev, curr) => Object.assign({}, prev, {
-      [curr]: permissions[curr].reduce((p, c) => Object.assign({}, p, { [c.name]: true }), {}),
-    }), {});
-
+    const perms = reducePermissionsToObject((p, c) => Object.assign({}, p, { [c.name]: true }), {});
     return perms;
   }
 

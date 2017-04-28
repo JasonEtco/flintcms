@@ -7,8 +7,14 @@ const SiteSchema = new Schema({
     type: String,
     default: 'admin',
   },
-  siteName: String,
-  siteUrl: String,
+  siteName: {
+    type: String,
+    default: 'Flint Site Name',
+  },
+  siteUrl: {
+    type: String,
+    default: 'https://flintcms.io',
+  },
 });
 
 module.exports = mongoose.model('Site', SiteSchema, 'site');
