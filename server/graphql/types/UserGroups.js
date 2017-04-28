@@ -1,5 +1,6 @@
 const { GraphQLBoolean, GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
 const permissions = require('../../utils/permissions');
+const { DateTime } = require('./CustomTypes');
 
 const { entries, sections, users, fields } = Object.keys(permissions)
   .reduce((prev, curr) => Object.assign({}, prev, {
@@ -77,7 +78,7 @@ exports.outputType = new GraphQLObjectType({
     },
     title: { type: new GraphQLNonNull(GraphQLString) },
     slug: { type: new GraphQLNonNull(GraphQLString) },
-    dateCreated: { type: new GraphQLNonNull(GraphQLString) },
+    dateCreated: { type: new GraphQLNonNull(DateTime) },
     permissions: {
       type: new GraphQLNonNull(PermissionsType),
     },

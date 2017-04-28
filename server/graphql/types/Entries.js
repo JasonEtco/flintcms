@@ -6,11 +6,11 @@ const {
   GraphQLID,
   GraphQLList,
 } = require('graphql');
-const ObjectType = require('./objectType');
+const { ObjectType, DateTime } = require('./CustomTypes');
 
 const FieldType = new GraphQLObjectType({
   name: 'EntryFields',
-  fields: () => ({
+  fields: {
     fieldId: {
       type: new GraphQLNonNull(GraphQLID),
     },
@@ -20,12 +20,12 @@ const FieldType = new GraphQLObjectType({
     value: {
       type: ObjectType,
     },
-  }),
+  },
 });
 
 const FieldTypeInput = new GraphQLInputObjectType({
   name: 'EntryFieldsInput',
-  fields: () => ({
+  fields: {
     fieldId: {
       type: new GraphQLNonNull(GraphQLID),
     },
@@ -35,12 +35,12 @@ const FieldTypeInput = new GraphQLInputObjectType({
     value: {
       type: ObjectType,
     },
-  }),
+  },
 });
 
 const outputType = new GraphQLObjectType({
   name: 'Entries',
-  fields: () => ({
+  fields: {
     _id: {
       type: new GraphQLNonNull(GraphQLID),
     },
@@ -63,7 +63,7 @@ const outputType = new GraphQLObjectType({
       description: 'Live, Draft or Disabled',
     },
     dateCreated: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(DateTime),
     },
     author: {
       type: new GraphQLNonNull(GraphQLID),
@@ -83,7 +83,7 @@ const outputType = new GraphQLObjectType({
       description: 'The Url of the entry',
       resolve: entry => entry.getUrl(),
     },
-  }),
+  },
 });
 
 const inputType = new GraphQLInputObjectType({

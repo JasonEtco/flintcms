@@ -1,4 +1,5 @@
 const { GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
+const { DateTime } = require('./CustomTypes');
 
 exports.outputType = new GraphQLObjectType({
   name: 'User',
@@ -20,7 +21,7 @@ exports.outputType = new GraphQLObjectType({
       },
     }) },
     dateCreated: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(DateTime),
     },
     image: {
       type: new GraphQLNonNull(GraphQLString),
