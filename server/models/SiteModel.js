@@ -11,4 +11,4 @@ const SiteSchema = new Schema({
   siteUrl: String,
 });
 
-module.exports = mongoose.model('Entry', SiteSchema, 'entries');
+module.exports = mongoose.model('Site', SiteSchema, 'site');

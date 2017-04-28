@@ -4,5 +4,6 @@ const users = require('./users');
 const fields = require('./fields');
 const assets = require('./assets');
 const usergroups = require('./usergroups');
+const site = require('./site');
 
-module.exports = Object.assign({}, entries, sections, users, fields, assets, usergroups);
+module.exports = Object.assign({}, entries, sections, users, fields, assets, usergroups, site);
