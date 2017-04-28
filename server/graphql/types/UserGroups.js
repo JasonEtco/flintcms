@@ -1,33 +1,33 @@
 const { GraphQLBoolean, GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
 const { DateTime } = require('./CustomTypes');
-const permissions = require('../../utils/permissions');
+const { reducePermissionsToObject } = require('../../utils/permissions');
 const { capitalizeFirstChar } = require('../../utils/helpers');
 
 // Reduce permissions to GraphQL-ready fields
-const perms = Object.keys(permissions)
-  .reduce((prev, curr) => Object.assign({}, prev, {
-    [curr]: permissions[curr].reduce((previous, { name, defaultValue }) =>
-      Object.assign({}, previous, { [name]: {
-        type: GraphQLBoolean,
-        defaultValue,
-      } }), {}),
-  }), {});
+function reduceToGraphQLFields(previous, { name, defaultValue }) {
+  return Object.assign({}, previous, { [name]: {
+    type: GraphQLBoolean,
+    defaultValue,
+  } });
+}
 
-// Reduce permissions array to GraphQL-ready types, both input and output
-const { outputPerms, inputPerms } = Object.keys(perms).reduce((prev, curr) => ({
-  outputPerms: Object.assign(prev, {
+const permissions = reducePermissionsToObject(reduceToGraphQLFields);
+
+// Reduce permissions fields to GraphQL-ready types, both input and output
+const { outputPerms, inputPerms } = Object.keys(permissions).reduce((prev, curr) => ({
+  outputPerms: Object.assign({}, prev.outputPerms, {
     [curr]: {
       type: new GraphQLObjectType({
         name: `PermissionsType${capitalizeFirstChar(curr)}`,
-        fields: perms[curr],
+        fields: permissions[curr],
       }),
     },
   }),
-  inputPerms: Object.assign(prev, {
+  inputPerms: Object.assign({}, prev.inputPerms, {
     [curr]: {
       type: new GraphQLInputObjectType({
         name: `PermissionsTypeInput${capitalizeFirstChar(curr)}`,
-        fields: perms[curr],
+        fields: permissions[curr],
       }),
     },
   }),

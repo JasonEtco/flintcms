@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
-const perms = require('../utils/permissions');
+const { reducePermissionsToObject } = require('../utils/permissions');
 const h = require('../utils/helpers');
 
 const Schema = mongoose.Schema;
 
-const permissions = Object.keys(perms).reduce((prev, curr) => Object.assign({}, prev, {
-  [curr]: perms[curr].reduce((p, c) => Object.assign({}, p, { [c.name]: {
+function reducePermissionsForMongoose(previous, { name, defaultValue }) {
+  return Object.assign({}, previous, { [name]: {
     type: Boolean,
-    default: c.defaultValue,
-  } }), {}),
-}), {});
+    default: defaultValue,
+  } });
+}
+// Format the master list of permissions to be easily consumable in a Mongoose Schema
+const permissions = reducePermissionsToObject(reducePermissionsForMongoose);
 
 const UserGroupSchema = new Schema({
   title: {
