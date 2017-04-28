@@ -1,7 +1,6 @@
 const sass = require('node-sass');
 const path = require('path');
 const fs = require('fs');
-const { writeFileAsync } = require('./fsPromises');
 const { scssEntryPoint } = require('../../config');
 
 /**
@@ -17,8 +16,7 @@ async function compileSass() {
       fs.mkdirSync(cssPath);
     }
 
-    const file = await writeFileAsync(path.join(cssPath, 'main.css'), res.css);
-    console.log(file);
+    fs.writeFileSync(path.join(cssPath, 'main.css'), res.css);
   });
 
   // return compiled;

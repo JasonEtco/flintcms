@@ -80,7 +80,6 @@ export function updateUser(_id, data) {
  * @param {string} _id - Mongo ID of Entry.
  */
 export function userDetails(_id) {
-  console.log('user details!');
   return (dispatch) => {
     const query = `query ($_id:ID!) {
       user (_id: $_id) {

@@ -15,9 +15,9 @@ export default class UserGroups extends Component {
     ...types.usergroups,
   }
 
-  handleDropdownChange(_id) {
+  handleDropdownChange(_id) { // eslint-disable-line
     // TODO: Hook up to DB entry
-    console.log(_id);
+    console.log(_id); // eslint-disable-line no-console
   }
 
   render() {
@@ -55,7 +55,8 @@ export default class UserGroups extends Component {
           <div className="page__inner">
             <Dropdown
               label="Default User Group"
-              instructions="The default user group new users will be assigned" name="defaultUserGroup"
+              instructions="The default user group new users will be assigned"
+              name="defaultUserGroup"
               options={[{ label: 'Admin', value: 'admin' }, ...usergroupNames]}
               onChange={this.handleDropdownChange}
             />
