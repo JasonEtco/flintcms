@@ -1,6 +1,6 @@
 const { GraphQLBoolean, GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
 const { DateTime } = require('./CustomTypes');
-const { reducePermissionsToObject } = require('../../utils/permissions');
+const reducePermissionsToObject = require('../../utils/reducePermissionsToObject');
 const { capitalizeFirstChar } = require('../../utils/helpers');
 
 // Reduce permissions to GraphQL-ready fields

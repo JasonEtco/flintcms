@@ -11,6 +11,7 @@ const defaultState = {
   entries: { isFetching: true },
   sections: { isFetching: true },
   assets: { isFetching: true },
+  site: { isFetching: true },
   ui: {
     toasts: [],
     modalIsOpen: false,

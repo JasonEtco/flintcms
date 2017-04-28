@@ -7,8 +7,15 @@ import { RECEIVE_FIELDS } from './fieldActions';
 import { RECEIVE_USER, RECEIVE_USERS } from './userActions';
 import { RECEIVE_USERGROUPS } from './usergroupActions';
 import { RECEIVE_ASSETS } from './assetActions';
+import { RECEIVE_SITE } from './siteActions';
 
 const query = `{
+  site {
+    defaultUserGroup
+    siteUrl
+    siteName
+  }
+
   entries {
     _id
     title
@@ -112,7 +119,7 @@ export default async function bigFetch() {
   if (data.status === 401) dispatch(push(data.redirect));
   if (errors) throw new Error('Error!', errors);
 
-  const { sections, assets, entries, fields, user, users, usergroups } = data.data;
+  const { sections, assets, entries, fields, user, users, usergroups, site } = data.data;
   const dispatchers = [
     { type: RECEIVE_SECTIONS, sections },
     { type: RECEIVE_ASSETS, assets },
@@ -121,6 +128,7 @@ export default async function bigFetch() {
     { type: RECEIVE_USER, user },
     { type: RECEIVE_USERS, users },
     { type: RECEIVE_USERGROUPS, usergroups },
+    { type: RECEIVE_SITE, site },
   ];
 
   const receivedAt = Date.now();

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
-const { reducePermissionsToObject } = require('../utils/permissions');
+const reducePermissionsToObject = require('../utils/reducePermissionsToObject');
 
 const UserGroup = mongoose.model('UserGroup');
 
