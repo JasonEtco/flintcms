@@ -25,13 +25,13 @@ function seperateDateObj(dateObj = new Date()) {
 export default class DatePicker extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.string,
+    value: PropTypes.number,
     label: PropTypes.string,
     instructions: PropTypes.string,
   }
 
   static defaultProps = {
-    value: new Date().toLocaleString(),
+    value: Date.now(),
     label: null,
     instructions: null,
   }
@@ -54,8 +54,8 @@ export default class DatePicker extends Component {
   componentWillUnmount() { window.removeEventListener('click', this.hide); }
 
   selectDate = ({ year, month, day }) => {
-    const val = new Date(year, month, day);
-    this.setState({ value: val.toLocaleString(), open: false });
+    const value = new Date(year, month, day).getTime();
+    this.setState({ value, open: false });
   }
 
   incrementMonth = (e, forwards = true) => {
@@ -129,7 +129,7 @@ export default class DatePicker extends Component {
   render() {
     const { label, instructions, name } = this.props;
     const { month, year, value, open } = this.state;
-    const inputVal = moment(new Date(value)).format('MM/DD/YYYY');
+    const inputVal = moment(value).format('MM/DD/YYYY');
 
     return (
       <div className="datepicker-wrapper form-element">

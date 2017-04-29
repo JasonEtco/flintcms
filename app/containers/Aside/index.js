@@ -7,7 +7,7 @@ import './Aside.scss';
 export default class Aside extends Component {
   static propTypes = {
     status: PropTypes.oneOf(['live', 'draft', 'disabled']),
-    dateCreated: PropTypes.string,
+    dateCreated: PropTypes.number,
   }
 
   static defaultProps = {
