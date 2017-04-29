@@ -14,6 +14,7 @@ const query = `{
     defaultUserGroup
     siteUrl
     siteName
+    siteLogo
   }
 
   entries {

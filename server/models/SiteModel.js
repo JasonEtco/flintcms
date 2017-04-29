@@ -15,6 +15,9 @@ const SiteSchema = new Schema({
     type: String,
     default: 'https://flintcms.io',
   },
+  siteLogo: {
+    type: Schema.Types.Mixed,
+  },
 });
 
 module.exports = mongoose.model('Site', SiteSchema, 'site');
