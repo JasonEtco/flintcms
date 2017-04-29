@@ -117,7 +117,11 @@ export default async function bigFetch() {
   const { dispatch } = store;
   const { data, errors } = await graphFetcher(query);
 
-  if (data.status === 401) dispatch(push(data.redirect));
+  if (data.status === 401) {
+    dispatch(push(data.redirect));
+    return;
+  }
+
   if (errors) throw new Error('Error!', errors);
 
   const { sections, assets, entries, fields, user, users, usergroups, site } = data.data;
