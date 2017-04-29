@@ -60,7 +60,7 @@ export default class Asset extends Component {
 
           {value && <h5 className="asset__btn__title">{value.title}</h5>}
         </button>
-        {Object.keys(value).map(key => <input key={key} type="text" name={`${name}[${key}]`} value={value[key]} readOnly hidden />)}
+        {value && Object.keys(value).map(key => <input key={key} type="text" name={`${name}[${key}]`} value={value[key]} readOnly hidden />)}
       </div>
     );
   }
