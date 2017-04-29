@@ -9,8 +9,9 @@ import Main from './containers/Main';
 
 import Home from './views/Home';
 import FourOhFour from './views/404';
-import Login from './containers/Login';
-import SetPassword from './containers/SetPassword';
+
+import Login from './views/Login';
+import SetPassword from './views/SetPassword';
 
 import User from './views/Users/User';
 import Users from './views/Users/Users';
