@@ -109,6 +109,9 @@ const query = `{
         canManageUsers
         canManageUserGroups
       }
+      site {
+        canManageSite
+      }
     }
   }
 }`;
