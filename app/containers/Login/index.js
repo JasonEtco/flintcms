@@ -1,30 +1,37 @@
 import React, { Component } from 'react';
+import { get } from 'axios';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import FlintLogo from '../../components/FlintLogo';
 import './Login.scss';
-import graphFetcher from '../../utils/graphFetcher';
 import { siteName } from '../../../config';
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.checkInputs = this.checkInputs.bind(this);
+  }
+
   state = { disableButton: true }
 
   componentWillMount() { document.body.classList.add('body--grey'); }
+
   componentDidMount() {
-    graphFetcher('{ site { siteLogo } }').then(({ data }) => {
-      this.setState({ siteLogo: data.data.site.siteLogo });
+    get('/admin/api/site').then(({ data }) => {
+      this.setState({ siteLogo: data.siteLogo });
     });
   }
+
   componentWillUnmount() { document.body.classList.remove('body--grey'); }
 
-
-  checkInputs = () => {
+  checkInputs() {
     const { email, password } = this;
     this.setState({ disableButton: !email.value || !password.value });
   }
 
   render() {
     const { siteLogo } = this.state;
+
     return (
       <div className="login">
         {siteLogo ? <img style={{ maxWidth: '420px', maxHeight: '200px', margin: '1em auto' }} src={`/public/assets/${siteLogo.filename}`} alt={siteName} /> : <FlintLogo width={140} height={80} />}
