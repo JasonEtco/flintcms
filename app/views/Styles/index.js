@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import { get, post } from 'axios';
 import { Link } from 'react-router';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
+import Button from '../../components/Button';
 import StyleEditor from './StyleEditor';
 import './Styles.scss';
 
@@ -18,14 +20,44 @@ export default class Styles extends Component {
     location: null,
   }
 
-  state = { isFetching: true }
+  constructor(props) {
+    super(props);
+    this.canSave = this.canSave.bind(this);
+    this.saveFile = this.saveFile.bind(this);
+  }
+
+  state = { isFetching: true, canSave: false }
 
   componentDidMount() {
-    fetch('/admin/api/styles', { credentials: 'same-origin' })
-      .then(res => res.json())
-      .then((files) => {
-        this.setState({ files, isFetching: false });
+    get('/admin/api/styles')
+      .then(({ data }) => {
+        this.setState({ files: data, isFetching: false });
       });
+  }
+
+  canSave(canSave) {
+    this.setState({ canSave });
+  }
+
+  saveFile(e) {
+    e.preventDefault();
+    const { file } = this.props.location.query;
+
+    post('/admin/api/styles', {
+      file,
+      contents: this.editor.state.contents,
+    })
+    .then((res) => {
+      console.log(res);
+    });
+  }
+
+  recursiveReducer(arr, str) {
+    const reducer = (prev, curr) => {
+      if (curr.children) return { ...prev, [curr.name]: this.recursiveReducer(curr.children, str ? `${str}/${curr.name}` : curr.name) };
+      return { ...prev, [curr.name]: str ? `${str}/${curr.name}` : curr.name };
+    };
+    return arr.reduce(reducer, {});
   }
 
   renderTree(obj) {
@@ -47,28 +79,25 @@ export default class Styles extends Component {
   }
 
   render() {
-    const { files, isFetching } = this.state;
+    const { files, isFetching, canSave } = this.state;
     if (isFetching) return null;
 
-    const red = (arr, str) => {
-      const reducer = (prev, curr) => {
-        if (curr.children) return { ...prev, [curr.name]: red(curr.children, str ? `${str}/${curr.name}` : curr.name) };
-        return { ...prev, [curr.name]: str ? `${str}/${curr.name}` : curr.name };
-      };
-      return arr.reduce(reducer, {});
-    };
-    const fileLinks = red(files.children);
+    const fileLinks = this.recursiveReducer(files.children);
     const { file } = this.props.location.query;
 
     return (
-      <Page name="styles">
-        <TitleBar title={file || 'Styles'} />
+      <Page name="styles" onSubmit={file ? this.saveFile : undefined}>
+        <TitleBar title={file || 'Styles'}>
+          <Button small type="submit" disabled={!canSave}>Save changes</Button>
+        </TitleBar>
         <div className="content">
           <ul>
             {this.renderTree(fileLinks)}
           </ul>
           <div className="page__inner">
-            {file && <StyleEditor file={file} />}
+            {file
+              ? <StyleEditor file={file} canSave={this.canSave} ref={(r) => { this.editor = r; }} />
+              : <p>This editor is not intended to be a fully-fledged way of managing your site&apos;s styles; use it to make small changes only.</p>}
           </div>
         </div>
       </Page>
