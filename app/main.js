@@ -38,6 +38,7 @@ import NewAsset from './views/Assets/NewAsset';
 
 import Settings from './views/Settings';
 import Site from './views/Site';
+import Styles from './views/Styles';
 
 export default function mapStateToProps(state) {
   return { ...state };
@@ -75,6 +76,7 @@ const storeWrapper = (
         <Route path="settings/assets/new" component={NewAsset} />
 
         <Route path="settings/general" component={Site} />
+        <Route path="settings/styles" component={Styles} />
       </Route>
 
       <Route path="/admin/login" component={Login} />

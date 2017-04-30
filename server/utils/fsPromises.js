@@ -20,3 +20,10 @@ exports.writeFileAsync = (file, data, options = { encoding: 'utf8' }) => new Pro
     else resolve(f);
   });
 });
+
+exports.readFileAsync = (file, encoding = 'utf8') => new Promise((resolve, reject) => {
+  fs.readFile(file, encoding, (err, f) => {
+    if (err) reject(err);
+    else resolve(f);
+  });
+});
