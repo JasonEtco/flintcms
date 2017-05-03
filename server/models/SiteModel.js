@@ -18,6 +18,7 @@ const SiteSchema = new Schema({
   siteLogo: {
     type: Schema.Types.Mixed,
   },
+  style: String,
 });
 
 module.exports = mongoose.model('Site', SiteSchema, 'site');

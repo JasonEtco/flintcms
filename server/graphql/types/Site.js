@@ -7,6 +7,7 @@ exports.outputType = new GraphQLObjectType({
     defaultUserGroup: { type: GraphQLString },
     siteName: { type: GraphQLString },
     siteUrl: { type: GraphQLString },
+    style: { type: GraphQLString },
     siteLogo: { type: ObjectType },
   },
 });
@@ -17,6 +18,7 @@ exports.inputType = new GraphQLInputObjectType({
     defaultUserGroup: { type: GraphQLString },
     siteName: { type: GraphQLString },
     siteUrl: { type: GraphQLString },
+    style: { type: GraphQLString },
     siteLogo: { type: ObjectType },
   },
 });

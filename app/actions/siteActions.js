@@ -8,7 +8,7 @@ export const UPDATE_SITE = 'UPDATE_SITE';
 
 /**
  * Saves updates of the general site config
- * @param {object} data
+ * @param {Object} data
  */
 export function updateSite(data) {
   return async (dispatch) => {

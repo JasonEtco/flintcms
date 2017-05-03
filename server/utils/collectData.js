@@ -72,6 +72,9 @@ async function collectData(entry) {
       _id
       username
     }
+    site {
+      style
+    }
   }`;
 
   const { data } = await graphql(schema, query);

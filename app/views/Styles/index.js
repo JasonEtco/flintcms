@@ -1,38 +1,28 @@
 import React, { Component, PropTypes } from 'react';
-import { get, post } from 'axios';
-import { Link } from 'react-router';
+import CodeMirror from 'react-codemirror';
+import 'codemirror/mode/css/css';
+import { updateSite } from '../../actions/siteActions';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import Button from '../../components/Button';
-import StyleEditor from './StyleEditor';
+import './CodeMirror.scss';
 import './Styles.scss';
 
 export default class Styles extends Component {
   static propTypes = {
-    location: PropTypes.shape({
-      query: PropTypes.shape({
-        file: PropTypes.string,
-      }),
-    }),
-  }
-
-  static defaultProps = {
-    location: null,
+    site: PropTypes.shape({
+      style: PropTypes.string,
+    }).isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
     this.canSave = this.canSave.bind(this);
     this.saveFile = this.saveFile.bind(this);
-  }
+    this.updateCode = this.updateCode.bind(this);
 
-  state = { isFetching: true, canSave: false }
-
-  componentDidMount() {
-    get('/admin/api/styles')
-      .then(({ data }) => {
-        this.setState({ files: data, isFetching: false });
-      });
+    this.state = { canSave: false, contents: props.site.style };
   }
 
   canSave(canSave) {
@@ -41,63 +31,41 @@ export default class Styles extends Component {
 
   saveFile(e) {
     e.preventDefault();
-    const { file } = this.props.location.query;
-
-    post('/admin/api/styles', {
-      file,
-      contents: this.editor.state.contents,
-    })
-    .then((res) => {
-      console.log(res);
-    });
+    const { dispatch } = this.props;
+    dispatch(updateSite({ style: this.state.contents }));
   }
 
-  recursiveReducer(arr, str) {
-    const reducer = (prev, curr) => {
-      if (curr.children) return { ...prev, [curr.name]: this.recursiveReducer(curr.children, str ? `${str}/${curr.name}` : curr.name) };
-      return { ...prev, [curr.name]: str ? `${str}/${curr.name}` : curr.name };
-    };
-    return arr.reduce(reducer, {});
-  }
+  updateCode(contents) {
+    const { style } = this.props.site;
+    if (contents !== style) {
+      this.canSave(true);
+    } else {
+      this.canSave(false);
+    }
 
-  renderTree(obj) {
-    const arr = Object.keys(obj);
-    const mapper = (file) => {
-      if (typeof obj[file] === 'object') {
-        return (
-          <li key={file}>
-            <ul data-dir={file}>
-              {file}
-              {this.renderTree(obj[file])}
-            </ul>
-          </li>
-        );
-      }
-      return <li key={file}><Link to={`/admin/settings/styles?file=${obj[file]}`}>{file}</Link></li>;
-    };
-    return arr.map(mapper);
+    this.setState({ contents });
   }
 
   render() {
-    const { files, isFetching, canSave } = this.state;
-    if (isFetching) return null;
+    const { canSave, contents } = this.state;
 
-    const fileLinks = this.recursiveReducer(files.children);
-    const { file } = this.props.location.query;
+    const options = {
+      mode: 'css',
+      lineNumbers: true,
+      indentUnit: 4,
+      indentWithTabs: true,
+    };
 
     return (
-      <Page name="styles" onSubmit={file ? this.saveFile : undefined}>
-        <TitleBar title={file || 'Styles'}>
+      <Page name="styles" onSubmit={this.saveFile}>
+        <TitleBar title="Custom Styles">
           <Button small type="submit" disabled={!canSave}>Save changes</Button>
         </TitleBar>
         <div className="content">
-          <ul>
-            {this.renderTree(fileLinks)}
-          </ul>
           <div className="page__inner">
-            {file
-              ? <StyleEditor file={file} canSave={this.canSave} ref={(r) => { this.editor = r; }} />
-              : <p>This editor is not intended to be a fully-fledged way of managing your site&apos;s styles; use it to make small changes only.</p>}
+            <div className="style-editor__editor">
+              <CodeMirror value={contents} onChange={this.updateCode} options={options} />
+            </div>
           </div>
         </div>
       </Page>

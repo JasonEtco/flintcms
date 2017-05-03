@@ -53,7 +53,6 @@
     "cookie-session": "^2.0.0-alpha.2",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
-    "directory-tree": "^1.2.1",
     "dotenv": "^4.0.0",
     "draft-js": "^0.10.0",
     "draft-js-export-html": "^0.5.2",

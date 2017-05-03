@@ -5,7 +5,6 @@ const api = express();
 api.use(require('./routes/templates'));
 api.use(require('./routes/assets'));
 api.use(require('./routes/site'));
-api.use(require('./routes/styles'));
 
 // eslint-disable-next-line no-console
 console.log('[App: API] initialized.');

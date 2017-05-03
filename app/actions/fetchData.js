@@ -15,6 +15,7 @@ const query = `{
     siteUrl
     siteName
     siteLogo
+    style
   }
 
   entries {
