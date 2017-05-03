@@ -10,6 +10,7 @@ async function compileSass() {
   const pathToSCSS = path.join(__dirname, '..', '..', path.normalize(scssEntryPoint));
   sass.render({
     file: pathToSCSS,
+    outputStyle: process.env.NODE_ENV === 'production' ? 'compressed' : 'nested',
   }, async (err, res) => {
     const cssPath = path.join(__dirname, '..', '..', 'public');
     if (!fs.existsSync(cssPath)) {
