@@ -5,7 +5,6 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Notification from '../../components/Notification';
 import LoginContainer from '../../containers/LoginContainer';
-import graphFetcher from '../../utils/graphFetcher';
 
 export default class Login extends Component {
   static propTypes = {
