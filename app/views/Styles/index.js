@@ -12,8 +12,13 @@ export default class Styles extends Component {
   static propTypes = {
     site: PropTypes.shape({
       style: PropTypes.string,
-    }).isRequired,
-    dispatch: PropTypes.func.isRequired,
+    }),
+    dispatch: PropTypes.func,
+  }
+
+  static defaultProps = {
+    site: null,
+    dispatch: null,
   }
 
   constructor(props) {
@@ -56,13 +61,19 @@ export default class Styles extends Component {
       indentWithTabs: true,
     };
 
+    const links = [
+      { label: 'Settings', path: '/admin/settings' },
+      { label: 'Custom Styles', path: '/admin/settings/styles' },
+    ];
+
     return (
-      <Page name="styles" onSubmit={this.saveFile}>
+      <Page name="styles" links={links} onSubmit={this.saveFile}>
         <TitleBar title="Custom Styles">
           <Button small type="submit" disabled={!canSave}>Save changes</Button>
         </TitleBar>
         <div className="content">
           <div className="page__inner">
+            <p className="input__instructions">You can use this area to write custom styles that will be useable in every template. You can use the <code>{'{{ flint.site.style }}'}</code> tag to render the styles you write below into your templates.</p>
             <div className="style-editor__editor">
               <CodeMirror value={contents} onChange={this.updateCode} options={options} />
             </div>
