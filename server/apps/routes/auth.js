@@ -11,13 +11,16 @@ const strategyOptions = {
   passwordField: 'password',
   passReqToCallback: true,
   failureRedirect: '/admin/login',
-  successRedicect: '/admin',
 };
 
 router.post('/signup', passport.authenticate('local-signup', strategyOptions));
 
 router.post('/login', passport.authenticate('local-login', strategyOptions), (req, res) => {
-  res.redirect('/admin');
+  if (req.query.p) {
+    res.redirect(req.query.p);
+  } else {
+    res.redirect('/admin');
+  }
 });
 
 router.post('/setpassword', async (req, res) => {
