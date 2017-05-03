@@ -33,6 +33,7 @@ import Field from './views/Fields/Field';
 import Fields from './views/Fields/Fields';
 import NewField from './views/Fields/NewField';
 
+import Asset from './views/Assets/Asset';
 import Assets from './views/Assets/Assets';
 import NewAsset from './views/Assets/NewAsset';
 
@@ -74,6 +75,7 @@ const storeWrapper = (
 
         <Route path="settings/assets" component={Assets} />
         <Route path="settings/assets/new" component={NewAsset} />
+        <Route path="settings/assets/:id" component={Asset} />
 
         <Route path="settings/general" component={Site} />
         <Route path="settings/styles" component={Styles} />

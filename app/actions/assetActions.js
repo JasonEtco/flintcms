@@ -1,5 +1,5 @@
 import React from 'react';
-import { post } from 'axios';
+import { post, put } from 'axios';
 import { push } from 'react-router-redux';
 import graphFetcher from '../utils/graphFetcher';
 import { newToast, errorToasts } from './uiActions';
@@ -7,6 +7,7 @@ import { newToast, errorToasts } from './uiActions';
 export const REQUEST_ASSETS = 'REQUEST_ASSETS';
 export const RECEIVE_ASSETS = 'RECEIVE_ASSETS';
 export const NEW_ASSET = 'NEW_ASSET';
+export const UPDATE_ASSET = 'UPDATE_ASSET';
 export const DELETE_ASSET = 'DELETE_ASSET';
 export const INDEX_ASSETS = 'INDEX_ASSETS';
 
@@ -25,7 +26,25 @@ export function newAsset(formData) {
         const { addAsset } = json.data.data;
         dispatch({ type: NEW_ASSET, addAsset });
       })
-      .catch(err => new Error(err));
+      .catch(errorToasts);
+}
+
+/**
+ * Uploads a new Asset to the file system and
+ * adds it to the database.
+ * @param {Object} formData - Form formData
+ */
+export function updateAsset(formData, _id) {
+  return dispatch =>
+    put(`/admin/api/assets/${_id}`, formData, {
+      withCredentials: true,
+    }).then(res => res.json())
+      .then((json) => {
+        dispatch(newToast('You did it!'));
+        const { updateAsset: updatedAsset } = json.data.data;
+        dispatch({ type: UPDATE_ASSET, updateAsset: updatedAsset });
+      })
+      .catch(errorToasts);
 }
 
 /**
