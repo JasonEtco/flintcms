@@ -4,6 +4,8 @@ import Page from '../../containers/Page';
 import Input from '../../components/Input';
 import Fields from '../../components/Fields';
 import Button from '../../components/Button';
+import Checkbox from '../../components/Checkbox';
+import Dropdown from '../../components/Fields/Dropdown';
 import TitleBar from '../../components/TitleBar';
 import { updateSite } from '../../actions/siteActions';
 
@@ -14,11 +16,14 @@ export default class Site extends Component {
       siteName: PropTypes.string,
       siteUrl: PropTypes.string,
       siteLogo: PropTypes.object,
+      defaultUserGroup: PropTypes.string,
     }),
+    usergroups: PropTypes.object,
   }
   static defaultProps = {
     dispatch: null,
     site: null,
+    usergroups: null,
   }
 
   constructor(props) {
@@ -33,7 +38,10 @@ export default class Site extends Component {
   }
 
   render() {
-    const { siteName, siteUrl, siteLogo } = this.props.site;
+    const { usergroups, site } = this.props;
+    const { siteName, siteUrl, siteLogo, defaultUserGroup } = site;
+    const usergroupNames = usergroups.usergroups.map(u => ({ label: u.title, value: u._id }));
+
     return (
       <Page name="site-settings" onSubmit={this.handleSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title="Site Settings">
@@ -41,6 +49,15 @@ export default class Site extends Component {
         </TitleBar>
         <div className="content">
           <div className="page__inner">
+            <Dropdown
+              label="Default User Group"
+              instructions="The default user group new users will be assigned"
+              name="defaultUserGroup"
+              defaultValue={defaultUserGroup}
+              options={[{ label: 'Admin', value: 'admin' }, ...usergroupNames]}
+              onChange={this.handleDropdownChange}
+            />
+            <Checkbox label="Allow Public Registration" name="publicSignUp" />
             <Input label="Site Name" required name="siteName" defaultValue={siteName} full />
             <Input label="Site URL" required name="siteUrl" defaultValue={siteUrl} full />
             <Fields.Asset.component label="Site Logo" name="siteLogo" defaultValue={siteLogo} />

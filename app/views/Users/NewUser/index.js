@@ -19,7 +19,8 @@ export default class NewUser extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit() {
+  onSubmit(e) {
+    e.preventDefault();
     const { username, first, last, email } = this;
     this.props.dispatch(newUser({
       username: username.value,

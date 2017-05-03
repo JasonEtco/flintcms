@@ -7,6 +7,7 @@ const getUserPermissions = require('../../../utils/getUserPermissions');
 const sendEmail = require('../../../utils/emails/sendEmail');
 
 const User = mongoose.model('User');
+const Site = mongoose.model('Site');
 
 module.exports = {
   type: new GraphQLNonNull(outputType),
@@ -27,6 +28,9 @@ module.exports = {
     if (await User.findOne({ username })) throw new Error('There is already a user with that username.');
 
     const newUser = new User(args.user);
+
+    const { defaultUserGroup } = await Site.findOne();
+    newUser.usergroup = defaultUserGroup;
 
     newUser.password = await newUser.generateHash(password);
     const token = await randtoken.generate(16);
