@@ -20,6 +20,20 @@ router.post('/login', passport.authenticate('local-login', strategyOptions), (re
   res.redirect('/admin');
 });
 
+router.post('/setpassword', async (req, res) => {
+  const { token, password } = req.body;
+  const user = await User.findOne({ token });
+  if (!user) throw new Error('Cannot find user');
+
+  user.password = await user.generateHash(password);
+  user.token = undefined;
+
+  const savedUser = await user.save();
+  if (!savedUser) throw new Error('Could not save the User');
+
+  res.status(200).json({ success: true });
+});
+
 router.get('/verify', async (req, res) => {
   const token = req.query.t;
   const user = await User.findOne({ token });

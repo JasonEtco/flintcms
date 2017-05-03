@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
+import { post } from 'axios';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Notification from '../../components/Notification';
@@ -30,22 +31,12 @@ export default class Login extends Component {
     e.preventDefault();
     const { value } = this.password;
 
-    const query = `mutation ($token: String!, $password: String!) {
-      setPassword (token: $token, password: $password) {
-        _id
-      }
-    }`;
-
-    const variables = {
+    post('/admin/setpassword', {
       password: value,
       token: this.props.params.token,
-    };
-
-    graphFetcher(query, variables)
-      .then((res) => {
-        if (!res.data.errors) {
-          browserHistory.push('/admin/login');
-        }
+    })
+      .then(() => {
+        browserHistory.push('/admin/login');
       })
       .catch(() => {
         this.setState({ error: true });
