@@ -10,14 +10,19 @@ import MainNav from '../MainNav';
 
 export default class Main extends Component {
   static propTypes = {
-    site: t.site.isRequired,
+    site: t.site,
     socket: PropTypes.object.isRequired,
     ui: PropTypes.object.isRequired,
-    user: t.user.isRequired,
+    user: t.user,
     location: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    site: null,
+    user: null,
+  }
 
   componentDidMount() {
     const { dispatch, socket } = this.props;
