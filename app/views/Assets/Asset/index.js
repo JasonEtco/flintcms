@@ -12,12 +12,13 @@ export default class Asset extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
-    assets: t.assets.isRequired,
+    assets: t.assets,
     dispatch: PropTypes.func,
   }
 
   static defaultProps = {
     dispatch: null,
+    assets: null,
   }
 
   constructor(props) {

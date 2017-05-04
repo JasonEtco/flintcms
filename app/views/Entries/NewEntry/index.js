@@ -14,8 +14,8 @@ import t from '../../../utils/types';
 export default class NewEntry extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    sections: t.sections.isRequired,
-    fields: t.fields.isRequired,
+    sections: t.sections,
+    fields: t.fields,
     params: PropTypes.shape({
       section: PropTypes.string.isRequired,
     }).isRequired,
@@ -23,6 +23,8 @@ export default class NewEntry extends Component {
 
   static defaultProps = {
     dispatch: null,
+    sections: null,
+    fields: null,
   }
 
   constructor(props) {

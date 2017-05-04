@@ -14,9 +14,9 @@ const localStorageKey = 'flint:lastSection';
 
 export default class Entries extends Component {
   static propTypes = {
-    entries: t.entries.isRequired,
-    sections: t.sections.isRequired,
-    users: t.users.isRequired,
+    entries: t.entries,
+    sections: t.sections,
+    users: t.users,
     params: PropTypes.shape({
       section: PropTypes.string,
     }),
@@ -26,6 +26,9 @@ export default class Entries extends Component {
   static defaultProps = {
     params: null,
     dispatch: null,
+    entries: null,
+    sections: null,
+    users: null,
   }
 
   componentWillMount() {

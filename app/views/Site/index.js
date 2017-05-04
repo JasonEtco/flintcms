@@ -13,11 +13,13 @@ import t from '../../utils/types';
 export default class Site extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    site: t.site.isRequired,
-    usergroups: t.usergroups.isRequired,
+    site: t.site,
+    usergroups: t.usergroups,
   }
   static defaultProps = {
     dispatch: null,
+    site: null,
+    usergroups: null,
   }
 
   constructor(props) {

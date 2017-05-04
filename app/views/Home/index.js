@@ -8,9 +8,14 @@ import './Home.scss';
 
 export default class Home extends Component {
   static propTypes = {
-    entries: t.entries.isRequired,
-    sections: t.sections.isRequired,
-  };
+    entries: t.entries,
+    sections: t.sections,
+  }
+
+  static defaultProps = {
+    entries: null,
+    sections: null,
+  }
 
   render() {
     const { entries } = this.props.entries;

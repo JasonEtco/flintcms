@@ -8,7 +8,11 @@ import t from '../../../utils/types';
 
 export default class Users extends Component {
   static propTypes = {
-    users: t.users.isRequired,
+    users: t.users,
+  }
+
+  static defaultProps = {
+    users: null,
   }
 
   render() {

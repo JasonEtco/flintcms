@@ -9,7 +9,7 @@ import t from '../../../utils/types';
 export default class User extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    users: t.users.isRequired,
+    users: t.users,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,

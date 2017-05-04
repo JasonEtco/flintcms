@@ -10,12 +10,13 @@ import { deleteUserGroup } from '../../../actions/usergroupActions';
 
 export default class UserGroups extends Component {
   static propTypes = {
-    usergroups: t.usergroups.isRequired,
+    usergroups: t.usergroups,
     dispatch: PropTypes.func,
   }
 
   static defaultProps = {
     dispatch: null,
+    usergroups: null,
   }
 
   render() {

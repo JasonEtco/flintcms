@@ -11,8 +11,8 @@ import t from '../../../utils/types';
 export default class Section extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    fields: t.fields.isRequired,
-    sections: t.sections.isRequired,
+    fields: t.fields,
+    sections: t.sections,
     params: PropTypes.shape({
       slug: PropTypes.string.isRequired,
     }).isRequired,

@@ -12,7 +12,7 @@ import t from '../../../utils/types';
 export default class Field extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    fields: t.fields.isRequired,
+    fields: t.fields,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,

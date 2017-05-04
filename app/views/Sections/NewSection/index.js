@@ -12,11 +12,12 @@ import t from '../../../utils/types';
 export default class NewSection extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    fields: t.fields.isRequired,
+    fields: t.fields,
   }
 
   static defaultProps = {
     dispatch: null,
+    fields: null,
   }
 
   constructor(props) {

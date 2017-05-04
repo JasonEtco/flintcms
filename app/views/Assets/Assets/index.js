@@ -11,12 +11,13 @@ import t from '../../../utils/types';
 
 export default class Assets extends Component {
   static propTypes = {
-    assets: t.assets.isRequired,
+    assets: t.assets,
     dispatch: PropTypes.func,
   }
 
   static defaultProps = {
     dispatch: null,
+    assets: null,
   }
 
   indexAssets() {

@@ -16,7 +16,6 @@ export default class NewUserGroup extends Component {
 
   static defaultProps = {
     dispatch: null,
-    fields: null,
   }
 
   constructor(props) {

@@ -14,7 +14,9 @@ import ConfirmModal from '../../../components/Modals/ConfirmModal';
 
 export default class Entry extends Component {
   static propTypes = {
-    entries: t.entries.isRequired,
+    entries: t.entries,
+    fields: t.fields,
+    sections: t.sections,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
@@ -24,6 +26,9 @@ export default class Entry extends Component {
   static defaultProps = {
     title: '',
     dispatch: null,
+    entries: null,
+    fields: null,
+    sections: null,
   }
 
   constructor(props) {

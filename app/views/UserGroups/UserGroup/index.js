@@ -12,7 +12,7 @@ import t from '../../../utils/types';
 export default class UserGroup extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    usergroups: t.usergroups.isRequired,
+    usergroups: t.usergroups,
     params: PropTypes.shape({
       slug: PropTypes.string.isRequired,
     }).isRequired,
@@ -20,7 +20,6 @@ export default class UserGroup extends Component {
 
   static defaultProps = {
     dispatch: null,
-    fields: null,
     usergroups: null,
   }
 
