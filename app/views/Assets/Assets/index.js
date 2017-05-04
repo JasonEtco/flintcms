@@ -30,11 +30,11 @@ export default class Assets extends Component {
       key: props._id,
       image: {
         sortBy: false,
-        component: <a href={`/public/assets/${props.filename}`} rel="noopener noreferrer" target="_blank"><img src={`/public/assets/${props.filename}`} alt={props.filename} /></a>,
+        component: <Link to={`/admin/settings/assets/${props._id}`}><img src={`/public/assets/${props.filename}`} alt={props.filename} /></Link>,
       },
       title: {
         value: props.title,
-        component: <a href={`/public/assets/${props.filename}`} rel="noopener noreferrer" target="_blank">{props.title}</a>,
+        component: <Link to={`/admin/settings/assets/${props._id}`}>{props.title}</Link>,
       },
       filename: props.filename,
       size: formatBytes(props.size, 0),
