@@ -1,19 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Page from '../../containers/Page';
 import TitleBar from '../../components/TitleBar';
 import { getSlugFromId } from '../../utils/helpers';
+import t from '../../utils/types';
 import './Home.scss';
 
 export default class Home extends Component {
   static propTypes = {
-    entries: PropTypes.object,
-    sections: PropTypes.object,
-  };
-
-  static defaultProps = {
-    entries: null,
-    sections: null,
+    entries: t.entries.isRequired,
+    sections: t.sections.isRequired,
   };
 
   render() {

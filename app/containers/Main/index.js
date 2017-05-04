@@ -2,20 +2,18 @@ import React, { Component, PropTypes } from 'react';
 import fetchData from '../../actions/fetchData';
 import Toast from '../../components/Toast';
 import Modals from '../Modals';
-import types from '../../utils/types';
 import SocketEvents from '../../utils/socketEvents';
+import t from '../../utils/types';
 import './Main.scss';
 
 import MainNav from '../MainNav';
 
 export default class Main extends Component {
   static propTypes = {
-    ...types.entries,
-    ...types.sections,
-    site: PropTypes.object.isRequired,
+    site: t.site.isRequired,
     socket: PropTypes.object.isRequired,
     ui: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    user: t.user.isRequired,
     location: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,

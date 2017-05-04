@@ -4,11 +4,12 @@ import Page from '../../../containers/Page';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import TitleBar from '../../../components/TitleBar';
+import t from '../../../utils/types';
 
 export default class User extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    users: PropTypes.object,
+    users: t.users.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,

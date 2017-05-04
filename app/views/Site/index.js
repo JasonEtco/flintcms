@@ -8,22 +8,16 @@ import Checkbox from '../../components/Checkbox';
 import Dropdown from '../../components/Fields/Dropdown';
 import TitleBar from '../../components/TitleBar';
 import { updateSite } from '../../actions/siteActions';
+import t from '../../utils/types';
 
 export default class Site extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    site: PropTypes.shape({
-      siteName: PropTypes.string,
-      siteUrl: PropTypes.string,
-      siteLogo: PropTypes.object,
-      defaultUserGroup: PropTypes.string,
-    }),
-    usergroups: PropTypes.object,
+    site: t.site.isRequired,
+    usergroups: t.usergroups.isRequired,
   }
   static defaultProps = {
     dispatch: null,
-    site: null,
-    usergroups: null,
   }
 
   constructor(props) {

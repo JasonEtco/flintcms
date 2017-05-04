@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
-import types from '../../../utils/types';
+import t from '../../../utils/types';
 import { deleteEntry } from '../../../actions/entryActions';
 import { truncate, getIdFromSlug, getSlugFromId, formatDate, getPropFromProp } from '../../../utils/helpers';
 import DeleteIcon from '../../../components/DeleteIcon';
@@ -14,8 +14,18 @@ const localStorageKey = 'flint:lastSection';
 
 export default class Entries extends Component {
   static propTypes = {
-    ...types.entries,
-    ...types.sections,
+    entries: t.entries.isRequired,
+    sections: t.sections.isRequired,
+    users: t.users.isRequired,
+    params: PropTypes.shape({
+      section: PropTypes.string,
+    }),
+    dispatch: PropTypes.func,
+  }
+
+  static defaultProps = {
+    params: null,
+    dispatch: null,
   }
 
   componentWillMount() {

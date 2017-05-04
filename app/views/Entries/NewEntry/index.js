@@ -9,19 +9,20 @@ import Button from '../../../components/Button';
 import renderOption from '../../../utils/renderOption';
 import validateFields from '../../../utils/validateFields';
 import { getPropFromProp, slugify } from '../../../utils/helpers';
+import t from '../../../utils/types';
 
 export default class NewEntry extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    sections: PropTypes.object,
-    fields: PropTypes.object,
-    params: PropTypes.object.isRequired,
+    sections: t.sections.isRequired,
+    fields: t.fields.isRequired,
+    params: PropTypes.shape({
+      section: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
     dispatch: null,
-    sections: null,
-    fields: null,
   }
 
   constructor(props) {

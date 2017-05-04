@@ -7,12 +7,15 @@ import Button from '../../../components/Button';
 import Checkboxes from '../../../components/Checkbox/Checkboxes';
 import { updateUserGroup } from '../../../actions/usergroupActions';
 import permissions from '../../../../server/utils/permissions.json';
+import t from '../../../utils/types';
 
 export default class UserGroup extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    usergroups: PropTypes.object,
-    params: PropTypes.object.isRequired,
+    usergroups: t.usergroups.isRequired,
+    params: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {

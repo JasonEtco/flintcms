@@ -6,13 +6,16 @@ import Input from '../../../components/Input';
 import TitleBar from '../../../components/TitleBar';
 import Button from '../../../components/Button';
 import { updateSection } from '../../../actions/sectionActions';
+import t from '../../../utils/types';
 
 export default class Section extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    fields: PropTypes.object,
-    sections: PropTypes.object,
-    params: PropTypes.object.isRequired,
+    fields: t.fields.isRequired,
+    sections: t.sections.isRequired,
+    params: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {

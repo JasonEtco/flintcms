@@ -1,16 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { formatDate } from '../../../utils/helpers';
 import Page from '../../../containers/Page';
 import Table from '../../../components/Table';
 import DeleteIcon from '../../../components/DeleteIcon';
 import TitleBar from '../../../components/TitleBar';
-import types from '../../../utils/types';
+import t from '../../../utils/types';
 import { deleteField } from '../../../actions/fieldActions';
 
 export default class Fields extends Component {
   static propTypes = {
-    ...types.sections,
+    fields: t.fields.isRequired,
+    dispatch: PropTypes.func,
+  }
+
+  static defaultProps = {
+    dispatch: null,
   }
 
   render() {

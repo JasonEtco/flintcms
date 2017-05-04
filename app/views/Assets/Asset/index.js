@@ -5,18 +5,18 @@ import TitleBar from '../../../components/TitleBar';
 import Input from '../../../components/Input';
 import FileInput from '../../../components/FileInput';
 import Button from '../../../components/Button';
+import t from '../../../utils/types';
 
 export default class Asset extends Component {
   static propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
-    assets: PropTypes.object,
+    assets: t.assets.isRequired,
     dispatch: PropTypes.func,
   }
 
   static defaultProps = {
-    assets: null,
     dispatch: null,
   }
 

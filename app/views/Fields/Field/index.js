@@ -7,12 +7,15 @@ import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import TitleBar from '../../../components/TitleBar';
 import FieldOptions from '../../../components/FieldOptions';
+import t from '../../../utils/types';
 
 export default class Field extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    fields: PropTypes.object,
-    params: PropTypes.object.isRequired,
+    fields: t.fields.isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
     location: PropTypes.object.isRequired,
   }
 

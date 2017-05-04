@@ -7,15 +7,15 @@ import Table from '../../../components/Table';
 import Button from '../../../components/Button';
 import TitleBar from '../../../components/TitleBar';
 import { deleteAsset, indexAssets } from '../../../actions/assetActions';
+import t from '../../../utils/types';
 
 export default class Assets extends Component {
   static propTypes = {
-    assets: PropTypes.object,
+    assets: t.assets.isRequired,
     dispatch: PropTypes.func,
   }
 
   static defaultProps = {
-    assets: null,
     dispatch: null,
   }
 

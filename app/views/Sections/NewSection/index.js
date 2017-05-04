@@ -7,16 +7,16 @@ import Input from '../../../components/Input';
 import TitleBar from '../../../components/TitleBar';
 import Button from '../../../components/Button';
 import { slugify } from '../../../utils/helpers';
+import t from '../../../utils/types';
 
 export default class NewSection extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    fields: PropTypes.object,
+    fields: t.fields.isRequired,
   }
 
   static defaultProps = {
     dispatch: null,
-    fields: null,
   }
 
   constructor(props) {

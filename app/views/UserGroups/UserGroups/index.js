@@ -1,16 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { formatDate } from '../../../utils/helpers';
 import Page from '../../../containers/Page';
 import Table from '../../../components/Table';
 import TitleBar from '../../../components/TitleBar';
-import types from '../../../utils/types';
+import t from '../../../utils/types';
 import DeleteIcon from '../../../components/DeleteIcon';
 import { deleteUserGroup } from '../../../actions/usergroupActions';
 
 export default class UserGroups extends Component {
   static propTypes = {
-    ...types.usergroups,
+    usergroups: t.usergroups.isRequired,
+    dispatch: PropTypes.func,
+  }
+
+  static defaultProps = {
+    dispatch: null,
   }
 
   render() {

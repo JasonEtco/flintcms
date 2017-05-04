@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
-import types from '../../../utils/types';
+import t from '../../../utils/types';
 import renderOption from '../../../utils/renderOption';
 import validateFields from '../../../utils/validateFields';
 import Page from '../../../containers/Page';
@@ -14,14 +14,16 @@ import ConfirmModal from '../../../components/Modals/ConfirmModal';
 
 export default class Entry extends Component {
   static propTypes = {
-    ...types.entries,
+    entries: t.entries.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
+    dispatch: PropTypes.func,
   }
 
   static defaultProps = {
     title: '',
+    dispatch: null,
   }
 
   constructor(props) {

@@ -1,17 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { formatDate } from '../../../utils/helpers';
 import Page from '../../../containers/Page';
 import TitleBar from '../../../components/TitleBar';
 import Table from '../../../components/Table';
+import t from '../../../utils/types';
 
 export default class Users extends Component {
   static propTypes = {
-    users: PropTypes.object,
-  }
-
-  static defaultProps = {
-    users: null,
+    users: t.users.isRequired,
   }
 
   render() {
