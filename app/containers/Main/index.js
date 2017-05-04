@@ -48,7 +48,7 @@ export default class Main extends Component {
         })}
 
         <div className="toasts">
-          {ui.toasts.map(t => <Toast dispatch={dispatch} key={t.dateCreated} {...t} />)}
+          {ui.toasts.map(toast => <Toast dispatch={dispatch} key={toast.dateCreated} {...toast} />)}
         </div>
         <Modals {...this.props} />
       </main>
