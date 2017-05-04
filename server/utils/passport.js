@@ -7,7 +7,6 @@ const strategyOptions = {
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true,
-  failureRedirect: '/admin/login',
 };
 
 module.exports = (passport) => {

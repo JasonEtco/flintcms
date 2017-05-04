@@ -122,7 +122,11 @@ export default async function bigFetch() {
   const { data, errors } = await graphFetcher(query);
 
   if (data.status === 401) {
-    dispatch(push(`${data.redirect}?p=${location.pathname}`));
+    if (location.pathname !== '/admin') {
+      dispatch(push(data.redirect));
+    } else {
+      dispatch(push(`${data.redirect}?p=${location.pathname}`));
+    }
     return;
   }
 

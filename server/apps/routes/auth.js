@@ -10,17 +10,12 @@ const strategyOptions = {
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true,
-  failureRedirect: '/admin/login',
 };
 
 router.post('/signup', passport.authenticate('local-signup', strategyOptions));
 
 router.post('/login', passport.authenticate('local-login', strategyOptions), (req, res) => {
-  if (req.query.p) {
-    res.redirect(req.query.p);
-  } else {
-    res.redirect('/admin');
-  }
+  res.json({ success: true });
 });
 
 router.post('/setpassword', async (req, res) => {
@@ -34,6 +29,7 @@ router.post('/setpassword', async (req, res) => {
   const savedUser = await user.save();
   if (!savedUser) throw new Error('Could not save the User');
 
+  req.login(savedUser);
   res.status(200).json({ success: true });
 });
 
