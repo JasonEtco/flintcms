@@ -15,7 +15,7 @@
 
 module.exports = {
   siteName: 'Generic Example Title',
-  siteUrl: 'http://example.com',
+  siteUrl: 'https://blog.jasonet.co',
   debugMode: true,
   scssEntryPoint: 'scss/main.scss',
 };
