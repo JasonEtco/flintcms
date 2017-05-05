@@ -99,6 +99,7 @@ export default class NewField extends Component {
               options={options}
               label="Field Type"
               onChange={this.handleTypeChange}
+              alphabetize
               instructions="The kind of field presented in the dashboard."
               ref={(r) => { this.type = r; }}
             />

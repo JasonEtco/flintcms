@@ -112,6 +112,7 @@ export default class Field extends Component {
               onChange={this.handleTypeChange}
               label="Field Type"
               defaultValue={this.state.type}
+              alphabetize
               instructions="The kind of field presented in the dashboard."
               ref={(r) => { this.type = r; }}
             />

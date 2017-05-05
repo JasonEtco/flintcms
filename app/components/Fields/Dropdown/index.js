@@ -24,6 +24,7 @@ export default class Dropdown extends Component {
     defaultValue: string,
     onChange: func,
     children: any,
+    alphabetize: bool,
   }
 
   static defaultProps = {
@@ -33,6 +34,7 @@ export default class Dropdown extends Component {
     defaultValue: null,
     onChange: f => f,
     children: null,
+    alphabetize: false,
   }
 
   constructor(props) {
@@ -70,8 +72,16 @@ export default class Dropdown extends Component {
   }
 
   render() {
-    const { options, label, instructions, name, full, children } = this.props;
+    const { options, label, instructions, name, full, children, alphabetize } = this.props;
     const { value, open } = this.state;
+
+    const alphabetizeSort = (a, b) => {
+      if (a.label < b.label) return -1;
+      if (a.label > b.label) return 1;
+      return 0;
+    };
+
+    const sorted = alphabetize ? options.sort(alphabetizeSort) : options;
 
     const classes = classnames(
       'dropdown',
@@ -88,7 +98,7 @@ export default class Dropdown extends Component {
         >{typeof options[0] === 'string' ? value : options.find(opt => opt.value === value).label}</button>
 
         <div className="dropdown__options">
-          {options.map(opt => (
+          {sorted.map(opt => (
             <button
               role="option"
               type="button"
