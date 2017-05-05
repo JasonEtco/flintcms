@@ -3,14 +3,9 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
-
 const router = express.Router();
 
-const strategyOptions = {
-  usernameField: 'email',
-  passwordField: 'password',
-  passReqToCallback: true,
-};
+const strategyOptions = { passReqToCallback: true };
 
 router.post('/signup', passport.authenticate('local-signup', strategyOptions));
 

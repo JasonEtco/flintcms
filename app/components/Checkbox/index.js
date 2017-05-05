@@ -31,11 +31,13 @@ export default class Checkbox extends Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.state = { checked: props.value || props.defaultValue };
+    this.value = props.value || props.defaultValue;
   }
 
   toggle() {
     this.setState({ checked: !this.state.checked }, () => {
       if (this.props.onChange) this.props.onChange(this.state.checked);
+      this.value = this.state.checked;
     });
   }
 

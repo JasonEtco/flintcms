@@ -17,6 +17,7 @@ export function updateSite(data) {
         siteUrl
         siteName
         defaultUserGroup
+        allowPublicRegistration
       }
     }`;
 

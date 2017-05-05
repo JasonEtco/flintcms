@@ -16,6 +16,7 @@ const query = `{
     siteName
     siteLogo
     style
+    allowPublicRegistration
   }
 
   entries {

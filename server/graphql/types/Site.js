@@ -1,4 +1,4 @@
-const { GraphQLInputObjectType, GraphQLObjectType, GraphQLString } = require('graphql');
+const { GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLBoolean } = require('graphql');
 const { ObjectType } = require('./CustomTypes');
 
 exports.outputType = new GraphQLObjectType({
@@ -9,6 +9,7 @@ exports.outputType = new GraphQLObjectType({
     siteUrl: { type: GraphQLString },
     style: { type: GraphQLString },
     siteLogo: { type: ObjectType },
+    allowPublicRegistration: { type: GraphQLBoolean },
   },
 });
 
@@ -20,5 +21,6 @@ exports.inputType = new GraphQLInputObjectType({
     siteUrl: { type: GraphQLString },
     style: { type: GraphQLString },
     siteLogo: { type: ObjectType },
+    allowPublicRegistration: { type: GraphQLBoolean },
   },
 });

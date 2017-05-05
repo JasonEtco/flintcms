@@ -30,12 +30,12 @@ export default class Site extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const data = serialize(this.page.form, { hash: true });
-    this.props.dispatch(updateSite(data));
+    this.props.dispatch(updateSite({ ...data, allowPublicRegistration: this.c.value }));
   }
 
   render() {
     const { usergroups, site } = this.props;
-    const { siteName, siteUrl, siteLogo, defaultUserGroup } = site;
+    const { siteName, siteUrl, siteLogo, defaultUserGroup, allowPublicRegistration } = site;
     const usergroupNames = usergroups.usergroups.map(u => ({ label: u.title, value: u._id }));
 
     return (
@@ -53,7 +53,7 @@ export default class Site extends Component {
               options={[{ label: 'Admin', value: 'admin' }, ...usergroupNames]}
               onChange={this.handleDropdownChange}
             />
-            <Checkbox label="Allow Public Registration" name="publicSignUp" />
+            <Checkbox ref={(r) => { this.c = r; }} label="Allow Public Registration" name="allowPublicRegistration" defaultValue={allowPublicRegistration} />
             <Input label="Site Name" required name="siteName" defaultValue={siteName} full />
             <Input label="Site URL" required name="siteUrl" defaultValue={siteUrl} full />
             <Fields.Asset.component label="Site Logo" name="siteLogo" defaultValue={siteLogo} />

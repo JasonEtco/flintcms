@@ -44,6 +44,7 @@ app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
 app.use('/admin', require('./apps/admin'));
 app.use('/graphql', require('./apps/graphql'));
+app.use(require('./utils/publicRegistration'));
 
 
 // ===== Template Routes

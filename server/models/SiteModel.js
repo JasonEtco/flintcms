@@ -19,6 +19,10 @@ const SiteSchema = new Schema({
     type: Schema.Types.Mixed,
   },
   style: String,
+  allowPublicRegistration: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('Site', SiteSchema, 'site');
