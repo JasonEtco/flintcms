@@ -11,8 +11,8 @@ export default class FieldOptions extends Component {
   render() {
     const { fields, type } = this.props;
     return (
-      <div>
-        <h3>{type} Options</h3>
+      <div style={{ marginTop: '2em' }}>
+        <p className="input__label">{type} Options</p>
         {(fields[type].fields || []).map((F, i) => <F.type key={i} {...F} name={`options[${F.name}]`} />)}
       </div>
     );

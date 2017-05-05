@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import Icon from '../../utils/icons';
+import './List.scss';
 
 export default class List extends Component {
   static propTypes = {
@@ -9,28 +11,40 @@ export default class List extends Component {
   }
 
   static defaultProps = {
-    items: [],
+    items: [''],
     label: null,
     instructions: null,
   }
 
   constructor(props) {
     super(props);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.addRow = this.addRow.bind(this);
+    this.removeRow = this.removeRow.bind(this);
     this.state = { items: props.items };
   }
 
-  handleKeyPress(e) {
-    if (e.which === 13) {
-      e.preventDefault();
-      const { items } = this.state;
-      const { value } = e.target;
+  handleInputChange(event, i) {
+    const { value } = event.target;
+    const { items } = this.state;
+    this.setState({ items: [
+      ...items.slice(0, i),
+      value,
+      ...items.slice(i + 1),
+    ] });
+  }
 
-      if (items.indexOf(value) === -1) {
-        this.setState({ items: [...this.state.items, e.target.value] });
-      }
-      e.target.value = ''; // eslint-disable-line no-param-reassign
-    }
+  addRow() {
+    const { items } = this.state;
+    this.setState({ items: [...items, ''] });
+  }
+
+  removeRow(i) {
+    const { items } = this.state;
+    this.setState({ items: [
+      ...items.slice(0, i),
+      ...items.slice(i + 1),
+    ] });
   }
 
   render() {
@@ -41,13 +55,23 @@ export default class List extends Component {
       <div className="list-wrapper form-element">
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <table>
+        <table className="list__table">
           <tbody>
-            {items.map(item => <tr key={item}><td>{item}</td></tr>)}
+            {items.map((item, i) => ( // eslint-disable-next-line react/no-array-index-key
+              <tr key={i} className="list__table__row">
+                <td className="list__table__cell">
+                  <input className="list__table__cell__input" onChange={e => this.handleInputChange(e, i)} value={item} />
+                </td>
+                <td className="list__table__cell list__table__cell--remove">
+                  <button onClick={() => this.removeRow(i)} className="list__table__cell__btn" type="button">
+                    <Icon width={9} height={9} icon="cross" />
+                  </button>
+                </td>
+              </tr>))}
           </tbody>
         </table>
 
-        <input type="text" onKeyPress={e => this.handleKeyPress(e)} />
+        <button className="list__btn" type="button" onClick={this.addRow}>Add Row <Icon icon="plus" width={9} height={9} /></button>
         {items.map((item, i) => <input key={item} type="text" hidden readOnly value={item} name={`${name}[${i}]`} />)}
       </div>
     );

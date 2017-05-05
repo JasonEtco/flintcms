@@ -1,0 +1,64 @@
+.list {
+    &-wrapper {
+        width: 100%;
+    }
+
+    &__table {
+        width: 100%;
+        border: 1px solid $grey-light;
+        border-radius: 3px;
+        border-collapse: collapse;
+        font-size: $size0;
+
+        &__row {
+            &:nth-child(even) {
+                background-color: lighten($grey-light, 10%);
+            }
+        }
+
+        &__cell {
+            margin: 0;
+
+            &__input {
+                box-sizing: border-box;
+                width: 100%;
+                padding: 0.6em;
+                border: none;
+                margin: 0;
+                background-color: transparent;
+                font-family: inherit;
+                outline: none;
+                @extend %focus;
+            }
+
+            &__btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.5em;
+                height: 1.5em;
+                border: none;
+                border-radius: 50%;
+                margin-left: 1em;
+                background: rgba(black, 0.1);
+                cursor: pointer;
+
+                &:hover { background-color: rgba(black, 0.2); }
+
+                svg { fill: $grey; }
+            }
+
+            &--remove {
+                width: 3em;
+            }
+        }
+    }
+
+    &__btn {
+        border: 1px solid $grey;
+        margin-top: 0.6em;
+        background: lighten($grey-light, 10%);
+        font-size: $size0;
+        font-family: inherit;
+    }
+}
