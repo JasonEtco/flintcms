@@ -5,6 +5,7 @@ import TitleBar from '../../../components/TitleBar';
 import Input from '../../../components/Input';
 import FileInput from '../../../components/FileInput';
 import Button from '../../../components/Button';
+import Fields from '../../../components/Fields';
 import t from '../../../utils/types';
 
 export default class Asset extends Component {
@@ -29,20 +30,9 @@ export default class Asset extends Component {
   onSubmit(e) {
     e.preventDefault();
     const { id } = this.props.params;
+    const { value } = this.title;
 
-    if (!this.upload.asset.value) {
-      // eslint-disable-next-line no-alert
-      alert('Please select an image to upload');
-    } else if (!this.upload.asset.value.match(/(?:gif|jpg|png|bmp|jpeg)$/)) {
-      // eslint-disable-next-line no-alert
-      alert('The uploaded file is not an image!');
-    } else {
-      const formData = new FormData();
-      formData.append('title', this.title.value);
-      formData.append('file', this.upload.asset.files[0], this.upload.asset.files[0].name);
-
-      this.props.dispatch(updateAsset(formData, id));
-    }
+    this.props.dispatch(updateAsset({ title: value }, id));
   }
 
   render() {
@@ -57,31 +47,27 @@ export default class Asset extends Component {
     ];
 
     return (
-      <Page name="asset" links={links}>
+      <Page name="asset" links={links} onSubmit={this.onSubmit}>
         <TitleBar title={asset.title}>
-          <Button onClick={this.onSubmit} small>Save</Button>
+          <Button small type="submit">Save</Button>
         </TitleBar>
         <div className="content">
           <div className="page__inner">
-            <form onSubmit={this.onSubmit} ref={(r) => { this.form = r; }}>
-              <Input
-                name="title"
-                label="Asset Title"
-                ref={(r) => { this.title = r; }}
-                required
-                full
-                defaultValue={asset.title}
-              />
+            <Input
+              name="title"
+              label="Asset Title"
+              ref={(r) => { this.title = r; }}
+              required
+              full
+              defaultValue={asset.title}
+            />
 
-              <FileInput
-                name="asset"
-                label="Choose Asset"
-                ref={(r) => { this.upload = r; }}
-                required
-                full
-                defaultValue={asset}
-              />
-            </form>
+            <Fields.Asset.component
+              label={asset.title}
+              name="asset"
+              defaultValue={asset}
+              readOnly
+            />
           </div>
         </div>
       </Page>

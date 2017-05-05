@@ -1,29 +1,31 @@
 .asset {
+    &__img-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 8rem;
+        height: 8rem;
+        padding: 1em;
+        border-radius: 3px;
+        border: 1px solid $grey-light;
+
+        img { max-width: 100%; }
+    }
+
     &__btn {
         padding: 0;
         border: none;
         margin: 0;
         background: none;
+        cursor: pointer;
         @extend %focus;
 
         svg {
             fill: $grey-light;
         }
 
-        &__img-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 8rem;
-            height: 8rem;
-            padding: 1em;
-            border: 1px solid $grey-light;
-            border-radius: 3px;
-            cursor: pointer;
-
-            img { max-width: 100%; }
-
-            &:hover {
+        &:hover {
+            .asset__img-wrapper {
                 border-color: $grey;
             }
         }

@@ -1,7 +1,9 @@
+import update from 'immutability-helper';
 import {
   REQUEST_ASSETS,
   RECEIVE_ASSETS,
   NEW_ASSET,
+  UPDATE_ASSET,
   DELETE_ASSET,
 } from '../actions/assetActions';
 
@@ -32,6 +34,21 @@ export default function assets(state = {}, action) {
         assets: [
           ...state.assets,
           action.addAsset,
+        ],
+      };
+    }
+
+    case UPDATE_ASSET: {
+      console.log(action);
+      const assetIndex = state.assets.findIndex(asset => asset._id === action._id);
+      if (assetIndex === -1) return state;
+
+      return {
+        ...state,
+        assets: [
+          ...state.assets.slice(0, assetIndex),
+          update(state.assets[assetIndex], { $merge: action.updatedAsset }),
+          ...state.assets.slice(assetIndex + 1),
         ],
       };
     }

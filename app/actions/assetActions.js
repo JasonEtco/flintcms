@@ -1,5 +1,5 @@
 import React from 'react';
-import { post, put } from 'axios';
+import { post } from 'axios';
 import { push } from 'react-router-redux';
 import graphFetcher from '../utils/graphFetcher';
 import { newToast, errorToasts } from './uiActions';
@@ -34,17 +34,26 @@ export function newAsset(formData) {
  * adds it to the database.
  * @param {Object} formData - Form formData
  */
-export function updateAsset(formData, _id) {
-  return dispatch =>
-    put(`/admin/api/assets/${_id}`, formData, {
-      withCredentials: true,
-    }).then(res => res.json())
-      .then((json) => {
-        dispatch(newToast('You did it!'));
-        const { updateAsset: updatedAsset } = json.data.data;
-        dispatch({ type: UPDATE_ASSET, updateAsset: updatedAsset });
+export function updateAsset(asset, _id) {
+  return (dispatch) => {
+    const query = `mutation ($data: AssetInput!, $_id: ID!) {
+      updateAsset(_id: $_id, data: $data) {
+        title
+      }
+    }`;
+
+    return graphFetcher(query, { _id, data: asset })
+      .then(({ data }) => {
+        const { updateAsset: updatedAsset } = data.data;
+
+        dispatch({ type: UPDATE_ASSET, _id, updatedAsset });
+        dispatch(newToast({
+          message: <span><b>{updatedAsset.title}</b> has been deleted.</span>,
+          style: 'success',
+        }));
       })
       .catch(errorToasts);
+  };
 }
 
 /**

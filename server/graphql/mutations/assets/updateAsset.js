@@ -1,4 +1,4 @@
-const { GraphQLNonNull } = require('graphql');
+const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
 const { inputType, outputType } = require('../../types/Assets');
@@ -11,6 +11,10 @@ module.exports = {
     data: {
       name: 'data',
       type: new GraphQLNonNull(inputType),
+    },
+    _id: {
+      name: '_id',
+      type: new GraphQLNonNull(GraphQLID),
     },
   },
   async resolve(root, { data, _id }) {
