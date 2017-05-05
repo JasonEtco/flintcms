@@ -40,7 +40,8 @@ const inputType = new GraphQLInputObjectType({
       type: new GraphQLNonNull(GraphQLString),
     },
     required: {
-      type: new GraphQLNonNull(GraphQLBoolean),
+      type: GraphQLBoolean,
+      defaultValue: false,
     },
     instructions: {
       type: GraphQLString,

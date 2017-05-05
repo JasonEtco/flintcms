@@ -48,6 +48,7 @@ const query = `{
     slug
     handle
     required
+    options
   }
 
   sections {

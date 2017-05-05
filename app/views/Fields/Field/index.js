@@ -50,7 +50,8 @@ export default class Field extends Component {
   render() {
     const { Dropdown, Toggle } = Fields;
     const { fields, params } = this.props;
-    const { slug, title, instructions } = fields.fields.find(e => e._id === params.id);
+    const field = fields.fields.find(e => e._id === params.id);
+    const { slug, title, instructions } = field;
     const options = Object.keys(Fields).map(n => ({ label: n, value: n }));
 
     const links = [
@@ -114,7 +115,7 @@ export default class Field extends Component {
               ref={(r) => { this.type = r; }}
             />
 
-            <FieldOptions fields={Fields} type={this.state.type} />
+            <FieldOptions fields={Fields} type={this.state.type} field={field} />
           </div>
         </div>
       </Page>

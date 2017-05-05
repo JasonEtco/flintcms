@@ -2,23 +2,28 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import './Dropdown.scss';
 
+const { string, arrayOf, oneOfType, shape, object, bool, func, any } = PropTypes;
+
 export const DropdownChild = ({ children }) => <div className="dropdown__child">{children}</div>;
-DropdownChild.propTypes = { children: PropTypes.any.isRequired };
+DropdownChild.propTypes = { children: any.isRequired };
 
 export default class Dropdown extends Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      component: PropTypes.object,
-      value: PropTypes.string.isRequired,
-    })).isRequired,
-    label: PropTypes.string,
-    instructions: PropTypes.string,
-    full: PropTypes.bool,
-    defaultValue: PropTypes.string,
-    onChange: PropTypes.func,
-    children: PropTypes.any,
+    name: string.isRequired,
+    options: oneOfType([
+      arrayOf(shape({
+        label: string.isRequired,
+        component: object,
+        value: string.isRequired,
+      })),
+      arrayOf(string),
+    ]).isRequired,
+    label: string,
+    instructions: string,
+    full: bool,
+    defaultValue: string,
+    onChange: func,
+    children: any,
   }
 
   static defaultProps = {
@@ -37,12 +42,13 @@ export default class Dropdown extends Component {
     this.hide = this.hide.bind(this);
     this.onClick = this.onClick.bind(this);
 
+    const value = props.defaultValue || props.options[0].value || props.options[0];
     this.state = {
       open: false,
-      value: props.defaultValue || props.options[0].value,
+      value,
     };
 
-    this.value = props.defaultValue || props.options[0].value;
+    this.value = value;
   }
 
   componentDidMount() { window.addEventListener('click', this.hide); }
@@ -79,17 +85,17 @@ export default class Dropdown extends Component {
           className="dropdown__btn"
           type="button"
           onClick={this.handleToggle}
-        >{options.find(opt => opt.value === value).label}</button>
+        >{typeof options[0] === 'string' ? value : options.find(opt => opt.value === value).label}</button>
 
         <div className="dropdown__options">
           {options.map(opt => (
             <button
               role="option"
               type="button"
-              key={opt.value}
-              onClick={() => this.onClick(opt.value)}
+              key={opt.value || opt}
+              onClick={() => this.onClick(opt.value || opt)}
               className={value === opt.value ? 'dropdown__opt is-active' : 'dropdown__opt'}
-            >{opt.component || opt.label}</button>
+            >{opt.component || opt.label || opt}</button>
           ))}
         </div>
       </div>

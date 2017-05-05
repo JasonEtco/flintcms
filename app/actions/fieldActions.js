@@ -101,7 +101,7 @@ export function deleteField(_id) {
 
     return graphFetcher(query, variables)
       .then((json) => {
-        const { removeField } = json.data;
+        const { removeField } = json.data.data;
         dispatch({ type: DELETE_FIELD, id: removeField._id });
         dispatch(newToast({
           message: <span><b>{removeField.title}</b> has been deleted.</span>,

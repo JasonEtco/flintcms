@@ -14,6 +14,7 @@ export default function renderOption(field, value) {
     label: field.title,
     instructions: field.instructions,
     defaultValue: value,
+    ...field.options,
   };
 
   const Component = Fields[field.type].component;
