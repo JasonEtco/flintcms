@@ -36,7 +36,9 @@ export default class List extends Component {
 
   addRow() {
     const { items } = this.state;
-    this.setState({ items: [...items, ''] });
+    this.setState({ items: [...items, ''] }, () => {
+      this[`input--${items.length}`].focus();
+    });
   }
 
   removeRow(i) {
@@ -60,7 +62,7 @@ export default class List extends Component {
             {items.map((item, i) => ( // eslint-disable-next-line react/no-array-index-key
               <tr key={i} className="list__table__row">
                 <td className="list__table__cell">
-                  <input className="list__table__cell__input" onChange={e => this.handleInputChange(e, i)} value={item} />
+                  <input ref={(r) => { this[`input--${i}`] = r; }} className="list__table__cell__input" onChange={e => this.handleInputChange(e, i)} value={item} />
                 </td>
                 <td className="list__table__cell list__table__cell--remove">
                   <button onClick={() => this.removeRow(i)} className="list__table__cell__btn" type="button">
