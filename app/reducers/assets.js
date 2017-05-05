@@ -39,7 +39,6 @@ export default function assets(state = {}, action) {
     }
 
     case UPDATE_ASSET: {
-      console.log(action);
       const assetIndex = state.assets.findIndex(asset => asset._id === action._id);
       if (assetIndex === -1) return state;
 
