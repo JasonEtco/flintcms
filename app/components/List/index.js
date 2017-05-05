@@ -19,9 +19,17 @@ export default class List extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.addRow = this.addRow.bind(this);
     this.removeRow = this.removeRow.bind(this);
     this.state = { items: props.items };
+  }
+
+  handleKeyPress(e) {
+    if (e.which === 13) {
+      e.preventDefault();
+      if (e.target.value !== '') this.addRow();
+    }
   }
 
   handleInputChange(event, i) {
@@ -62,14 +70,21 @@ export default class List extends Component {
             {items.map((item, i) => ( // eslint-disable-next-line react/no-array-index-key
               <tr key={i} className="list__table__row">
                 <td className="list__table__cell">
-                  <input ref={(r) => { this[`input--${i}`] = r; }} className="list__table__cell__input" onChange={e => this.handleInputChange(e, i)} value={item} />
+                  <input
+                    ref={(r) => { this[`input--${i}`] = r; }}
+                    className="list__table__cell__input"
+                    onKeyPress={this.handleKeyPress}
+                    onChange={e => this.handleInputChange(e, i)}
+                    value={item}
+                  />
                 </td>
                 <td className="list__table__cell list__table__cell--remove">
                   <button onClick={() => this.removeRow(i)} className="list__table__cell__btn" type="button">
                     <Icon width={9} height={9} icon="cross" />
                   </button>
                 </td>
-              </tr>))}
+              </tr>
+            ))}
           </tbody>
         </table>
 
