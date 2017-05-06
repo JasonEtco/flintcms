@@ -12,6 +12,7 @@ import FourOhFour from './views/404';
 
 import Login from './views/Login';
 import SetPassword from './views/SetPassword';
+import ForgotPassword from './views/ForgotPassword';
 
 import User from './views/Users/User';
 import Users from './views/Users/Users';
@@ -83,6 +84,7 @@ const storeWrapper = (
 
       <Route path="/admin/login" component={Login} />
       <Route path="/admin/sp/:token" component={SetPassword} />
+      <Route path="/admin/fp" component={ForgotPassword} />
 
       <Route path="*" component={FourOhFour} />
     </Router>

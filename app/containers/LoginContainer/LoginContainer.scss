@@ -33,4 +33,14 @@
     .btn { padding: 1em; }
 
     .input { margin-bottom: 1em; }
+
+    &__forgot {
+        margin-top: 1em;
+        color: $grey;
+        font-size: $size0;
+
+        &:hover {
+            color: $grey-dark;
+        }
+    }
 }
