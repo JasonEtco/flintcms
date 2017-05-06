@@ -25,6 +25,12 @@ transporter.verify((error) => {
   }
 });
 
+/**
+ * Send an email
+ * @param {String} to - To whom will the email be sent
+ * @param {String} template - Email template
+ * @param {Object} data - Data object
+ */
 async function sendEmail(to, template, data) {
   const html = await compile(template, Object.assign(data, config));
   const text = htmlToText.fromString(html);

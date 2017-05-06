@@ -6,13 +6,17 @@ import './Aside.scss';
 
 export default class Aside extends Component {
   static propTypes = {
+    noStatus: PropTypes.bool,
     status: PropTypes.oneOf(['live', 'draft', 'disabled']),
     dateCreated: PropTypes.number,
+    children: PropTypes.object,
   }
 
   static defaultProps = {
+    noStatus: false,
     status: 'draft',
     dateCreated: undefined,
+    children: null,
   }
 
   constructor(props) {
@@ -26,11 +30,11 @@ export default class Aside extends Component {
 
   render() {
     const { status } = this.state;
-    const { dateCreated } = this.props;
+    const { dateCreated, children, noStatus } = this.props;
 
     return (
       <aside className="aside">
-        <Dropdown
+        {!noStatus && <Dropdown
           name="status"
           label="Status"
           full
@@ -43,9 +47,11 @@ export default class Aside extends Component {
           ]}
         >
           <StatusDot status={this.state.status} />
-        </Dropdown>
+        </Dropdown>}
 
         <DatePicker name="dateCreated" label="Date Created" value={dateCreated} />
+
+        {children}
       </aside>
     );
   }

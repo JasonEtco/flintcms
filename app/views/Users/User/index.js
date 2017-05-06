@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { updateUser, userDetails } from '../../../actions/userActions';
+import { updateUser, userDetails, sendPasswordReset } from '../../../actions/userActions';
 import Page from '../../../containers/Page';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import TitleBar from '../../../components/TitleBar';
+import Aside from '../../../containers/Aside';
 import t from '../../../utils/types';
 
 export default class User extends Component {
@@ -43,6 +44,11 @@ export default class User extends Component {
         last: last.value,
       },
     }));
+  }
+
+  sendPasswordReset() {
+    const { id } = this.props.params;
+    this.props.dispatch(sendPasswordReset(id));
   }
 
   render() {
@@ -102,6 +108,10 @@ export default class User extends Component {
               defaultValue={user.name.last}
             />
           </div>
+
+          <Aside noStatus dateCreated={user.dateCreated}>
+            <Button small formElement onClick={this.sendPasswordReset}>Reset Password</Button>
+          </Aside>
         </div>
       </Page>
     );

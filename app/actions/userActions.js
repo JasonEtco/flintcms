@@ -95,3 +95,28 @@ export function userDetails(_id) {
       .catch(errorToasts);
   };
 }
+
+/**
+ * Reset a user's password
+ * @param {String} _id - Id of the user
+ */
+export function sendPasswordReset(_id) {
+  return (dispatch) => {
+    const query = `{
+      mutation ($_id: ID!) {
+        resetPassword (_id: $_id) {
+          _id
+        }
+      }
+    }`;
+
+    return graphFetcher(query, { _id })
+      .then(() => {
+        dispatch(newToast({
+          message: 'Password reset email has been sent.',
+          style: 'success',
+        }));
+      })
+      .catch(errorToasts);
+  };
+}
