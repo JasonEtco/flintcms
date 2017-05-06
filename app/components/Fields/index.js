@@ -6,15 +6,12 @@ import RichText from './RichText';
 import Asset from './Asset';
 import Toggle from './Toggle';
 import List from '../List';
-import Checkbox from '../Checkbox';
 import Checkboxes from '../Checkbox/Checkboxes';
 
 export default {
   Dropdown: {
     component: Dropdown,
-    fields: [
-      { type: List, name: 'options' },
-    ],
+    fields: [{ type: List, name: 'options' }],
   },
   Text: {
     component: Text,
@@ -22,12 +19,6 @@ export default {
       full: true,
     },
     fields: [
-      {
-        type: Text,
-        label: 'Instructions',
-        instructions: 'Text that appears above the field, to give some instructions to the user.',
-        name: 'instructions',
-      },
       {
         type: Text,
         label: 'Placeholder Text',
@@ -39,6 +30,27 @@ export default {
         label: 'Max Length',
         instructions: 'The maximum number of characters allowed for this field.',
         name: 'maxLength',
+      },
+    ],
+  },
+  Number: {
+    component: Numeric,
+    fields: [
+      {
+        type: Numeric,
+        label: 'Maximum Value',
+        name: 'max',
+      },
+      {
+        type: Numeric,
+        label: 'Minimum Value',
+        name: 'min',
+      },
+      {
+        type: Numeric,
+        label: 'Step',
+        instructions: 'By how much will each change increment.',
+        name: 'step',
       },
     ],
   },
@@ -60,16 +72,18 @@ export default {
       },
     ],
   },
-  Checkbox: {
-    component: Checkbox,
-  },
   Toggle: {
     component: Toggle,
+    fields: [
+      {
+        type: Toggle,
+        label: 'Default Value',
+        name: 'defaultValue',
+      },
+    ],
   },
   Checkboxes: {
     component: Checkboxes,
-    fields: [
-      { type: List, name: 'checkboxes' },
-    ],
+    fields: [{ type: List, name: 'options' }],
   },
 };
