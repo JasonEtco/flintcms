@@ -57,7 +57,7 @@ export default {
   Color: {
     component: Color,
   },
-  RichText: {
+  'Rich Text': {
     component: RichText,
   },
   Asset: {
