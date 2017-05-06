@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import serialize from 'form-serialize';
-import Page from '../../containers/Page';
-import Input from '../../components/Input';
-import Fields from '../../components/Fields';
-import Button from '../../components/Button';
-import Checkbox from '../../components/Checkbox';
-import Dropdown from '../../components/Fields/Dropdown';
-import TitleBar from '../../components/TitleBar';
-import { updateSite } from '../../actions/siteActions';
-import t from '../../utils/types';
+import Page from '../../../containers/Page';
+import Input from '../../../components/Input';
+import Fields from '../../../components/Fields';
+import Button from '../../../components/Button';
+import Checkbox from '../../../components/Checkbox';
+import Dropdown from '../../../components/Fields/Dropdown';
+import TitleBar from '../../../components/TitleBar';
+import { updateSite } from '../../../actions/siteActions';
+import t from '../../../utils/types';
 
 export default class Site extends Component {
   static propTypes = {

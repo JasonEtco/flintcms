@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import CodeMirror from 'react-codemirror';
 import 'codemirror/mode/css/css';
-import { updateSite } from '../../actions/siteActions';
-import Page from '../../containers/Page';
-import TitleBar from '../../components/TitleBar';
-import Button from '../../components/Button';
+import { updateSite } from '../../../actions/siteActions';
+import Page from '../../../containers/Page';
+import TitleBar from '../../../components/TitleBar';
+import Button from '../../../components/Button';
 import './CodeMirror.scss';
 import './Styles.scss';
 

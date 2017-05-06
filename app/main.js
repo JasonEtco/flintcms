@@ -10,9 +10,9 @@ import Main from './containers/Main';
 import Home from './views/Home';
 import FourOhFour from './views/404';
 
-import Login from './views/Login';
-import SetPassword from './views/SetPassword';
-import ForgotPassword from './views/ForgotPassword';
+import Login from './views/Auth/Login';
+import SetPassword from './views/Auth/SetPassword';
+import ForgotPassword from './views/Auth/ForgotPassword';
 
 import User from './views/Users/User';
 import Users from './views/Users/Users';
@@ -39,8 +39,8 @@ import Assets from './views/Assets/Assets';
 import NewAsset from './views/Assets/NewAsset';
 
 import Settings from './views/Settings';
-import Site from './views/Site';
-import Styles from './views/Styles';
+import Site from './views/Settings/Site';
+import Styles from './views/Settings/Styles';
 
 export default function mapStateToProps(state) {
   return { ...state };

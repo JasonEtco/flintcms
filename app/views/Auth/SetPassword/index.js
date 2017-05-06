@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { post } from 'axios';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import Notification from '../../components/Notification';
-import LoginContainer from '../../containers/LoginContainer';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
+import Notification from '../../../components/Notification';
+import LoginContainer from '../../../containers/LoginContainer';
 
 export default class Login extends Component {
   static propTypes = {

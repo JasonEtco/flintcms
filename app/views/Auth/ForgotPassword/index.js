@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { post } from 'axios';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
-import Notification from '../../components/Notification';
-import LoginContainer from '../../containers/LoginContainer';
+import Button from '../../../components/Button';
+import Input from '../../../components/Input';
+import Notification from '../../../components/Notification';
+import LoginContainer from '../../../containers/LoginContainer';
 
 export default class ForgotPassword extends Component {
   constructor(props) {

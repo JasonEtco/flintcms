@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { post } from 'axios';
-import { getUrlParameter } from '../../utils/helpers';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
-import LoginContainer from '../../containers/LoginContainer';
+import { getUrlParameter } from '../../../utils/helpers';
+import Button from '../../../components/Button';
+import Input from '../../../components/Input';
+import LoginContainer from '../../../containers/LoginContainer';
 
 export default class ComponentName extends Component {
   constructor(props) {
