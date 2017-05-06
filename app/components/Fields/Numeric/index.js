@@ -5,7 +5,7 @@ export default class Numeric extends Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    required: PropTypes.bool.isRequired,
+    required: PropTypes.bool,
     instructions: PropTypes.string,
     defaultValue: PropTypes.number,
     max: PropTypes.number,
@@ -16,6 +16,7 @@ export default class Numeric extends Component {
   static defaultProps = {
     instructions: null,
     defaultValue: null,
+    required: false,
     max: null,
     min: null,
     step: null,

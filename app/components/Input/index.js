@@ -21,7 +21,7 @@ export default class Input extends Component {
     disabled: PropTypes.bool,
     defaultValue: PropTypes.string,
     value: PropTypes.string,
-    maxLength: PropTypes.number,
+    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   }
 
   static defaultProps = {

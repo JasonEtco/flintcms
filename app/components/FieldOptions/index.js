@@ -15,12 +15,16 @@ export default class FieldOptions extends Component {
 
   render() {
     const { fields, type, field } = this.props;
+    const optionFields = fields[type].fields;
+
+    if (!optionFields) return null;
+
     return (
       <div style={{ marginTop: '2em' }}>
-        <p className="input__label">{type} Options</p>
-        {(fields[type].fields || []).map((F) => {
-          if (!field) return <F.type key={F.name} {...F} name={`options[${F.name}]`} />;
-          return <F.type key={F.name} {...F} {...field.options} name={`options[${F.name}]`} />;
+        <p className="input__label form-element">{type} Options</p>
+        {(optionFields).map((F) => {
+          if (!field) return <F.component key={F.name} {...F} name={`options[${F.name}]`} />;
+          return <F.component key={F.name} {...F} {...field.options} name={`options[${F.name}]`} />;
         })}
       </div>
     );

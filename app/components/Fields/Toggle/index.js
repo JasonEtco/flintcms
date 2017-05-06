@@ -7,7 +7,7 @@ export default class Toggle extends Component {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
-    defaultValue: PropTypes.bool,
+    defaultValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }
 
   static defaultProps = {
@@ -17,7 +17,7 @@ export default class Toggle extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { isActive: props.defaultValue };
+    this.state = { isActive: typeof props.defaultValue === 'string' ? JSON.parse(props.defaultValue) : props.defaultValue };
   }
 
   render() {

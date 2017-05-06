@@ -11,7 +11,7 @@ import Checkboxes from '../Checkbox/Checkboxes';
 export default {
   Dropdown: {
     component: Dropdown,
-    fields: [{ type: List, name: 'options' }],
+    fields: [{ component: List, name: 'options' }],
   },
   Text: {
     component: Text,
@@ -20,13 +20,13 @@ export default {
     },
     fields: [
       {
-        type: Text,
+        component: Text,
         label: 'Placeholder Text',
         instructions: 'Text that will show in the field until a value has been written.',
         name: 'placeholder',
       },
       {
-        type: Numeric,
+        component: Numeric,
         label: 'Max Length',
         instructions: 'The maximum number of characters allowed for this field.',
         name: 'maxLength',
@@ -37,17 +37,17 @@ export default {
     component: Numeric,
     fields: [
       {
-        type: Numeric,
+        component: Numeric,
         label: 'Maximum Value',
         name: 'max',
       },
       {
-        type: Numeric,
+        component: Numeric,
         label: 'Minimum Value',
         name: 'min',
       },
       {
-        type: Numeric,
+        component: Numeric,
         label: 'Step',
         instructions: 'By how much will each change increment.',
         name: 'step',
@@ -64,11 +64,11 @@ export default {
     component: Asset,
     fields: [
       {
-        type: Checkboxes,
+        component: Checkboxes,
         label: 'Allowed Extensions',
         instructions: 'A list of allowed file extensions',
         name: 'extension',
-        checkboxes: [{ name: 'png', label: 'png', value: true }, { name: 'jpg', label: 'jpg', value: true }],
+        checkboxes: [{ name: 'png', label: 'PNG', value: true }, { name: 'jpg', label: 'JPG', value: true }],
       },
     ],
   },
@@ -76,7 +76,7 @@ export default {
     component: Toggle,
     fields: [
       {
-        type: Toggle,
+        component: Toggle,
         label: 'Default Value',
         name: 'defaultValue',
       },
@@ -84,6 +84,6 @@ export default {
   },
   Checkboxes: {
     component: Checkboxes,
-    fields: [{ type: List, name: 'options' }],
+    fields: [{ component: List, name: 'options' }],
   },
 };

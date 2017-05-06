@@ -10,12 +10,12 @@ export default function renderOption(field, value) {
   const fieldType = Fields[field.type];
 
   const props = {
-    ...field.options,
     key: field._id,
     name: field.handle,
     label: field.title,
     instructions: field.instructions,
-    defaultValue: value,
+    defaultValue: value || field.options.defaultValue,
+    ...field.options,
     ...fieldType.props,
   };
 
