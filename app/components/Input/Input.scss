@@ -55,6 +55,11 @@
         }
     }
 
+    &__max {
+        color: $grey;
+        font-size: 0.7rem;
+    }
+
     &-wrapper {
         position: relative;
 

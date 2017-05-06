@@ -21,6 +21,7 @@ export default class Input extends Component {
     disabled: PropTypes.bool,
     defaultValue: PropTypes.string,
     value: PropTypes.string,
+    maxLength: PropTypes.number,
   }
 
   static defaultProps = {
@@ -39,12 +40,16 @@ export default class Input extends Component {
     value: undefined,
     autoFocus: false,
     autoCorrect: false,
+    maxLength: null,
   }
 
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.value = props.value || props.defaultValue || '';
+
+    const value = props.value || props.defaultValue || '';
+    this.value = value;
+    this.state = { value };
   }
 
   handleChange({ target }) {
@@ -52,6 +57,7 @@ export default class Input extends Component {
     const { value } = target;
 
     this.value = value;
+    this.setState({ value });
     onChange(value);
   }
 
@@ -72,6 +78,7 @@ export default class Input extends Component {
       value,
       autoFocus,
       autoCorrect,
+      maxLength,
     } = this.props;
 
     const classes = classnames(
@@ -99,6 +106,7 @@ export default class Input extends Component {
         value={value}
         onChange={event => this.handleChange(event)}
         autoCorrect={autoCorrect}
+        maxLength={maxLength}
       />
     );
 
@@ -109,6 +117,7 @@ export default class Input extends Component {
           <p className="input__instructions" dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} />  // eslint-disable-line react/no-danger
         }
         {input}
+        {maxLength && <span className="input__max">{this.state.value.length}/{maxLength} characters</span>}
       </div>
     );
   }
