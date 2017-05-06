@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { formatDate } from '../../../utils/helpers';
-import Page from '../../../containers/Page';
-import Table from '../../../components/Table';
-import TitleBar from '../../../components/TitleBar';
-import t from '../../../utils/types';
-import DeleteIcon from '../../../components/DeleteIcon';
-import { deleteUserGroup } from '../../../actions/usergroupActions';
+import { formatDate } from 'utils/helpers';
+import Page from 'containers/Page';
+import Table from 'components/Table';
+import TitleBar from 'components/TitleBar';
+import t from 'utils/types';
+import DeleteIcon from 'components/DeleteIcon';
+import { deleteUserGroup } from 'actions/usergroupActions';
 
 export default class UserGroups extends Component {
   static propTypes = {

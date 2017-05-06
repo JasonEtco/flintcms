@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Icon from '../../utils/icons';
-import Page from '../../containers/Page';
-import TitleBar from '../../components/TitleBar';
+import Icon from 'utils/icons';
+import Page from 'containers/Page';
+import TitleBar from 'components/TitleBar';
 import './Settings.scss';
 
 export default class Settings extends Component {

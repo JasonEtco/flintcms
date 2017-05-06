@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classnames from 'classnames';
-import Icon from '../../utils/icons';
-import { closeModals } from '../../actions/uiActions';
+import Icon from 'utils/icons';
+import { closeModals } from 'actions/uiActions';
 import './Modals.scss';
 
 export default class Modals extends Component {

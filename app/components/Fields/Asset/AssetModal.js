@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import Table from '../../Table';
-import { truncate, formatDate, formatBytes } from '../../../utils/helpers';
+import Table from 'components/Table';
+import { truncate, formatDate, formatBytes } from 'utils/helpers';
 
 const AssetTile = ({ asset, isActive, onSelect }) => (
   <button onClick={() => onSelect(asset)} className={isActive ? 'asset__tile is-active' : 'asset__tile'}>

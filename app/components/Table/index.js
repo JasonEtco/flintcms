@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import { sortArrayOfObjByString } from '../../utils/helpers';
+import { sortArrayOfObjByString } from 'utils/helpers';
 import Input from '../Input';
 import './Table.scss';
 

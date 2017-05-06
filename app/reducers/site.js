@@ -2,7 +2,7 @@ import {
   REQUEST_SITE,
   RECEIVE_SITE,
   UPDATE_SITE,
-} from '../actions/siteActions';
+} from 'actions/siteActions';
 import siteConfig from '../../config';
 
 export default function site(state = {}, action) {

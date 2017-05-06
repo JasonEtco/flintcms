@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Icon from '../../utils/icons';
+import Icon from 'utils/icons';
 import './MainNav.scss';
 
 const NavItem = props => <li className="nav__list-item"><Link className="nav__list-item__link" to={props.to}>{props.children}</Link></li>;

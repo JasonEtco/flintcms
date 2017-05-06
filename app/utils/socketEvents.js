@@ -1,11 +1,11 @@
 import React from 'react';
-import { NEW_SECTION, DELETE_SECTION, UPDATE_SECTION } from '../actions/sectionActions';
-import { NEW_ENTRY, DELETE_ENTRY, UPDATE_ENTRY } from '../actions/entryActions';
-import { NEW_FIELD, DELETE_FIELD, UPDATE_FIELD } from '../actions/fieldActions';
-import { NEW_ASSET, DELETE_ASSET } from '../actions/assetActions';
-import { NEW_USERGROUP, DELETE_USERGROUP } from '../actions/usergroupActions';
-import { UPDATE_USER } from '../actions/userActions';
-import { newToast } from '../actions/uiActions';
+import { NEW_SECTION, DELETE_SECTION, UPDATE_SECTION } from 'actions/sectionActions';
+import { NEW_ENTRY, DELETE_ENTRY, UPDATE_ENTRY } from 'actions/entryActions';
+import { NEW_FIELD, DELETE_FIELD, UPDATE_FIELD } from 'actions/fieldActions';
+import { NEW_ASSET, DELETE_ASSET } from 'actions/assetActions';
+import { NEW_USERGROUP, DELETE_USERGROUP } from 'actions/usergroupActions';
+import { UPDATE_USER } from 'actions/userActions';
+import { newToast } from 'actions/uiActions';
 import store from './store';
 
 export default class SocketEvents {

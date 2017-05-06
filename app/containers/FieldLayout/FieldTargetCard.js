@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { DropTarget, DragSource } from 'react-dnd';
+import Icon from 'utils/icons';
 import target from './utils/target';
 import source from './utils/source';
 import { collectTarget, collectSource } from './utils/collect';
 import c from './utils/constants';
-import Icon from '../../utils/icons';
 
 class FieldTargetCard extends Component {
   static propTypes = {

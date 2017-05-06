@@ -5,7 +5,7 @@ import {
   NEW_USERGROUP,
   DELETE_USERGROUP,
   UPDATE_USERGROUP,
-} from '../actions/usergroupActions';
+} from 'actions/usergroupActions';
 
 export default function users(state = {}, action) {
   switch (action.type) {

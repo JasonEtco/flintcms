@@ -5,7 +5,7 @@ import {
   NEW_FIELD,
   UPDATE_FIELD,
   DELETE_FIELD,
-} from '../actions/fieldActions';
+} from 'actions/fieldActions';
 
 export default function fields(state = {}, action) {
   switch (action.type) {

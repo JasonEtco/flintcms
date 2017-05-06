@@ -11,9 +11,9 @@ import {
   ContentState,
   convertFromHTML,
 } from 'draft-js';
+import Icon from 'utils/icons';
+import { formatStringWithCode } from 'utils/helpers';
 import ToolBar from './ToolBar';
-import Icon from '../../../utils/icons';
-import { formatStringWithCode } from '../../../utils/helpers';
 import './RichText.scss';
 
 function findLinkEntities(contentBlock, callback, contentState) {

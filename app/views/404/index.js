@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Page from '../../containers/Page';
+import Page from 'containers/Page';
 
 export default class FourOhFour extends Component {
   render() {

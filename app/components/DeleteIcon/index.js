@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { openModal } from '../../actions/uiActions';
+import { openModal } from 'actions/uiActions';
+import Icon from 'utils/icons';
 import ConfirmModal from '../Modals/ConfirmModal';
-import Icon from '../../utils/icons';
 
 export default class DeleteIcon extends Component {
   static propTypes = {

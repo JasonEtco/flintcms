@@ -1,7 +1,7 @@
 import {
   REQUEST_USER,
   RECEIVE_USER,
-} from '../actions/userActions';
+} from 'actions/userActions';
 
 export default function user(state = {}, action) {
   switch (action.type) {

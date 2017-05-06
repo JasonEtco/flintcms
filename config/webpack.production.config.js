@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const BabiliPlugin = require('babili-webpack-plugin');
-const browsers = require('./browsers');
+const { browsers, resolve } = require('./constants');
 
 module.exports = {
   entry: [
@@ -17,6 +17,7 @@ module.exports = {
     filename: '[name]-[hash].min.js',
     publicPath: '/admin',
   },
+  resolve,
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '..', 'app', 'index.tpl.html'),

@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { updateAsset } from '../../../actions/assetActions';
-import Page from '../../../containers/Page';
-import TitleBar from '../../../components/TitleBar';
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
-import Fields from '../../../components/Fields';
-import t from '../../../utils/types';
+import { updateAsset } from 'actions/assetActions';
+import Page from 'containers/Page';
+import TitleBar from 'components/TitleBar';
+import Input from 'components/Input';
+import Button from 'components/Button';
+import Fields from 'components/Fields';
+import t from 'utils/types';
 
 export default class Asset extends Component {
   static propTypes = {

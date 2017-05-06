@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Icon from '../../utils/icons';
+import Icon from 'utils/icons';
 import './List.scss';
 
 export default class List extends Component {

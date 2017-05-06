@@ -1,5 +1,5 @@
 import React from 'react';
-import Fields from '../components/Fields';
+import Fields from 'components/Fields';
 
 /**
  * Returns a React component of the relevant Field

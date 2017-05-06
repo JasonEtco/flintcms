@@ -5,7 +5,7 @@ import {
   NEW_ENTRY,
   UPDATE_ENTRY,
   DELETE_ENTRY,
-} from '../actions/entryActions';
+} from 'actions/entryActions';
 
 export default function entries(state = {}, action) {
   switch (action.type) {

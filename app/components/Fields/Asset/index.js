@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import store from '../../../utils/store';
-import Icon from '../../../utils/icons';
-import { openModal } from '../../../actions/uiActions';
+import store from 'utils/store';
+import Icon from 'utils/icons';
+import { openModal } from 'actions/uiActions';
 import AssetModal from './AssetModal';
 import './Asset.scss';
 

@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
-import Icon from '../../utils/icons';
+import Icon from 'utils/icons';
 import DayTile from './DayTile';
 import Days from './Days';
 import './DatePicker.scss';

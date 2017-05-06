@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import p from '../../utils/prettyNames';
+import p from 'utils/prettyNames';
 
 const THead = ({ sortBy, column, direction, has, onClick }) => {
   const btnClass = classnames(

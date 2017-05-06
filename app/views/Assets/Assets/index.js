@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { formatDate, formatBytes } from '../../../utils/helpers';
-import DeleteIcon from '../../../components/DeleteIcon';
-import Page from '../../../containers/Page';
-import Table from '../../../components/Table';
-import Button from '../../../components/Button';
-import TitleBar from '../../../components/TitleBar';
-import { deleteAsset, indexAssets } from '../../../actions/assetActions';
-import t from '../../../utils/types';
+import { formatDate, formatBytes } from 'utils/helpers';
+import DeleteIcon from 'components/DeleteIcon';
+import Page from 'containers/Page';
+import Table from 'components/Table';
+import Button from 'components/Button';
+import TitleBar from 'components/TitleBar';
+import { deleteAsset, indexAssets } from 'actions/assetActions';
+import t from 'utils/types';
 
 export default class Assets extends Component {
   static propTypes = {

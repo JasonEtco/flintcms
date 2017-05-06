@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { truncate } from '../../utils/helpers';
+import { truncate } from 'utils/helpers';
 
 const Cell = ({ column, children }) => (
   <td className={`table__cell table__cell--${column}`}>

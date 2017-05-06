@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { formatDate } from '../../../utils/helpers';
-import Page from '../../../containers/Page';
-import Table from '../../../components/Table';
-import DeleteIcon from '../../../components/DeleteIcon';
-import TitleBar from '../../../components/TitleBar';
-import t from '../../../utils/types';
-import { deleteField } from '../../../actions/fieldActions';
+import { formatDate } from 'utils/helpers';
+import Page from 'containers/Page';
+import Table from 'components/Table';
+import DeleteIcon from 'components/DeleteIcon';
+import TitleBar from 'components/TitleBar';
+import t from 'utils/types';
+import { deleteField } from 'actions/fieldActions';
 
 export default class Fields extends Component {
   static propTypes = {

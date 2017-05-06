@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { shuffle } from '../../utils/helpers';
-import FlintLogo from '../../components/FlintLogo';
+import { shuffle } from 'utils/helpers';
+import FlintLogo from 'components/FlintLogo';
 import './Footer.scss';
 
 const baseEmojis = ['🍍', '🕑', '🎏', '🔥', '🦄', '🍑', '🔑', '🙌', '❤️'];

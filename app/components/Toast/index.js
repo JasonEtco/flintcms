@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import { deleteToast } from '../../actions/uiActions';
+import { deleteToast } from 'actions/uiActions';
 import './Toast.scss';
 
 export default class Toast extends Component {

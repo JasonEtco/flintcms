@@ -18,6 +18,14 @@
     }
   },
 
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "config/webpack.config.js"
+      }
+    }
+  },
+
   "rules": {
     "react/forbid-prop-types": 0,
     "react/prefer-stateless-function": 0,

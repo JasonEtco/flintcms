@@ -5,7 +5,7 @@ import {
   NEW_SECTION,
   DELETE_SECTION,
   UPDATE_SECTION,
-} from '../actions/sectionActions';
+} from 'actions/sectionActions';
 
 export default function sections(state = {}, action) {
   switch (action.type) {

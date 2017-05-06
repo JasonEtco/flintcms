@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import { formatStringWithCode } from '../../utils/helpers';
+import { formatStringWithCode } from 'utils/helpers';
 import './FileInput.scss';
 
 export default class FileInput extends Component {

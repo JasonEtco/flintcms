@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import Icon from '../../utils/icons';
+import Icon from 'utils/icons';
 import './Notification.scss';
 
 export default function Notification({ type, children, formElement }) {

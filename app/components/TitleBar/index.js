@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { truncate } from '../../utils/helpers';
+import { truncate } from 'utils/helpers';
 import './TitleBar.scss';
 
 export default class TitleBar extends Component {

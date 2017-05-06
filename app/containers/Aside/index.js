@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import StatusDot from '../../components/StatusDot';
-import Dropdown, { DropdownChild } from '../../components/Fields/Dropdown';
-import DatePicker from '../../components/DatePicker';
+import StatusDot from 'components/StatusDot';
+import Dropdown, { DropdownChild } from 'components/Fields/Dropdown';
+import DatePicker from 'components/DatePicker';
 import './Aside.scss';
 
 export default class Aside extends Component {

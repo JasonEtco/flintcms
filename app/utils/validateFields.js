@@ -1,7 +1,7 @@
 import React from 'react';
+import Fields from 'components/Fields';
+import { newToast } from 'actions/uiActions';
 import store from './store';
-import Fields from '../components/Fields';
-import { newToast } from '../actions/uiActions';
 
 /**
  * Validates an object of field/value pairs using the

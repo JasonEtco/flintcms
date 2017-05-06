@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import fetchData from '../../actions/fetchData';
-import Toast from '../../components/Toast';
-import Modals from '../Modals';
-import SocketEvents from '../../utils/socketEvents';
-import t from '../../utils/types';
+import fetchData from 'actions/fetchData';
+import Toast from 'components/Toast';
+import SocketEvents from 'utils/socketEvents';
+import t from 'utils/types';
+import Modals from 'containers/Modals';
 import './Main.scss';
 
 import MainNav from '../MainNav';

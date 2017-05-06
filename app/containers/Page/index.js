@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import Breadcrumbs from 'components/Breadcrumbs';
+import Footer from 'containers/Footer';
 import './Page.scss';
-import Breadcrumbs from '../../components/Breadcrumbs';
-import Footer from '../Footer';
 
 export default class Page extends Component {
   static propTypes = {

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { get } from 'axios';
-import FlintLogo from '../../components/FlintLogo';
+import FlintLogo from 'components/FlintLogo';
 import './LoginContainer.scss';
 import { siteName } from '../../../config';
 

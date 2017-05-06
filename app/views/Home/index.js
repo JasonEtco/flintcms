@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import Page from '../../containers/Page';
-import TitleBar from '../../components/TitleBar';
-import { getSlugFromId } from '../../utils/helpers';
-import t from '../../utils/types';
+import Page from 'containers/Page';
+import TitleBar from 'components/TitleBar';
+import { getSlugFromId } from 'utils/helpers';
+import t from 'utils/types';
 import './Home.scss';
 
 export default class Home extends Component {

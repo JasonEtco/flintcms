@@ -5,7 +5,7 @@ import {
   NEW_ASSET,
   UPDATE_ASSET,
   DELETE_ASSET,
-} from '../actions/assetActions';
+} from 'actions/assetActions';
 
 export default function assets(state = {}, action) {
   switch (action.type) {

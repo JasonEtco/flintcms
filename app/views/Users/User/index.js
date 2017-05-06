@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { updateUser, userDetails, sendPasswordReset } from '../../../actions/userActions';
-import Page from '../../../containers/Page';
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
-import TitleBar from '../../../components/TitleBar';
-import Aside from '../../../containers/Aside';
-import t from '../../../utils/types';
+import { updateUser, userDetails, sendPasswordReset } from 'actions/userActions';
+import Page from 'containers/Page';
+import Input from 'components/Input';
+import Button from 'components/Button';
+import TitleBar from 'components/TitleBar';
+import Aside from 'containers/Aside';
+import t from 'utils/types';
 
 export default class User extends Component {
   static propTypes = {

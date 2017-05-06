@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import Icon from '../../utils/icons';
+import Icon from 'utils/icons';
 import './Checkbox.scss';
 
 export default class Checkbox extends Component {

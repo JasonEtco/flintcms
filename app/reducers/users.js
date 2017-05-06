@@ -4,7 +4,7 @@ import {
   RECEIVE_USERS,
   NEW_USER,
   UPDATE_USER,
-} from '../actions/userActions';
+} from 'actions/userActions';
 
 export default function users(state = {}, action) {
   switch (action.type) {

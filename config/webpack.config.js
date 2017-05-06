@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const browsers = require('./browsers');
+const { browsers, resolve } = require('./constants');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -16,6 +16,7 @@ module.exports = {
     filename: '[name].js',
     publicPath: '/admin/',
   },
+  resolve,
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '..', 'app', 'index.tpl.html'),
