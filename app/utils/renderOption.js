@@ -7,17 +7,19 @@ import Fields from 'components/Fields';
  * @param {Any} [value]
  */
 export default function renderOption(field, value) {
+  const fieldType = Fields[field.type];
+
   const props = {
-    ...field,
+    ...field.options,
     key: field._id,
     name: field.handle,
     label: field.title,
     instructions: field.instructions,
     defaultValue: value,
-    ...field.options,
+    ...fieldType.props,
   };
 
-  const Component = Fields[field.type].component;
+  const Component = fieldType.component;
 
   return <Component {...props} />;
 }
