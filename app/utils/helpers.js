@@ -1,6 +1,18 @@
 import moment from 'moment';
 
 /**
+ * Sorts an array of objects by the given string
+ * @param {Object} a
+ * @param {Object} b
+ * @param {String} sortBy - Object key to sort by
+ */
+export function alphabetizeSort(a, b, sortBy) {
+  if (a[sortBy] < b[sortBy]) return -1;
+  if (a[sortBy] > b[sortBy]) return 1;
+  return 0;
+}
+
+/**
  * Gets the Slug of an object from it's ID
  * @param {Object[]} arr - Array of Objects
  * @param {String} id - Mongo ID

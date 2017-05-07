@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import { alphabetizeSort } from 'utils/helpers';
 import './Dropdown.scss';
 
 const { string, arrayOf, oneOfType, shape, object, bool, func, any } = PropTypes;
@@ -44,7 +45,8 @@ export default class Dropdown extends Component {
     this.hide = this.hide.bind(this);
     this.onClick = this.onClick.bind(this);
 
-    const value = props.defaultValue || props.options[0].value || props.options[0];
+    const sorted = props.alphabetize ? props.options.sort(alphabetizeSort) : props.options;
+    const value = props.defaultValue || sorted[0].value || sorted[0];
     this.state = {
       open: false,
       value,
@@ -74,12 +76,6 @@ export default class Dropdown extends Component {
   render() {
     const { options, label, instructions, name, full, children, alphabetize } = this.props;
     const { value, open } = this.state;
-
-    const alphabetizeSort = (a, b) => {
-      if (a.label < b.label) return -1;
-      if (a.label > b.label) return 1;
-      return 0;
-    };
 
     const sorted = alphabetize ? options.sort(alphabetizeSort) : options;
 
