@@ -6,12 +6,16 @@ import RichText from './RichText';
 import Asset from './Asset';
 import Toggle from './Toggle';
 import List from '../List';
+import DatePicker from '../DatePicker';
 import Checkboxes from '../Checkbox/Checkboxes';
 
 export default {
   Dropdown: {
     component: Dropdown,
     fields: [{ component: List, name: 'options' }],
+  },
+  Date: {
+    component: DatePicker,
   },
   Text: {
     component: Text,

@@ -14,7 +14,7 @@ export default function renderOption(field, value) {
     name: field.handle,
     label: field.title,
     instructions: field.instructions,
-    defaultValue: value || field.options.defaultValue,
+    defaultValue: value || (field.options ? field.options.defaultValue : ''),
     ...field.options,
     ...fieldType.props,
   };

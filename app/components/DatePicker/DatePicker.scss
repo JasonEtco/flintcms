@@ -1,6 +1,7 @@
 .datepicker {
     &-wrapper {
         position: relative;
+        max-width: 160px;
     }
 
     position: absolute;
