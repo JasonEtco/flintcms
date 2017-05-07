@@ -102,7 +102,7 @@ const query = `{
       entries {
         canAddEntries
         canDeleteEntries
-        canOnlyEditOwnEntries
+        canEditOthersEntries
         canEditLive
         canEditDrafts
         canSeeDrafts

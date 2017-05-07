@@ -16,18 +16,23 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, args, ctx, ast) {
+  async resolve(root, { _id }, ctx, ast) {
     const perms = await getUserPermissions(ctx.user._id);
 
     if (!perms.entries.canDeleteEntries) {
       throw new Error('You do not have permission to delete Entries');
-    } else if (perms.entries.canOnlyEditOwnEntries) {
+    }
+
+    const foundEntry = await Entry.findById(_id);
+    if (!foundEntry) throw new Error('There is no entry with that id');
+
+    if (!perms.entries.canEditOthersEntries && foundEntry.author !== ctx.user._id) {
       throw new Error('You may only delete Entries that you created.');
     }
 
     const projection = getProjection(ast);
     const removedEntry = await Entry
-      .findByIdAndRemove(args._id, { select: projection })
+      .findByIdAndRemove(_id, { select: projection })
       .exec();
 
     if (!removedEntry) throw new Error('Error removing entry');

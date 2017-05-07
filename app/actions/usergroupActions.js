@@ -31,7 +31,7 @@ const contents = `
     entries {
       canAddEntries
       canDeleteEntries
-      canOnlyEditOwnEntries
+      canEditOthersEntries
       canEditLive
       canEditDrafts
       canSeeDrafts

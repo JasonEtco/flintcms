@@ -14,7 +14,7 @@
   "entries": [
     { "name": "canAddEntries", "defaultValue": false, "label": "Can Add Entries" },
     { "name": "canDeleteEntries", "defaultValue": false, "label": "Can Delete Entries" },
-    { "name": "canOnlyEditOwnEntries", "defaultValue": false, "label": "Can Only Edit Own Entries" },
+    { "name": "canEditOthersEntries", "defaultValue": false, "label": "Can Edit Other Peoples' Entries" },
     { "name": "canEditLive", "defaultValue": false, "label": "Can Edit Live" },
     { "name": "canSeeDrafts", "defaultValue": false, "label": "Can See Drafts" },
     { "name": "canEditDrafts", "defaultValue": false, "label": "Can Edit Drafts" },

@@ -154,11 +154,7 @@ export function deleteEntry(_id) {
       }
     }`;
 
-    const variables = {
-      _id,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { _id })
       .then((json) => {
         const { removeEntry } = json.data.data;
         dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
@@ -188,11 +184,7 @@ export function entryDetails(_id) {
       }
     }`;
 
-    const variables = {
-      _id,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { _id })
       .then((json) => {
         const { entry } = json.data.data;
         dispatch({ type: UPDATE_ENTRY, updateEntry: { _id, ...entry } });
