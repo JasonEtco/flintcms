@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import serialize from 'form-serialize';
 import { openModal } from 'actions/uiActions';
+import update from 'immutability-helper';
 import Button from 'components/Button';
-import Input from 'components/Input';
-import FieldOptions from 'components/FieldOptions';
-import { slugify } from 'utils/helpers';
 import NewBlockModal from './NewBlockModal';
 import mapStateToProps from '../../../main';
-import Fields from '../index';
+import FieldColumn from './FieldColumn';
 
 const GroupTile = ({ onClick, label, isActive }) => (
   <button
@@ -51,8 +50,6 @@ class Panel extends Component {
     super(props);
     this.newBlockType = this.newBlockType.bind(this);
     this.addBlockType = this.addBlockType.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
     this.changeBlockType = this.changeBlockType.bind(this);
     this.changeField = this.changeField.bind(this);
     this.newField = this.newField.bind(this);
@@ -63,8 +60,6 @@ class Panel extends Component {
       blocks: props.blocks,
       currentBlock,
       currentField: 0,
-      title: '',
-      type: null,
     };
   }
 
@@ -74,6 +69,7 @@ class Panel extends Component {
         ...this.state.blocks,
         block,
       ],
+      currentBlock: this.state.blocks.length,
     });
   }
 
@@ -86,54 +82,76 @@ class Panel extends Component {
   }
 
   changeField(currentField) {
-    this.setState({ currentField });
+    const data = serialize(this.fieldColumn.form, { hash: true, empty: true });
+    this.fieldColumn.form.reset();
+    this.fieldColumn.setState({ title: '' });
+
+    if (!data) return;
+
+    const { blocks, currentBlock } = this.state;
+    const index = this.state.currentField;
+
+    this.setState({
+      blocks: [
+        ...blocks.slice(0, currentBlock),
+        {
+          ...blocks[currentBlock],
+          fields: [
+            ...blocks[currentBlock].fields.slice(0, index),
+            update(blocks[currentBlock].fields[index], { $merge: { ...data, label: data.title || 'Blank' } }),
+            ...blocks[currentBlock].fields.slice(index + 1),
+          ],
+        },
+        ...blocks.slice(currentBlock + 1),
+      ],
+      currentField,
+    });
   }
 
   newField() {
-    const { blocks, currentBlock } = this.state;
-    this.setState({ blocks: [
-      ...blocks.slice(0, currentBlock),
-      {
-        ...blocks[currentBlock],
-        fields: [
-          ...blocks[currentBlock].fields,
-          {
-            name: 'Blank',
-            handle: 'blank',
-            type: 'Asset',
-          },
-        ],
-      },
-      ...blocks.slice(currentBlock + 1),
-    ] });
-  }
+    const { blocks, currentBlock, currentField } = this.state;
+    const block = blocks[currentBlock];
+    const field = {
+      label: 'Blank',
+      handle: `blank-${blocks[currentBlock].fields.length}`,
+    };
 
-  handleTitleChange(title) {
-    this.setState({ title });
-  }
+    this.changeField(currentField);
 
-  handleTypeChange(type) {
-    this.setState({ type });
+    this.setState({
+      blocks: [
+        ...blocks.slice(0, currentBlock),
+        {
+          ...block,
+          fields: [
+            ...block.fields,
+            ...field,
+          ],
+        },
+        ...blocks.slice(currentBlock + 1),
+      ],
+      currentField: block.fields.length,
+    });
   }
 
   render() {
     const { currentBlock, currentField, blocks } = this.state;
-    const { Dropdown, Toggle } = Fields;
-    const options = Object.keys(Fields)
-      .filter(f => f !== 'Group')
-      .map(n => ({ label: n, value: n }));
+    const block = blocks[currentBlock];
+    const field = block && block.fields.length > 0
+      ? block.fields[currentField]
+      : {};
 
     return (
       <div className="group__panel">
         <div className="group__col">
           <h3 className="group__col__title">Block Types</h3>
           <div className="group__col__inner">
-            {blocks.length > 0 && blocks.map((block, i) =>
+            {blocks.length > 0 && blocks.map(({ handle, name }, i) =>
               <GroupTile
-                key={block.handle}
+                key={handle}
                 isActive={currentBlock === i}
                 onClick={() => this.changeBlockType(i)}
-                label={block.name}
+                label={name}
               />)}
             <Button small onClick={this.newBlockType}>New Block Type</Button>
           </div>
@@ -144,19 +162,13 @@ class Panel extends Component {
           <div className="group__col__inner">
             {currentBlock !== null &&
               <div>
-                {blocks[currentBlock].fields.length > 0
-                ? blocks[currentBlock].fields.map((field, i) =>
+                {block.fields.map(({ handle, label }, i) =>
                   <GroupTile
-                    key={field.handle + i}
+                    key={handle}
                     isActive={currentField === i}
                     onClick={() => this.changeField(i)}
-                    label={field.name}
-                  />)
-                : <GroupTile
-                  isActive={currentField === 0}
-                  onClick={() => this.changeField(0)}
-                  label="Blank"
-                />}
+                    label={label}
+                  />)}
                 <Button small onClick={this.newField}>New Field</Button>
               </div>
             }
@@ -165,57 +177,17 @@ class Panel extends Component {
 
         <div className="group__field-layout">
           <h3 className="group__col__title">Fields</h3>
-          <div className="group__col__inner">
-            <Input
-              name="title"
-              label="Title"
-              instructions="This is what the field will be called in the admin dashboard."
-              ref={(r) => { this.title = r; }}
-              required
-              full
-              onChange={this.handleTitleChange}
-            />
-
-            <Input
-              name="handle"
-              label="Template Handle"
-              instructions="The variable to use in the templates."
-              ref={(r) => { this.handle = r; }}
-              required
-              full
-              code
-              disabled
-              value={slugify(this.state.title)}
-            />
-
-            <Input
-              name="instructions"
-              label="Instructions"
-              instructions="Text that will help the author understand content is being asked for."
-              ref={(r) => { this.instructions = r; }}
-              full
-            />
-
-            <Toggle.component
-              name="required"
-              label="Required"
-              instructions="Should this field be required?"
-            />
-
-            <Dropdown.component
-              name="type"
-              options={options}
-              label="Field Type"
-              onChange={this.handleTypeChange}
-              alphabetize
-              instructions="The kind of field presented in the dashboard."
-              ref={(r) => { this.type = r; }}
-            />
-
-            <FieldOptions fields={Fields} type={this.state.type || options[0].label} />
-
-            <Button small kind="subtle" className="group__delete">Delete</Button>
-          </div>
+          {
+            currentBlock !== null
+            && currentField !== null
+            && (
+              <FieldColumn
+                key={field.handle}
+                ref={(r) => { this.fieldColumn = r; }}
+                field={field}
+              />
+            )
+          }
         </div>
       </div>
     );

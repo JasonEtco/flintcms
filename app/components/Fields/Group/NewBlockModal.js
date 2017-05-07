@@ -25,7 +25,10 @@ export default class NewBlockModal extends Component {
     this.props.confirm({
       name: this.name.value,
       handle: slugify(this.state.title),
-      fields: [],
+      fields: [{
+        label: 'Blank',
+        handle: 'blank-0',
+      }],
     });
     this.props.close();
   }

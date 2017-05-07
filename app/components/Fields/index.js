@@ -95,5 +95,5 @@ export default {
   Group: {
     component: Group,
     fields: [{ component: Panel, name: 'panel' }],
-  }
+  },
 };

@@ -17,7 +17,11 @@ export default class Toggle extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { isActive: typeof props.defaultValue === 'string' ? JSON.parse(props.defaultValue) : props.defaultValue };
+    let isActive = props.defaultValue;
+    if (typeof props.defaultValue === 'string' && props.defaultValue !== '') {
+      isActive = JSON.parse(props.defaultValue);
+    }
+    this.state = { isActive };
   }
 
   render() {
