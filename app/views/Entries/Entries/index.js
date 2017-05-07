@@ -93,10 +93,7 @@ export default class Entries extends Component {
         sortBy: false,
         component: <DeleteIcon
           dispatch={dispatch}
-          onClick={() => {
-            console.log('Deleting', props._id)
-            dispatch(deleteEntry(props._id));
-          }}
+          onClick={() => dispatch(deleteEntry(props._id))}
           message="Are you sure you want to delete this entry?"
         />,
       },
