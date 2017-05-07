@@ -8,6 +8,8 @@ import Toggle from './Toggle';
 import List from '../List';
 import DatePicker from '../DatePicker';
 import Checkboxes from '../Checkbox/Checkboxes';
+import Group from './Group/';
+import Panel from './Group/Panel';
 
 export default {
   Dropdown: {
@@ -90,4 +92,8 @@ export default {
     component: Checkboxes,
     fields: [{ component: List, name: 'options' }],
   },
+  Group: {
+    component: Group,
+    fields: [{ component: Panel, name: 'panel' }],
+  }
 };

@@ -25,7 +25,7 @@ export default class NewField extends Component {
     this.handleTypeChange = this.handleTypeChange.bind(this);
   }
 
-  state = { title: '', type: 'Dropdown' }
+  state = { title: '', type: 'Asset' }
 
   onSubmit(e) {
     e.preventDefault();
@@ -104,7 +104,7 @@ export default class NewField extends Component {
               ref={(r) => { this.type = r; }}
             />
 
-            <FieldOptions fields={Fields} type={this.state.type} />
+            <FieldOptions fields={Fields} type={this.state.type || options[0].label} />
           </div>
         </div>
       </Page>
