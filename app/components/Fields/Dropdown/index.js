@@ -45,7 +45,7 @@ export default class Dropdown extends Component {
     this.hide = this.hide.bind(this);
     this.onClick = this.onClick.bind(this);
 
-    const sorted = props.alphabetize ? props.options.sort(alphabetizeSort) : props.options;
+    const sorted = props.alphabetize ? props.options.sort((a, b) => alphabetizeSort(a, b, 'label')) : props.options;
     const value = props.defaultValue || sorted[0].value || sorted[0];
     this.state = {
       open: false,
@@ -77,7 +77,7 @@ export default class Dropdown extends Component {
     const { options, label, instructions, name, full, children, alphabetize } = this.props;
     const { value, open } = this.state;
 
-    const sorted = alphabetize ? options.sort(alphabetizeSort) : options;
+    const sorted = alphabetize ? options.sort((a, b) => alphabetizeSort(a, b, 'label')) : options;
 
     const classes = classnames(
       'dropdown',
