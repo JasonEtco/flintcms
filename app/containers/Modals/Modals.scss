@@ -1,20 +1,18 @@
 .modal {
     @extend %card;
-    position: fixed;
+    position: relative;
     z-index: 9999;
-    top: 50%;
-    left: 50%;
     max-width: 530px;
     transition: transform 150ms $enter, opacity 150ms $enter;
-    transition-delay: 100ms;
+    transition-delay: 100ms; // stylelint-disable-line time-no-imperceptible
 
     &.modal-appear {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.95);
+        transform: scale(0.95);
 
         &-active {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+            transform: scale(1);
         }
     }
 
@@ -76,6 +74,9 @@
         z-index: 9999;
         top: 0;
         left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
 
