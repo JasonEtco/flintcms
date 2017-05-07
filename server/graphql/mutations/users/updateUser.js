@@ -20,7 +20,7 @@ module.exports = {
   },
   async resolve(root, { _id, data }, ctx) {
     const perms = await getUserPermissions(ctx.user._id);
-    if (!perms.users.canManageUsers) throw new Error('You do not have permission to manage users.');
+    if (!perms.users.canManageUsers && _id !== ctx.user._id) throw new Error('You do not have permission to manage users.');
 
     const foundUser = await User.findById(_id).lean().exec();
     if (!foundUser) throw new Error('There is no User with this ID');
