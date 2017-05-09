@@ -21,14 +21,17 @@ module.exports = {
   },
   async resolve(root, args, ctx, ast) {
     const isAUser = ctx !== undefined && ctx.user !== undefined;
-    const perms = await getUserPermissions(ctx.user._id);
-
     const projection = getProjection(ast);
 
     const fargs = {};
 
     if (args.status) {
-      fargs.status = isAUser && !perms.entries.canSeeDrafts ? 'live' : args.status;
+      if (isAUser) {
+        const perms = await getUserPermissions(ctx.user._id);
+        fargs.status = !perms.entries.canSeeDrafts ? 'live' : args.status;
+      } else {
+        fargs.status = args.status;
+      }
     }
 
     if (args.sectionSlug) {

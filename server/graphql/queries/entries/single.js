@@ -22,35 +22,34 @@ module.exports = {
       name: 'slug',
       type: GraphQLString,
     },
-    section: {
-      name: 'section',
+    sectionSlug: {
+      name: 'sectionSlug',
       type: GraphQLString,
     },
   },
   async resolve(root, args, ctx, ast) {
+    const isAUser = ctx !== undefined && ctx.user !== undefined;
     const projection = getProjection(ast);
 
-    if (ctx !== undefined && ctx.user !== undefined) {
-      const perms = await getUserPermissions(ctx.user._id);
+    const fargs = {};
 
-      if (!perms.entries.canSeeDrafts) {
-        return Entry
-          .findOne(Object.assign({}, args, { status: 'live' }))
-          .select(projection)
-          .exec();
+    if (args.status) {
+      if (isAUser) {
+        const perms = await getUserPermissions(ctx.user._id);
+        fargs.status = !perms.entries.canSeeDrafts ? 'live' : args.status;
+      } else {
+        fargs.status = args.status;
       }
     }
 
-    if (args.section) {
-      const { _id: section } = await Section.findOne({ slug: args.section }).select('_id').lean().exec();
-      return Entry
-        .findOne(Object.assign({}, args, { section }))
-        .select(projection)
-        .exec();
+    if (args.sectionSlug) {
+      const { _id } = await Section.findOne({ slug: args.sectionSlug }).select('_id').lean().exec();
+      fargs.section = _id;
     }
 
     return Entry
-      .findOne(args)
+      .findOne(fargs)
+      .populate('author')
       .select(projection)
       .exec();
   },

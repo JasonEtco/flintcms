@@ -58,6 +58,14 @@ async function collectData(entry) {
       slug
       section
       url
+      author {
+        name {
+          first
+          last
+        }
+        username
+        email
+      }
       fields {
         handle
         value
@@ -77,7 +85,10 @@ async function collectData(entry) {
     }
   }`;
 
-  const { data } = await graphql(schema, query);
+  const { data, errors } = await graphql(schema, query);
+
+  if (errors) throw new Error(errors);
+
   const formattedEntries = await formatEntryFields(data.entries);
   const sections = await sectionEntries(data.sections, formattedEntries);
   const flint = Object.assign({}, data, {

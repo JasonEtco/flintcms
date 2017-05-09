@@ -59,19 +59,19 @@ EntrySchema.pre('validate', function (next) {
 });
 
 // eslint-disable-next-line func-names
-EntrySchema.methods.getTemplate = async function () {
-  const section = await Section.findById(this.section).select('template').lean();
-  if (!section) throw new Error('The Section could not be found');
+EntrySchema.methods.getTemplate = async function ({ section }) {
+  const foundSection = await Section.findById(section).select('template').lean();
+  if (!foundSection) throw new Error('The Section could not be found');
 
-  return section.template;
+  return foundSection.template;
 };
 
 // eslint-disable-next-line func-names
-EntrySchema.methods.getUrl = async function () {
-  const section = await Section.findById(this.section).select('slug').lean();
-  if (!section) throw new Error('The Section could not be found');
+EntrySchema.methods.getUrl = async function ({ section, slug }) {
+  const foundSection = await Section.findById(section).select('slug').lean();
+  if (!foundSection) throw new Error('The Section could not be found');
 
-  return `/${section.slug}/${this.slug}`;
+  return `/${foundSection.slug}/${slug}`;
 };
 
 module.exports = mongoose.model('Entry', EntrySchema, 'entries');

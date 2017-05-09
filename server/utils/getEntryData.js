@@ -12,7 +12,7 @@ const schema = require('../graphql');
  */
 async function getEntryData({ slug, section }) {
   const query = `{
-    entry (slug: "${slug}", status: "live", section: "${section}") {
+    entry (slug: "${slug}", status: "live", sectionSlug: "${section}") {
       _id
       title
       slug
@@ -20,7 +20,14 @@ async function getEntryData({ slug, section }) {
       dateCreated
       section
       template
-      author
+      author {
+        name {
+          first
+          last
+        }
+        username
+        email
+      }
       fields {
         handle
         value
@@ -28,14 +35,14 @@ async function getEntryData({ slug, section }) {
     }
   }`;
 
+  const { data, errors } = await graphql(schema, query);
 
-  const { data: { entry }, errors: entryErrors } = await graphql(schema, query);
-  if (entryErrors !== undefined || entry === undefined) {
-    console.log(entryErrors);
+  if (errors !== undefined || data.entry === undefined || data.entry === null) {
+    console.error(errors);
     throw new Error(404);
   }
 
-  return entry;
+  return data.entry;
 }
 
 module.exports = getEntryData;

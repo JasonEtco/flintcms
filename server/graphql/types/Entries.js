@@ -73,12 +73,12 @@ const outputType = new GraphQLObjectType({
     template: {
       type: GraphQLString,
       description: 'The template of the entry',
-      resolve: entry => entry.getTemplate(),
+      resolve: entry => entry.getTemplate(entry),
     },
     url: {
       type: GraphQLString,
       description: 'The Url of the entry',
-      resolve: entry => entry.getUrl(),
+      resolve: entry => entry.getUrl(entry),
     },
   },
 });
