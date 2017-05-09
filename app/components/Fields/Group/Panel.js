@@ -38,6 +38,7 @@ class Panel extends Component {
         options: PropTypes.arrayOf(PropTypes.object),
       })),
     })),
+    name: PropTypes.string.isRequired,
     dispatch: PropTypes.func,
   }
 
@@ -136,6 +137,7 @@ class Panel extends Component {
 
   render() {
     const { currentBlock, currentField, blocks } = this.state;
+    const { name: fieldName } = this.props;
     const block = blocks[currentBlock];
     const field = block && block.fields.length > 0
       ? block.fields[currentField]
@@ -188,6 +190,16 @@ class Panel extends Component {
               />
             )
           }
+        </div>
+
+        <div>
+          {blocks.map(b =>
+            b.fields.map(f =>
+              Object.keys(f).map(key =>
+                <input key={key} type="text" hidden readOnly name={`${fieldName}[${block.handle}][${f.handle}]`} value={JSON.stringify(f)} />
+              ),
+            ),
+          )}
         </div>
       </div>
     );

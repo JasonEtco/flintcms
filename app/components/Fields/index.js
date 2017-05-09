@@ -94,6 +94,6 @@ export default {
   },
   Group: {
     component: Group,
-    fields: [{ component: Panel, name: 'panel' }],
+    fields: [{ component: Panel, name: 'blocks' }],
   },
 };
