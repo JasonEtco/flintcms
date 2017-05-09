@@ -7,6 +7,7 @@ const {
   GraphQLList,
 } = require('graphql');
 const { ObjectType, DateTime } = require('./CustomTypes');
+const userTypes = require('./Users');
 
 const FieldType = new GraphQLObjectType({
   name: 'EntryFields',
@@ -51,10 +52,6 @@ const outputType = new GraphQLObjectType({
     section: {
       type: new GraphQLNonNull(GraphQLID),
     },
-    sectionSlug: {
-      type: GraphQLString,
-      resolve: entry => entry.getSectionSlug(),
-    },
     slug: {
       type: new GraphQLNonNull(GraphQLString),
     },
@@ -66,7 +63,7 @@ const outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(DateTime),
     },
     author: {
-      type: new GraphQLNonNull(GraphQLID),
+      type: new GraphQLNonNull(userTypes.outputType),
       description: 'Author of the entry.',
     },
     fields: {

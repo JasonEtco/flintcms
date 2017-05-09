@@ -23,7 +23,9 @@ const query = `{
     _id
     title
     slug
-    author
+    author {
+      username
+    }
     dateCreated
     section
     status

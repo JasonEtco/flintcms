@@ -84,7 +84,7 @@ export default class Entries extends Component {
         value: new Date(props.dateCreated).getTime(),
         component: formatDate(props.dateCreated),
       },
-      author: getPropFromProp(users.users, { _id: props.author }, 'username'),
+      author: props.author.username,
       status: {
         sortBy: false,
         component: <StatusDot status={props.status} />,

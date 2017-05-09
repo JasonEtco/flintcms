@@ -62,7 +62,9 @@ export function newEntry(title, section, status, dateCreated, rawOptions) {
           value
         }
         section
-        author
+        author {
+          username
+        }
         dateCreated
       }
     }`;
