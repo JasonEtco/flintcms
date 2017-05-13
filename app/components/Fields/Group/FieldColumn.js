@@ -4,10 +4,16 @@ import Button from 'components/Button';
 import Fields from 'components/Fields';
 import FieldOptions from 'components/FieldOptions';
 import { slugify } from 'utils/helpers';
+import { openModal } from 'actions/uiActions';
+import ConfirmModal from 'components/Modals/ConfirmModal';
 
 export default class FieldColumn extends Component {
   static propTypes = {
     field: PropTypes.object,
+    onTitleChange: PropTypes.func.isRequired,
+    deleteField: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    canDelete: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -23,6 +29,7 @@ export default class FieldColumn extends Component {
     super(props);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.delete = this.delete.bind(this);
 
     this.state = {
       title: props.field.title || '',
@@ -31,11 +38,21 @@ export default class FieldColumn extends Component {
   }
 
   handleTitleChange(title) {
-    this.setState({ title });
+    this.setState({ title }, this.props.onTitleChange(title));
   }
 
   handleTypeChange(type) {
     this.setState({ type });
+  }
+
+  delete() {
+    const { deleteField, dispatch } = this.props;
+    dispatch(openModal(
+      <ConfirmModal
+        confirm={deleteField}
+        message="Are you sure you want to delete this field?"
+      />),
+    );
   }
 
   render() {
@@ -44,7 +61,7 @@ export default class FieldColumn extends Component {
       .map(n => ({ label: n, value: n }));
     const { Dropdown, Toggle } = Fields;
 
-    const { field } = this.props;
+    const { field, canDelete } = this.props;
 
     return (
       <form className="group__col__inner" ref={(r) => { this.form = r; }}>
@@ -104,7 +121,7 @@ export default class FieldColumn extends Component {
           fields={Fields}
         />
 
-        <Button small kind="subtle" className="group__delete">Delete</Button>
+        {canDelete && <Button small kind="subtle" className="group__delete" onClick={this.delete}>Delete</Button>}
       </form>
     );
   }

@@ -4,6 +4,7 @@ import serialize from 'form-serialize';
 import { openModal } from 'actions/uiActions';
 import update from 'immutability-helper';
 import Button from 'components/Button';
+import { slugify } from 'utils/helpers';
 import NewBlockModal from './NewBlockModal';
 import mapStateToProps from '../../../main';
 import FieldColumn from './FieldColumn';
@@ -26,7 +27,7 @@ GroupTile.propTypes = {
 
 class Panel extends Component {
   static propTypes = {
-    blocks: PropTypes.arrayOf(PropTypes.shape({
+    blocks: PropTypes.objectOf(PropTypes.shape({
       name: PropTypes.string,
       handle: PropTypes.string,
       fields: PropTypes.arrayOf(PropTypes.shape({
@@ -43,7 +44,7 @@ class Panel extends Component {
   }
 
   static defaultProps = {
-    blocks: [],
+    blocks: {},
     dispatch: null,
   }
 
@@ -54,23 +55,24 @@ class Panel extends Component {
     this.changeBlockType = this.changeBlockType.bind(this);
     this.changeField = this.changeField.bind(this);
     this.newField = this.newField.bind(this);
-
-    const currentBlock = props.blocks.length > 0 ? 0 : null;
+    this.saveField = this.saveField.bind(this);
+    this.deleteField = this.deleteField.bind(this);
+    this.fieldTitleChange = this.fieldTitleChange.bind(this);
 
     this.state = {
       blocks: props.blocks,
-      currentBlock,
+      currentBlock: null,
       currentField: 0,
     };
   }
 
   addBlockType(block) {
     this.setState({
-      blocks: [
+      blocks: {
         ...this.state.blocks,
-        block,
-      ],
-      currentBlock: this.state.blocks.length,
+        [block.name]: block,
+      },
+      currentBlock: block.name,
     });
   }
 
@@ -82,56 +84,105 @@ class Panel extends Component {
     this.setState({ currentBlock });
   }
 
-  changeField(currentField) {
-    const data = serialize(this.fieldColumn.form, { hash: true, empty: true });
-    this.fieldColumn.form.reset();
-    this.fieldColumn.setState({ title: '' });
-
-    if (!data) return;
-
-    const { blocks, currentBlock } = this.state;
-    const index = this.state.currentField;
-
+  fieldTitleChange(title) {
+    const { blocks, currentBlock, currentField } = this.state;
     this.setState({
-      blocks: [
-        ...blocks.slice(0, currentBlock),
-        {
+      blocks: {
+        ...blocks,
+        [currentBlock]: {
           ...blocks[currentBlock],
           fields: [
-            ...blocks[currentBlock].fields.slice(0, index),
-            update(blocks[currentBlock].fields[index], { $merge: { ...data, label: data.title || 'Blank' } }),
-            ...blocks[currentBlock].fields.slice(index + 1),
+            ...blocks[currentBlock].fields.slice(0, currentField),
+            update(blocks[currentBlock].fields[currentField], {
+              $merge: {
+                label: title || 'Blank',
+                handle: slugify(title) || 'blank',
+              },
+            }),
+            ...blocks[currentBlock].fields.slice(currentField + 1),
           ],
         },
-        ...blocks.slice(currentBlock + 1),
-      ],
+      },
       currentField,
     });
   }
 
+  saveField() {
+    return new Promise((resolve, reject) => {
+      const { currentField, blocks, currentBlock } = this.state;
+      const data = serialize(this.fieldColumn.form, { hash: true, empty: true });
+      this.fieldColumn.form.reset();
+
+      if (!data) reject();
+
+      this.setState({
+        blocks: {
+          ...blocks,
+          [currentBlock]: {
+            ...blocks[currentBlock],
+            fields: [
+              ...blocks[currentBlock].fields.slice(0, currentField),
+              update(blocks[currentBlock].fields[currentField], { $merge: { ...data, label: data.title || 'Blank' } }),
+              ...blocks[currentBlock].fields.slice(currentField + 1),
+            ],
+          },
+        },
+      }, resolve);
+    });
+  }
+
+  changeField(currentField = this.state.currentField) {
+    return this.saveField().then(() => {
+      this.setState({
+        currentField,
+      });
+    });
+  }
+
   newField() {
-    const { blocks, currentBlock, currentField } = this.state;
-    const block = blocks[currentBlock];
+    const { blocks, currentBlock } = this.state;
     const field = {
       label: 'Blank',
       handle: `blank-${blocks[currentBlock].fields.length}`,
     };
 
-    this.changeField(currentField);
+    this.saveField()
+      .then(() => {
+        this.setState({
+          blocks: {
+            ...blocks,
+            [currentBlock]: {
+              ...blocks[currentBlock],
+              fields: [
+                ...blocks[currentBlock].fields,
+                ...field,
+              ],
+            },
+          },
+        }, () => {
+          this.setState({
+            currentField: blocks[currentBlock].fields.length,
+          });
+        });
+      });
+  }
 
-    this.setState({
-      blocks: [
-        ...blocks.slice(0, currentBlock),
-        {
-          ...block,
-          fields: [
-            ...block.fields,
-            ...field,
-          ],
+  deleteField() {
+    const { blocks, currentBlock, currentField } = this.state;
+    this.saveField().then(() => {
+      this.setState({
+        currentField: 0,
+        blocks: {
+          ...blocks,
+          [currentBlock]: {
+            ...blocks[currentBlock],
+            fields: [
+              ...blocks[currentBlock].fields.slice(0, currentField),
+              ...blocks[currentBlock].fields.slice(currentField + 1),
+            ],
+          },
         },
-        ...blocks.slice(currentBlock + 1),
-      ],
-      currentField: block.fields.length,
+      });
     });
   }
 
@@ -148,12 +199,12 @@ class Panel extends Component {
         <div className="group__col">
           <h3 className="group__col__title">Block Types</h3>
           <div className="group__col__inner">
-            {blocks.length > 0 && blocks.map(({ handle, name }, i) =>
+            {Object.keys(blocks).length > 0 && Object.keys(blocks).map(blockKey =>
               <GroupTile
-                key={handle}
-                isActive={currentBlock === i}
-                onClick={() => this.changeBlockType(i)}
-                label={name}
+                key={blockKey}
+                isActive={currentBlock === blockKey}
+                onClick={() => this.changeBlockType(blockKey)}
+                label={blockKey}
               />)}
             <Button small onClick={this.newBlockType}>New Block Type</Button>
           </div>
@@ -164,12 +215,12 @@ class Panel extends Component {
           <div className="group__col__inner">
             {currentBlock !== null &&
               <div>
-                {block.fields.map(({ handle, label }, i) =>
+                {block.fields.map((f, i) =>
                   <GroupTile
-                    key={handle}
+                    key={f.handle}
                     isActive={currentField === i}
                     onClick={() => this.changeField(i)}
-                    label={label}
+                    label={f.label}
                   />)}
                 <Button small onClick={this.newField}>New Field</Button>
               </div>
@@ -184,20 +235,35 @@ class Panel extends Component {
             && currentField !== null
             && (
               <FieldColumn
-                key={field.handle}
+                key={currentField}
                 ref={(r) => { this.fieldColumn = r; }}
                 field={field}
+                onTitleChange={this.fieldTitleChange}
+                deleteField={this.deleteField}
+                dispatch={this.props.dispatch}
+                canDelete={block.fields.length > 1}
               />
             )
           }
         </div>
 
         <div>
-          {blocks.map(b =>
-            b.fields.map(f =>
-              Object.keys(f).map(key =>
-                <input key={key} type="text" hidden readOnly name={`${fieldName}[${block.handle}][${f.handle}]`} value={JSON.stringify(f)} />
-              ),
+          {Object.keys(blocks).map(b =>
+            Object.keys(blocks[b].fields).map(fieldObj =>
+              Object.keys(fieldObj).map((key, i) => {
+                const fieldHandle = fieldObj.handle;
+                const s = fieldObj[key];
+                return (
+                  <input
+                    key={key}
+                    type="text"
+                    hidden
+                    readOnly
+                    name={`${fieldName}[${b}][fields][${i}][${fieldHandle}][${key}]`}
+                    value={typeof s === 'string' ? s : JSON.stringify(s)}
+                  />
+                );
+              }),
             ),
           )}
         </div>
