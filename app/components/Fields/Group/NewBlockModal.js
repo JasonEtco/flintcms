@@ -17,6 +17,7 @@ export default class NewBlockModal extends Component {
     super(props);
     this.confirm = this.confirm.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   state = { title: '' }
@@ -37,6 +38,10 @@ export default class NewBlockModal extends Component {
     this.setState({ title });
   }
 
+  handleKeyPress(e) {
+    if (e.key === 'Enter') this.confirm();
+  }
+
   render() {
     const { close } = this.props;
 
@@ -51,6 +56,7 @@ export default class NewBlockModal extends Component {
           onChange={this.handleTitleChange}
           full
           autoFocus
+          onKeyPress={this.handleKeyPress}
         />
         <Input
           name="handle"
