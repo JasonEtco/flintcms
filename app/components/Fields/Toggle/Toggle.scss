@@ -8,6 +8,7 @@
     margin: 0;
     background-color: white;
     outline: none;
+    @extend %focus;
 
     &__marker {
         position: absolute;
