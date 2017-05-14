@@ -39,7 +39,7 @@ export default class NewBlockModal extends Component {
   }
 
   handleKeyPress(e) {
-    if (e.key === 'Enter') this.confirm();
+    if (e.which === 13) this.confirm();
   }
 
   render() {
