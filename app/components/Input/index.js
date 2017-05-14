@@ -13,6 +13,7 @@ export default class Input extends Component {
     full: PropTypes.bool,
     code: PropTypes.bool,
     onChange: PropTypes.func,
+    onKeyPress: PropTypes.func,
     className: PropTypes.string,
     instructions: PropTypes.string,
     required: PropTypes.bool,
@@ -31,6 +32,7 @@ export default class Input extends Component {
     big: false,
     full: false,
     onChange: f => f,
+    onKeyPress: null,
     className: null,
     instructions: null,
     required: false,
@@ -79,6 +81,7 @@ export default class Input extends Component {
       autoFocus,
       autoCorrect,
       maxLength,
+      onKeyPress,
     } = this.props;
 
     const classes = classnames(
@@ -104,6 +107,7 @@ export default class Input extends Component {
         defaultValue={defaultValue}
         autoFocus={autoFocus}
         value={value}
+        onKeyPress={onKeyPress}
         onChange={event => this.handleChange(event)}
         autoCorrect={autoCorrect}
         maxLength={maxLength}
