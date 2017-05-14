@@ -248,24 +248,27 @@ class Panel extends Component {
         </div>
 
         <div>
-          {Object.keys(blocks).map(b =>
-            Object.keys(blocks[b].fields).map(fieldObj =>
-              Object.keys(fieldObj).map((key, i) => {
-                const fieldHandle = fieldObj.handle;
-                const s = fieldObj[key];
-                return (
-                  <input
-                    key={key}
-                    type="text"
-                    hidden
-                    readOnly
-                    name={`${fieldName}[${b}][fields][${i}][${fieldHandle}][${key}]`}
-                    value={typeof s === 'string' ? s : JSON.stringify(s)}
-                  />
-                );
-              }),
-            ),
-          )}
+          {Object.keys(blocks).map(b => (
+            <div key={b}>
+              {blocks[b].fields.map((fieldObj, i) => (
+                <div key={fieldObj.handle}>
+                  {Object.keys(fieldObj).map((key) => {
+                    const s = fieldObj[key];
+                    return (
+                      <input
+                        key={key}
+                        type="text"
+                        hidden
+                        readOnly
+                        name={`${fieldName}[${b}][fields][${i}][${key}]`}
+                        value={typeof s === 'string' ? s : JSON.stringify(s)}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     );
