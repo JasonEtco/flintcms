@@ -18,6 +18,14 @@ export default class ConfirmModal extends Component {
   constructor(props) {
     super(props);
     this.confirm = this.confirm.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  componentDidMount() { window.addEventListener('keyup', this.handleKeyPress); }
+  componentWillUnmount() { window.removeEventListener('keyup', this.handleKeyPress); }
+
+  handleKeyPress(e) {
+    if (e.which === 13) this.confirm();
   }
 
   confirm() {
