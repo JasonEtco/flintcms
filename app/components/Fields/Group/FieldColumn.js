@@ -6,6 +6,7 @@ import FieldOptions from 'components/FieldOptions';
 import { slugify } from 'utils/helpers';
 import { openModal } from 'actions/uiActions';
 import ConfirmModal from 'components/Modals/ConfirmModal';
+import serialize from 'form-serialize';
 
 export default class FieldColumn extends Component {
   static propTypes = {
@@ -14,6 +15,7 @@ export default class FieldColumn extends Component {
     deleteField: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     canDelete: PropTypes.bool.isRequired,
+    save: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -34,8 +36,17 @@ export default class FieldColumn extends Component {
     this.state = {
       title: props.field.title || '',
       type: props.field.type || 'Asset',
+      data: props.field,
     };
   }
+
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      this.props.save(false);
+    }, 100);
+  }
+
+  componentWillUnmount() { clearInterval(this.timer); }
 
   handleTitleChange(title) {
     this.setState({ title }, this.props.onTitleChange(title));

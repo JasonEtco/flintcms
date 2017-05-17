@@ -23,6 +23,8 @@ export default class NewBlockModal extends Component {
   state = { title: '' }
 
   confirm() {
+    if (this.name.value === '') return;
+
     this.props.confirm({
       name: this.name.value,
       handle: slugify(this.state.title),

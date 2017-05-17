@@ -30,7 +30,9 @@
         }
 
         &__tile {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             width: 100%;
             padding: 1.5em;
             border: none;

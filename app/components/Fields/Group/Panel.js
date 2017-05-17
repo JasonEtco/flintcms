@@ -8,22 +8,7 @@ import { slugify } from 'utils/helpers';
 import NewBlockModal from './NewBlockModal';
 import mapStateToProps from '../../../main';
 import FieldColumn from './FieldColumn';
-
-const GroupTile = ({ onClick, label, isActive }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`group__col__tile ${isActive ? 'is-active' : ''}`}
-  >
-    {label}
-  </button>
-);
-
-GroupTile.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
-};
+import GroupTile from './GroupTile';
 
 class Panel extends Component {
   static propTypes = {
@@ -52,6 +37,7 @@ class Panel extends Component {
     super(props);
     this.newBlockType = this.newBlockType.bind(this);
     this.addBlockType = this.addBlockType.bind(this);
+    this.deleteBlock = this.deleteBlock.bind(this);
     this.changeBlockType = this.changeBlockType.bind(this);
     this.changeField = this.changeField.bind(this);
     this.newField = this.newField.bind(this);
@@ -78,6 +64,18 @@ class Panel extends Component {
 
   newBlockType() {
     this.props.dispatch(openModal(<NewBlockModal confirm={this.addBlockType} />));
+  }
+
+  deleteBlock(blockHandle) {
+    const { blocks, currentBlock } = this.state;
+    const newBlocks = { ...blocks };
+    delete newBlocks[blockHandle];
+
+    this.setState({
+      blocks: newBlocks,
+      currentBlock: currentBlock === blockHandle ? null : currentBlock,
+      currentField: 0,
+    });
   }
 
   changeBlockType(currentBlock) {
@@ -107,13 +105,13 @@ class Panel extends Component {
     });
   }
 
-  saveField() {
+  saveField(reset = true, data) {
     return new Promise((resolve, reject) => {
       const { currentField, blocks, currentBlock } = this.state;
-      const data = serialize(this.fieldColumn.form, { hash: true, empty: true });
-      this.fieldColumn.form.reset();
+      if (reset) this.fieldColumn.form.reset();
 
-      if (!data) reject();
+      const d = data || serialize(this.fieldColumn.form, { hash: true, empty: true });
+      if (!d) reject();
 
       this.setState({
         blocks: {
@@ -122,7 +120,7 @@ class Panel extends Component {
             ...blocks[currentBlock],
             fields: [
               ...blocks[currentBlock].fields.slice(0, currentField),
-              update(blocks[currentBlock].fields[currentField], { $merge: { ...data, label: data.title || 'Blank' } }),
+              update(blocks[currentBlock].fields[currentField], { $merge: { ...d, label: d.title || 'Blank' } }),
               ...blocks[currentBlock].fields.slice(currentField + 1),
             ],
           },
@@ -205,6 +203,8 @@ class Panel extends Component {
                 isActive={currentBlock === blockKey}
                 onClick={() => this.changeBlockType(blockKey)}
                 label={blockKey}
+                onDelete={this.deleteBlock}
+                dispatch={this.props.dispatch}
               />)}
             <Button small onClick={this.newBlockType}>New Block Type</Button>
           </div>
@@ -242,6 +242,7 @@ class Panel extends Component {
                 deleteField={this.deleteField}
                 dispatch={this.props.dispatch}
                 canDelete={block.fields.length > 1}
+                save={this.saveField}
               />
             )
           }

@@ -7,7 +7,7 @@ export default class Group extends Component {
   render() {
     return (
       <div>
-        {this.props.children}
+        Group!
       </div>
     );
   }
