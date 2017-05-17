@@ -22,6 +22,12 @@ export default class Toggle extends Component {
       isActive = JSON.parse(props.defaultValue);
     }
     this.state = { isActive };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange() {
+    const { isActive } = this.state;
+    this.setState({ isActive: !isActive });
   }
 
   render() {
@@ -38,10 +44,10 @@ export default class Toggle extends Component {
       <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <button className="toggle" role="checkbox" aria-checked={isActive} onClick={() => this.setState({ isActive: !isActive })} type="button">
+        <button className="toggle" role="checkbox" aria-checked={isActive} onClick={this.handleChange} type="button">
           <div className="toggle__marker" />
         </button>
-        <input name={name} type="checkbox" hidden readOnly value={isActive} checked={isActive} />
+        <input name={name} type="checkbox" hidden readOnly value={isActive ? 'on' : 'off'} checked={isActive} />
       </div>
     );
   }

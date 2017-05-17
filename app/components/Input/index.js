@@ -31,7 +31,7 @@ export default class Input extends Component {
     placeholder: null,
     big: false,
     full: false,
-    onChange: f => f,
+    onChange: null,
     onKeyPress: null,
     className: null,
     instructions: null,
@@ -60,7 +60,7 @@ export default class Input extends Component {
 
     this.value = value;
     this.setState({ value });
-    onChange(value);
+    if (onChange) onChange(value);
   }
 
   render() {
