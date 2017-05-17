@@ -4,17 +4,6 @@ import renderOption from 'utils/renderOption';
 import DeleteIcon from 'components/DeleteIcon';
 import './Group.scss';
 
-// blocks = [
-//   {
-//     fields: [
-//       {
-//         ...field,
-//         defaultValue: '',
-//       },
-//     ]
-//   }
-// ];
-
 export default class Group extends Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
@@ -51,6 +40,7 @@ export default class Group extends Component {
 
       return {
         ...block,
+        type,
         fields: formatted,
       };
     });
@@ -65,7 +55,10 @@ export default class Group extends Component {
     this.setState({
       blocks: [
         ...this.state.blocks,
-        this.props.blocks[key],
+        {
+          type: key,
+          ...this.props.blocks[key],
+        },
       ],
     });
   }
@@ -100,7 +93,7 @@ export default class Group extends Component {
                 <DeleteIcon onClick={() => this.deleteBlock(i)} small />
               </div>
               {blk.fields.map(field => renderOption(field, field.defaultValue || null, { name: `${name}[${i}][${field.handle}]` }))}
-              <input type="text" name={`${name}[${i}][type]`} value={blk} hidden readOnly />
+              <input type="text" name={`${name}[${i}][type]`} value={blk.type} hidden readOnly />
             </div>)}
         </div>
         <div className="group__buttons form-element">
