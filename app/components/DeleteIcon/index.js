@@ -6,9 +6,13 @@ import ConfirmModal from '../Modals/ConfirmModal';
 export default class DeleteIcon extends Component {
   static propTypes = {
     onClick: PropTypes.func.isRequired,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
-  };
+  }
+
+  static defaultProps = {
+    message: undefined,
+  }
 
   constructor(props) {
     super(props);
@@ -27,7 +31,7 @@ export default class DeleteIcon extends Component {
 
   render() {
     return (
-      <button className="table__delete" onClick={this.onClick}><Icon icon="circleWithLine" /></button>
+      <button type="button" className="table__delete" onClick={this.onClick}><Icon icon="circleWithLine" /></button>
     );
   }
 }
