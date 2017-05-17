@@ -9,6 +9,7 @@ import NewBlockModal from './NewBlockModal';
 import mapStateToProps from '../../../main';
 import FieldColumn from './FieldColumn';
 import GroupTile from './GroupTile';
+import './Panel.scss';
 
 class Panel extends Component {
   static propTypes = {
@@ -193,10 +194,10 @@ class Panel extends Component {
       : {};
 
     return (
-      <div className="group__panel">
-        <div className="group__col">
-          <h3 className="group__col__title">Block Types</h3>
-          <div className="group__col__inner">
+      <div className="panel">
+        <div className="panel__col">
+          <h3 className="panel__col__title">Block Types</h3>
+          <div className="panel__col__inner">
             {Object.keys(blocks).length > 0 && Object.keys(blocks).map(blockKey =>
               <GroupTile
                 key={blockKey}
@@ -210,9 +211,9 @@ class Panel extends Component {
           </div>
         </div>
 
-        <div className="group__col">
-          <h3 className="group__col__title">Fields</h3>
-          <div className="group__col__inner">
+        <div className="panel__col">
+          <h3 className="panel__col__title">Fields</h3>
+          <div className="panel__col__inner">
             {currentBlock !== null &&
               <div>
                 {block.fields.map((f, i) =>
@@ -228,8 +229,8 @@ class Panel extends Component {
           </div>
         </div>
 
-        <div className="group__field-layout">
-          <h3 className="group__col__title">Fields</h3>
+        <div className="panel__field-layout">
+          <h3 className="panel__col__title">Fields</h3>
           {
             currentBlock !== null
             && currentField !== null

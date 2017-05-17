@@ -1,0 +1,58 @@
+.panel {
+    display: flex;
+    width: 100%;
+    border: 1px solid $grey-light;
+    border-radius: 3px;
+    min-height: 300px;
+
+    &__col {
+        width: 20%;
+        border-right: 1px solid $grey-light;
+        font-size: $size0;
+
+        .btn { margin: 1em 0 0 1em; }
+
+        &:nth-child(odd) {
+            background-color: $grey-lighter;
+        }
+
+        &__title {
+            width: 100%;
+            padding: 1em;
+            border-bottom: 1px solid $grey-light;
+            margin: 0;
+            background-color: lighten($grey-light, 10%);
+            color: $grey;
+            font-size: $size0;
+            font-weight: 400;
+        }
+
+        &__tile {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1.5em;
+            border: none;
+            border-bottom: 1px solid $grey-light;
+            background-color: lighten($grey-light, 10%);
+            font-family: inherit;
+            text-align: left;
+
+            &.is-active {
+                background-color: white;
+            }
+        }
+    }
+
+    &__field-layout {
+        flex: 2;
+
+        .group__col__inner { padding: 1em; }
+    }
+
+    &__delete {
+        margin-top: 2em;
+        color: $orange;
+    }
+}

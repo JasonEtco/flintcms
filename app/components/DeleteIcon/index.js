@@ -1,17 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { openModal } from 'actions/uiActions';
 import Icon from 'utils/icons';
+import store from 'utils/store';
 import ConfirmModal from '../Modals/ConfirmModal';
 
 export default class DeleteIcon extends Component {
   static propTypes = {
     onClick: PropTypes.func.isRequired,
     message: PropTypes.string,
-    dispatch: PropTypes.func.isRequired,
+    small: PropTypes.bool,
   }
 
   static defaultProps = {
     message: undefined,
+    small: false,
   }
 
   constructor(props) {
@@ -20,11 +22,12 @@ export default class DeleteIcon extends Component {
   }
 
   onClick() {
-    const { onClick, message, dispatch } = this.props;
-    dispatch(openModal(
+    const { onClick, message, small } = this.props;
+    store.dispatch(openModal(
       <ConfirmModal
         confirm={onClick}
         message={message}
+        small={small}
       />),
     );
   }

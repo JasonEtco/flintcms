@@ -6,11 +6,13 @@ export default class ConfirmModal extends Component {
     confirm: PropTypes.func.isRequired,
     close: PropTypes.func,
     message: PropTypes.string,
+    small: PropTypes.bool,
   }
 
   static defaultProps = {
     close: null,
     message: 'Are you sure you want to do this?',
+    small: false,
   }
 
   constructor(props) {
@@ -24,14 +26,14 @@ export default class ConfirmModal extends Component {
   }
 
   render() {
-    const { close, message } = this.props;
+    const { close, message, small } = this.props;
 
     return (
       <div className="modal--confirm">
         {message}
         <div className="modal__buttons">
-          <Button onClick={this.confirm}>Confirm</Button>
-          <Button onClick={close} kind="subtle">Cancel</Button>
+          <Button small={small} onClick={this.confirm}>Confirm</Button>
+          <Button small={small} onClick={close} kind="subtle">Cancel</Button>
         </div>
       </div>
     );
