@@ -4,6 +4,17 @@ import renderOption from 'utils/renderOption';
 import DeleteIcon from 'components/DeleteIcon';
 import './Group.scss';
 
+// blocks = [
+//   {
+//     fields: [
+//       {
+//         ...field,
+//         defaultValue: '',
+//       },
+//     ]
+//   }
+// ];
+
 export default class Group extends Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
@@ -14,26 +25,40 @@ export default class Group extends Component {
       fields: PropTypes.arrayOf(PropTypes.shape({
         handle: PropTypes.string,
         title: PropTypes.string,
-        type: PropTypes.arrayOf(PropTypes.string),
+        type: PropTypes.string,
         instructions: PropTypes.string,
       })),
     })).isRequired,
+    defaultValue: PropTypes.array,
   }
 
   static defaultProps = {
     instructions: null,
     required: false,
+    defaultValue: [],
   }
 
   constructor(props) {
     super(props);
 
-    console.log(props);
+    const formattedFields = props.defaultValue.map((blockObj) => {
+      const { type, ...fields } = blockObj;
+      const block = props.blocks[type];
+      const formatted = block.fields.map(f => ({
+        ...f,
+        defaultValue: fields[f.handle],
+      }));
+
+      return {
+        ...block,
+        fields: formatted,
+      };
+    });
 
     this.addBlock = this.addBlock.bind(this);
     this.deleteBlock = this.deleteBlock.bind(this);
-    // Set default value to show blocks with filled in fields, etc
-    this.state = { blocks: [] };
+
+    this.state = { blocks: formattedFields };
   }
 
   addBlock(key) {
@@ -70,11 +95,12 @@ export default class Group extends Component {
         {instructions && <p className="input__instructions">{instructions}</p>}
         <div className="group__fields form-element">
           {this.state.blocks.map((blk, i) =>
-            <div key={blk} className="group__block form-element">
+            <div key={i} className="group__block form-element">
               <div className="group__block__btns">
                 <DeleteIcon onClick={() => this.deleteBlock(i)} small />
               </div>
-              {blk.fields.map(field => renderOption(field, null, { name: `${name}[${i}][${field.handle}]` }))}
+              {blk.fields.map(field => renderOption(field, field.defaultValue || null, { name: `${name}[${i}][${field.handle}]` }))}
+              <input type="text" name={`${name}[${i}][type]`} value={blk} hidden readOnly />
             </div>)}
         </div>
         <div className="group__buttons form-element">
