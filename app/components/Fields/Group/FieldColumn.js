@@ -6,7 +6,6 @@ import FieldOptions from 'components/FieldOptions';
 import { slugify } from 'utils/helpers';
 import { openModal } from 'actions/uiActions';
 import ConfirmModal from 'components/Modals/ConfirmModal';
-import serialize from 'form-serialize';
 
 export default class FieldColumn extends Component {
   static propTypes = {
