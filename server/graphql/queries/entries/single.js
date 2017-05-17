@@ -31,7 +31,7 @@ module.exports = {
     const isAUser = ctx !== undefined && ctx.user !== undefined;
     const projection = getProjection(ast);
 
-    const fargs = {};
+    const fargs = args;
 
     if (args.status) {
       if (isAUser) {
