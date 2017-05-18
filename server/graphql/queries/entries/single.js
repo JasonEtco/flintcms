@@ -37,16 +37,16 @@ module.exports = {
       if (isAUser) {
         const perms = await getUserPermissions(ctx.user._id);
         fargs.status = !perms.entries.canSeeDrafts ? 'live' : args.status;
-      } else {
-        fargs.status = args.status;
       }
     }
 
     if (args.sectionSlug) {
       const { _id } = await Section.findOne({ slug: args.sectionSlug }).select('_id').lean().exec();
       fargs.section = _id;
+      delete fargs.sectionSlug;
     }
 
+    console.log(fargs);
     return Entry
       .findOne(fargs)
       .populate('author')

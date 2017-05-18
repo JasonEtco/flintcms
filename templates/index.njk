@@ -17,6 +17,14 @@
       <img src="/public/assets/{{ entry.asssset.filename }}" alt="">
     {% endif %}
 
+
+    {% if entry.assetMatrix %}
+      {% for block in entry.assetMatrix %}
+        <h3>{{ block['asset-title'] }}</h3>
+        <img src="/public/assets/{{ block.asset.filename }}" alt="block.asset.title">
+      {% endfor %}
+    {% endif %}
+
   {{ entry | json | safe }}
   {#{{ flint | json | safe }}#}
 

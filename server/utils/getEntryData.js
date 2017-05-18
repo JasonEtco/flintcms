@@ -37,8 +37,8 @@ async function getEntryData({ slug, section }) {
 
   const { data, errors } = await graphql(schema, query);
 
-  if (errors !== undefined || data.entry === undefined || data.entry === null) {
-    console.error(errors);
+  if (errors !== undefined && (data.entry === undefined || data.entry === null)) {
+    console.error(data, errors);
     throw new Error(404);
   }
 
