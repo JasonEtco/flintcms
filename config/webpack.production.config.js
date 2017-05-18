@@ -3,18 +3,26 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const WebpackChunkHash = require('webpack-chunk-hash');
+
 const autoprefixer = require('autoprefixer');
 const BabiliPlugin = require('babili-webpack-plugin');
-const { browsers, resolve } = require('./constants');
+const { browsers, resolve, vendor } = require('./constants');
 
 module.exports = {
-  entry: [
-    'babel-polyfill',
-    path.resolve(__dirname, '..', 'app', 'main.js'),
-  ],
+  entry: {
+    main: [
+      'babel-polyfill',
+      path.resolve(__dirname, '..', 'app', 'main.js'),
+    ],
+    vendor,
+  },
   output: {
     path: path.join(__dirname, '..', 'admin'),
-    filename: '[name]-[hash].min.js',
+    filename: '[name]-[chunkhash].min.js',
+    chunkFilename: '[name]-[chunkhash].min.js',
     publicPath: '/admin',
   },
   resolve,
@@ -24,7 +32,10 @@ module.exports = {
       inject: 'body',
       filename: 'index.html',
     }),
-    // new webpack.optimize.UglifyJsPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+    }),
     new BabiliPlugin(),
     new ExtractTextPlugin('[name]-[hash].min.css'),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -41,6 +52,16 @@ module.exports = {
         to: '',
       },
     ]),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vendor', 'manifest'], // vendor libs + extracted manifest
+      minChunks: Infinity,
+    }),
+    new webpack.HashedModuleIdsPlugin(),
+    new WebpackChunkHash(),
+    new ChunkManifestPlugin({
+      filename: 'chunk-manifest.json',
+      manifestVariable: 'webpackManifest',
+    }),
   ],
   module: {
     rules: [{

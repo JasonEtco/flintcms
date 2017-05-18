@@ -46,6 +46,7 @@
     "body-parser": "^1.16.0",
     "camelcase": "^4.0.0",
     "cheerio": "^0.22.0",
+    "chunk-manifest-webpack-plugin": "^1.1.0",
     "classnames": "^2.2.5",
     "codemirror": "^5.25.2",
     "compression": "^1.6.2",
@@ -99,6 +100,8 @@
     "socket.io-client": "^1.7.2",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1",
+    "webpack-bundle-analyzer": "^2.8.1",
+    "webpack-chunk-hash": "^0.4.0",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-hot-middleware": "^2.17.1"
   },

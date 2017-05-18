@@ -2,15 +2,18 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { browsers, resolve } = require('./constants');
+const { browsers, resolve, vendor } = require('./constants');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
-  entry: [
-    'babel-polyfill',
-    'webpack-hot-middleware/client?reload=true&dynamicPublicPath=true',
-    path.join(__dirname, '..', 'app', 'main.js'),
-  ],
+  entry: {
+    main: [
+      'babel-polyfill',
+      'webpack-hot-middleware/client?reload=true&dynamicPublicPath=true',
+      path.resolve(__dirname, '..', 'app', 'main.js'),
+    ],
+    vendor,
+  },
   output: {
     path: path.join(__dirname, '..', 'admin'),
     filename: '[name].js',
