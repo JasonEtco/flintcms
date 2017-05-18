@@ -46,7 +46,6 @@ module.exports = {
       delete fargs.sectionSlug;
     }
 
-    console.log(fargs);
     return Entry
       .findOne(fargs)
       .populate('author')
