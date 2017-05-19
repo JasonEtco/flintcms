@@ -3,6 +3,7 @@ import fetchData from 'actions/fetchData';
 import Toast from 'components/Toast';
 import SocketEvents from 'utils/socketEvents';
 import t from 'utils/types';
+import Icon from 'utils/icons';
 import Modals from 'containers/Modals';
 import './Main.scss';
 
@@ -24,6 +25,8 @@ export default class Main extends Component {
     user: null,
   }
 
+  state = { navIsOpen: false }
+
   componentDidMount() {
     const { dispatch, socket } = this.props;
 
@@ -33,15 +36,25 @@ export default class Main extends Component {
     events.listen();
   }
 
+  componentWillReceiveProps(newProps) {
+    console.log(newProps);
+    if (newProps.location.pathname !== this.props.location.pathname) {
+      this.setState({ navIsOpen: false });
+    }
+  }
+
   render() {
     const { ui, dispatch, site, user } = this.props;
+    const { navIsOpen } = this.state;
 
     const isFetching = Object.keys(this.props).some(key => this.props[key].isFetching);
     if (isFetching) return null;
 
     return (
       <main className="main">
-        <MainNav siteName={site.siteName} user={user} />
+        <button className="nav__toggle" type="button" onClick={() => this.setState({ navIsOpen: !navIsOpen })}><Icon icon="gear" /></button>
+        <MainNav siteName={site.siteName} user={user} open={navIsOpen} closeNav={this.closeNav} />
+
         {React.cloneElement(this.props.children, {
           ...this.props,
           key: this.props.location.pathname,
@@ -50,6 +63,8 @@ export default class Main extends Component {
         <div className="toasts">
           {ui.toasts.map(toast => <Toast dispatch={dispatch} key={toast.dateCreated} {...toast} />)}
         </div>
+
+        <div className="nav__toggle-overlay" onClick={() => this.setState({ navIsOpen: false })} />
         <Modals {...this.props} />
       </main>
     );

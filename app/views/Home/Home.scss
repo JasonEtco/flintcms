@@ -13,6 +13,7 @@
     &__column {
         @extend %card;
         width: 32%;
+        @include media($on-mobile) { width: 100%; }
 
         .subtitle {
             margin-top: 0;

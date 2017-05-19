@@ -1,14 +1,13 @@
 .nav {
-    &-wrapper { height: 100%; }
-
     position: relative;
     width: 220px;
     height: 100%;
     background-color: $grey-dark;
-    font-size: 0.8rem;
+    font-size: $size0;
     transition: transform 200ms;
     @include media($on-mobile) {
         position: absolute;
+        z-index: 99;
         top: 0;
         left: 0;
         transform: translateX(-100%);
@@ -17,15 +16,40 @@
         &.is-open {
             transform: translateX(0);
             transition-timing-function: $enter;
+
+            ~ .nav__toggle-overlay {
+                opacity: 0.5;
+                pointer-events: initial;
+            }
         }
     }
 
     &__toggle {
-        position: absolute;
-        top: 1em;
-        left: 1em;
         display: none;
+        width: 100%;
+        padding: 0.6em;
+        border: none;
+        margin: 0;
+        background: $grey-light;
+        border-bottom: darken($grey-light, 10%) 1px solid;
         @include media($on-mobile) { display: block; }
+
+        svg { fill: $grey; }
+
+        &-overlay {
+            position: fixed;
+            z-index: 98;
+            top: 0;
+            left: 0;
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 150ms $standard;
+            @include media($on-mobile) { display: block; }
+        }
     }
 
     &__sitename {
@@ -54,7 +78,6 @@
                 align-items: center;
                 padding: 1.4em 2em;
                 color: white;
-                font-size: 0.8rem;
                 text-decoration: none;
 
                 .icon { margin-right: 1em; fill: white; }
