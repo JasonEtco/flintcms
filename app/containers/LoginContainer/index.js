@@ -10,21 +10,23 @@ export default class LoginContainer extends Component {
     children: PropTypes.object.isRequired,
   }
 
-  state = { siteLogo: null }
+  state = { siteLogo: null, isFetching: true }
 
   componentWillMount() { document.body.classList.add('body--grey'); }
 
   componentDidMount() {
     get('/admin/api/site').then(({ data }) => {
-      this.setState({ siteLogo: data.siteLogo });
+      this.setState({ siteLogo: data.siteLogo, isFetching: false });
     });
   }
 
   componentWillUnmount() { document.body.classList.remove('body--grey'); }
 
   render() {
-    const { siteLogo } = this.state;
+    const { siteLogo, isFetching } = this.state;
     const { children } = this.props;
+
+    if (isFetching) return null;
 
     return (
       <div className="login">
