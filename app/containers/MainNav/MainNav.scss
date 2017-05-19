@@ -29,9 +29,9 @@
         width: 100%;
         padding: 0.6em;
         border: none;
+        border-bottom: darken($grey-light, 10%) 1px solid;
         margin: 0;
         background: $grey-light;
-        border-bottom: darken($grey-light, 10%) 1px solid;
         @include media($on-mobile) { display: block; }
 
         svg { fill: $grey; }

@@ -37,7 +37,6 @@ export default class Main extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps);
     if (newProps.location.pathname !== this.props.location.pathname) {
       this.setState({ navIsOpen: false });
     }
@@ -64,7 +63,10 @@ export default class Main extends Component {
           {ui.toasts.map(toast => <Toast dispatch={dispatch} key={toast.dateCreated} {...toast} />)}
         </div>
 
-        <div className="nav__toggle-overlay" onClick={() => this.setState({ navIsOpen: false })} />
+        <div // eslint-disable-line jsx-a11y/no-static-element-interactions
+          className="nav__toggle-overlay"
+          onClick={() => this.setState({ navIsOpen: false })}
+        />
         <Modals {...this.props} />
       </main>
     );
