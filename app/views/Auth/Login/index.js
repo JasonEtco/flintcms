@@ -4,6 +4,7 @@ import { post } from 'axios';
 import { getUrlParameter } from 'utils/helpers';
 import Button from 'components/Button';
 import Input from 'components/Input';
+import Notification from 'components/Notification';
 import LoginContainer from 'containers/LoginContainer';
 
 export default class ComponentName extends Component {
@@ -40,9 +41,12 @@ export default class ComponentName extends Component {
   }
 
   render() {
+    const { error } = this.state;
+
     return (
       <LoginContainer>
         <form className="login__inner" onSubmit={this.handleSubmit}>
+          {error && <Notification type="error">{error}</Notification>}
           <Input required onChange={this.checkInputs} ref={(r) => { this.email = r; }} name="email" autoFocus big placeholder="Email" type="email" />
           <Input required onChange={this.checkInputs} ref={(r) => { this.password = r; }} name="password" big placeholder="Password" type="password" />
           <Button type="submit" disabled={this.state.disableButton}>Log In</Button>
