@@ -29,6 +29,8 @@ module.exports = {
     const data = await h.reduceToObj(args.data.fields, 'handle', 'value', args.data);
 
     const newEntry = new Entry(data);
+    await Entry.populate(newEntry, { path: 'author' });
+
     const savedEntry = await newEntry.save();
 
     if (!savedEntry) throw new Error('Error adding new entry');
