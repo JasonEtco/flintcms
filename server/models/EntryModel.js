@@ -54,7 +54,14 @@ const EntrySchema = new Schema({
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 EntrySchema.pre('validate', function (next) {
-  this.slug = h.slugify(this.title);
+  const slug = h.slugify(this.title);
+
+  if (slug === '') {
+    next(new Error('Your entry\'s title must have some real characters'));
+    return;
+  }
+
+  this.slug = slug;
   next();
 });
 
