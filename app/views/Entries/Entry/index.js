@@ -64,7 +64,7 @@ export default class Entry extends Component {
     const { params, dispatch } = this.props;
     dispatch(openModal(
       <ConfirmModal
-        confirm={dispatch(deleteEntry(params.id))}
+        confirm={() => dispatch(deleteEntry(params.id))}
         message={'Are you sure you want to delete this entry?'}
       />),
     );
