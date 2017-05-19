@@ -18,7 +18,7 @@ export default function Notification({ type, children, formElement }) {
 
   return (
     <div className={classes}>
-      <Icon icon={icons[type]} />
+      <Icon width={12} height={12} icon={icons[type]} />
       {children}
     </div>
   );

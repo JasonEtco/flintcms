@@ -46,7 +46,7 @@ export default class ComponentName extends Component {
     return (
       <LoginContainer>
         <form className="login__inner" onSubmit={this.handleSubmit}>
-          {error && <Notification type="error">{error}</Notification>}
+          {error && <Notification type="error">Oh shucks! Either the account you&apos;re trying to log into does not exist, or the email/password is wrong. Try again!</Notification>}
           <Input required onChange={this.checkInputs} ref={(r) => { this.email = r; }} name="email" autoFocus big placeholder="Email" type="email" />
           <Input required onChange={this.checkInputs} ref={(r) => { this.password = r; }} name="password" big placeholder="Password" type="password" />
           <Button type="submit" disabled={this.state.disableButton}>Log In</Button>

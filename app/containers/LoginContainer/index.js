@@ -30,7 +30,7 @@ export default class LoginContainer extends Component {
 
     return (
       <div className="login">
-        {siteLogo ? <img style={{ maxWidth: '420px', maxHeight: '200px', margin: '1em auto' }} src={`/public/assets/${siteLogo.filename}`} alt={siteName} /> : <FlintLogo width={140} height={80} />}
+        {siteLogo ? <img className="login__img" src={`/public/assets/${siteLogo.filename}`} alt={siteName} /> : <FlintLogo width={140} height={80} />}
         {children}
         <Link to="/admin/fp" className="login__forgot">Forgot your password?</Link>
         {siteLogo && <FlintLogo poweredBy width={100} height={25} />}

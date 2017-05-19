@@ -1,6 +1,8 @@
 .login {
     display: flex;
+    overflow-y: auto;
     width: 100%;
+    height: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -23,6 +25,13 @@
         margin-bottom: 1em;
         font-size: $size2;
         text-align: center;
+    }
+
+    &__img {
+        display: block;
+        max-width: 420px;
+        max-height: 200px;
+        margin: 1em auto;
     }
 
     .input, .btn {
