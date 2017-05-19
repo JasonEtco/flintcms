@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
-import { getSlugFromId } from 'utils/helpers';
+import { getSlugFromId, formatDate } from 'utils/helpers';
 import t from 'utils/types';
 import './Home.scss';
 
@@ -35,7 +35,7 @@ export default class Home extends Component {
       );
     }
 
-    const newEntries = entries.slice(entries.length - 4, entries.length - 1);
+    const newEntries = entries.slice(entries.length - 4).reverse();
 
     return (
       <Page name="home">
@@ -43,10 +43,19 @@ export default class Home extends Component {
 
         <div className="content">
           <div className="page__inner">
-            <div className="page--home__column">
+            <div className="home__column">
               <h3 className="subtitle">Recent Entries</h3>
-              <ul>
-                {newEntries.map(e => <li key={e._id}><Link to={`/admin/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>{e.title}</Link></li>)}
+              <ul className="home__list">
+                {newEntries.map(e =>
+                  <li key={e._id} className="home__list-item">
+                    <Link to={`/admin/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>
+                      <h4>{e.title}</h4>
+                      <div className="home__list-item__meta">
+                        <span className="home__list-item__author">{e.author.username}</span>
+                        <span className="home__list-item__date">{formatDate(e.dateCreated)}</span>
+                      </div>
+                    </Link>
+                  </li>)}
               </ul>
             </div>
           </div>
