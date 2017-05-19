@@ -1,9 +1,32 @@
 .nav {
+    &-wrapper { height: 100%; }
+
     position: relative;
     width: 220px;
     height: 100%;
     background-color: $grey-dark;
     font-size: 0.8rem;
+    transition: transform 200ms;
+    @include media($on-mobile) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        transition-timing-function: $exit;
+
+        &.is-open {
+            transform: translateX(0);
+            transition-timing-function: $enter;
+        }
+    }
+
+    &__toggle {
+        position: absolute;
+        top: 1em;
+        left: 1em;
+        display: none;
+        @include media($on-mobile) { display: block; }
+    }
 
     &__sitename {
         display: block;
