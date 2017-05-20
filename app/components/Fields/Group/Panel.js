@@ -189,9 +189,7 @@ class Panel extends Component {
     const { currentBlock, currentField, blocks } = this.state;
     const { name: fieldName } = this.props;
     const block = blocks[currentBlock];
-    const field = block && block.fields.length > 0
-      ? block.fields[currentField]
-      : {};
+    const field = block && block.fields.length > 0 ? block.fields[currentField] : {};
 
     return (
       <div className="panel">
@@ -231,22 +229,18 @@ class Panel extends Component {
 
         <div className="panel__field-layout">
           <h3 className="panel__col__title">Fields</h3>
-          {
-            currentBlock !== null
-            && currentField !== null
-            && (
-              <FieldColumn
-                key={currentField}
-                ref={(r) => { this.fieldColumn = r; }}
-                field={field}
-                onTitleChange={this.fieldTitleChange}
-                deleteField={this.deleteField}
-                dispatch={this.props.dispatch}
-                canDelete={block.fields.length > 1}
-                save={this.saveField}
-              />
-            )
-          }
+          {currentBlock !== null && currentField !== null && (
+            <FieldColumn
+              key={currentField}
+              ref={(r) => { this.fieldColumn = r; }}
+              field={field}
+              onTitleChange={this.fieldTitleChange}
+              deleteField={this.deleteField}
+              dispatch={this.props.dispatch}
+              canDelete={block.fields.length > 1}
+              save={this.saveField}
+            />
+          )}
         </div>
 
         <div>
