@@ -3,7 +3,7 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 import Fields from 'components/Fields';
 import FieldOptions from 'components/FieldOptions';
-import { slugify } from 'utils/helpers';
+import camelcase from 'camelcase';
 import { openModal } from 'actions/uiActions';
 import ConfirmModal from 'components/Modals/ConfirmModal';
 
@@ -95,7 +95,7 @@ export default class FieldColumn extends Component {
           full
           code
           disabled
-          value={slugify(this.state.title)}
+          value={camelcase(this.state.title)}
         />
 
         <Input

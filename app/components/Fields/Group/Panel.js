@@ -4,7 +4,7 @@ import serialize from 'form-serialize';
 import { openModal } from 'actions/uiActions';
 import update from 'immutability-helper';
 import Button from 'components/Button';
-import { slugify } from 'utils/helpers';
+import camelcase from 'camelcase';
 import NewBlockModal from './NewBlockModal';
 import mapStateToProps from '../../../main';
 import FieldColumn from './FieldColumn';
@@ -95,7 +95,7 @@ class Panel extends Component {
             update(blocks[currentBlock].fields[currentField], {
               $merge: {
                 label: title || 'Blank',
-                handle: slugify(title) || 'blank',
+                handle: camelcase(title) || 'blank',
               },
             }),
             ...blocks[currentBlock].fields.slice(currentField + 1),

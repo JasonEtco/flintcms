@@ -6,7 +6,7 @@ export default function GroupTile({ onClick, label, dispatch, isActive, onDelete
     <button
       type="button"
       onClick={onClick}
-      className={`group__col__tile ${isActive ? 'is-active' : ''}`}
+      className={`panel__col__tile ${isActive ? 'is-active' : ''}`}
     >
       {label}
       {onDelete && <DeleteIcon onClick={() => onDelete(label)} dispatch={dispatch} />}
