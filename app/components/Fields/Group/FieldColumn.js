@@ -79,7 +79,6 @@ export default class FieldColumn extends Component {
           name="title"
           label="Title"
           instructions="This is what the field will be called in the admin dashboard."
-          ref={(r) => { this.title = r; }}
           required
           full
           defaultValue={field.title}
@@ -90,7 +89,6 @@ export default class FieldColumn extends Component {
           name="handle"
           label="Template Handle"
           instructions="The variable to use in the templates."
-          ref={(r) => { this.handle = r; }}
           required
           full
           code
@@ -102,7 +100,6 @@ export default class FieldColumn extends Component {
           name="instructions"
           label="Instructions"
           instructions="Text that will help the author understand content is being asked for."
-          ref={(r) => { this.instructions = r; }}
           defaultValue={field.instructions}
           full
         />
@@ -121,7 +118,6 @@ export default class FieldColumn extends Component {
           onChange={this.handleTypeChange}
           alphabetize
           instructions="The kind of field presented in the dashboard."
-          ref={(r) => { this.type = r; }}
           defaultValue={field.type}
         />
 
