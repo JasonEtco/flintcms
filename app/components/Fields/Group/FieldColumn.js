@@ -39,14 +39,6 @@ export default class FieldColumn extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.timer = setInterval(() => {
-  //     this.props.save(false);
-  //   }, 100);
-  // }
-
-  // componentWillUnmount() { clearInterval(this.timer); }
-
   handleTitleChange(title) {
     this.setState({ title }, this.props.onTitleChange(title));
   }
@@ -83,6 +75,7 @@ export default class FieldColumn extends Component {
           full
           defaultValue={field.title}
           onChange={this.handleTitleChange}
+          autoFocus
         />
 
         <Input

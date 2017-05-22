@@ -60,6 +60,7 @@ class Panel extends Component {
         [block.name]: block,
       },
       currentBlock: block.name,
+      currentField: 0,
     });
   }
 
@@ -80,7 +81,7 @@ class Panel extends Component {
   }
 
   changeBlockType(currentBlock) {
-    this.setState({ currentBlock });
+    this.setState({ currentBlock, currentField: 0 });
   }
 
   fieldTitleChange(title) {
@@ -113,7 +114,6 @@ class Panel extends Component {
 
       const d = data || serialize(this.fieldColumn.form, { hash: true, empty: true });
       if (!d) reject();
-
       this.setState({
         blocks: {
           ...blocks,
