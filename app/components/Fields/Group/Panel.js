@@ -222,6 +222,7 @@ class Panel extends Component {
                     isActive={currentField === i}
                     onClick={() => this.changeField(i)}
                     label={f.label}
+                    handle={f.handle}
                   />)}
                 <Button small onClick={this.newField}>New Field</Button>
               </div>

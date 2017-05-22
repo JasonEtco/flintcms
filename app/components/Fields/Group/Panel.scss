@@ -28,6 +28,13 @@
             font-weight: 400;
         }
 
+        &__handle {
+            display: block;
+            width: 100%;
+            color: $grey;
+            font-size: 0.7rem;
+        }
+
         &__tile {
             display: flex;
             box-sizing: border-box;
@@ -37,6 +44,7 @@
             padding: 1.5em;
             border: none;
             border-bottom: 1px solid $grey-light;
+            flex-wrap: wrap;
             background-color: lighten($grey-light, 10%);
             font-family: inherit;
             text-align: left;

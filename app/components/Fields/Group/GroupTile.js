@@ -3,13 +3,14 @@
 import React, { PropTypes } from 'react';
 import DeleteIcon from 'components/DeleteIcon';
 
-export default function GroupTile({ onClick, label, dispatch, isActive, onDelete }) {
+export default function GroupTile({ onClick, label, handle, dispatch, isActive, onDelete }) {
   return (
     <a
       onClick={onClick}
       className={`panel__col__tile ${isActive ? 'is-active' : ''}`}
     >
       {label}
+      {handle && <span className="panel__col__handle">{handle}</span>}
       {onDelete && <DeleteIcon onClick={() => onDelete(label)} dispatch={dispatch} />}
     </a>
   );
@@ -18,6 +19,7 @@ export default function GroupTile({ onClick, label, dispatch, isActive, onDelete
 GroupTile.propTypes = {
   onClick: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
+  handle: PropTypes.string,
   isActive: PropTypes.bool.isRequired,
   onDelete: PropTypes.func,
   dispatch: PropTypes.func,
@@ -25,5 +27,6 @@ GroupTile.propTypes = {
 
 GroupTile.defaultProps = {
   onDelete: null,
+  handle: null,
   dispatch: null,
 };
