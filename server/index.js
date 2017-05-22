@@ -45,7 +45,8 @@ app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.js
 app.use('/admin', require('./apps/admin'));
 app.use('/graphql', require('./apps/graphql'));
 app.use(require('./utils/publicRegistration'));
-
+require('./utils/pluginHandler');
+require('../plugins/testPlugin');
 
 // ===== Template Routes
 
