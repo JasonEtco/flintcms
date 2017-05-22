@@ -28,12 +28,14 @@ export default class DatePicker extends Component {
     value: PropTypes.number,
     label: PropTypes.string,
     instructions: PropTypes.string,
+    attachment: PropTypes.oneOf(['right', 'left']),
   }
 
   static defaultProps = {
     value: Date.now(),
     label: null,
     instructions: null,
+    attachment: 'left',
   }
 
   constructor(props) {
@@ -127,7 +129,7 @@ export default class DatePicker extends Component {
   }
 
   render() {
-    const { label, instructions, name } = this.props;
+    const { label, instructions, name, attachment } = this.props;
     const { month, year, value, open } = this.state;
     const inputVal = moment(value).format('MM/DD/YYYY');
 
@@ -149,7 +151,13 @@ export default class DatePicker extends Component {
             <Icon icon="calendar" />
           </button>
         </div>
-        {open && <div className="datepicker" aria-expanded={open} onClick={e => e.stopPropagation()}>
+        {open &&
+        <div
+          className="datepicker"
+          aria-expanded={open}
+          onClick={e => e.stopPropagation()}
+          style={attachment === 'left' ? { left: 0 } : { right: 0 }}
+        >
           <div className="datepicker__controls">
             <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e, false)}>
               <Icon width={10} height={10} icon="arrowLeft" />

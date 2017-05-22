@@ -49,7 +49,7 @@ export default class Aside extends Component {
           <StatusDot status={this.state.status} />
         </Dropdown>}
 
-        <DatePicker name="dateCreated" label="Date Created" value={dateCreated} />
+        <DatePicker attachment="right" name="dateCreated" label="Date Created" value={dateCreated} />
 
         {children}
       </aside>
