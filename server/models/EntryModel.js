@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const h = require('../utils/helpers');
-const events = require('../utils/events');
 
 const Schema = mongoose.Schema;
 
@@ -50,10 +49,6 @@ const EntrySchema = new Schema({
     enum: ['live', 'draft', 'disabled'],
     default: 'disabled',
   },
-  pluggedIn: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 // Can't use arrow function because of (this) binding
@@ -67,15 +62,6 @@ EntrySchema.pre('validate', function (next) {
   }
 
   this.slug = slug;
-  next();
-});
-
-// eslint-disable-next-line func-names
-EntrySchema.pre('save', function (next) {
-  if (!this.pluggedIn) {
-    events.emit('new-entry', this);
-    this.pluggedIn = true;
-  }
   next();
 });
 

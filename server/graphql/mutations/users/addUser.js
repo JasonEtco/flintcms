@@ -3,6 +3,7 @@ const randtoken = require('rand-token');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Users');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const events = require('../../../utils/events');
 const getUserPermissions = require('../../../utils/getUserPermissions');
 const sendEmail = require('../../../utils/emails/sendEmail');
 
@@ -36,12 +37,15 @@ module.exports = {
     const token = await randtoken.generate(16);
     newUser.token = token;
 
-    const savedUser = await newUser.save();
+
+    // Emit new-entry event, wait for plugins to affect the new entry
+    const formattedUser = await events.emitObject('new-user', newUser);
+
+    const savedUser = await formattedUser.save();
     if (!savedUser) throw new Error('Could not save the User');
 
     sendEmail(args.user.email, 'new-account', { subject: 'Confirm your account', token });
     emitSocketEvent(root, 'new-user', savedUser);
-
     return savedUser;
   },
 };

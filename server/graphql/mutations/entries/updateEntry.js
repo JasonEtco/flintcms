@@ -1,6 +1,7 @@
 const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Entries');
+const events = require('../../../utils/events');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
 const getUserPermissions = require('../../../utils/getUserPermissions');
 
@@ -42,11 +43,10 @@ module.exports = {
     }
 
     const updatedEntry = await Entry.findByIdAndUpdate(_id, data, { new: true });
-
     if (!updatedEntry) throw new Error('Error updating entry');
 
+    events.emitObject('update-entry', updatedEntry);
     emitSocketEvent(root, 'update-entry', updatedEntry);
-
     return updatedEntry;
   },
 };
