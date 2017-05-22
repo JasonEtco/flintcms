@@ -66,7 +66,7 @@ export default class FieldColumn extends Component {
     const { field, canDelete } = this.props;
 
     return (
-      <form className="panel__col__inner" ref={(r) => { this.form = r; }} onMouseLeave={this.props.save}>
+      <form className="panel__col__inner" ref={(r) => { this.form = r; }} onBlur={this.props.save} onMouseLeave={this.props.save}>
         <Input
           name="title"
           label="Title"

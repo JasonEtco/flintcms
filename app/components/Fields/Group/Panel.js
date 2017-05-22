@@ -21,7 +21,7 @@ class Panel extends Component {
         handle: PropTypes.string,
         type: PropTypes.string,
         instructions: PropTypes.string,
-        required: PropTypes.bool,
+        required: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['true', 'false', ''])]),
         options: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.string]),
       })),
     })),
@@ -108,11 +108,13 @@ class Panel extends Component {
   }
 
   saveField(reset = true, data) {
+    console.log('saving');
     return new Promise((resolve, reject) => {
       const { currentField, blocks, currentBlock } = this.state;
       if (reset) this.fieldColumn.form.reset();
 
       const d = data || serialize(this.fieldColumn.form, { hash: true, empty: true });
+
       if (!d) reject();
       this.setState({
         blocks: {
@@ -131,7 +133,7 @@ class Panel extends Component {
   }
 
   changeField(currentField = this.state.currentField) {
-    return this.saveField().then(() => {
+    return this.saveField(false).then(() => {
       this.setState({
         currentField,
       });

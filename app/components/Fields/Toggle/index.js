@@ -47,7 +47,7 @@ export default class Toggle extends Component {
         <button className="toggle" role="checkbox" aria-checked={isActive} onClick={this.handleChange} type="button">
           <div className="toggle__marker" />
         </button>
-        <input name={name} type="checkbox" hidden readOnly value={isActive ? 'on' : 'off'} checked={isActive} />
+        <input name={name} type="checkbox" hidden readOnly value={JSON.stringify(isActive)} checked={isActive} />
       </div>
     );
   }
