@@ -82,6 +82,7 @@ export default class Group extends Component {
       { 'form-element--required': required },
     );
 
+    /* eslint-disable react/no-array-index-key */
     return (
       <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}

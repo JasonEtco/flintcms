@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
 import t from 'utils/types';
 import { deleteEntry } from 'actions/entryActions';
-import { truncate, getIdFromSlug, getSlugFromId, formatDate, getPropFromProp } from 'utils/helpers';
+import { truncate, getIdFromSlug, getSlugFromId, formatDate } from 'utils/helpers';
 import DeleteIcon from 'components/DeleteIcon';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
@@ -16,7 +16,6 @@ export default class Entries extends Component {
   static propTypes = {
     entries: t.entries,
     sections: t.sections,
-    users: t.users,
     params: PropTypes.shape({
       section: PropTypes.string,
     }),
@@ -49,7 +48,7 @@ export default class Entries extends Component {
   }
 
   render() {
-    const { users, params, dispatch } = this.props;
+    const { params, dispatch } = this.props;
     const { entries } = this.props.entries;
     const { sections } = this.props.sections;
 
