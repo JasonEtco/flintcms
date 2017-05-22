@@ -3,7 +3,7 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 import Fields from 'components/Fields';
 import FieldOptions from 'components/FieldOptions';
-import camelcase from 'camelcase';
+import camelcase from 'utils/camelcase';
 import { openModal } from 'actions/uiActions';
 import ConfirmModal from 'components/Modals/ConfirmModal';
 

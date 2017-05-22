@@ -4,7 +4,7 @@ import serialize from 'form-serialize';
 import { openModal } from 'actions/uiActions';
 import update from 'immutability-helper';
 import Button from 'components/Button';
-import camelcase from 'camelcase';
+import camelcase from 'utils/camelcase';
 import NewBlockModal from './NewBlockModal';
 import mapStateToProps from '../../../main';
 import FieldColumn from './FieldColumn';
