@@ -17,6 +17,7 @@
         }
 
         &__title {
+            box-sizing: border-box;
             width: 100%;
             padding: 1em;
             border-bottom: 1px solid $grey-light;
@@ -48,7 +49,7 @@
     &__field-layout {
         flex: 2;
 
-        .group__col__inner { padding: 1em; }
+        .panel__col__inner { padding: 1em; }
     }
 
     &__delete {

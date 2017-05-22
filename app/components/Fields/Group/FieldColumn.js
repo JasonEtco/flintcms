@@ -74,7 +74,7 @@ export default class FieldColumn extends Component {
     const { field, canDelete } = this.props;
 
     return (
-      <form className="group__col__inner" ref={(r) => { this.form = r; }}>
+      <form className="panel__col__inner" ref={(r) => { this.form = r; }}>
         <Input
           name="title"
           label="Title"
@@ -127,7 +127,7 @@ export default class FieldColumn extends Component {
           fields={Fields}
         />
 
-        {canDelete && <Button small kind="subtle" className="group__delete" onClick={this.delete}>Delete</Button>}
+        {canDelete && <Button small kind="subtle" className="panel__delete" onClick={this.delete}>Delete</Button>}
       </form>
     );
   }
