@@ -108,7 +108,6 @@ class Panel extends Component {
   }
 
   saveField(reset = true, data) {
-    console.log('saving');
     return new Promise((resolve, reject) => {
       const { currentField, blocks, currentBlock } = this.state;
       if (reset) this.fieldColumn.form.reset();
