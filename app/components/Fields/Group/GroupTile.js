@@ -3,14 +3,13 @@ import DeleteIcon from 'components/DeleteIcon';
 
 export default function GroupTile({ onClick, label, dispatch, isActive, onDelete }) {
   return (
-    <button
-      type="button"
+    <a
       onClick={onClick}
       className={`panel__col__tile ${isActive ? 'is-active' : ''}`}
     >
       {label}
       {onDelete && <DeleteIcon onClick={() => onDelete(label)} dispatch={dispatch} />}
-    </button>
+    </a>
   );
 }
 

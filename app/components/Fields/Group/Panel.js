@@ -17,12 +17,12 @@ class Panel extends Component {
       name: PropTypes.string,
       handle: PropTypes.string,
       fields: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        handle: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        handle: PropTypes.string,
+        type: PropTypes.string,
         instructions: PropTypes.string,
         required: PropTypes.bool,
-        options: PropTypes.arrayOf(PropTypes.object),
+        options: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.string]),
       })),
     })),
     name: PropTypes.string.isRequired,
@@ -238,7 +238,7 @@ class Panel extends Component {
               deleteField={this.deleteField}
               dispatch={this.props.dispatch}
               canDelete={block.fields.length > 1}
-              save={this.saveField}
+              save={() => this.saveField(false)}
             />
           )}
         </div>

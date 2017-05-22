@@ -39,13 +39,13 @@ export default class FieldColumn extends Component {
     };
   }
 
-  componentDidMount() {
-    this.timer = setInterval(() => {
-      this.props.save(false);
-    }, 100);
-  }
+  // componentDidMount() {
+  //   this.timer = setInterval(() => {
+  //     this.props.save(false);
+  //   }, 100);
+  // }
 
-  componentWillUnmount() { clearInterval(this.timer); }
+  // componentWillUnmount() { clearInterval(this.timer); }
 
   handleTitleChange(title) {
     this.setState({ title }, this.props.onTitleChange(title));
@@ -74,7 +74,7 @@ export default class FieldColumn extends Component {
     const { field, canDelete } = this.props;
 
     return (
-      <form className="panel__col__inner" ref={(r) => { this.form = r; }}>
+      <form className="panel__col__inner" ref={(r) => { this.form = r; }} onMouseLeave={this.props.save}>
         <Input
           name="title"
           label="Title"
