@@ -29,6 +29,7 @@ export default class Settings extends Component {
       General: [
         { label: 'Site Settings', path: '/admin/settings/general', icon: 'gear' },
         { label: 'Custom Styles', path: '/admin/settings/styles', icon: 'image' },
+        { label: 'Plugins', path: '/admin/settings/plugins', icon: 'plug' },
       ],
     };
 

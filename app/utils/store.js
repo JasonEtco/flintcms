@@ -12,6 +12,7 @@ const defaultState = {
   sections: { isFetching: true },
   assets: { isFetching: true },
   site: { isFetching: true },
+  plugins: { isFetching: true },
   ui: {
     toasts: [],
     modalIsOpen: false,

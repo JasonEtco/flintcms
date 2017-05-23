@@ -39,6 +39,7 @@ import NewAsset from 'views/Assets/NewAsset';
 import Settings from 'views/Settings';
 import Site from 'views/Settings/Site';
 import Styles from 'views/Settings/Styles';
+import Plugins from 'views/Settings/Plugins';
 
 import store, { history } from 'utils/store';
 import './main.scss';
@@ -81,6 +82,7 @@ const storeWrapper = (
 
         <Route path="settings/general" component={Site} />
         <Route path="settings/styles" component={Styles} />
+        <Route path="settings/plugins" component={Plugins} />
       </Route>
 
       <Route path="/admin/login" component={Login} />

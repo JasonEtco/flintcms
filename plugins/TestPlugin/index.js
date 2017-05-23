@@ -1,7 +1,8 @@
-const FlintPlugin = require('../server/utils/FlintPlugin');
+const FlintPlugin = require('../../server/utils/FlintPlugin');
 
 class TestPlugin extends FlintPlugin {
   static get name() { return 'Test Plugin'; }
+  static get icon() { return 'icon.png'; }
 
   init(schema) {
     if (schema.name === 'Entry') {

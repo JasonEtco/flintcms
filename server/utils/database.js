@@ -15,12 +15,12 @@ mongoose.connect(mongoUri, mongoCredentials);
 
 mongoose.connection.on('error', (e) => {
   console.error.bind(console, 'Connection error:');
-  if (e.message.code === 'ETIMEDOUT') {
-    mongoose.connect(mongoUri, mongoCredentials);
-  }
+  // if (e.message.code === 'ETIMEDOUT') {
+  //   mongoose.connect(mongoUri, mongoCredentials);
+  // }
 });
 
-mongoose.connection.once('open', console.log('MongoDB connection established.'));
+// mongoose.connection.once('open', console.log('MongoDB connection established.'));
 
 // Close the Mongoose connected on Ctrl+C
 process.on('SIGINT', () => {
@@ -30,9 +30,10 @@ process.on('SIGINT', () => {
   });
 });
 
-const TestPlugin = require('../../plugins/TestPlugin');
 
-mongoose.plugin(schema => new TestPlugin(schema));
+
+require('../models/PluginModel');
+require('./registerPlugins')();
 
 require('../models/UserGroupModel');
 require('../models/UserModel');

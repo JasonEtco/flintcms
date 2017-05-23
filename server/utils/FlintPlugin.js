@@ -18,7 +18,12 @@ class FlintPlugin {
   /**
    * @type {String}
    */
-  static get icon() { return path.join(__dirname, this.icon); }
+  static get icon() { return 'icon.png'; }
+
+  /**
+   * @type {object}
+   */
+  static get model() { return {}; }
 
   init(m) {
     // eslint-disable-next-line no-console

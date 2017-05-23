@@ -8,6 +8,7 @@ import { RECEIVE_USER, RECEIVE_USERS } from './userActions';
 import { RECEIVE_USERGROUPS } from './usergroupActions';
 import { RECEIVE_ASSETS } from './assetActions';
 import { RECEIVE_SITE } from './siteActions';
+import { RECEIVE_PLUGINS } from './pluginActions';
 
 const query = `{
   site {
@@ -119,6 +120,16 @@ const query = `{
       }
     }
   }
+
+  plugins {
+    _id
+    name
+    icon {
+      path
+      buffer
+    }
+    dateInstalled
+  }
 }`;
 
 export default async function bigFetch() {
@@ -136,7 +147,7 @@ export default async function bigFetch() {
 
   if (errors) throw new Error('Error!', errors);
 
-  const { sections, assets, entries, fields, user, users, usergroups, site } = data.data;
+  const { sections, assets, entries, fields, user, users, usergroups, site, plugins } = data.data;
   const dispatchers = [
     { type: RECEIVE_SECTIONS, sections },
     { type: RECEIVE_ASSETS, assets },
@@ -146,6 +157,7 @@ export default async function bigFetch() {
     { type: RECEIVE_USERS, users },
     { type: RECEIVE_USERGROUPS, usergroups },
     { type: RECEIVE_SITE, site },
+    { type: RECEIVE_PLUGINS, plugins },
   ];
 
   const receivedAt = Date.now();

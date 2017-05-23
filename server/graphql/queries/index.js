@@ -5,5 +5,14 @@ const fields = require('./fields');
 const assets = require('./assets');
 const usergroups = require('./usergroups');
 const site = require('./site');
+const plugins = require('./plugins');
 
-module.exports = Object.assign({}, entries, sections, users, fields, assets, usergroups, site);
+module.exports = Object.assign({},
+  entries,
+  sections,
+  users,
+  fields,
+  assets,
+  usergroups,
+  site,
+  plugins);
