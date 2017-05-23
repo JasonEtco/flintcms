@@ -1,4 +1,3 @@
-const path = require('path');
 const events = require('./events');
 
 /**
@@ -25,12 +24,10 @@ class FlintPlugin {
    */
   static get model() { return {}; }
 
-  init(m) {
-    // eslint-disable-next-line no-console
+  init() {
+    /* eslint-disable no-console */
     console.log(`Welcome to the ${this.name} plugin! You have forgotten to create your init class method. Oh well :(`);
-    console.log('On the bright side, you have access to these models!');
-
-    console.log(m);
+    console.log('The init method of your plugin is the entry point for Flint to know how to deal with the plugin, set up hooks and generally deal with the plugin.');
   }
 }
 

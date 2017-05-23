@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const FlintPlugin = require('../../server/utils/FlintPlugin');
 
 class TestPlugin extends FlintPlugin {

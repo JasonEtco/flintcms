@@ -28,7 +28,10 @@ export default class Plugins extends Component {
         <TitleBar title="Plugins" />
         <div className="content">
           <div className="page__inner">
-            {plugins.plugins.map(plugin => <div key={plugin._id}>{plugin.name} <img src={`data:image/png;base64,${plugin.icon.buffer}`} /></div>)}
+            {plugins.plugins.map(plugin =>
+              <div key={plugin._id}>{plugin.name}
+                <img src={`data:image/png;base64,${plugin.icon.buffer}`} alt={plugin.name} />
+              </div>)}
           </div>
         </div>
       </Page>

@@ -13,14 +13,7 @@ const mongoCredentials = {
 
 mongoose.connect(mongoUri, mongoCredentials);
 
-mongoose.connection.on('error', (e) => {
-  console.error.bind(console, 'Connection error:');
-  // if (e.message.code === 'ETIMEDOUT') {
-  //   mongoose.connect(mongoUri, mongoCredentials);
-  // }
-});
-
-// mongoose.connection.once('open', console.log('MongoDB connection established.'));
+mongoose.connection.on('error', console.error.bind(console, 'Connection error:'));
 
 // Close the Mongoose connected on Ctrl+C
 process.on('SIGINT', () => {
@@ -29,7 +22,6 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
-
 
 
 require('../models/PluginModel');
