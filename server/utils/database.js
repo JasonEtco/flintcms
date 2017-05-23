@@ -5,12 +5,22 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.DB_HOST, {
+const mongoUri = process.env.DB_HOST;
+const mongoCredentials = {
   user: process.env.DB_USER,
   pass: process.env.DB_PASS,
+};
+
+mongoose.connect(mongoUri, mongoCredentials);
+
+mongoose.connection.on('error', (e) => {
+  console.error.bind(console, 'Connection error:');
+  if (e.message.code === 'ETIMEDOUT') {
+    mongoose.connect(mongoUri, mongoCredentials);
+  }
 });
 
-mongoose.connection.on('error', console.error.bind(console, 'Connection error:'));
+mongoose.connection.once('open', console.log('MongoDB connection established.'));
 
 // Close the Mongoose connected on Ctrl+C
 process.on('SIGINT', () => {
