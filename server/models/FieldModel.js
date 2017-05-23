@@ -39,6 +39,8 @@ const FieldSchema = new Schema({
   },
 });
 
+FieldSchema.name = 'Field';
+
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 FieldSchema.pre('validate', function (next) {

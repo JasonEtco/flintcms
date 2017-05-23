@@ -30,6 +30,8 @@ const UserGroupSchema = new Schema({
   permissions,
 });
 
+UserGroupSchema.name = 'UserGroup';
+
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 UserGroupSchema.pre('validate', function (next) {

@@ -20,6 +20,10 @@ process.on('SIGINT', () => {
   });
 });
 
+const TestPlugin = require('../../plugins/TestPlugin');
+
+mongoose.plugin(schema => new TestPlugin(schema));
+
 require('../models/UserGroupModel');
 require('../models/UserModel');
 require('../models/SectionModel');

@@ -41,6 +41,8 @@ const UserSchema = new Schema({
   token: String,
 });
 
+UserSchema.name = 'User';
+
 // Generate hash
 UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync());
 

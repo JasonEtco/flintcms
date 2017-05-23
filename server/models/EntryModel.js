@@ -51,6 +51,8 @@ const EntrySchema = new Schema({
   },
 });
 
+EntrySchema.name = 'Entry';
+
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 EntrySchema.pre('validate', function (next) {

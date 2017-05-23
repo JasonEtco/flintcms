@@ -37,6 +37,8 @@ const AssetSchema = new Schema({
   },
 });
 
+AssetSchema.name = 'Asset';
+
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 AssetSchema.pre('validate', function (next) {

@@ -1,14 +1,17 @@
-const events = require('../server/utils/events');
+const FlintPlugin = require('../server/utils/FlintPlugin');
 
-events.on('new-entry', (entry) => {
-  entry.title = 'Pizzzzzzza';
-});
+class TestPlugin extends FlintPlugin {
+  static get name() { return 'Test Plugin'; }
 
-events.on('update-entry', (entry) => {
-  entry.title = `updated-${entry.title}`;
-  entry.save();
-});
+  init(schema) {
+    if (schema.name === 'Entry') {
+      schema.pre('validate', function (next) {
+        console.log('Saving!');
+        console.log(this);
+        next();
+      });
+    }
+  }
+}
 
-events.on('new-user', (user) => {
-  if (user.email.includes('gmail')) throw new Error('No Gmail allowed!');
-});
+module.exports = TestPlugin;
