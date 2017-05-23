@@ -2,6 +2,7 @@ const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Fields');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const events = require('../../../utils/events');
 const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Field = mongoose.model('Field');
@@ -25,12 +26,15 @@ module.exports = {
     const perms = await getUserPermissions(ctx.user._id);
     if (!perms.fields.canEditFields) throw new Error('You do not have permission to edit fields.');
 
+    events.emit('pre-update-field', { _id, data });
+
     const updatedField = await Field.findByIdAndUpdate(_id, data, { new: true });
 
     if (!updatedField) throw new Error('Error updating Field');
 
     emitSocketEvent(root, 'update-field', updatedField);
 
+    events.emit('post-update-field', updatedField);
     return updatedField;
   },
 };

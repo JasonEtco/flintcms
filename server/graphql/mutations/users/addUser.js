@@ -37,14 +37,14 @@ module.exports = {
     const token = await randtoken.generate(16);
     newUser.token = token;
 
-
     // Emit new-entry event, wait for plugins to affect the new entry
-    const formattedUser = await events.emitObject('new-user', newUser);
+    events.emitObject('pre-new-user', newUser);
 
-    const savedUser = await formattedUser.save();
+    const savedUser = await newUser.save();
     if (!savedUser) throw new Error('Could not save the User');
 
     sendEmail(args.user.email, 'new-account', { subject: 'Confirm your account', token });
+    events.emitObject('post-new-user', savedUser);
     emitSocketEvent(root, 'new-user', savedUser);
     return savedUser;
   },

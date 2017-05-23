@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Fields');
 const h = require('../../../utils/helpers');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const events = require('../../../utils/events');
 const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Field = mongoose.model('Field');
@@ -26,10 +27,13 @@ module.exports = {
     if (await Field.findOne({ slug })) throw new Error('There is already a field with that slug.');
 
     const newField = new Field(args.data);
+    events.emitObject('pre-new-field', newField);
+
+    // Emit new-field event, wait for plugins to affect the new field
     const savedField = await newField.save();
 
+    events.emitObject('post-new-field', savedField);
     emitSocketEvent(root, 'new-field', savedField);
-
     return savedField;
   },
 };

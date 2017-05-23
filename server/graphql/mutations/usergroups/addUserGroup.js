@@ -2,6 +2,7 @@ const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/UserGroups');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const events = require('../../../utils/events');
 const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const UserGroup = mongoose.model('UserGroup');
@@ -19,12 +20,16 @@ module.exports = {
     if (!perms.users.canManageUserGroups) throw new Error('You do not have permission to manage User Groups.');
 
     const newUserGroup = new UserGroup(data);
+
+    events.emitObject('pre-new-usergroup', newUserGroup);
+
+    // Emit new-usergroup event, wait for plugins to affect the new usergroup
     const savedUserGroup = await newUserGroup.save();
 
     if (!savedUserGroup) throw new Error('Error adding new entry');
 
+    events.emitObject('post-new-usergroup', savedUserGroup);
     emitSocketEvent(root, 'new-usergroup', savedUserGroup);
-
     return savedUserGroup;
   },
 };

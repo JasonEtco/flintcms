@@ -42,10 +42,12 @@ module.exports = {
       throw new Error('You are not allowed to edit a live entry. Sorry!');
     }
 
+    events.emit('pre-update-entry', { _id, data });
+
     const updatedEntry = await Entry.findByIdAndUpdate(_id, data, { new: true });
     if (!updatedEntry) throw new Error('Error updating entry');
 
-    events.emitObject('update-entry', updatedEntry);
+    events.emit('post-update-entry', updatedEntry);
     emitSocketEvent(root, 'update-entry', updatedEntry);
     return updatedEntry;
   },

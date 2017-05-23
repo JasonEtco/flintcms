@@ -6,6 +6,7 @@ const { inputType, outputType } = require('../../types/Sections');
 const h = require('../../../utils/helpers');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
 const getUserPermissions = require('../../../utils/getUserPermissions');
+const events = require('../../../utils/events');
 
 const Section = mongoose.model('Section');
 
@@ -28,11 +29,16 @@ module.exports = {
     const slug = h.slugify(title);
     if (await Section.findOne({ slug })) throw new Error('There is already a section with that slug.');
 
+
     const newSection = new Section(args.data);
+
+    events.emit('pre-new-section', newSection);
+
     const savedSection = await newSection.save();
+    if (!savedSection) throw new Error('Could not save the section.');
 
     emitSocketEvent(root, 'new-section', savedSection);
-
+    events.emit('post-new-section', savedSection);
     return savedSection;
   },
 };

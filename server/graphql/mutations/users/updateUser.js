@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Users');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
 const getUserPermissions = require('../../../utils/getUserPermissions');
+const events = require('../../../utils/events');
 
 const User = mongoose.model('User');
 
@@ -25,11 +26,13 @@ module.exports = {
     const foundUser = await User.findById(_id).lean().exec();
     if (!foundUser) throw new Error('There is no User with this ID');
 
+    events.emit('pre-update-user', { _id, data });
+
     const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true });
     if (!updatedUser) throw new Error('Error updating user');
 
     emitSocketEvent(root, 'update-user', updatedUser);
-
+    events.emit('post-update-user', updatedUser);
     return updatedUser;
   },
 };

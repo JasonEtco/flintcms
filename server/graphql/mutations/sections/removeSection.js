@@ -1,12 +1,10 @@
-const {
-  GraphQLNonNull,
-  GraphQLID,
-} = require('graphql');
+const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Sections');
 const getProjection = require('../../get-projection');
 const emitSocketEvent = require('../../../utils/emitSocketEvent');
 const getUserPermissions = require('../../../utils/getUserPermissions');
+const events = require('../../../utils/events');
 
 const Section = mongoose.model('Section');
 const Entry = mongoose.model('Entry');
@@ -24,6 +22,7 @@ module.exports = {
     if (!perms.sections.canDeleteSections) throw new Error('You do not have permission to delete Sections.');
 
     const projection = getProjection(ast);
+    events.emit('pre-delete-section', args._id);
 
     const removedSection = await Section
       .findByIdAndRemove(args._id, { select: projection })
@@ -34,7 +33,7 @@ module.exports = {
     if (!removedSection) throw new Error('Error removing section');
 
     emitSocketEvent(root, 'delete-section', removedSection);
-
+    events.emit('post-delete-section', removedSection);
     return removedSection;
   },
 };

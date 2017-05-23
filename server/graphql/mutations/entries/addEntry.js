@@ -44,13 +44,14 @@ module.exports = {
     // Populate the author field for a better response to the client
     await Entry.populate(newEntry, { path: 'author' });
 
-    // Emit new-entry event, wait for plugins to affect the new entry
-    const formattedEntry = await events.emitObject('new-entry', newEntry);
+    // Emit new-entry event
+    events.emitObject('pre-new-entry', newEntry);
 
     // Save the new entry
-    const savedEntry = await formattedEntry.save();
+    const savedEntry = await newEntry.save();
     if (!savedEntry) throw new Error('Error adding new entry');
 
+    events.emitObject('post-new-entry', savedEntry);
     emitSocketEvent(root, 'new-entry', savedEntry);
     return savedEntry;
   },
