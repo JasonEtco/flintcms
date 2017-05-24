@@ -252,6 +252,6 @@ export function reduceToObj(arr, key, value, start = {}) {
  * @param {Number} maxChar - Maximum number of characters
  * @param {String} append - String to append if necessary
  */
-export function truncate(str, maxChar, append = '...') {
+export function truncate(str, maxChar = 10, append = '...') {
   return str.substring(0, maxChar) + (str.length > maxChar ? append : '');
 }

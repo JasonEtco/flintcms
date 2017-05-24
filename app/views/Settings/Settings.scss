@@ -18,8 +18,15 @@
                 width: 100%;
                 margin-top: 0;
                 font-size: 1rem;
+
+                @include media($on-mobile) {
+                    font-size: $size0;
+                }
             }
 
+            @include media($on-mobile) {
+                padding: 1em;
+            }
         }
 
         &__link {
@@ -28,6 +35,7 @@
             border: 1px solid transparent;
             margin-left: 2em;
             flex-direction: column;
+            flex-wrap: wrap;
             align-items: center;
             color: black;
             font-size: 0.9rem;
@@ -40,6 +48,14 @@
             &:hover {
                 border-color: $grey-light;
                 background-color: $grey-lighter;
+            }
+
+            @include media($on-mobile) {
+                padding: 1em;
+                margin-left: 1em;
+                font-size: $size0;
+
+                svg { width: 2.5em; height: 2.5em; }
             }
         }
     }

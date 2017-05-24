@@ -5,6 +5,15 @@
     border-right: 1px solid $grey-light;
     background-color: $grey-lighter;
 
+    @include media($on-mobile) {
+        padding: 0.5em;
+
+        + .page__inner {
+            border: 1px solid $grey-light;
+            margin: 0.5em;
+        }
+    }
+
     &__list {
         padding: 0;
         margin: 0;
@@ -19,29 +28,36 @@
                 color: black;
                 text-decoration: none;
 
+                @include media($on-mobile) {
+                    padding: 0.5em;
+                }
+
                 &:hover { background-color: $grey-light; }
 
                 &.is-active {
                     background-color: $grey-light;
 
-                    &::after {
+                    &::after, &::before {
                         content: '';
                         position: absolute;
-                        z-index: 2;
                         top: 50%;
-                        right: -1px;
                         transform: translateY(-50%);
+
+                        @include media($on-mobile) {
+                            display: none;
+                        }
+                    }
+
+                    &::after {
                         @include triangle(left, 8px, white);
+                        z-index: 2;
+                        right: -1px;
                     }
 
                     &::before {
-                        content: '';
-                        position: absolute;
-                        z-index: 1;
-                        top: 50%;
-                        right: 0;
-                        transform: translateY(-50%);
                         @include triangle(left, 8px, darken($grey-light, 5%));
+                        z-index: 1;
+                        right: 0;
                     }
                 }
             }

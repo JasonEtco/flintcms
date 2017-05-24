@@ -158,22 +158,24 @@ export default class DatePicker extends Component {
           onClick={e => e.stopPropagation()}
           style={attachment === 'left' ? { left: 0 } : { right: 0 }}
         >
-          <div className="datepicker__controls">
-            <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e, false)}>
-              <Icon width={10} height={10} icon="arrowLeft" />
-            </button>
-            <span className="datepicker__month">{months[month]} {year}</span>
-            <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e)}>
-              <Icon width={10} height={10} icon="arrowRight" />
-            </button>
-          </div>
+          <div className="datepicker__inner">
+            <div className="datepicker__controls">
+              <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e, false)}>
+                <Icon width={10} height={10} icon="arrowLeft" />
+              </button>
+              <span className="datepicker__month">{months[month]} {year}</span>
+              <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e)}>
+                <Icon width={10} height={10} icon="arrowRight" />
+              </button>
+            </div>
 
-          {<Days />}
+            {<Days />}
 
-          <div className="datepicker__dates">
-            {this.renderDates()}
+            <div className="datepicker__dates">
+              {this.renderDates()}
+            </div>
+            <button className="datepicker__today" type="button" onClick={this.today}>Today</button>
           </div>
-          <button className="datepicker__today" type="button" onClick={this.today}>Today</button>
         </div>}
 
       </div>

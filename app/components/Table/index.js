@@ -9,6 +9,8 @@ import './Table.scss';
 import THead from './THead';
 import Cell from './Cell';
 
+
+
 export default class Table extends Component {
   static propTypes = {
     data: PropTypes.arrayOf((propValue, key, componentName, location, propName) => {
@@ -43,7 +45,18 @@ export default class Table extends Component {
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.filterer = this.filterer.bind(this);
-    this.state = { sortBy: props.sortBy, direction: 'DESC', search: '' };
+    this.handleResize = this.handleResize.bind(this);
+    this.state = { sortBy: props.sortBy, direction: 'DESC', search: '', shouldTruncate: this.shouldTruncate };
+  }
+
+  componentDidMount() { window.addEventListener('resize', this.handleResize); }
+  componentWillUnmount() { window.removeEventListener('resize', this.handleResize); }
+
+  // eslint-disable-next-line class-methods-use-this
+  get shouldTruncate() { return window.innerWidth <= 768; }
+
+  handleResize() {
+    this.setState({ shouldTruncate: this.shouldTruncate });
   }
 
   handleSort(sortBy) {
@@ -77,7 +90,7 @@ export default class Table extends Component {
 
   render() {
     const { data, showSearch, className, formElement } = this.props;
-    const { sortBy, direction, search } = this.state;
+    const { sortBy, direction, search, shouldTruncate } = this.state;
 
     let filtered = data;
     if (search !== '' && showSearch) {
@@ -122,6 +135,7 @@ export default class Table extends Component {
                     direction={direction}
                     has={has}
                     onClick={() => this.handleSort(column)}
+                    shouldTruncate={shouldTruncate}
                   />
                 );
               })}

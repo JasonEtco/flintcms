@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import p from 'utils/prettyNames';
+import { truncate } from 'utils/helpers';
 
-const THead = ({ sortBy, column, direction, has, onClick }) => {
+const THead = ({ sortBy, column, direction, has, onClick, shouldTruncate }) => {
   const btnClass = classnames(
     'table__header__btn',
     { 'is-active': sortBy === column },
@@ -10,13 +11,15 @@ const THead = ({ sortBy, column, direction, has, onClick }) => {
     { asc: sortBy === column && direction === 'ASC' },
   );
 
+  const label = p[column] || column;
+
   if (has) return <th key={column} />;
   return (
     <th className="table__header" key={column}>
       <button
         className={btnClass}
         onClick={onClick}
-      >{p[column] || column}</button>
+      >{shouldTruncate ? truncate(label) : label}</button>
     </th>
   );
 };
@@ -27,6 +30,7 @@ THead.propTypes = {
   direction: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
   has: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
+  shouldTruncate: PropTypes.bool.isRequired,
 };
 
 export default THead;

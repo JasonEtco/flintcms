@@ -97,7 +97,7 @@ export default class Group extends Component {
               <input type="text" name={`${name}[${i}][type]`} value={blk.type} hidden readOnly />
             </div>)}
         </div>
-        <div className="group__buttons form-element">
+        <div className={`group__buttons ${this.state.blocks.length > 0 ? 'form-element' : ''}`}>
           {Object.keys(blocks).map(blk => <button key={blk} type="button" className="group__buttons__btn" onClick={() => this.addBlock(blk)}>{blk}</button>)}
         </div>
       </div>

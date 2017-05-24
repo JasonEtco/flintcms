@@ -8,6 +8,7 @@
     line-height: 1.4;
     outline: none;
     transition: box-shadow 150ms $standard, border-color 150ms $standard;
+
     @extend %focus;
 
     &__instructions {
@@ -23,8 +24,11 @@
         font-size: $size0;
 
         + .input__instructions {
+            @include media($on-mobile) { margin-top: 0; }
             margin-top: 0.4em;
         }
+
+        @include media($on-mobile) { margin-bottom: 0.2em; }
     }
 
     &-icon-wrapper {

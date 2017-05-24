@@ -7,11 +7,20 @@
     flex-shrink: 0;
     background-color: $grey-lighter;
 
+    @include media($on-mobile) {
+        padding: 0.5em 1em;
+    }
+
     &__title {
         margin: 1.18px 0;
         color: $orange;
         font-size: 1.6rem;
         font-weight: 500;
+
+        @include media($on-mobile) {
+            margin: 5px 0;
+            font-size: 1.2rem;
+        }
     }
 
     &__children {

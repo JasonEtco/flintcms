@@ -7,6 +7,10 @@
     background-color: $grey-lighter;
     font-size: 0.7rem;
 
+    @include media($on-mobile) {
+        padding: 0.7rem 1rem;
+    }
+
     &__list {
         display: flex;
         list-style-type: none;
