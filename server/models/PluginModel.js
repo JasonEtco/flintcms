@@ -8,6 +8,11 @@ const PluginSchema = new Schema({
     required: true,
     unique: true,
   },
+  directoryName: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   icon: {
     path: {
       type: String,
