@@ -3,12 +3,11 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { sortArrayOfObjByString } from 'utils/helpers';
-import Input from '../Input';
+import Input from 'components/Input';
 import './Table.scss';
 
 import THead from './THead';
 import Cell from './Cell';
-
 
 
 export default class Table extends Component {
