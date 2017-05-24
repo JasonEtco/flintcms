@@ -14,7 +14,10 @@ async function registerPlugins() {
 
   pluginFolders.forEach(async (directoryName) => {
     const Class = require(path.join(pathToPlugins, directoryName)); // eslint-disable-line
-    const buffer = await readFileAsync(path.resolve(pathToPlugins, directoryName, Class.icon), null);
+
+    const pathToIcon = path.resolve(pathToPlugins, directoryName, Class.icon);
+    const buffer = await readFileAsync(pathToIcon, null);
+
     const foundPlugin = await Plugin.findOne({ directoryName });
 
     const pluginData = Object.assign({}, {
