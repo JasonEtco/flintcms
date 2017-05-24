@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
 import { updateField } from 'actions/fieldActions';
 import Page from 'containers/Page';

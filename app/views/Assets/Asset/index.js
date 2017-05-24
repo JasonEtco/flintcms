@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { updateAsset } from 'actions/assetActions';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';

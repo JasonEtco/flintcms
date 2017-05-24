@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
 import t from 'utils/types';
 import renderOption from 'utils/renderOption';

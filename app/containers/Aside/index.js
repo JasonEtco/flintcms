@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import StatusDot from 'components/StatusDot';
 import Dropdown, { DropdownChild } from 'components/Fields/Dropdown';
 import DatePicker from 'components/DatePicker';

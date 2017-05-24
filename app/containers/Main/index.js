@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import fetchData from 'actions/fetchData';
 import Toast from 'components/Toast';
 import SocketEvents from 'utils/socketEvents';

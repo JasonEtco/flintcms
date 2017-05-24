@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { openModal } from 'actions/uiActions';
 import Icon from 'utils/icons';
 import store from 'utils/store';

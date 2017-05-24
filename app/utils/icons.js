@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const icons = {
   pilcrow: <svg viewBox="0 0 16 16"><path d="M6 0h8v2h-2v14h-2V2H8v14H6V8a4 4 0 0 1 0-8z" /></svg>,

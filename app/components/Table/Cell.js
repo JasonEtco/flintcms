@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { truncate } from 'utils/helpers';
 
 const Cell = ({ column, children }) => (

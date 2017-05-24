@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Fields from 'components/Fields';
 
 export default class FieldOptions extends Component {

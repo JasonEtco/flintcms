@@ -1,6 +1,4 @@
-import { PropTypes } from 'react';
-
-const { bool, number, string, shape, arrayOf, object } = PropTypes;
+import { bool, number, string, shape, arrayOf, object } from 'prop-types';
 
 const commonProps = {
   isFetching: bool,
