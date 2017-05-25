@@ -110,7 +110,7 @@ export default withRouter(class Entries extends Component {
 
         <div className="content">
           <SecondaryNav links={navLinks}>
-            <Link to="/entries" activeClassName="is-active" onClick={() => localStorage.removeItem(localStorageKey)}>All</Link>
+            <Link to="/entries" className={section === undefined && 'is-active'} onClick={() => localStorage.removeItem(localStorageKey)}>All</Link>
           </SecondaryNav>
 
           <div className="page__inner">
