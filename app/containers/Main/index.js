@@ -113,8 +113,8 @@ export default class Main extends Component {
           <Route exact path="/settings/fields/new" render={props => <NewField {...props} {...this.props} />} />
           <Route path="/settings/fields/:id" render={props => <Field {...props} {...this.props} />} />
 
-          <Route path="/settings/assets" render={props => <Assets {...props} {...this.props} />} />
-          <Route path="/settings/assets/new" render={props => <NewAsset {...props} {...this.props} />} />
+          <Route exact path="/settings/assets" render={props => <Assets {...props} {...this.props} />} />
+          <Route exact path="/settings/assets/new" render={props => <NewAsset {...props} {...this.props} />} />
           <Route path="/settings/assets/:id" render={props => <Asset {...props} {...this.props} />} />
 
           <Route path="/settings/general" render={props => <Site {...props} {...this.props} />} />
