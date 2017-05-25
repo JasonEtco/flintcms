@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import classnames from 'classnames';
 import Icon from 'utils/icons';
 import { closeModals } from 'actions/uiActions';
@@ -47,7 +47,7 @@ export default class Modals extends Component {
     );
 
     return (
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         className={modalClasses}
         transitionName="modal"
         transitionAppear={true}
@@ -66,7 +66,7 @@ export default class Modals extends Component {
           key="modalOverlay"
           onClick={this.closeModals}
         />
-      </ReactCSSTransitionGroup>
+      </CSSTransitionGroup>
     );
   }
 }
