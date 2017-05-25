@@ -9,13 +9,16 @@ import Input from 'components/Input';
 import TitleBar from 'components/TitleBar';
 import FieldOptions from 'components/FieldOptions';
 import t from 'utils/types';
+import { withRouter } from 'react-router';
 
-export default class Field extends Component {
+export default withRouter(class Field extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     fields: t.fields,
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
     location: PropTypes.object.isRequired,
   }
@@ -28,8 +31,8 @@ export default class Field extends Component {
   constructor(props) {
     super(props);
 
-    const { fields, params } = props;
-    const { id } = params;
+    const { fields, match } = props;
+    const { id } = match.params;
     const field = fields.fields.find(e => e._id === id);
     this.state = { type: field.type };
 
@@ -39,9 +42,9 @@ export default class Field extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { dispatch, params } = this.props;
+    const { dispatch, match } = this.props;
     const data = serialize(this.page.form, { hash: true });
-    dispatch(updateField(params.id, data));
+    dispatch(updateField(match.params.id, data));
   }
 
   handleTypeChange(type) {
@@ -50,14 +53,14 @@ export default class Field extends Component {
 
   render() {
     const { Dropdown, Toggle } = Fields;
-    const { fields, params } = this.props;
-    const field = fields.fields.find(e => e._id === params.id);
+    const { fields, match } = this.props;
+    const field = fields.fields.find(e => e._id === match.params.id);
     const { slug, title, instructions, required } = field;
     const options = Object.keys(Fields).map(n => ({ label: n, value: n }));
 
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'Fields', path: '/admin/settings/fields' },
+      { label: 'Settings', path: '/settings' },
+      { label: 'Fields', path: '/settings/fields' },
       { label: title, path: this.props.location.pathname },
     ];
 
@@ -124,4 +127,4 @@ export default class Field extends Component {
       </Page>
     );
   }
-}
+});

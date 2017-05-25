@@ -7,13 +7,16 @@ import Button from 'components/Button';
 import TitleBar from 'components/TitleBar';
 import Aside from 'containers/Aside';
 import t from 'utils/types';
+import { withRouter } from 'react-router';
 
-export default class User extends Component {
+export default withRouter(class User extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     users: t.users,
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
   }
 
@@ -28,16 +31,16 @@ export default class User extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, params, users } = this.props;
-    const { full } = users.users.find(e => e._id === params.id);
+    const { dispatch, match, users } = this.props;
+    const { full } = users.users.find(e => e._id === match.params.id);
     if (!full || full === undefined) {
-      dispatch(userDetails(params.id));
+      dispatch(userDetails(match.params.id));
     }
   }
 
   onSubmit() {
     const { username, first, last, email, props } = this;
-    this.props.dispatch(updateUser(props.params.id, {
+    this.props.dispatch(updateUser(props.match.params.id, {
       username: username.value,
       email: email.value,
       name: {
@@ -48,21 +51,21 @@ export default class User extends Component {
   }
 
   sendPasswordReset() {
-    const { id } = this.props.params;
+    const { id } = this.props.match.params;
     this.props.dispatch(sendPasswordReset(id));
   }
 
   render() {
-    const { users, params } = this.props;
-    const user = users.users.find(u => u._id === params.id);
+    const { users, match } = this.props;
+    const user = users.users.find(u => u._id === match.params.id);
 
     if (user.full === undefined) return null;
 
     const userTitle = user.name.first ? `${user.name.first} ${user.name.last}` : user.email;
 
     const links = [
-      { label: 'Users', path: '/admin/users' },
-      { label: userTitle, path: `/admin/users/${params.id}` },
+      { label: 'Users', path: '/users' },
+      { label: userTitle, path: `/users/${match.params.id}` },
     ];
 
     return (
@@ -117,4 +120,4 @@ export default class User extends Component {
       </Page>
     );
   }
-}
+});

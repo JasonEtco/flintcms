@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
+import { object } from 'prop-types';
 import { post } from 'axios';
 import { getUrlParameter } from 'utils/helpers';
 import Button from 'components/Button';
@@ -7,7 +7,11 @@ import Input from 'components/Input';
 import Notification from 'components/Notification';
 import LoginContainer from 'containers/LoginContainer';
 
-export default class ComponentName extends Component {
+export default class Login extends Component {
+  static propTypes = {
+    history: object.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.checkInputs = this.checkInputs.bind(this);
@@ -30,9 +34,9 @@ export default class ComponentName extends Component {
       .then(() => {
         const path = getUrlParameter('p');
         if (path) {
-          browserHistory.push(path);
+          this.props.history.push(path);
         } else {
-          browserHistory.push('/admin');
+          this.props.history.push('/');
         }
       })
       .catch(() => {

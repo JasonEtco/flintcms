@@ -12,14 +12,17 @@ import Aside from 'containers/Aside';
 import { deleteEntry, updateEntry, entryDetails } from 'actions/entryActions';
 import { openModal } from 'actions/uiActions';
 import ConfirmModal from 'components/Modals/ConfirmModal';
+import { withRouter } from 'react-router';
 
-export default class Entry extends Component {
+export default withRouter(class Entry extends Component {
   static propTypes = {
     entries: t.entries,
     fields: t.fields,
     sections: t.sections,
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
     dispatch: PropTypes.func,
   }
@@ -42,10 +45,10 @@ export default class Entry extends Component {
   state = { status: null }
 
   componentDidMount() {
-    const { dispatch, params, entries } = this.props;
-    const { full } = entries.entries.find(e => e._id === params.id);
+    const { dispatch, match, entries } = this.props;
+    const { full } = entries.entries.find(e => e._id === match.params.id);
     if (!full || full === undefined) {
-      dispatch(entryDetails(params.id));
+      dispatch(entryDetails(match.params.id));
     }
   }
 
@@ -62,10 +65,10 @@ export default class Entry extends Component {
   }
 
   deleteEntry() {
-    const { params, dispatch } = this.props;
+    const { match, dispatch } = this.props;
     dispatch(openModal(
       <ConfirmModal
-        confirm={() => dispatch(deleteEntry(params.id))}
+        confirm={() => dispatch(deleteEntry(match.params.id))}
         message={'Are you sure you want to delete this entry?'}
       />),
     );
@@ -79,7 +82,7 @@ export default class Entry extends Component {
   }
 
   render() {
-    const { sections, params, entries } = this.props;
+    const { sections, match, entries } = this.props;
 
     const {
       section,
@@ -89,7 +92,7 @@ export default class Entry extends Component {
       status,
       fields,
       dateCreated,
-    } = entries.entries.find(e => e._id === params.id);
+    } = entries.entries.find(e => e._id === match.params.id);
 
     // TODO: Render loader
     if (full === undefined) return null;
@@ -97,9 +100,9 @@ export default class Entry extends Component {
     const sectionObj = sections.sections.find(s => s._id === section);
 
     const links = [
-      { label: 'Entries', path: '/admin/entries' },
-      { label: sectionObj.title, path: `/admin/entries/${sectionObj.slug}` },
-      { label: title, path: `/admin/entries/${sectionObj.slug}/${_id}` },
+      { label: 'Entries', path: '/entries' },
+      { label: sectionObj.title, path: `/entries/${sectionObj.slug}` },
+      { label: title, path: `/entries/${sectionObj.slug}/${_id}` },
     ];
 
     return (
@@ -119,4 +122,4 @@ export default class Entry extends Component {
       </Page>
     );
   }
-}
+});

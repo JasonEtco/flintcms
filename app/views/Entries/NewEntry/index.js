@@ -11,14 +11,17 @@ import renderOption from 'utils/renderOption';
 import validateFields from 'utils/validateFields';
 import { getPropFromProp, slugify } from 'utils/helpers';
 import t from 'utils/types';
+import { withRouter } from 'react-router';
 
-export default class NewEntry extends Component {
+export default withRouter(class NewEntry extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     sections: t.sections,
     fields: t.fields,
-    params: PropTypes.shape({
-      section: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        section: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
   }
 
@@ -37,9 +40,9 @@ export default class NewEntry extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { sections, params, dispatch } = this.props;
+    const { sections, match, dispatch } = this.props;
     const { title, status, dateCreated, ...fields } = serialize(this.page.form, { hash: true });
-    const sectionId = getPropFromProp(sections.sections, { slug: params.section }, '_id');
+    const sectionId = getPropFromProp(sections.sections, { slug: match.params.section }, '_id');
 
     const invalidFields = validateFields(fields);
     if (invalidFields.length !== 0) return;
@@ -55,14 +58,14 @@ export default class NewEntry extends Component {
   }
 
   render() {
-    const { sections, params } = this.props;
-    const { section } = params;
+    const { sections, match } = this.props;
+    const { section } = match.params;
     const sectionObj = sections.sections.find(sec => sec.slug === section);
     const sectionName = getPropFromProp(sections.sections, { slug: section }, 'title');
 
     const links = [
-      { label: sectionName, path: `/admin/entries/${section}` },
-      { label: 'New Entry', path: `/admin/entries/${section}/new` },
+      { label: sectionName, path: `/entries/${section}` },
+      { label: 'New Entry', path: `/entries/${section}/new` },
     ];
 
     return (
@@ -101,4 +104,4 @@ export default class NewEntry extends Component {
       </Page>
     );
   }
-}
+});

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { formatDate } from 'utils/helpers';
 import Page from 'containers/Page';
 import Table from 'components/Table';
@@ -27,7 +27,7 @@ export default class Sections extends Component {
       key: props._id,
       title: {
         value: props.title,
-        component: <Link to={`/admin/settings/sections/${props.slug}`}>{props.title}</Link>,
+        component: <Link to={`/settings/sections/${props.slug}`}>{props.title}</Link>,
       },
       slug: props.slug,
       dateCreated: {
@@ -47,7 +47,7 @@ export default class Sections extends Component {
     return (
       <Page name="sections">
         <TitleBar title="Sections">
-          <Link to="/admin/settings/sections/new" className="btn btn--small">New Section</Link>
+          <Link to="/settings/sections/new" className="btn btn--small">New Section</Link>
         </TitleBar>
 
         <div className="content">

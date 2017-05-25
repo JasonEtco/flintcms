@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
 import { post } from 'axios';
 import Input from 'components/Input';
 import Button from 'components/Button';
@@ -12,6 +11,7 @@ export default class Login extends Component {
     params: PropTypes.shape({
       token: PropTypes.string,
     }).isRequired,
+    history: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -36,7 +36,7 @@ export default class Login extends Component {
       token: this.props.params.token,
     })
       .then(() => {
-        browserHistory.push('/admin/login');
+        this.props.history.push('/login');
       })
       .catch(() => {
         this.setState({ error: true });

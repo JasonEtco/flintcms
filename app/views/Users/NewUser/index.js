@@ -35,8 +35,8 @@ export default class NewUser extends Component {
 
   render() {
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'Users', path: '/admin/settings/users' },
+      { label: 'Settings', path: '/settings' },
+      { label: 'Users', path: '/settings/users' },
     ];
 
     return (

@@ -44,8 +44,8 @@ export default class NewSection extends Component {
     const activeFields = fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1);
 
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'Sections', path: '/admin/settings/sections' },
+      { label: 'Settings', path: '/settings' },
+      { label: 'Sections', path: '/settings/sections' },
     ];
 
     return (

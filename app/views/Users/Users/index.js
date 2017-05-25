@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { formatDate } from 'utils/helpers';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
@@ -26,7 +26,7 @@ export default class Users extends Component {
       },
       username: {
         value: props.username,
-        component: <Link to={`/admin/users/${props._id}`}>{props.username}</Link>,
+        component: <Link to={`/users/${props._id}`}>{props.username}</Link>,
       },
       name: `${props.name.first} ${props.name.last}`,
       dateCreated: {
@@ -38,7 +38,7 @@ export default class Users extends Component {
     return (
       <Page name="users">
         <TitleBar title="Users">
-          <Link to="/admin/users/new" className="btn btn--small">New User</Link>
+          <Link to="/users/new" className="btn btn--small">New User</Link>
         </TitleBar>
 
         <div className="content">

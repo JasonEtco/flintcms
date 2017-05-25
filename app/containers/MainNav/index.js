@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Icon from 'utils/icons';
 import './MainNav.scss';
 
@@ -41,10 +41,10 @@ export default class MainNav extends Component {
     const { user, open } = this.props;
 
     const links = [
-      { to: '/admin', icon: 'home', children: 'Home' },
-      { to: '/admin/entries', icon: 'newspaper', children: 'Entries' },
-      { to: '/admin/users', icon: 'user', children: 'Users' },
-      { to: '/admin/settings', icon: 'gear', children: 'Settings' },
+      { to: '/', icon: 'home', children: 'Home' },
+      { to: '/entries', icon: 'newspaper', children: 'Entries' },
+      { to: '/users', icon: 'user', children: 'Users' },
+      { to: '/settings', icon: 'gear', children: 'Settings' },
     ];
 
     return (

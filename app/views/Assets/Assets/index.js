@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { formatDate, formatBytes } from 'utils/helpers';
 import DeleteIcon from 'components/DeleteIcon';
 import Page from 'containers/Page';
@@ -32,11 +32,11 @@ export default class Assets extends Component {
       key: props._id,
       image: {
         sortBy: false,
-        component: <Link to={`/admin/settings/assets/${props._id}`}><img src={`/public/assets/${props.filename}`} alt={props.filename} /></Link>,
+        component: <Link to={`/settings/assets/${props._id}`}><img src={`/public/assets/${props.filename}`} alt={props.filename} /></Link>,
       },
       title: {
         value: props.title,
-        component: <Link to={`/admin/settings/assets/${props._id}`}>{props.title}</Link>,
+        component: <Link to={`/settings/assets/${props._id}`}>{props.title}</Link>,
       },
       filename: props.filename,
       size: formatBytes(props.size, 0),
@@ -58,7 +58,7 @@ export default class Assets extends Component {
       <Page name="assets">
         <TitleBar title="Assets">
           <Button onClick={() => this.indexAssets()} small>Index Asset</Button>
-          <Link to="/admin/settings/assets/new" className="btn btn--small">New Asset</Link>
+          <Link to="/settings/assets/new" className="btn btn--small">New Asset</Link>
         </TitleBar>
 
         <div className="content">

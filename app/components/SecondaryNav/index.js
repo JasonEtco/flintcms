@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import './SecondaryNav.scss';
 
-const NavItem = props => <li className="secondary-nav__list-item"><Link activeClassName="is-active" to={props.to}>{props.children}</Link></li>;
+const NavItem = props => <li className="secondary-nav__list-item"><NavLink activeClassName="is-active" to={props.to}>{props.children}</NavLink></li>;
 const NavButton = props => <li className="secondary-nav__list-item"><button className="is-active" onClick={props.onClick}>{props.children}</button></li>;
 
 NavItem.propTypes = {

@@ -41,8 +41,8 @@ export default class NewAsset extends Component {
 
   render() {
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'Assets', path: '/admin/settings/assets' },
+      { label: 'Settings', path: '/settings' },
+      { label: 'Assets', path: '/settings/assets' },
     ];
 
     return (

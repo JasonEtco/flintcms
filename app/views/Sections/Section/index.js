@@ -8,14 +8,17 @@ import TitleBar from 'components/TitleBar';
 import Button from 'components/Button';
 import { updateSection } from 'actions/sectionActions';
 import t from 'utils/types';
+import { withRouter } from 'react-router';
 
-export default class Section extends Component {
+export default withRouter(class Section extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     fields: t.fields,
     sections: t.sections,
-    params: PropTypes.shape({
-      slug: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
   }
 
@@ -28,8 +31,8 @@ export default class Section extends Component {
   constructor(props) {
     super(props);
 
-    const { sections, params } = props;
-    const { slug } = params;
+    const { sections, match } = props;
+    const { slug } = match.params;
     this.section = sections.sections.find(e => e.slug === slug);
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -107,4 +110,4 @@ export default class Section extends Component {
       </Page>
     );
   }
-}
+});

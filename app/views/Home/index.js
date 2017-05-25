@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
 import { getSlugFromId, formatDate } from 'utils/helpers';
@@ -8,13 +8,8 @@ import './Home.scss';
 
 export default class Home extends Component {
   static propTypes = {
-    entries: t.entries,
-    sections: t.sections,
-  }
-
-  static defaultProps = {
-    entries: null,
-    sections: null,
+    entries: t.entries.isRequired,
+    sections: t.sections.isRequired,
   }
 
   render() {
@@ -48,7 +43,7 @@ export default class Home extends Component {
               <ul className="home__list">
                 {newEntries.map(e =>
                   <li key={e._id} className="home__list-item">
-                    <Link to={`/admin/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>
+                    <Link to={`/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>
                       <h4>{e.title}</h4>
                       <div className="home__list-item__meta">
                         <span className="home__list-item__author">{e.author.username}</span>

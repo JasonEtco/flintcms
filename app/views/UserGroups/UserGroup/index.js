@@ -8,14 +8,17 @@ import Button from 'components/Button';
 import Checkboxes from 'components/Checkbox/Checkboxes';
 import { updateUserGroup } from 'actions/usergroupActions';
 import t from 'utils/types';
+import { withRouter } from 'react-router';
 import permissions from '../../../../server/utils/permissions.json';
 
-export default class UserGroup extends Component {
+export default withRouter(class UserGroup extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     usergroups: t.usergroups,
-    params: PropTypes.shape({
-      slug: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
   }
 
@@ -27,8 +30,8 @@ export default class UserGroup extends Component {
   constructor(props) {
     super(props);
 
-    const { usergroups, params } = props;
-    const { slug } = params;
+    const { usergroups, match } = props;
+    const { slug } = match.params;
     this.usergroup = usergroups.usergroups.find(e => e.slug === slug);
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,8 +45,8 @@ export default class UserGroup extends Component {
   }
 
   render() {
-    const { usergroups, params } = this.props;
-    const { slug } = params;
+    const { usergroups, match } = this.props;
+    const { slug } = match.params;
     const groupPerms = usergroups.usergroups.find(g => g.slug === slug).permissions;
 
     const { sections, entries, users, fields } = Object.keys(permissions).reduce((prev, curr) => ({
@@ -77,4 +80,4 @@ export default class UserGroup extends Component {
       </Page>
     );
   }
-}
+});

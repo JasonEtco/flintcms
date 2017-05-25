@@ -63,8 +63,8 @@ export default class Styles extends Component {
     };
 
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'Custom Styles', path: '/admin/settings/styles' },
+      { label: 'Settings', path: '/settings' },
+      { label: 'Custom Styles', path: '/settings/styles' },
     ];
 
     return (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Icon from 'utils/icons';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
@@ -20,17 +20,17 @@ export default class Settings extends Component {
   render() {
     const sections = {
       Content: [
-        { label: 'Sections', path: '/admin/settings/sections', icon: 'stack' },
-        { label: 'Fields', path: '/admin/settings/fields', icon: 'fileText' },
-        { label: 'Assets', path: '/admin/settings/assets', icon: 'images' },
+        { label: 'Sections', path: '/settings/sections', icon: 'stack' },
+        { label: 'Fields', path: '/settings/fields', icon: 'fileText' },
+        { label: 'Assets', path: '/settings/assets', icon: 'images' },
       ],
       Management: [
-        { label: 'User Groups', path: '/admin/settings/usergroups', icon: 'users' },
+        { label: 'User Groups', path: '/settings/usergroups', icon: 'users' },
       ],
       General: [
-        { label: 'Site Settings', path: '/admin/settings/general', icon: 'gear' },
-        { label: 'Custom Styles', path: '/admin/settings/styles', icon: 'image' },
-        { label: 'Plugins', path: '/admin/settings/plugins', icon: 'plug' },
+        { label: 'Site Settings', path: '/settings/general', icon: 'gear' },
+        { label: 'Custom Styles', path: '/settings/styles', icon: 'image' },
+        { label: 'Plugins', path: '/settings/plugins', icon: 'plug' },
       ],
     };
 

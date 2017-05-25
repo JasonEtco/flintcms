@@ -47,8 +47,8 @@ export default class NewField extends Component {
     const options = Object.keys(Fields).map(n => ({ label: n, value: n }));
 
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'Fields', path: '/admin/settings/fields' },
+      { label: 'Settings', path: '/settings' },
+      { label: 'Fields', path: '/settings/fields' },
     ];
 
     return (

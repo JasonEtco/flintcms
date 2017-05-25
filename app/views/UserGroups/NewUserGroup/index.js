@@ -39,8 +39,8 @@ export default class NewUserGroup extends Component {
 
   render() {
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'User Groups', path: '/admin/settings/usergroups' },
+      { label: 'Settings', path: '/settings' },
+      { label: 'User Groups', path: '/settings/usergroups' },
     ];
 
     return (

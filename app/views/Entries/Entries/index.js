@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import t from 'utils/types';
 import { deleteEntry } from 'actions/entryActions';
 import { truncate, getIdFromSlug, getSlugFromId, formatDate } from 'utils/helpers';
@@ -10,21 +10,24 @@ import TitleBar from 'components/TitleBar';
 import SecondaryNav from 'components/SecondaryNav';
 import Table from 'components/Table';
 import StatusDot from 'components/StatusDot';
+import { withRouter } from 'react-router';
 
 const localStorageKey = 'flint:lastSection';
 
-export default class Entries extends Component {
+export default withRouter(class Entries extends Component {
   static propTypes = {
     entries: t.entries,
     sections: t.sections,
-    params: PropTypes.shape({
-      section: PropTypes.string,
-    }),
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        section: PropTypes.string,
+      }),
+    }).isRequired,
     dispatch: PropTypes.func,
+    history: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    params: null,
     dispatch: null,
     entries: null,
     sections: null,
@@ -32,16 +35,18 @@ export default class Entries extends Component {
   }
 
   componentWillMount() {
-    const { section } = this.props.params;
+    console.log('About to mount!');
+    const { section } = this.props.match.params;
     const { sections } = this.props.sections;
     const ref = localStorage.getItem(localStorageKey);
+    console.log(ref);
 
     if (section) {
       localStorage.setItem(localStorageKey, section);
     } else if (ref) {
       const refExists = sections.some(obj => obj.slug === ref);
       if (refExists) {
-        browserHistory.push(`/admin/entries/${ref}`);
+        this.props.history.push(`/entries/${ref}`);
       } else {
         localStorage.removeItem(localStorageKey);
       }
@@ -49,7 +54,7 @@ export default class Entries extends Component {
   }
 
   render() {
-    const { params, dispatch } = this.props;
+    const { match, dispatch } = this.props;
     const { entries } = this.props.entries;
     const { sections } = this.props.sections;
 
@@ -67,17 +72,17 @@ export default class Entries extends Component {
       );
     }
 
-    const { section } = params;
+    const { section } = match.params;
     const filtered = section === undefined
       ? entries
       : entries.filter(e => e.section === getIdFromSlug(sections, section));
-    const navLinks = sections.map(sec => ({ label: sec.title, path: `/admin/entries/${sec.slug}` }));
+    const navLinks = sections.map(sec => ({ label: sec.title, path: `/entries/${sec.slug}` }));
 
     const reduced = filtered.map(props => ({
       key: props._id,
       title: {
         value: props.title,
-        component: <Link to={`/admin/entries/${getSlugFromId(sections, props.section)}/${props._id}`}>{truncate(props.title, 30)}</Link>,
+        component: <Link to={`/entries/${getSlugFromId(sections, props.section)}/${props._id}`}>{truncate(props.title, 30)}</Link>,
       },
       slug: props.slug,
       dateCreated: {
@@ -102,12 +107,12 @@ export default class Entries extends Component {
     return (
       <Page name="entries">
         <TitleBar title="Entries">
-          {!!section && <Link to={`/admin/entries/${section}/new`} className="btn btn--small">New Entry</Link>}
+          {!!section && <Link to={`/entries/${section}/new`} className="btn btn--small">New Entry</Link>}
         </TitleBar>
 
         <div className="content">
           <SecondaryNav links={navLinks}>
-            <Link to="/admin/entries" activeClassName="is-active" onClick={() => localStorage.removeItem(localStorageKey)}>All</Link>
+            <Link to="/entries" activeClassName="is-active" onClick={() => localStorage.removeItem(localStorageKey)}>All</Link>
           </SecondaryNav>
 
           <div className="page__inner">
@@ -117,4 +122,4 @@ export default class Entries extends Component {
       </Page>
     );
   }
-}
+});

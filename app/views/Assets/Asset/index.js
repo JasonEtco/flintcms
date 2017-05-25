@@ -7,11 +7,14 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 import Fields from 'components/Fields';
 import t from 'utils/types';
+import { withRouter } from 'react-router';
 
-export default class Asset extends Component {
+export default withRouter(class Asset extends Component {
   static propTypes = {
-    params: PropTypes.shape({
-      id: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
     }).isRequired,
     assets: t.assets,
     dispatch: PropTypes.func,
@@ -29,21 +32,21 @@ export default class Asset extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { id } = this.props.params;
+    const { id } = this.props.match.params;
     const { value } = this.title;
 
     this.props.dispatch(updateAsset({ title: value }, id));
   }
 
   render() {
-    const { assets, params } = this.props;
-    const { id } = params;
+    const { assets, match } = this.props;
+    const { id } = match.params;
     const asset = assets.assets.find(e => e._id === id);
 
     const links = [
-      { label: 'Settings', path: '/admin/settings' },
-      { label: 'Assets', path: '/admin/settings/assets' },
-      { label: asset.title, path: `/admin/settings/assets/${id}` },
+      { label: 'Settings', path: '/settings' },
+      { label: 'Assets', path: '/settings/assets' },
+      { label: asset.title, path: `/settings/assets/${id}` },
     ];
 
     return (
@@ -73,4 +76,4 @@ export default class Asset extends Component {
       </Page>
     );
   }
-}
+});
