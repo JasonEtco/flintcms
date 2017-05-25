@@ -51,7 +51,7 @@ export default class Site extends Component {
               instructions="The default user group new users will be assigned"
               name="defaultUserGroup"
               defaultValue={defaultUserGroup}
-              options={[{ label: 'Admin', value: 'admin' }, ...usergroupNames]}
+              options={usergroupNames}
               onChange={this.handleDropdownChange}
             />
             <Checkbox ref={(r) => { this.c = r; }} label="Allow Public Registration" name="allowPublicRegistration" defaultValue={allowPublicRegistration} />
