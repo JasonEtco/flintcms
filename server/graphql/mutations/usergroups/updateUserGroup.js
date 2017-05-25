@@ -23,7 +23,9 @@ module.exports = {
     const perms = await getUserPermissions(ctx.user._id);
     if (!perms.users.canManageUserGroups) throw new Error('You do not have permission to manage User Groups.');
 
-    if (!await UserGroup.findById(_id)) throw new Error('There is no UserGroup with this ID');
+    const foundUserGroup = await UserGroup.findById(_id);
+    if (!foundUserGroup) throw new Error('There is no UserGroup with this ID');
+    if (foundUserGroup.slug === 'admin') throw new Error('You cannot edit the Admin usergroup.');
 
     events.emit('pre-update-usergroup', { _id, data });
     const updatedUserGroup = await UserGroup.findByIdAndUpdate(_id, data, { new: true });

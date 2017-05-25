@@ -11,13 +11,8 @@ import { deleteUserGroup } from 'actions/usergroupActions';
 
 export default class UserGroups extends Component {
   static propTypes = {
-    usergroups: t.usergroups,
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    usergroups: null,
+    usergroups: t.usergroups.isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   render() {
@@ -27,21 +22,21 @@ export default class UserGroups extends Component {
       key: props._id,
       title: {
         value: props.title,
-        component: <Link to={`/settings/usergroups/${props.slug}`}>{props.title}</Link>,
+        component: props.slug === 'admin' ? <span>{props.title}</span> : <Link to={`/settings/usergroups/${props.slug}`}>{props.title}</Link>,
       },
       slug: props.slug,
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
         component: formatDate(props.dateCreated),
       },
-      delete: {
+      delete: props.slug !== 'admin' ? {
         sortBy: false,
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteUserGroup(props._id))}
           message="Are you sure you want to delete this user group?"
         />,
-      },
+      } : '',
     }));
 
     return (
