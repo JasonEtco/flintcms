@@ -138,9 +138,9 @@ export default async function bigFetch() {
 
   if (data.status === 401) {
     if (location.pathname === '/admin') {
-      dispatch(push(data.redirect));
+      dispatch(push('/login'));
     } else {
-      dispatch(push(`${data.redirect}?p=${location.pathname}`));
+      dispatch(push(`/login?p=${location.pathname}`));
     }
     return;
   }

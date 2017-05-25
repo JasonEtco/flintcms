@@ -5,6 +5,7 @@
     background-color: $grey-dark;
     font-size: $size0;
     transition: transform 200ms;
+
     @include media($on-mobile) {
         position: absolute;
         z-index: 99;
@@ -32,6 +33,7 @@
         border-bottom: darken($grey-light, 10%) 1px solid;
         margin: 0;
         background: $grey-light;
+
         @include media($on-mobile) { display: block; }
 
         svg { fill: $grey; }
@@ -48,6 +50,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 150ms $standard;
+
             @include media($on-mobile) { display: block; }
         }
     }

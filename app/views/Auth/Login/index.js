@@ -34,7 +34,7 @@ export default class Login extends Component {
       .then(() => {
         const path = getUrlParameter('p');
         if (path) {
-          this.props.history.push(path);
+          this.props.history.push(path.split('/admin')[1]);
         } else {
           this.props.history.push('/');
         }

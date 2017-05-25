@@ -39,6 +39,8 @@ import Site from 'views/Settings/Site';
 import Styles from 'views/Settings/Styles';
 import Plugins from 'views/Settings/Plugins';
 
+import FourOhFour from 'views/404';
+
 import './Main.scss';
 import MainNav from '../MainNav';
 
@@ -118,6 +120,8 @@ export default class Main extends Component {
           <Route path="/settings/general" render={props => <Site {...props} {...this.props} />} />
           <Route path="/settings/styles" render={props => <Styles {...props} {...this.props} />} />
           <Route path="/settings/plugins" render={props => <Plugins {...props} {...this.props} />} />
+
+          <Route path="*" component={FourOhFour} />
         </Switch>
 
         <div className="toasts">
