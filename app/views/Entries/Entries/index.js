@@ -35,11 +35,9 @@ export default withRouter(class Entries extends Component {
   }
 
   componentWillMount() {
-    console.log('About to mount!');
     const { section } = this.props.match.params;
     const { sections } = this.props.sections;
     const ref = localStorage.getItem(localStorageKey);
-    console.log(ref);
 
     if (section) {
       localStorage.setItem(localStorageKey, section);

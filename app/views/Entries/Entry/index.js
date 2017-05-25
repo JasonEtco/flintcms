@@ -54,14 +54,14 @@ export default withRouter(class Entry extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { params, dispatch } = this.props;
+    const { match, dispatch } = this.props;
     const data = serialize(this.page.form, { hash: true });
     const { title, status, dateCreated, ...fields } = data;
 
     const invalidFields = validateFields(fields);
     if (invalidFields.length !== 0) return;
 
-    dispatch(updateEntry(params.id, data));
+    dispatch(updateEntry(match.params.id, data));
   }
 
   deleteEntry() {
