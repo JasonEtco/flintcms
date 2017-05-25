@@ -29,7 +29,6 @@ exports.vendor = [
   'socket.io-parser',
   'engine.io-client',
   'engine.io-parser',
-  'json3',
   'lodash',
   'moment',
   'draft-js',

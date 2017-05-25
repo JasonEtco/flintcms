@@ -97,6 +97,7 @@ module.exports = {
         use: ['css-loader', {
           loader: 'postcss-loader',
           options: {
+            sourceMap: true,
             plugins: () => [autoprefixer(browsers)],
           },
         }, {
