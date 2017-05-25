@@ -37,14 +37,11 @@ module.exports = (passport) => {
     });
   }));
 
-  passport.use('local-login', new LocalStrategy(strategyOptions, (req, email, password, done) => {
-    User.findOne({ email })
-      .then((user) => {
-        if (!user) return done(null, false);
-        if (user.token) return done(null, false);
-        if (!user.validateHash(password)) return done(null, false);
-        return done(null, user);
-      })
-      .catch(err => new Error(err));
+  passport.use('local-login', new LocalStrategy(strategyOptions, async (req, email, password, done) => {
+    const user = await User.findOne({ email }).populate('usergroup');
+    if (!user) return done(null, false);
+    if (user.token) return done(null, false);
+    if (!user.validateHash(password)) return done(null, false);
+    return done(null, user);
   }));
 };

@@ -37,6 +37,8 @@ module.exports = {
     const token = await randtoken.generate(16);
     newUser.token = token;
 
+    await User.populate(newUser, { path: 'usergroup' });
+
     // Emit new-entry event, wait for plugins to affect the new entry
     events.emitObject('pre-new-user', newUser);
 

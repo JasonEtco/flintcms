@@ -31,6 +31,8 @@ module.exports = {
     const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true });
     if (!updatedUser) throw new Error('Error updating user');
 
+    await User.populate(updatedUser, { path: 'usergroup' });
+
     emitSocketEvent(root, 'update-user', updatedUser);
     events.emit('post-update-user', updatedUser);
     return updatedUser;

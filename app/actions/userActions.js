@@ -28,6 +28,9 @@ export function newUser(user) {
         }
         dateCreated
         image
+        usergroup {
+          _id
+        }
       }
     }`;
 
@@ -59,6 +62,9 @@ export function updateUser(_id, data) {
         }
         dateCreated
         image
+        usergroup {
+          _id
+        }
       }
     }`;
 
@@ -76,8 +82,8 @@ export function updateUser(_id, data) {
 }
 
 /**
- * Gets the details (fields object) of an Entry
- * @param {string} _id - Mongo ID of Entry.
+ * Gets the details of a User
+ * @param {string} _id - Mongo ID of User.
  */
 export function userDetails(_id) {
   return (dispatch) => {

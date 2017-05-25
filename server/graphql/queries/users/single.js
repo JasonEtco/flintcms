@@ -20,6 +20,7 @@ module.exports = {
 
     return User
       .findById(_id)
+      .populate('usergroup')
       .select(projection)
       .lean()
       .exec();

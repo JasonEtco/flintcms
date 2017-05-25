@@ -1,5 +1,6 @@
 const { GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
 const { DateTime } = require('./CustomTypes');
+const { outputType } = require('./UserGroups');
 
 exports.outputType = new GraphQLObjectType({
   name: 'User',
@@ -27,7 +28,7 @@ exports.outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
     },
     usergroup: {
-      type: new GraphQLNonNull(GraphQLID),
+      type: new GraphQLNonNull(outputType),
     },
   },
 });

@@ -10,6 +10,35 @@ import { RECEIVE_ASSETS } from './assetActions';
 import { RECEIVE_SITE } from './siteActions';
 import { RECEIVE_PLUGINS } from './pluginActions';
 
+const permissionsQuery = `permissions {
+  sections {
+    canAddSections
+    canDeleteSections
+    canEditSections
+  }
+  fields {
+    canAddFields
+    canDeleteFields
+    canEditFields
+  }
+  entries {
+    canAddEntries
+    canDeleteEntries
+    canEditOthersEntries
+    canEditLive
+    canEditDrafts
+    canSeeDrafts
+    canChangeEntryStatus
+  }
+  users {
+    canManageUsers
+    canManageUserGroups
+  }
+  site {
+    canManageSite
+  }
+}`;
+
 const query = `{
   site {
     defaultUserGroup
@@ -73,6 +102,12 @@ const query = `{
     }
     dateCreated
     image
+    usergroup {
+      _id
+      title
+      slug
+      ${permissionsQuery}
+    }
   }
 
   users {
@@ -91,34 +126,7 @@ const query = `{
     title
     slug
     dateCreated
-    permissions {
-      sections {
-        canAddSections
-        canDeleteSections
-        canEditSections
-      }
-      fields {
-        canAddFields
-        canDeleteFields
-        canEditFields
-      }
-      entries {
-        canAddEntries
-        canDeleteEntries
-        canEditOthersEntries
-        canEditLive
-        canEditDrafts
-        canSeeDrafts
-        canChangeEntryStatus
-      }
-      users {
-        canManageUsers
-        canManageUserGroups
-      }
-      site {
-        canManageSite
-      }
-    }
+    ${permissionsQuery}
   }
 
   plugins {
