@@ -28,9 +28,12 @@ require('../models/PluginModel');
 require('./registerPlugins')();
 
 require('../models/UserGroupModel');
+require('./createAdminUserGroup')();
+
 require('../models/UserModel');
 require('../models/SectionModel');
 require('../models/EntryModel');
 require('../models/FieldModel');
 require('../models/AssetModel');
 require('../models/SiteModel');
+

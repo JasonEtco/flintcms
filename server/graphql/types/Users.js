@@ -26,6 +26,9 @@ exports.outputType = new GraphQLObjectType({
     image: {
       type: new GraphQLNonNull(GraphQLString),
     },
+    usergroup: {
+      type: new GraphQLNonNull(GraphQLID),
+    },
   },
 });
 
@@ -47,6 +50,9 @@ exports.inputType = new GraphQLInputObjectType({
     }) },
     image: {
       type: GraphQLString,
+    },
+    usergroup: {
+      type: GraphQLID,
     },
   },
 });

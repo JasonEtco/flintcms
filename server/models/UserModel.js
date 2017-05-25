@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
-const reducePermissionsToObject = require('../utils/reducePermissionsToObject');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -27,8 +26,9 @@ const UserSchema = new Schema({
     unique: true,
   },
   usergroup: {
-    type: String,
-    default: 'admin',
+    type: Schema.Types.ObjectId,
+    ref: 'UserGroup',
+    required: true,
   },
   image: {
     type: String,
@@ -43,6 +43,15 @@ const UserSchema = new Schema({
 
 UserSchema.name = 'User';
 
+// eslint-disable-next-line func-names
+UserSchema.pre('validate', async function (next) {
+  if (!this.usergroup) next();
+
+  const { _id } = await UserGroup.findOne({ slug: 'admin' }).select('_id').exec();
+  this.usergroup = _id;
+  next();
+});
+
 // Generate hash
 UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync());
 
@@ -55,11 +64,6 @@ UserSchema.methods.validateHash = function (password) {
 
 // eslint-disable-next-line func-names
 UserSchema.methods.getPermissions = async function () {
-  if (this.usergroup === 'admin') {
-    const perms = reducePermissionsToObject((p, c) => Object.assign({}, p, { [c.name]: true }), {});
-    return perms;
-  }
-
   const usergroup = await UserGroup.findById(this.usergroup);
   if (!usergroup) throw new Error('The User Group could not be found');
 
