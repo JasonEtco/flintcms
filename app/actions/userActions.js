@@ -38,7 +38,7 @@ export function newUser(user) {
       .then((json) => {
         const { addUser } = json.data.data;
         dispatch({ type: NEW_USER, addUser });
-        dispatch(push('/admin/users'));
+        dispatch(push('/users'));
       })
       .catch(errorToasts);
   };

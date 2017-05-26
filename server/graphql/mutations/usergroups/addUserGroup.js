@@ -21,14 +21,14 @@ module.exports = {
 
     const newUserGroup = new UserGroup(data);
 
-    events.emitObject('pre-new-usergroup', newUserGroup);
+    events.emit('pre-new-usergroup', newUserGroup);
 
     // Emit new-usergroup event, wait for plugins to affect the new usergroup
     const savedUserGroup = await newUserGroup.save();
 
     if (!savedUserGroup) throw new Error('Error adding new entry');
 
-    events.emitObject('post-new-usergroup', savedUserGroup);
+    events.emit('post-new-usergroup', savedUserGroup);
     emitSocketEvent(root, 'new-usergroup', savedUserGroup);
     return savedUserGroup;
   },

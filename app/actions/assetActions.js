@@ -22,7 +22,7 @@ export function newAsset(formData) {
       withCredentials: true,
     }).then(res => res.json())
       .then((json) => {
-        dispatch(push('/admin/settings/assets'));
+        dispatch(push('/settings/assets'));
         const { addAsset } = json.data.data;
         dispatch({ type: NEW_ASSET, addAsset });
       })
@@ -80,7 +80,7 @@ export function deleteAsset(_id) {
           message: <span><b>{removeAsset.title}</b> has been deleted.</span>,
           style: 'success',
         }));
-        dispatch(push('/admin/settings/assets'));
+        dispatch(push('/settings/assets'));
       })
       .catch(errorToasts);
   };

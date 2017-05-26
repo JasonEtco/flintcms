@@ -45,13 +45,13 @@ module.exports = {
     await Entry.populate(newEntry, { path: 'author' });
 
     // Emit new-entry event
-    events.emitObject('pre-new-entry', newEntry);
+    events.emit('pre-new-entry', newEntry);
 
     // Save the new entry
     const savedEntry = await newEntry.save();
     if (!savedEntry) throw new Error('Error adding new entry');
 
-    events.emitObject('post-new-entry', savedEntry);
+    events.emit('post-new-entry', savedEntry);
     emitSocketEvent(root, 'new-entry', savedEntry);
     return savedEntry;
   },

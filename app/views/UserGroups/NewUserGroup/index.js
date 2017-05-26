@@ -7,7 +7,7 @@ import Input from 'components/Input';
 import TitleBar from 'components/TitleBar';
 import Button from 'components/Button';
 import Checkboxes from 'components/Checkbox/Checkboxes';
-import { slugify } from 'utils/helpers';
+import { slugify, capitalize } from 'utils/helpers';
 import permissions from '../../../../server/utils/permissions.json';
 
 export default class NewUserGroup extends Component {
@@ -29,7 +29,7 @@ export default class NewUserGroup extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const data = serialize(this.page.form, { hash: true });
+    const data = serialize(this.page.form, { hash: true, empty: true });
     this.props.dispatch(newUserGroup(data));
   }
 
@@ -71,10 +71,7 @@ export default class NewUserGroup extends Component {
               value={slugify(this.state.title)}
             />
 
-            <Checkboxes label="Sections" checkboxes={permissions.sections} name="permissions[sections]" />
-            <Checkboxes label="Entries" checkboxes={permissions.entries} name="permissions[entries]" />
-            <Checkboxes label="Users" checkboxes={permissions.users} name="permissions[users]" />
-            <Checkboxes label="Fields" checkboxes={permissions.fields} name="permissions[fields]" />
+            {Object.keys(permissions).map(key => <Checkboxes key={key} label={capitalize(key)} checkboxes={permissions[key]} name={`permissions[${key}]`} />)}
           </div>
         </div>
       </Page>

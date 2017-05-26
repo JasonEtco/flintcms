@@ -118,7 +118,7 @@ export function deleteSection(_id) {
           message: <span><b>{removeSection.title}</b> has been deleted!</span>,
           style: 'success',
         }));
-        dispatch(push('/admin/settings/sections'));
+        dispatch(push('/settings/sections'));
       })
       .catch(errorToasts);
   };

@@ -8,6 +8,7 @@ import Button from 'components/Button';
 import Checkboxes from 'components/Checkbox/Checkboxes';
 import { updateUserGroup } from 'actions/usergroupActions';
 import t from 'utils/types';
+import { capitalize } from 'utils/helpers';
 import { withRouter } from 'react-router';
 import permissions from '../../../../server/utils/permissions.json';
 
@@ -40,7 +41,7 @@ export default withRouter(class UserGroup extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { dispatch } = this.props;
-    const data = serialize(this.page.form, { hash: true });
+    const data = serialize(this.page.form, { hash: true, empty: true });
     dispatch(updateUserGroup(this.usergroup._id, data));
   }
 
@@ -49,7 +50,7 @@ export default withRouter(class UserGroup extends Component {
     const { slug } = match.params;
     const groupPerms = usergroups.usergroups.find(g => g.slug === slug).permissions;
 
-    const { sections, entries, users, fields } = Object.keys(permissions).reduce((prev, curr) => ({
+    const perms = Object.keys(permissions).reduce((prev, curr) => ({
       ...prev,
       [curr]: permissions[curr]
         .map(perm => ({ ...perm, defaultValue: groupPerms[curr][perm.name] })),
@@ -71,10 +72,7 @@ export default withRouter(class UserGroup extends Component {
               defaultValue={this.usergroup.title}
             />
 
-            <Checkboxes label="Sections" checkboxes={sections} name="permissions[sections]" />
-            <Checkboxes label="Entries" checkboxes={entries} name="permissions[entries]" />
-            <Checkboxes label="Users" checkboxes={users} name="permissions[users]" />
-            <Checkboxes label="Fields" checkboxes={fields} name="permissions[fields]" />
+            {Object.keys(perms).map(key => <Checkboxes key={key} label={capitalize(key)} checkboxes={perms[key]} name={`permissions[${key}]`} />)}
           </div>
         </div>
       </Page>

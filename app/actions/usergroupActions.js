@@ -63,7 +63,7 @@ export function newUserGroup(data) {
       .then((json) => {
         const { addUserGroup } = json.data.data;
         dispatch({ type: NEW_USERGROUP, addUserGroup });
-        dispatch(push('/admin/settings/usergroups'));
+        dispatch(push('/settings/usergroups'));
       })
       .catch(errorToasts);
   };
@@ -90,7 +90,7 @@ export function deleteUserGroup(_id) {
       .then((json) => {
         const { removeUserGroup } = json.data.data;
         dispatch({ type: DELETE_USERGROUP, id: removeUserGroup._id });
-        dispatch(push('/admin/settings/usergroups'));
+        dispatch(push('/settings/usergroups'));
         dispatch(newToast({
           message: <span><b>{removeUserGroup.title}</b> has been deleted.</span>,
           style: 'success',
@@ -122,7 +122,7 @@ export function updateUserGroup(_id, data) {
       .then((json) => {
         const updatedUserGroup = json.data.data.updateUserGroup;
         dispatch({ type: UPDATE_USERGROUP, updateUserGroup: updatedUserGroup });
-        dispatch(push('/admin/settings/usergroups'));
+        dispatch(push('/settings/usergroups'));
         dispatch(newToast({
           message: <span><b>{updatedUserGroup.title}</b> has been updated!</span>,
           style: 'success',

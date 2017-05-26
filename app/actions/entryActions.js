@@ -160,7 +160,7 @@ export function deleteEntry(_id) {
       .then((json) => {
         const { removeEntry } = json.data.data;
         dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
-        dispatch(push('/admin/entries'));
+        dispatch(push('/entries'));
         dispatch(newToast({
           message: <span><b>{removeEntry.title}</b> has been deleted.</span>,
           style: 'success',
