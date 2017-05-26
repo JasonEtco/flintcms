@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Icon from 'utils/icons';
 import t from 'utils/types';
@@ -14,7 +13,7 @@ export default class Settings extends Component {
 
   render() {
     const { permissions: perms } = this.props.user.usergroup;
-    const shouldShowSection = (obj) => Object.keys(obj).some(v => obj[v]);
+    const shouldShowSection = obj => Object.keys(obj).some(v => obj[v]);
 
     const sections = {
       Content: [
