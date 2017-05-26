@@ -86,6 +86,13 @@ const types = {
     dateCreated: number,
     image: string,
     email: string,
+    usergroup: shape({
+      _id: string,
+      title: string,
+      slug: string,
+      dateCreated: number,
+      permissions: object,
+    }),
   }),
 
   users: shape({
