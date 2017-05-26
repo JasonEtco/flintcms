@@ -26,7 +26,7 @@ export default class Settings extends Component {
       ],
       General: [
         { label: 'Site Settings', path: '/settings/general', icon: 'gear', hidden: !perms.site.canManageSite },
-        { label: 'Custom Styles', path: '/settings/styles', icon: 'image' },
+        { label: 'Custom Styles', path: '/settings/styles', icon: 'paint' },
         { label: 'Plugins', path: '/settings/plugins', icon: 'plug' },
       ],
     };
