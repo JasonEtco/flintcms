@@ -106,11 +106,7 @@ export function deleteSection(_id) {
       }
     }`;
 
-    const variables = {
-      _id,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { _id })
       .then((json) => {
         const { removeSection } = json.data.data;
         dispatch({ type: DELETE_SECTION, _id: removeSection._id });

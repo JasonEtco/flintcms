@@ -29,11 +29,7 @@ export function newUserGroup(data) {
       }
     }`;
 
-    const variables = {
-      data,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { data })
       .then((json) => {
         const { addUserGroup } = json.data.data;
         dispatch({ type: NEW_USERGROUP, addUserGroup });
@@ -56,11 +52,7 @@ export function deleteUserGroup(_id) {
       }
     }`;
 
-    const variables = {
-      _id,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { _id })
       .then((json) => {
         const { removeUserGroup } = json.data.data;
         dispatch({ type: DELETE_USERGROUP, id: removeUserGroup._id });
@@ -91,12 +83,7 @@ export function updateUserGroup(_id, data) {
       }
     }`;
 
-    const variables = {
-      _id,
-      data,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { _id, data })
       .then((json) => {
         const updatedUserGroup = json.data.data.updateUserGroup;
         dispatch({ type: UPDATE_USERGROUP, updateUserGroup: updatedUserGroup });

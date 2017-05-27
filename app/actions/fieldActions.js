@@ -27,11 +27,7 @@ export function newField(data) {
       }
     }`;
 
-    const variables = {
-      data,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { data })
       .then((json) => {
         const { addField } = json.data.data;
         dispatch({ type: NEW_FIELD, addField });
@@ -64,12 +60,7 @@ export function updateField(_id, data) {
       }
     }`;
 
-    const variables = {
-      _id,
-      data,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { _id, data })
       .then((json) => {
         const { updateField: updatedField } = json.data.data;
         dispatch({ type: UPDATE_FIELD, updatedField });
@@ -95,11 +86,7 @@ export function deleteField(_id) {
       }
     }`;
 
-    const variables = {
-      _id,
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { _id })
       .then((json) => {
         const { removeField } = json.data.data;
         dispatch({ type: DELETE_FIELD, id: removeField._id });

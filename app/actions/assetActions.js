@@ -67,11 +67,8 @@ export function deleteAsset(_id) {
         _id
       }
     }`;
-    const variables = {
-      _id,
-    };
 
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { _id })
       .then((json) => {
         const { removeAsset } = json.data;
 
