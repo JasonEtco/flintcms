@@ -41,6 +41,8 @@ const permissionsQuery = `permissions {
   }
   site {
     canManageSite
+    canManagePlugins
+    canCustomStyles
   }
 }`;
 
