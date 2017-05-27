@@ -30,6 +30,11 @@ const permissionsQuery = `permissions {
     canSeeDrafts
     canChangeEntryStatus
   }
+  assets {
+    canAddAssets
+    canEditAssets
+    canDeleteAssets
+  }
   users {
     canManageUsers
     canManageUserGroups

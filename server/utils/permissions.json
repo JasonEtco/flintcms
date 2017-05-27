@@ -26,7 +26,15 @@
     { "name": "canManageUserGroups", "defaultValue": false, "label": "Can Manage User Groups" }
   ],
 
+  "assets": [
+    { "name": "canAddAssets", "defaultValue": false, "label": "Can Upload New Assets" },
+    { "name": "canEditAssets", "defaultValue": false, "label": "Can Edit Assets" },
+    { "name": "canDeleteAssets", "defaultValue": false, "label": "Can Delete Assets" }
+  ],
+
   "site": [
-    { "name": "canManageSite", "defaultValue": false, "label": "Can Manage Site Configuration" }
+    { "name": "canManageSite", "defaultValue": false, "label": "Can Manage Site Configuration" },
+    { "name": "canCustomStyles", "defaultValue": false, "label": "Can Write Custom Styles" },
+    { "name": "canManagePlugins", "defaultValue": false, "label": "Can Manage Plugins" }
   ]
 }

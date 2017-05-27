@@ -39,12 +39,23 @@ export default class MainNav extends Component {
 
   render() {
     const { user, open } = this.props;
+    const { permissions: perms } = user.usergroup;
+    const showSection = obj => obj && Object.keys(obj).some(v => obj[v]);
+
+    const showSettings =
+      showSection(perms.sections) ||
+      showSection(perms.fields) ||
+      showSection(perms.assets) ||
+      showSection(perms.users) ||
+      perms.site.canManageSite ||
+      perms.site.canCustomStyles ||
+      perms.site.canManagePlugins;
 
     const links = [
       { to: '/', icon: 'home', children: 'Home' },
       { to: '/entries', icon: 'newspaper', children: 'Entries' },
       { to: '/users', icon: 'user', children: 'Users' },
-      { to: '/settings', icon: 'gear', children: 'Settings' },
+      { to: '/settings', icon: 'gear', children: 'Settings', hidden: !showSettings },
     ];
 
     return (
@@ -53,7 +64,7 @@ export default class MainNav extends Component {
           {this.props.siteName}
         </a>
         <ul className="nav__list">
-          {links.map(link => <NavItem key={link.to} {...link} />)}
+          {links.filter(link => !link.hidden).map(link => <NavItem key={link.to} {...link} />)}
         </ul>
 
         <div className="nav__user">

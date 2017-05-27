@@ -13,21 +13,21 @@ export default class Settings extends Component {
 
   render() {
     const { permissions: perms } = this.props.user.usergroup;
-    const shouldShowSection = obj => Object.keys(obj).some(v => obj[v]);
+    const showSection = obj => obj && Object.keys(obj).some(v => obj[v]);
 
     const sections = {
       Content: [
-        { label: 'Sections', path: '/settings/sections', icon: 'stack', hidden: !shouldShowSection(perms.sections) },
-        { label: 'Fields', path: '/settings/fields', icon: 'fileText', hidden: !shouldShowSection(perms.fields) },
-        { label: 'Assets', path: '/settings/assets', icon: 'images' },
+        { label: 'Sections', path: '/settings/sections', icon: 'stack', hidden: !showSection(perms.sections) },
+        { label: 'Fields', path: '/settings/fields', icon: 'fileText', hidden: !showSection(perms.fields) },
+        { label: 'Assets', path: '/settings/assets', icon: 'images', hidden: !showSection(perms.assets) },
       ],
       Management: [
-        { label: 'User Groups', path: '/settings/usergroups', icon: 'users', hidden: !shouldShowSection(perms.users) },
+        { label: 'User Groups', path: '/settings/usergroups', icon: 'users', hidden: !showSection(perms.users) },
       ],
       General: [
         { label: 'Site Settings', path: '/settings/general', icon: 'gear', hidden: !perms.site.canManageSite },
-        { label: 'Custom Styles', path: '/settings/styles', icon: 'paint' },
-        { label: 'Plugins', path: '/settings/plugins', icon: 'plug' },
+        { label: 'Custom Styles', path: '/settings/styles', icon: 'paint', hidden: !perms.site.canCustomStyles },
+        { label: 'Plugins', path: '/settings/plugins', icon: 'plug', hidden: !perms.site.canManagePlugins },
       ],
     };
 
