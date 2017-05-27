@@ -1,6 +1,7 @@
 import React from 'react';
 import { push } from 'react-router-redux';
-import graphFetcher from '../utils/graphFetcher';
+import permissionsQuery from 'utils/permissionsQuery';
+import graphFetcher from 'utils/graphFetcher';
 import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_USERGROUP = 'REQUEST_USERGROUP';
@@ -12,37 +13,6 @@ export const UPDATE_USERGROUP = 'UPDATE_USERGROUP';
 export const REQUEST_USERGROUPS = 'REQUEST_USERGROUPS';
 export const RECEIVE_USERGROUPS = 'RECEIVE_USERGROUPS';
 
-const contents = `
-  _id
-  title
-  slug
-  dateCreated
-  permissions {
-    sections {
-      canAddSections
-      canDeleteSections
-      canEditSections
-    }
-    fields {
-      canAddFields
-      canDeleteFields
-      canEditFields
-    }
-    entries {
-      canAddEntries
-      canDeleteEntries
-      canEditOthersEntries
-      canEditLive
-      canEditDrafts
-      canSeeDrafts
-      canChangeEntryStatus
-    }
-    users {
-      canManageUsers
-      canManageUserGroups
-    }
-  }`;
-
 /**
  * Adds a new User Group to the database.
  * @param {Object} data - User Group Object
@@ -51,7 +21,11 @@ export function newUserGroup(data) {
   return (dispatch) => {
     const query = `mutation ($data: UserGroupInput!) {
       addUserGroup(data: $data) {
-        ${contents}
+        _id
+        title
+        slug
+        dateCreated
+        ${permissionsQuery}
       }
     }`;
 
@@ -109,7 +83,11 @@ export function updateUserGroup(_id, data) {
   return async (dispatch) => {
     const query = `mutation ($_id: ID!, $data: UserGroupInput!) {
       updateUserGroup(_id: $_id, data: $data) {
-        ${contents}
+        _id
+        title
+        slug
+        dateCreated
+        ${permissionsQuery}
       }
     }`;
 

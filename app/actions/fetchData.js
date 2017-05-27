@@ -1,6 +1,7 @@
 import { push } from 'react-router-redux';
-import graphFetcher from '../utils/graphFetcher';
-import store from '../utils/store';
+import permissionsQuery from 'utils/permissionsQuery';
+import graphFetcher from 'utils/graphFetcher';
+import store from 'utils/store';
 import { RECEIVE_ENTRIES } from './entryActions';
 import { RECEIVE_SECTIONS } from './sectionActions';
 import { RECEIVE_FIELDS } from './fieldActions';
@@ -9,42 +10,6 @@ import { RECEIVE_USERGROUPS } from './usergroupActions';
 import { RECEIVE_ASSETS } from './assetActions';
 import { RECEIVE_SITE } from './siteActions';
 import { RECEIVE_PLUGINS } from './pluginActions';
-
-const permissionsQuery = `permissions {
-  sections {
-    canAddSections
-    canDeleteSections
-    canEditSections
-  }
-  fields {
-    canAddFields
-    canDeleteFields
-    canEditFields
-  }
-  entries {
-    canAddEntries
-    canDeleteEntries
-    canEditOthersEntries
-    canEditLive
-    canEditDrafts
-    canSeeDrafts
-    canChangeEntryStatus
-  }
-  assets {
-    canAddAssets
-    canEditAssets
-    canDeleteAssets
-  }
-  users {
-    canManageUsers
-    canManageUserGroups
-  }
-  site {
-    canManageSite
-    canManagePlugins
-    canCustomStyles
-  }
-}`;
 
 const query = `{
   site {
