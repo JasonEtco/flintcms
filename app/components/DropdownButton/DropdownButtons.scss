@@ -1,6 +1,7 @@
 .dropdown-btn {
     &__btn {
         position: relative;
+        border-color: $orange-dark;
         background-color: $orange;
 
         &::before {
