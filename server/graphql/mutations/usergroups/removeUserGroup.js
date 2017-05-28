@@ -19,7 +19,7 @@ module.exports = {
   },
   async resolve(root, args, ctx, ast) {
     const perms = await getUserPermissions(ctx.user._id);
-    if (!perms.users.canManageUserGroups) throw new Error('You do not have permission to manage User Groups.');
+    if (!perms.usergroups.canDeleteUserGroups) throw new Error('You do not have permission to delete User Groups.');
 
     const projection = getProjection(ast);
 

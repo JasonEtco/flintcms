@@ -17,7 +17,7 @@ module.exports = {
   },
   async resolve(root, { data }, ctx) {
     const perms = await getUserPermissions(ctx.user._id);
-    if (!perms.users.canManageUserGroups) throw new Error('You do not have permission to manage User Groups.');
+    if (!perms.usergroups.canAddUserGroups) throw new Error('You do not have permission to add User Groups.');
 
     const newUserGroup = new UserGroup(data);
 

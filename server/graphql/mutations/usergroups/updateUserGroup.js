@@ -21,7 +21,7 @@ module.exports = {
   },
   async resolve(root, { _id, data }, ctx) {
     const perms = await getUserPermissions(ctx.user._id);
-    if (!perms.users.canManageUserGroups) throw new Error('You do not have permission to manage User Groups.');
+    if (!perms.usergroups.canEditUserGroups) throw new Error('You do not have permission to edit User Groups.');
 
     const foundUserGroup = await UserGroup.findById(_id);
     if (!foundUserGroup) throw new Error('There is no UserGroup with this ID');
