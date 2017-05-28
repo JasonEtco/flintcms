@@ -31,7 +31,7 @@
     { "name": "canAddUserGroups", "defaultValue": false, "label": "Can Add User Groups" },
     { "name": "canEditUserGroups", "defaultValue": false, "label": "Can Edit User Groups" },
     { "name": "canDeleteUserGroups", "defaultValue": false, "label": "Can Delete User Groups" },
-    { "name": "canViewUsersGroups", "defaultValue": false, "label": "Can View Users Groups" }
+    { "name": "canViewUserGroups", "defaultValue": false, "label": "Can View Users Groups" }
   ],
 
   "assets": [
