@@ -40,6 +40,7 @@ export function newField(data) {
       .catch(errorToasts);
   };
 }
+
 /**
  * Updates a Field
  * @param {String} _id
