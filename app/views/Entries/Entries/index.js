@@ -11,27 +11,21 @@ import SecondaryNav from 'components/SecondaryNav';
 import Table from 'components/Table';
 import StatusDot from 'components/StatusDot';
 import { withRouter } from 'react-router';
+import getUserPermissions from 'utils/getUserPermissions';
 
 const localStorageKey = 'flint:lastSection';
 
 export default withRouter(class Entries extends Component {
   static propTypes = {
-    entries: t.entries,
-    sections: t.sections,
+    entries: t.entries.isRequired,
+    sections: t.sections.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
-        section: PropTypes.string,
-      }),
+        section: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
-    dispatch: PropTypes.func,
+    dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    entries: null,
-    sections: null,
-    users: null,
   }
 
   componentWillMount() {
@@ -105,7 +99,7 @@ export default withRouter(class Entries extends Component {
     return (
       <Page name="entries">
         <TitleBar title="Entries">
-          {!!section && <Link to={`/entries/${section}/new`} className="btn btn--small">New Entry</Link>}
+          {!!section && getUserPermissions().entries.canAddEntries && <Link to={`/entries/${section}/new`} className="btn btn--small">New Entry</Link>}
         </TitleBar>
 
         <div className="content">

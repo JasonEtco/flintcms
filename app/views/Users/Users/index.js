@@ -4,6 +4,7 @@ import { formatDate } from 'utils/helpers';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
 import Table from 'components/Table';
+import getUserPermissions from 'utils/getUserPermissions';
 import t from 'utils/types';
 
 export default class Users extends Component {
@@ -35,10 +36,12 @@ export default class Users extends Component {
       },
     }));
 
+    const perms = getUserPermissions();
+
     return (
       <Page name="users">
         <TitleBar title="Users">
-          <Link to="/users/new" className="btn btn--small">New User</Link>
+          {perms.users.canAddUsers && <Link to="/users/new" className="btn btn--small">New User</Link>}
         </TitleBar>
 
         <div className="content">

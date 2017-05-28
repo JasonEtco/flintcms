@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Icon from 'utils/icons';
+import t from 'utils/types';
+import getUserPermissions from 'utils/getUserPermissions';
 import './MainNav.scss';
 
 const NavItem = ({ to, icon, children }) => (
@@ -21,15 +23,7 @@ NavItem.propTypes = {
 export default class MainNav extends Component {
   static propTypes = {
     siteName: PropTypes.string,
-    user: PropTypes.shape({
-      _id: PropTypes.string,
-      username: PropTypes.string,
-      name: PropTypes.shape({
-        first: PropTypes.string,
-        last: PropTypes.string,
-      }),
-      email: PropTypes.string,
-    }).isRequired,
+    user: t.user.isRequired,
     open: PropTypes.bool.isRequired,
   }
 
@@ -39,7 +33,7 @@ export default class MainNav extends Component {
 
   render() {
     const { user, open } = this.props;
-    const { permissions: perms } = user.usergroup;
+    const perms = getUserPermissions();
     const showSection = obj => obj && Object.keys(obj).some(v => obj[v]);
 
     const showSettings =

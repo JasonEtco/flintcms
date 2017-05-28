@@ -4,6 +4,7 @@ import Icon from 'utils/icons';
 import t from 'utils/types';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
+import getUserPermissions from 'utils/getUserPermissions';
 import './Settings.scss';
 
 export default class Settings extends Component {
@@ -12,7 +13,7 @@ export default class Settings extends Component {
   }
 
   render() {
-    const { permissions: perms } = this.props.user.usergroup;
+    const perms = getUserPermissions();
     const showSection = obj => obj && Object.keys(obj).some(v => obj[v]);
 
     const sections = {
