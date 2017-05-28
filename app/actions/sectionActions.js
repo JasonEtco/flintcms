@@ -45,7 +45,7 @@ export function newSection({ title, template, fields }) {
           message: <span><b>{addSection.title}</b> has been created!</span>,
           style: 'success',
         }));
-        dispatch(push(`/admin/entries/${addSection.slug}`));
+        dispatch(push(`/entries/${addSection.slug}`));
       })
       .catch(errorToasts);
   };

@@ -35,7 +35,7 @@ export function newField(data) {
           message: <span><b>{addField.title}</b> has been created!</span>,
           style: 'success',
         }));
-        dispatch(push(`/admin/settings/fields/${addField._id}`));
+        dispatch(push(`/settings/fields/${addField._id}`));
       })
       .catch(errorToasts);
   };

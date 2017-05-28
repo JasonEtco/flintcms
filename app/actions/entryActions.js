@@ -90,7 +90,7 @@ export function newEntry(title, section, status, dateCreated, rawOptions) {
           style: 'success',
         }));
         const sectionSlug = getSlugFromId(sections.sections, addEntry.section);
-        dispatch(push(`/admin/entries/${sectionSlug}/${addEntry._id}`));
+        dispatch(push(`/entries/${sectionSlug}/${addEntry._id}`));
       })
       .catch(errorToasts);
   };
