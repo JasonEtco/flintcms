@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import t from 'utils/types';
 import { deleteEntry } from 'actions/entryActions';
@@ -10,7 +11,7 @@ import TitleBar from 'components/TitleBar';
 import SecondaryNav from 'components/SecondaryNav';
 import Table from 'components/Table';
 import StatusDot from 'components/StatusDot';
-import { withRouter } from 'react-router';
+import DropdownButton from 'components/DropdownButton';
 import getUserPermissions from 'utils/getUserPermissions';
 
 const localStorageKey = 'flint:lastSection';
@@ -21,7 +22,7 @@ export default withRouter(class Entries extends Component {
     sections: t.sections.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
-        section: PropTypes.string.isRequired,
+        section: PropTypes.string,
       }).isRequired,
     }).isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -96,10 +97,15 @@ export default withRouter(class Entries extends Component {
       },
     }));
 
+    const dropdownLinks = sections.map(sec => ({ label: sec.title, to: `/entries/${sec.slug}/new` }));
+
     return (
       <Page name="entries">
         <TitleBar title="Entries">
-          {!!section && getUserPermissions().entries.canAddEntries && <Link to={`/entries/${section}/new`} className="btn btn--small">New Entry</Link>}
+          {getUserPermissions().entries.canAddEntries && !!section
+            ? <Link to={`/entries/${section}/new`} className="btn btn--small">New Entry</Link>
+            : <DropdownButton links={dropdownLinks}>New Entry</DropdownButton>
+          }
         </TitleBar>
 
         <div className="content">
