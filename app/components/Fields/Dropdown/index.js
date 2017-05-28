@@ -27,6 +27,7 @@ export default class Dropdown extends Component {
     onChange: func,
     children: any,
     alphabetize: bool,
+    disabled: bool,
   }
 
   static defaultProps = {
@@ -37,6 +38,7 @@ export default class Dropdown extends Component {
     onChange: f => f,
     children: null,
     alphabetize: false,
+    disabled: false,
   }
 
   constructor(props) {
@@ -60,7 +62,10 @@ export default class Dropdown extends Component {
   componentWillUnmount() { window.removeEventListener('click', this.hide); }
 
   onClick(value) {
-    this.props.onChange(value);
+    const { onChange, disabled } = this.props;
+    if (disabled) return;
+
+    onChange(value);
     this.value = value;
     this.setState({ value, open: false });
   }
@@ -71,11 +76,23 @@ export default class Dropdown extends Component {
 
   handleToggle(e) {
     e.stopPropagation();
-    this.setState({ open: !this.state.open });
+    const { disabled } = this.props;
+
+    if (!disabled) this.setState({ open: !this.state.open });
   }
 
   render() {
-    const { options, label, instructions, name, full, children, alphabetize } = this.props;
+    const {
+      options,
+      label,
+      instructions,
+      name,
+      full,
+      children,
+      alphabetize,
+      disabled,
+    } = this.props;
+
     const { value, open } = this.state;
 
     const sorted = alphabetize ? options.sort((a, b) => alphabetizeSort(a, b, 'label')) : options;
@@ -92,12 +109,14 @@ export default class Dropdown extends Component {
           className="dropdown__btn"
           type="button"
           onClick={this.handleToggle}
+          disabled={disabled}
         >{typeof options[0] === 'string' ? value : options.find(opt => opt.value === value).label}</button>
 
         <div className="dropdown__options">
           {sorted.map(opt => (
             <button
               role="option"
+              aria-selected={value === opt.value}
               type="button"
               key={opt.value || opt}
               onClick={() => this.onClick(opt.value || opt)}

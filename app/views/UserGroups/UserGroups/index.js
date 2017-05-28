@@ -8,6 +8,7 @@ import TitleBar from 'components/TitleBar';
 import t from 'utils/types';
 import DeleteIcon from 'components/DeleteIcon';
 import { deleteUserGroup } from 'actions/usergroupActions';
+import getUserPermissions from 'utils/getUserPermissions';
 
 export default class UserGroups extends Component {
   static propTypes = {
@@ -18,6 +19,7 @@ export default class UserGroups extends Component {
   render() {
     const { usergroups, dispatch } = this.props;
 
+    const perms = getUserPermissions();
     const reduced = usergroups.usergroups.map(props => ({
       key: props._id,
       title: {
@@ -42,7 +44,7 @@ export default class UserGroups extends Component {
     return (
       <Page name="usergroups">
         <TitleBar title="User Groups">
-          <Link to="/settings/usergroups/new" className="btn btn--small">New User Group</Link>
+          {perms.usergroups.canAddUserGroups && <Link to="/settings/usergroups/new" className="btn btn--small">New User Group</Link>}
         </TitleBar>
 
         <div className="content">

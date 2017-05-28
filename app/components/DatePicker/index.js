@@ -30,6 +30,7 @@ export default class DatePicker extends Component {
     label: PropTypes.string,
     instructions: PropTypes.string,
     attachment: PropTypes.oneOf(['right', 'left']),
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -37,6 +38,7 @@ export default class DatePicker extends Component {
     label: null,
     instructions: null,
     attachment: 'left',
+    disabled: false,
   }
 
   constructor(props) {
@@ -44,6 +46,14 @@ export default class DatePicker extends Component {
     const { value } = props;
     this.value = value;
     const { month, year } = seperateDateObj();
+
+    this.selectDate = this.selectDate.bind(this);
+    this.incrementMonth = this.incrementMonth.bind(this);
+    this.hide = this.hide.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
+    this.isActive = this.isActive.bind(this);
+    this.today = this.today.bind(this);
+    this.renderDates = this.renderDates.bind(this);
 
     this.state = {
       open: false,
@@ -56,12 +66,12 @@ export default class DatePicker extends Component {
   componentDidMount() { window.addEventListener('click', this.hide); }
   componentWillUnmount() { window.removeEventListener('click', this.hide); }
 
-  selectDate = ({ year, month, day }) => {
+  selectDate({ year, month, day }) {
     const value = new Date(year, month, day).getTime();
     this.setState({ value, open: false });
   }
 
-  incrementMonth = (e, forwards = true) => {
+  incrementMonth(e, forwards = true) {
     e.stopPropagation();
     const { month, year } = this.state;
     if (forwards) {
@@ -77,27 +87,29 @@ export default class DatePicker extends Component {
     }
   }
 
-  hide = () => {
+  hide() {
     this.setState({ open: false });
   }
 
-  handleToggle = (e) => {
+  handleToggle(e) {
+    if (this.props.disabled) return;
+
     e.stopPropagation();
     this.setState({ open: !this.state.open });
   }
 
-  isActive = (date) => {
+  isActive(date) {
     const { year, month, day } = seperateDateObj(new Date(this.state.value));
     return year === date.year && month === date.month && day === date.day;
   }
 
-  today = () => {
+  today() {
     const today = new Date();
     const { year, month, value } = seperateDateObj(today);
     this.setState({ value, month, year });
   }
 
-  renderDates = () => {
+  renderDates() {
     const { year, month } = this.state;
 
     const lastMonthDays = daysInMonth(month - 1, year);
@@ -130,7 +142,7 @@ export default class DatePicker extends Component {
   }
 
   render() {
-    const { label, instructions, name, attachment } = this.props;
+    const { label, instructions, name, attachment, disabled } = this.props;
     const { month, year, value, open } = this.state;
     const inputVal = moment(value).format('MM/DD/YYYY');
 
@@ -147,8 +159,9 @@ export default class DatePicker extends Component {
             onClick={this.handleToggle}
             ref={(r) => { this.input = r; }}
             readOnly
+            disabled={disabled}
           />
-          <button type="button" className="input__icon" onClick={this.handleToggle}>
+          <button type="button" className="input__icon" onClick={this.handleToggle} disabled={disabled}>
             <Icon icon="calendar" />
           </button>
         </div>

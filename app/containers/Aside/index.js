@@ -11,6 +11,7 @@ export default class Aside extends Component {
     status: PropTypes.oneOf(['live', 'draft', 'disabled']),
     dateCreated: PropTypes.number,
     children: PropTypes.object,
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -18,6 +19,7 @@ export default class Aside extends Component {
     status: 'draft',
     dateCreated: undefined,
     children: null,
+    disabled: false,
   }
 
   constructor(props) {
@@ -31,11 +33,12 @@ export default class Aside extends Component {
 
   render() {
     const { status } = this.state;
-    const { dateCreated, children, noStatus } = this.props;
+    const { dateCreated, children, noStatus, disabled } = this.props;
 
     return (
       <aside className="aside">
         {!noStatus && <Dropdown
+          disabled={disabled}
           name="status"
           label="Status"
           full
@@ -50,7 +53,7 @@ export default class Aside extends Component {
           <StatusDot status={this.state.status} />
         </Dropdown>}
 
-        <DatePicker attachment="right" name="dateCreated" label="Date Created" value={dateCreated} />
+        <DatePicker disabled={disabled} attachment="right" name="dateCreated" label="Date Created" value={dateCreated} />
 
         {children}
       </aside>

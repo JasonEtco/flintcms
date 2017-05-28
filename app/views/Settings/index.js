@@ -23,7 +23,7 @@ export default class Settings extends Component {
         { label: 'Assets', path: '/settings/assets', icon: 'images', hidden: !showSection(perms.assets) },
       ],
       Management: [
-        { label: 'User Groups', path: '/settings/usergroups', icon: 'users', hidden: !showSection(perms.users) },
+        { label: 'User Groups', path: '/settings/usergroups', icon: 'users', hidden: !perms.usergroups.canViewUserGroups },
       ],
       General: [
         { label: 'Site Settings', path: '/settings/general', icon: 'gear', hidden: !perms.site.canManageSite },

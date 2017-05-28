@@ -55,6 +55,11 @@
                 cursor: pointer;
 
                 svg { fill: $grey; }
+
+                &:disabled {
+                    background-color: darken($grey-lighter, 4%);
+                    cursor: default;
+                }
             }
         }
     }

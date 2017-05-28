@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
 import t from 'utils/types';
 import renderOption from 'utils/renderOption';
+import getUserPermissions from 'utils/getUserPermissions';
 import validateFields from 'utils/validateFields';
 import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
@@ -78,7 +79,10 @@ export default withRouter(class Entry extends Component {
     const { fields } = this.props.fields;
     const foundField = fields.find(f => f._id === fieldId);
     const entryField = entryFields.find(f => f.fieldId === fieldId);
-    return renderOption(foundField, entryField ? entryField.value : null);
+
+    return renderOption(foundField, entryField ? entryField.value : null, {
+      disabled: !getUserPermissions().entries.canEditEntries,
+    });
   }
 
   render() {
@@ -105,19 +109,21 @@ export default withRouter(class Entry extends Component {
       { label: title, path: `/entries/${sectionObj.slug}/${_id}` },
     ];
 
+    const { canEditEntries, canDeleteEntries } = getUserPermissions().entries;
+
     return (
       <Page name="entry" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title={title}>
-          <Button small onClick={this.Submit} type="submit">Save Entry</Button>
-          <Button small onClick={this.deleteEntry}>Delete Entry</Button>
+          {canEditEntries && <Button small onClick={this.Submit} type="submit">Save Entry</Button>}
+          {canDeleteEntries && <Button small onClick={this.deleteEntry}>Delete Entry</Button>}
         </TitleBar>
         <div className="content">
           <div className="page__inner">
-            <Input label="Title" defaultValue={title} name="title" full required />
+            <Input label="Title" defaultValue={title} name="title" full required disabled={!canEditEntries} />
             {sectionObj.fields.map(fieldId => this.renderFields(fields, fieldId))}
           </div>
 
-          <Aside status={status} dateCreated={dateCreated} />
+          <Aside status={status} dateCreated={dateCreated} disabled={!canEditEntries} />
         </div>
       </Page>
     );

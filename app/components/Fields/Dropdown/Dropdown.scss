@@ -4,6 +4,7 @@
     font-size: 0.8rem;
 
     &__options {
+        @extend %card;
         position: absolute;
         z-index: 2;
         top: 100%;
@@ -11,7 +12,6 @@
         overflow: hidden;
         width: 100%;
         opacity: 0;
-        @extend %card;
         padding: 0;
         pointer-events: none;
         visibility: hidden;
@@ -63,13 +63,20 @@
             background-color 150ms $standard,
             border-color 150ms $standard,
             box-shadow 150ms $standard;
+
         @extend %focus;
 
         &::after {
+            @include triangle(bottom, 4px, $grey);
             content: '';
             position: relative;
             top: 2px;
-            @include triangle(bottom, 4px, $grey);
+        }
+
+        &:disabled {
+            background-color: darken($grey-lighter, 4%);
+            color: black;
+            cursor: default;
         }
     }
 

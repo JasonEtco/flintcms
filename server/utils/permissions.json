@@ -22,8 +22,16 @@
   ],
 
   "users": [
-    { "name": "canManageUsers", "defaultValue": false, "label": "Can Manage Users" },
-    { "name": "canManageUserGroups", "defaultValue": false, "label": "Can Manage User Groups" }
+    { "name": "canAddUsers", "defaultValue": false, "label": "Can Add Users" },
+    { "name": "canEditUsers", "defaultValue": false, "label": "Can Edit Users" },
+    { "name": "canDeleteUsers", "defaultValue": false, "label": "Can Delete Users" }
+  ],
+
+  "usergroups": [
+    { "name": "canAddUserGroups", "defaultValue": false, "label": "Can Add User Groups" },
+    { "name": "canEditUserGroups", "defaultValue": false, "label": "Can Edit User Groups" },
+    { "name": "canDeleteUserGroups", "defaultValue": false, "label": "Can Delete User Groups" },
+    { "name": "canViewUsersGroups", "defaultValue": false, "label": "Can View Users Groups" }
   ],
 
   "assets": [
