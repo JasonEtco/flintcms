@@ -32,3 +32,19 @@ exports.sections = [
     dateCreated: '2017-03-02T02:48:29.432Z',
   },
 ];
+
+exports.users = [
+  {
+    _id: '589a12b5a08e0c2f24ece4e8',
+    dateCreated: '2017-02-07T18:32:21.619Z',
+    password: '$2a$10$ygS4nRWUtp9/VMb9GnC7POu5WVUZ7KqgZKylVUWa.rcfIUhRfyGw.',
+    name: {
+      first: 'Example',
+      last: 'Userstein',
+    },
+    username: 'exampleusername',
+    email: 'example@userstein.com',
+    image: 'default_user.png',
+    usergroup: '592a74034a0a9b372c3bff9c',
+  },
+];
