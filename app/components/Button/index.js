@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './Button.scss';
 
@@ -11,6 +12,8 @@ export default class Button extends Component {
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
     small: PropTypes.bool,
     big: PropTypes.bool,
+    formElement: PropTypes.bool,
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -20,16 +23,35 @@ export default class Button extends Component {
     disabled: false,
     small: false,
     big: false,
+    formElement: false,
+    className: null,
   }
 
   render() {
-    const { kind, type, onClick, disabled, children, small, big } = this.props;
+    const {
+      kind,
+      type,
+      onClick,
+      disabled,
+      children,
+      small,
+      big,
+      formElement,
+      className,
+    } = this.props;
+
     const classes = classnames(
       'btn',
       { [`btn--${kind}`]: kind },
       { 'btn--small': small },
       { 'btn--big': big },
+      { 'form-element': formElement },
+      className,
     );
+
+    if (type === 'submit') {
+      return <input type="submit" disabled={disabled} className={classes} value={children} />;
+    }
 
     return (
       <button

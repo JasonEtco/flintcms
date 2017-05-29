@@ -28,7 +28,7 @@ router.post('/assets', upload.single('file'), async (req, res) => {
     const { body, file } = req;
     const { originalname, buffer, size, mimetype } = file;
 
-    const pathToFile = path.join(__dirname, '..', '..', '..', 'assets', originalname);
+    const pathToFile = path.join(__dirname, '..', '..', '..', 'public', 'assets', originalname);
 
     const jimpFile = await jimp.read(buffer);
     const { width, height } = jimpFile.bitmap;
@@ -49,6 +49,52 @@ router.post('/assets', upload.single('file'), async (req, res) => {
     }`;
 
     const vars = {
+      data: {
+        title: body.title,
+        filename: originalname,
+        size,
+        width,
+        height,
+        mimetype,
+      },
+    };
+
+    const { errors, data } = await graphql(schema, query, { io }, null, vars);
+    if (errors !== undefined && errors.length > 0) {
+      res.status(500).json(errors);
+    } else {
+      res.status(200).json(data);
+    }
+  });
+});
+
+router.put('/assets/:_id', upload.single('file'), async (req, res) => {
+  process.nextTick(async () => {
+    const { body, file } = req;
+    const { originalname, buffer, size, mimetype } = file;
+
+    const pathToFile = path.join(__dirname, '..', '..', '..', 'public', 'assets', originalname);
+
+    const jimpFile = await jimp.read(buffer);
+    const { width, height } = jimpFile.bitmap;
+    const writtenFile = await jimpFile.write(pathToFile);
+    if (!writtenFile) throw new Error('There was an erroring saving your file.');
+
+    const query = `mutation ($data: AssetInput!, $_id: ID!) {
+      updateAsset(data: $data, _id: $_id) {
+       _id
+       title
+       filename
+       size
+       mimetype
+       width
+       height
+       extension
+     }
+    }`;
+
+    const vars = {
+      _id: req.params._id,
       data: {
         title: body.title,
         filename: originalname,

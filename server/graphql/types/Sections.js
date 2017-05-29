@@ -1,4 +1,5 @@
 const { GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = require('graphql');
+const { DateTime } = require('./CustomTypes');
 
 const outputType = new GraphQLObjectType({
   name: 'Sections',
@@ -7,18 +8,21 @@ const outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLID),
     },
     title: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
     slug: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
     fields: {
       type: new GraphQLList(new GraphQLNonNull(GraphQLID)),
       description: '`id`s of fields',
     },
     dateCreated: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(DateTime),
       description: 'Date Created',
+    },
+    template: {
+      type: new GraphQLNonNull(GraphQLString),
     },
   },
 });
@@ -27,10 +31,10 @@ const inputType = new GraphQLInputObjectType({
   name: 'SectionsInput',
   fields: {
     title: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
     template: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
     fields: {
       type: new GraphQLList(new GraphQLNonNull(GraphQLID)),

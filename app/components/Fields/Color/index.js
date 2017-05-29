@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ChromePicker } from 'react-color';
+import classnames from 'classnames';
 import './Color.scss';
 
 export default class Color extends Component {
@@ -10,12 +12,17 @@ export default class Color extends Component {
     defaultValue: PropTypes.string,
     label: PropTypes.string,
     instructions: PropTypes.string,
+    required: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     defaultValue: '#000000',
     label: null,
     instructions: null,
+  }
+
+  static validate(val) {
+    return val.length === 7 && val.startsWith('#');
   }
 
   constructor(props) {
@@ -43,23 +50,17 @@ export default class Color extends Component {
   };
 
   render() {
-    const { label, instructions, name } = this.props;
+    const { label, instructions, name, required } = this.props;
     const { color, open } = this.state;
 
-    const popover = {
-      position: 'absolute',
-      zIndex: '2',
-    };
-    const cover = {
-      position: 'fixed',
-      top: '0px',
-      right: '0px',
-      bottom: '0px',
-      left: '0px',
-    };
+    const classes = classnames(
+      'color-wrapper',
+      'form-element',
+      { 'form-element--required': required },
+    );
 
     return (
-      <div className="color-wrapper form-element">
+      <div className={classes}>
         {label && <span className="input__label">{label}</span>}
         {instructions && <p className="input__instructions">{instructions}</p>}
         <button
@@ -69,13 +70,11 @@ export default class Color extends Component {
           style={{ backgroundColor: color }}
         />
         <div className={`color__picker ${open ? 'is-open' : ''}`}>
-          <div style={popover}>
-            <div style={cover} onClick={this.hide} />
-            <ChromePicker
-              color={color}
-              onChangeComplete={this.handleChangeComplete}
-            />
-          </div>
+          <div className="color__overlay" onClick={this.hide} />
+          <ChromePicker
+            color={color}
+            onChangeComplete={this.handleChangeComplete}
+          />
         </div>
 
         <input type="text" name={name} value={color} readOnly hidden />

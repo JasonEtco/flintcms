@@ -33,7 +33,7 @@ $size6: 6rem;
 $size5: 3rem;
 $size4: 2.4rem;
 $size3: 1.6rem;
-$size2: 1.25rem;
+$size2: 1.15rem;
 $size1: 1rem;
 $size0: 0.8rem;
 
@@ -64,4 +64,11 @@ $bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: $shadow1;
     transition: box-shadow 150ms $standard;
     will-change: box-shadow;
+}
+
+%focus {
+    &:focus {
+        border-color: lighten($blue, 25%);
+        box-shadow: 0 0 0 2px lighten($blue, 40%);
+    }
 }

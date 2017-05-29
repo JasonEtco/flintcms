@@ -4,21 +4,42 @@
     font-size: 0.8rem;
 
     &__options {
+        @extend %card;
         position: absolute;
+        z-index: 2;
         top: 100%;
         left: 0;
         overflow: hidden;
         width: 100%;
         opacity: 0;
-        @extend %card;
         padding: 0;
         pointer-events: none;
         visibility: hidden;
         transform: translateY(-0.5em);
         transition:
-            opacity 150ms $standard,
-            visibility 150ms $standard,
-            transform 150ms $standard;
+            opacity 150ms $exit,
+            visibility 150ms $exit,
+            transform 150ms $exit;
+    }
+
+    &__inner {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        > * {
+            &:not(:first-child) { margin-left: 0.6em; }
+        }
+
+        > .status { flex-shrink: 0; }
+
+    }
+
+    &__child {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
     }
 
     &__btn, &__opt {
@@ -37,18 +58,33 @@
         border: 1px solid $grey-light;
         background: white;
         min-width: 100px;
+        outline: none;
+        transition:
+            background-color 150ms $standard,
+            border-color 150ms $standard,
+            box-shadow 150ms $standard;
 
-        &:focus {
-            border-color: #7dafe8;
-            outline: none;
-            box-shadow: 0 0 5px #80caff;
-        }
+        @extend %focus;
 
         &::after {
+            @include triangle(bottom, 4px, $grey);
             content: '';
             position: relative;
             top: 2px;
-            @include triangle(bottom, 4px, $grey);
+        }
+
+        &:disabled {
+            background-color: darken($grey-lighter, 4%);
+            color: black;
+            cursor: default;
+        }
+    }
+
+    &--full {
+        width: 100%;
+
+        .dropdown__btn {
+            width: 100%;
         }
     }
 
@@ -59,8 +95,8 @@
         background: none;
         outline: none;
 
-        &:focus {
-            background-color: $grey-lighter;
+        &:hover, &:focus {
+            background-color: $grey-light;
         }
     }
 
@@ -74,6 +110,7 @@
             visibility: visible;
             opacity: 1;
             transform: translateY(0);
+            transition-timing-function: $enter;
         }
     }
 }

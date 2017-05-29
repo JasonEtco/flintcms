@@ -1,7 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import classnames from 'classnames';
-import Icon from '../../utils/icons';
-import { closeModals } from '../../actions/uiActions';
+import Icon from 'utils/icons';
+import { closeModals } from 'actions/uiActions';
 import './Modals.scss';
 
 export default class Modals extends Component {
@@ -15,6 +17,8 @@ export default class Modals extends Component {
     this.handleKeypress = this.handleKeypress.bind(this);
     this.closeModals = this.closeModals.bind(this);
   }
+
+  state = { leaving: false }
 
   componentDidMount() { document.addEventListener('keydown', this.handleKeypress); }
   componentWillUnmount() { document.removeEventListener('keydown', this.handleKeypress); }
@@ -31,26 +35,38 @@ export default class Modals extends Component {
 
   render() {
     const { currentModal, modalIsOpen } = this.props.ui;
-
-    const modalClasses = classnames(
-      'modal-wrapper',
-      { 'is-active': modalIsOpen },
-    );
+    const { leaving } = this.state;
 
     if (currentModal === null || modalIsOpen === false) return false;
 
+    const modalClasses = classnames(
+      'modal-wrapper',
+      { 'modal-wrapper--full': currentModal.props.full },
+      { 'is-active': modalIsOpen },
+      { 'is-leaving': leaving },
+    );
+
     return (
-      <div className={modalClasses}>
-        <div className="modal" style={{ zIndex: 9999 }}>
+      <CSSTransitionGroup
+        className={modalClasses}
+        transitionName="modal"
+        transitionAppear={true}
+        transitionAppearTimeout={500000}
+        transitionEnter={false}
+        transitionLeave={false}
+        component="div"
+      >
+        <div className="modal" style={{ zIndex: 9999 }} key="modal">
           <button className="modal__close" onClick={this.closeModals}><Icon icon="cross" width={14} height={14} /></button>
           {React.cloneElement(currentModal, { close: () => this.closeModals() })}
         </div>
 
         <div // eslint-disable-line
           className="modal-overlay"
+          key="modalOverlay"
           onClick={this.closeModals}
         />
-      </div>
+      </CSSTransitionGroup>
     );
   }
 }

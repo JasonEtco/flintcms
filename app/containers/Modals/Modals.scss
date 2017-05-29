@@ -1,19 +1,19 @@
 .modal {
     @extend %card;
-    position: fixed;
+    position: relative;
     z-index: 9999;
-    top: 50%;
-    left: 50%;
     max-width: 530px;
-    transform: translate(-50%, -50%);
+    transition: transform 150ms $enter, opacity 150ms $enter;
+    transition-delay: 100ms; // stylelint-disable-line time-no-imperceptible
 
-    &-wrapper {
-        position: fixed;
-        z-index: 9999;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+    &.modal-appear {
+        opacity: 0;
+        transform: scale(0.95);
+
+        &-active {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 
     &__title {
@@ -44,7 +44,8 @@
         width: 100%;
         height: 100%;
         background-color: black;
-        opacity: 0.5;
+        opacity: 0;
+        transition: opacity 200ms $standard;
 
         &__inner {
             position: absolute;
@@ -52,6 +53,12 @@
             left: 0;
             width: 100%;
             height: 100%;
+        }
+
+        &.modal-appear {
+            opacity: 0;
+
+            &-active { opacity: 0.5; }
         }
     }
 
@@ -62,4 +69,40 @@
         .btn + .btn { margin-left: 1em; }
     }
 
+    &-wrapper {
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+
+        &--full {
+            .modal {
+                width: 80%;
+                height: 75%;
+                max-width: none;
+
+                &__close {
+                    top: 0.5em;
+                    right: 0.5em;
+                }
+            }
+        }
+
+        &.is-leaving {
+            .modal {
+                width: 80%;
+                height: 75%;
+                max-width: none;
+
+                &-overlay {
+                    opacity: 0;
+                }
+            }
+        }
+    }
 }

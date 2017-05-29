@@ -1,0 +1,23 @@
+@import '../../../../../app/scss/tools/variables';
+@import 'settings';
+@import 'foundation/foundation';
+
+body, html, table.body {
+    background: $grey-light !important; 
+}
+
+.container.main {
+    border-radius: $global-radius;
+    box-shadow: 0 2px 4px rgba(black, 0.1);
+}
+
+.container.no-bg {
+    background: none;
+
+    small { color: $grey-light !important; }
+}
+
+.line {
+    width: 50px !important;
+    background-color: $grey;
+}

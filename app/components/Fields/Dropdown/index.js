@@ -1,20 +1,44 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import { alphabetizeSort } from 'utils/helpers';
 import './Dropdown.scss';
+
+const { string, arrayOf, oneOfType, shape, object, bool, func, any } = PropTypes;
+
+export const DropdownChild = ({ children }) => <div className="dropdown__child">{children}</div>;
+DropdownChild.propTypes = { children: any.isRequired };
 
 export default class Dropdown extends Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })).isRequired,
-    label: PropTypes.string,
-    instructions: PropTypes.string,
+    name: string.isRequired,
+    options: oneOfType([
+      arrayOf(shape({
+        label: string.isRequired,
+        component: object,
+        value: string.isRequired,
+      })),
+      arrayOf(string),
+    ]).isRequired,
+    label: string,
+    instructions: string,
+    full: bool,
+    defaultValue: string,
+    onChange: func,
+    children: any,
+    alphabetize: bool,
+    disabled: bool,
   }
 
   static defaultProps = {
     label: null,
     instructions: null,
+    full: false,
+    defaultValue: null,
+    onChange: f => f,
+    children: null,
+    alphabetize: false,
+    disabled: false,
   }
 
   constructor(props) {
@@ -24,18 +48,24 @@ export default class Dropdown extends Component {
     this.hide = this.hide.bind(this);
     this.onClick = this.onClick.bind(this);
 
+    const sorted = props.alphabetize ? props.options.sort((a, b) => alphabetizeSort(a, b, 'label')) : props.options;
+    const value = props.defaultValue || sorted[0].value || sorted[0];
     this.state = {
       open: false,
-      value: props.options[0].value,
+      value,
     };
 
-    this.value = props.options[0].value;
+    this.value = value;
   }
 
   componentDidMount() { window.addEventListener('click', this.hide); }
   componentWillUnmount() { window.removeEventListener('click', this.hide); }
 
   onClick(value) {
+    const { onChange, disabled } = this.props;
+    if (disabled) return;
+
+    onChange(value);
     this.value = value;
     this.setState({ value, open: false });
   }
@@ -46,35 +76,62 @@ export default class Dropdown extends Component {
 
   handleToggle(e) {
     e.stopPropagation();
-    this.setState({ open: !this.state.open });
+    const { disabled } = this.props;
+
+    if (!disabled) this.setState({ open: !this.state.open });
   }
 
   render() {
-    const { options, label, instructions, name } = this.props;
+    const {
+      options,
+      label,
+      instructions,
+      name,
+      full,
+      children,
+      alphabetize,
+      disabled,
+    } = this.props;
+
     const { value, open } = this.state;
+
+    const sorted = alphabetize ? options.sort((a, b) => alphabetizeSort(a, b, 'label')) : options;
+
+    const classes = classnames(
+      'dropdown',
+      { 'is-open': open },
+      { 'dropdown--full': full },
+    );
+
+    const dropper = (
+      <div className={classes} role="listbox" aria-expanded={open} aria-label={label || name}>
+        <button
+          className="dropdown__btn"
+          type="button"
+          onClick={this.handleToggle}
+          disabled={disabled}
+        >{typeof options[0] === 'string' ? value : options.find(opt => opt.value === value).label}</button>
+
+        <div className="dropdown__options">
+          {sorted.map(opt => (
+            <button
+              role="option"
+              aria-selected={value === opt.value}
+              type="button"
+              key={opt.value || opt}
+              onClick={() => this.onClick(opt.value || opt)}
+              className={value === opt.value ? 'dropdown__opt is-active' : 'dropdown__opt'}
+            >{opt.component || opt.label || opt}</button>
+          ))}
+        </div>
+      </div>
+    );
 
     return (
       <div className="dropdown-wrapper form-element">
         {label && <span className="input__label">{label}</span>}
         {instructions && <p className="input__instructions">{instructions}</p>}
-        <div className={open ? 'dropdown is-open' : 'dropdown'}>
-          <button
-            className="dropdown__btn"
-            type="button"
-            onClick={this.handleToggle}
-          >{options.find(opt => opt.value === value).label}</button>
-
-          <div className="dropdown__options">
-            {options.map(opt => (
-              <button
-                type="button"
-                key={opt.value}
-                onClick={() => this.onClick(opt.value)}
-                className={value === opt.value ? 'dropdown__opt is-active' : 'dropdown__opt'}
-              >{opt.label}</button>
-            ))}
-          </div>
-        </div>
+        {children ? <div className="dropdown__inner">{dropper}{children}</div> : dropper}
         <input type="text" name={name} value={value} readOnly hidden />
       </div>
     );

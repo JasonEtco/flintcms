@@ -1,9 +1,11 @@
 import React from 'react';
-import { NEW_SECTION, DELETE_SECTION } from '../actions/sectionActions';
-import { NEW_ENTRY, DELETE_ENTRY } from '../actions/entryActions';
-import { NEW_FIELD, DELETE_FIELD } from '../actions/fieldActions';
-import { NEW_ASSET, DELETE_ASSET } from '../actions/assetActions';
-import { newToast } from '../actions/uiActions';
+import { NEW_SECTION, DELETE_SECTION, UPDATE_SECTION } from 'actions/sectionActions';
+import { NEW_ENTRY, DELETE_ENTRY, UPDATE_ENTRY } from 'actions/entryActions';
+import { NEW_FIELD, DELETE_FIELD, UPDATE_FIELD } from 'actions/fieldActions';
+import { NEW_ASSET, DELETE_ASSET } from 'actions/assetActions';
+import { NEW_USERGROUP, DELETE_USERGROUP } from 'actions/usergroupActions';
+import { UPDATE_USER } from 'actions/userActions';
+import { newToast } from 'actions/uiActions';
 import store from './store';
 
 export default class SocketEvents {
@@ -14,88 +16,103 @@ export default class SocketEvents {
 
   newField() {
     this.socket.on('new-field', (addField) => {
-      const { fields } = store.getState().fields;
-      if (!fields.some(field => field._id === addField._id)) {
-        this.dispatch({ type: NEW_FIELD, addField });
-      }
+      this.dispatch({ type: NEW_FIELD, addField });
       this.dispatch(newToast(<span><b>{addField.title}</b> was just added!</span>));
+    });
+  }
+
+  updateField() {
+    this.socket.on('update-field', (updatedField) => {
+      this.dispatch({ type: UPDATE_FIELD, updatedField });
+      this.dispatch(newToast(<span><b>{updatedField.title}</b> was just added!</span>));
     });
   }
 
   deleteField() {
     this.socket.on('delete-field', ({ _id }) => {
-      const { fields } = store.getState().fields;
-      if (fields.some(field => field._id === _id)) {
-        this.dispatch({ type: DELETE_FIELD, id: _id });
-      }
+      this.dispatch({ type: DELETE_FIELD, id: _id });
       this.dispatch(newToast('A field was just deleted.'));
     });
   }
 
   newAsset() {
     this.socket.on('new-asset', (addAsset) => {
-      const { assets } = store.getState().assets;
-      if (!assets.some(asset => asset._id === addAsset._id)) {
-        this.dispatch({ type: NEW_ASSET, addAsset });
-      }
+      this.dispatch({ type: NEW_ASSET, addAsset });
       this.dispatch(newToast(<span><b>{addAsset.title}</b> was just added!</span>));
     });
   }
 
   deleteAsset() {
     this.socket.on('delete-asset', ({ _id }) => {
-      const { assets } = store.getState().assets;
-      if (assets.some(asset => asset._id === _id)) {
-        this.dispatch({ type: DELETE_ASSET, id: _id });
-      }
+      this.dispatch({ type: DELETE_ASSET, id: _id });
       this.dispatch(newToast('An asset was just deleted.'));
     });
   }
 
   newEntry() {
     this.socket.on('new-entry', (addEntry) => {
-      const { entries } = store.getState().entries;
-      if (!entries.some(entry => entry._id === addEntry._id)) {
-        this.dispatch({ type: NEW_ENTRY, addEntry });
-      }
+      this.dispatch({ type: NEW_ENTRY, addEntry });
       this.dispatch(newToast(<span><b>{addEntry.title}</b> was just added!</span>));
+    });
+  }
+
+  updateEntry() {
+    this.socket.on('update-entry', (updateEntry) => {
+      this.dispatch({ type: UPDATE_ENTRY, updateEntry });
+      this.dispatch(newToast(<span><b>{updateEntry.title}</b> was just updated!</span>));
     });
   }
 
   deleteEntry() {
     this.socket.on('delete-entry', ({ _id, title }) => {
-      const { entries } = store.getState().entries;
-      if (entries.some(entry => entry._id === _id)) {
-        this.dispatch({ type: DELETE_ENTRY, id: _id });
-      }
-      this.dispatch(newToast({
-        message: <span><b>{title}</b> has been deleted.</span>,
-        style: 'success',
-      }));
+      this.dispatch({ type: DELETE_ENTRY, id: _id });
+      this.dispatch(newToast(<span><b>{title}</b> has been deleted.</span>));
+    });
+  }
+
+  newUserGroup() {
+    this.socket.on('new-usergroup', (addUserGroup) => {
+      this.dispatch({ type: NEW_USERGROUP, addUserGroup });
+      this.dispatch(newToast(<span><b>{addUserGroup.title}</b> was just added!</span>));
+    });
+  }
+
+  deleteUserGroup() {
+    this.socket.on('delete-usergroup', ({ _id, title }) => {
+      this.dispatch({ type: DELETE_USERGROUP, id: _id });
+      this.dispatch(newToast(<span><b>{title}</b> has been deleted.</span>));
+    });
+  }
+
+  updateUser() {
+    this.socket.on('update-user', (updateUser) => {
+      this.dispatch({ type: UPDATE_USER, updateUser });
     });
   }
 
   newSection() {
     this.socket.on('new-section', (addSection) => {
-      const { sections } = store.getState().sections;
-      if (!sections.some(section => section._id === addSection._id)) {
-        this.dispatch({ type: NEW_SECTION, addSection });
-      }
+      this.dispatch({ type: NEW_SECTION, addSection });
       this.dispatch(newToast(<span><b>{addSection.title}</b> was just added!</span>));
+    });
+  }
+
+  updateSection() {
+    this.socket.on('update-section', (updateSection) => {
+      this.dispatch({ type: UPDATE_SECTION, updateSection });
+      this.dispatch(newToast(<span><b>{updateSection.title}</b> was just updated!</span>));
     });
   }
 
   deleteSection() {
     this.socket.on('delete-section', ({ _id }) => {
-      const { sections, entries } = store.getState();
+      const { entries } = store.getState();
 
       entries.entries
         .filter(e => e.section === _id)
         .forEach(e => this.dispatch({ type: DELETE_ENTRY, _id: e._id }));
 
-      if (sections.sections.some(section => section._id === _id)) {
-        this.dispatch({ type: DELETE_SECTION, _id });
-      }
+      this.dispatch({ type: DELETE_SECTION, _id });
       this.dispatch(newToast('An section was just deleted.'));
     });
   }
@@ -103,14 +120,22 @@ export default class SocketEvents {
   listen() {
     // Listen for new or deleted Fields
     this.newField();
+    this.updateField();
     this.deleteField();
 
     // Listen for new or deleted Entries
     this.newEntry();
+    this.updateEntry();
     this.deleteEntry();
+
+    // Listen for new or deleted User Groups
+    this.newUserGroup();
+    this.deleteUserGroup();
+    this.updateUser();
 
     // Listen for new or deleted Sections
     this.newSection();
+    this.updateSection();
     this.deleteSection();
 
     // Listen for new or deleted Assets

@@ -7,6 +7,7 @@ const {
   GraphQLInputObjectType,
   GraphQLBuffer,
 } = require('graphql');
+const { DateTime } = require('./CustomTypes');
 
 exports.file = new GraphQLInputObjectType({
   name: 'File',
@@ -43,7 +44,7 @@ exports.outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
     },
     dateCreated: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(DateTime),
     },
     width: {
       type: new GraphQLNonNull(GraphQLInt),

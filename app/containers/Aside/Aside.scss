@@ -1,0 +1,18 @@
+.aside {
+    align-self: flex-start;
+    position: relative;
+    box-sizing: border-box;
+    width: 200px;
+    padding: 2em;
+    border-radius: 3px;
+    border: 1px solid $grey-light;
+    margin: 2em 2em 0 1em;
+    background-color: $grey-lighter;
+
+    @include media($on-mobile) {
+        width: calc(100% - 2em);
+        padding: 1em;
+        margin: 1em;
+        order: -1;
+    }
+}

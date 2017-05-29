@@ -1,12 +1,19 @@
-import GraphQLClass from '../utils/graphqlClass';
+import React from 'react';
+import { push } from 'react-router-redux';
 import graphFetcher from '../utils/graphFetcher';
-import { errorToasts } from './uiActions';
+import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_FIELDS = 'REQUEST_FIELDS';
 export const RECEIVE_FIELDS = 'RECEIVE_FIELDS';
 export const NEW_FIELD = 'NEW_FIELD';
+export const DELETE_FIELD = 'DELETE_FIELD';
+export const UPDATE_FIELD = 'UPDATE_FIELD';
 
-export function newField(title, type, instructions) {
+/**
+ * Creates a new Field
+ * @param {Object} data
+ */
+export function newField(data) {
   return (dispatch) => {
     const query = `mutation ($data: FieldInput!) {
       addField(data: $data) {
@@ -16,48 +23,79 @@ export function newField(title, type, instructions) {
         instructions
         type
         dateCreated
+        options
       }
     }`;
 
-    const variables = {
-      data: {
-        title,
-        type,
-        instructions,
-      },
-    };
-
-    return graphFetcher(query, variables)
+    return graphFetcher(query, { data })
       .then((json) => {
         const { addField } = json.data.data;
         dispatch({ type: NEW_FIELD, addField });
+        dispatch(newToast({
+          message: <span><b>{addField.title}</b> has been created!</span>,
+          style: 'success',
+        }));
+        dispatch(push(`/settings/fields/${addField._id}`));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 
-export function fetchFieldsIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'fields',
-      request: REQUEST_FIELDS,
-      receive: RECEIVE_FIELDS,
-    };
-
-    const query = `{
-      fields {
+/**
+ * Updates a Field
+ * @param {String} _id
+ * @param {Object} data
+ */
+export function updateField(_id, data) {
+  return (dispatch) => {
+    const query = `mutation ($_id: ID!, $data: FieldInput!) {
+      updateField(_id: $_id, data: $data) {
         _id
         title
+        slug
         instructions
         type
         dateCreated
-        slug
+        options
+        required
       }
     }`;
 
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
+    return graphFetcher(query, { _id, data })
+      .then((json) => {
+        const { updateField: updatedField } = json.data.data;
+        dispatch({ type: UPDATE_FIELD, updatedField });
+        dispatch(newToast({
+          message: <span><b>{updatedField.title}</b> has been updated!</span>,
+          style: 'success',
+        }));
+      })
+      .catch(errorToasts);
+  };
+}
+
+/**
+ * Deletes a Field from the database.
+ * @param {String} _id - Mongo ID of Field.
+ */
+export function deleteField(_id) {
+  return (dispatch) => {
+    const query = `mutation ($_id:ID!) {
+      removeField(_id: $_id) {
+        _id
+        title
+      }
+    }`;
+
+    return graphFetcher(query, { _id })
+      .then((json) => {
+        const { removeField } = json.data.data;
+        dispatch({ type: DELETE_FIELD, id: removeField._id });
+        dispatch(newToast({
+          message: <span><b>{removeField.title}</b> has been deleted.</span>,
+          style: 'success',
+        }));
+      })
+      .catch(errorToasts);
   };
 }

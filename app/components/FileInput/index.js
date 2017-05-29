@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import h from '../../utils/helpers';
+import { formatStringWithCode } from 'utils/helpers';
 import './FileInput.scss';
 
 export default class FileInput extends Component {
@@ -50,27 +51,23 @@ export default class FileInput extends Component {
       className,
     );
 
-    const input = (
-      <input
-        className="input"
-        type="file"
-        name={name}
-        id={name}
-        placeholder={placeholder}
-        required={required}
-        disabled={disabled}
-        ref={(r) => { this[name] = r; }}
-        accept="image/*"
-      />
-    );
-
     return (
       <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions &&
-          <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
+          <p className="input__instructions" dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
         }
-        {input}
+        <input
+          className="input"
+          type="file"
+          name={name}
+          id={name}
+          placeholder={placeholder}
+          required={required}
+          disabled={disabled}
+          ref={(r) => { this[name] = r; }}
+          accept="image/*"
+        />
       </div>
     );
   }

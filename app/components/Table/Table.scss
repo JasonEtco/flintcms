@@ -3,6 +3,10 @@
     border-collapse: collapse;
     font-size: 0.8rem;
 
+    @include media($on-mobile) {
+        font-size: 0.7em;
+    }
+
     &__header {
         padding: 0;
 
@@ -21,6 +25,10 @@
             font-family: inherit;
             text-align: left;
 
+            @include media($on-mobile) {
+                padding: 0.5em;
+            }
+
             &::after {
                 content: '';
                 position: absolute;
@@ -28,13 +36,13 @@
             }
 
             &.desc::after {
-                top: calc(50% - 2px);
                 @include triangle(bottom, 4px, $grey-dark);
+                top: calc(50% - 2px);
             }
 
             &.asc::after {
-                top: calc(50% - 6px);
                 @include triangle(top, 4px, $grey-dark);
+                top: calc(50% - 6px);
             }
 
             &.is-active { background-color: $grey-light; }
@@ -44,6 +52,10 @@
     &__cell {
         padding: 1.2em 0.8em;
 
+        @include media($on-mobile) {
+            padding: 1em 0.5em;
+        }
+
         a {
             color: blue;
             text-decoration: none;
@@ -51,7 +63,7 @@
             &:hover { text-decoration: underline; }
         }
 
-        &--delete { width: 1em; }
+        &--delete, &--status { width: 1em; }
 
         &--image {
             width: 3em;
@@ -67,16 +79,22 @@
 
     &__search {
         margin-bottom: 1em;
+
+        @include media($on-mobile) {
+            input { font-size: 0.8rem; }
+        }
     }
 
     &__delete {
+        display: flex;
         padding: 0;
         border: none;
         margin: 0;
         background: none;
+        cursor: pointer;
 
-        svg {
-            fill: $grey;
-        }
+        svg { fill: $grey; }
+
+        &:hover svg { fill: darken($grey, 10%); }
     }
 }

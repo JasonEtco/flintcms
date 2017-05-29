@@ -5,6 +5,7 @@ html, body, .mount {
 }
 
 body {
+    overflow-y: hidden;
     background-color: $grey-lighter;
     font-family: $font;
 
@@ -14,6 +15,14 @@ body {
 .form-element {
     & + & {
         margin-top: 1.4em;
+    }
+
+    &--required {
+        .input__label::after {
+            content: '*';
+            margin-left: 0.4em;
+            color: $red;
+        }
     }
 }
 

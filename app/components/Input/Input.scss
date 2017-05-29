@@ -7,12 +7,9 @@
     font-size: 0.9rem;
     line-height: 1.4;
     outline: none;
-    transition: box-shadow 300ms $standard, border-color 300ms $standard;
+    transition: box-shadow 150ms $standard, border-color 150ms $standard;
 
-    &:focus {
-        border-color: lighten($blue, 30%);
-        box-shadow: 0 0 5px lighten($blue, 30%);
-    }
+    @extend %focus;
 
     &__instructions {
         margin-top: 0;
@@ -22,12 +19,54 @@
 
     &__label {
         display: block;
+        margin-bottom: 0.4em;
         font-weight: 700;
-        font-size: 0.8rem;
+        font-size: $size0;
 
-        + .input__instructions, + .input {
+        + .input__instructions {
+            @include media($on-mobile) { margin-top: 0; }
             margin-top: 0.4em;
         }
+
+        @include media($on-mobile) { margin-bottom: 0.2em; }
+    }
+
+    &-icon-wrapper {
+        display: flex;
+        width: 100%;
+
+        .input {
+            width: 80%;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            font-size: $size0;
+
+            &__icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                width: 20%;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+                border: 1px solid $grey-light;
+                border-left: none;
+                background: white;
+                cursor: pointer;
+
+                svg { fill: $grey; }
+
+                &:disabled {
+                    background-color: darken($grey-lighter, 4%);
+                    cursor: default;
+                }
+            }
+        }
+    }
+
+    &__max {
+        color: $grey;
+        font-size: 0.7rem;
     }
 
     &-wrapper {
@@ -37,7 +76,7 @@
             padding: 0.9em;
             border-width: 2px;
             border-radius: 6px;
-            font-size: 1.1rem;
+            font-size: $size2;
         }
 
         &--code .input {
@@ -51,14 +90,6 @@
         &--disabled {
             .input:disabled {
                 background-color: darken(white, 4%);
-            }
-        }
-
-        &--required {
-            .input__label::after {
-                content: '*';
-                margin-left: 0.4em;
-                color: $red;
             }
         }
     }

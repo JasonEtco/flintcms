@@ -1,10 +1,10 @@
-const {
-  GraphQLNonNull,
-  GraphQLID,
-} = require('graphql');
+const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Entries');
 const getProjection = require('../../get-projection');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const events = require('../../../utils/events');
+const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Entry = mongoose.model('Entry');
 
@@ -17,17 +17,31 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, args, ctx, ast) {
-    const projection = getProjection(ast);
-    const removedEntry = await Entry
-      .findByIdAndRemove(args._id, { select: projection })
-      .exec();
+  async resolve(root, { _id }, ctx, ast) {
+    const perms = await getUserPermissions(ctx.user._id);
 
-    if (!removedEntry) {
-      throw new Error('Error removing entry');
+    if (!perms.entries.canDeleteEntries) {
+      throw new Error('You do not have permission to delete Entries');
     }
 
-    root.io.emit('delete-entry', removedEntry);
+    const foundEntry = await Entry.findById(_id);
+    if (!foundEntry) throw new Error('There is no entry with that id');
+
+    if (!perms.entries.canEditOthersEntries && foundEntry.author !== ctx.user._id) {
+      throw new Error('You may only delete Entries that you created.');
+    }
+
+    const projection = getProjection(ast);
+    events.emit('pre-delete-entry', _id);
+
+    const removedEntry = await Entry
+      .findByIdAndRemove(_id, { select: projection })
+      .exec();
+
+    if (!removedEntry) throw new Error('Error removing entry');
+
+    events.emit('post-delete-entry', removedEntry);
+    emitSocketEvent(root, 'delete-entry', removedEntry);
     return removedEntry;
   },
 };

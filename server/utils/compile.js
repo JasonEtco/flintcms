@@ -1,22 +1,28 @@
-const Handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 const collectData = require('./collectData');
+const siteConfig = require('../../config');
+const { nun, templatesDir } = require('./nunjucks');
 
-module.exports = async (template, data) => {
+/**
+ * Compiles template/data with Nunjucks into an HTML string
+ * @param {String} template - The filename of the template to compile with
+ * @param {Object} data
+ * @returns {String} HTML String
+ */
+async function compile(template, data) {
   const compiledData = await collectData(data);
 
   return new Promise((resolve, reject) => {
-    const templateWithFormat = template.endsWith('.hbs') ? template : `${template}.hbs`;
-    const templatePath = path.resolve(__dirname, '..', '..', 'templates', templateWithFormat);
+    const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`;
+    const templatePath = path.resolve(templatesDir, templateWithFormat);
 
-    fs.readFile(templatePath, 'utf-8', async (err, file) => {
+    fs.readFile(templatePath, 'utf-8', async (err) => {
       if (err) reject(err);
 
-      const compiled = Handlebars.compile(file);
-      let html = compiled(compiledData);
+      let html = await nun.render(templatePath, compiledData);
 
-      if (process.env.DEBUG) {
+      if (process.env.DEBUG || siteConfig.debugMode) {
         const scr = `
         console.log('%cFlint Debug Mode', 'color: #fe6300; font-weight: bold; font-size: 1.2rem;');
 
@@ -37,4 +43,6 @@ module.exports = async (template, data) => {
       resolve(html);
     });
   });
-};
+}
+
+module.exports = compile;

@@ -1,4 +1,5 @@
-const { GraphQLInputObjectType, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql');
+const { GraphQLInputObjectType, GraphQLBoolean, GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID } = require('graphql/type');
+const { ObjectType, DateTime } = require('./CustomTypes');
 
 const outputType = new GraphQLObjectType({
   name: 'Field',
@@ -12,14 +13,23 @@ const outputType = new GraphQLObjectType({
     slug: {
       type: GraphQLString,
     },
+    handle: {
+      type: GraphQLString,
+    },
     instructions: {
       type: GraphQLString,
     },
     type: {
       type: GraphQLString,
     },
+    required: {
+      type: GraphQLBoolean,
+    },
     dateCreated: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(DateTime),
+    },
+    options: {
+      type: ObjectType,
     },
   },
 });
@@ -27,13 +37,20 @@ const inputType = new GraphQLInputObjectType({
   name: 'FieldInput',
   fields: {
     title: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    required: {
+      type: GraphQLBoolean,
+      defaultValue: false,
     },
     instructions: {
       type: GraphQLString,
     },
     type: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    options: {
+      type: ObjectType,
     },
   },
 });

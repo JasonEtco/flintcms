@@ -4,10 +4,9 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 const strategyOptions = {
-  usernameField: 'username',
+  usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true,
-  failureRedirect: '/admin/login',
 };
 
 module.exports = (passport) => {
@@ -23,9 +22,9 @@ module.exports = (passport) => {
     });
   });
 
-  passport.use('local-signup', new LocalStrategy(strategyOptions, (req, username, password, done) => {
+  passport.use('local-signup', new LocalStrategy(strategyOptions, (req, email, password, done) => {
     process.nextTick(async () => {
-      const foundUser = await User.findOne({ username });
+      const foundUser = await User.findOne({ email });
       if (foundUser) return done(null, false);
 
       const newUser = new User(req.body);
@@ -38,13 +37,11 @@ module.exports = (passport) => {
     });
   }));
 
-  passport.use('local-login', new LocalStrategy(strategyOptions, (req, username, password, done) => {
-    User.findOne({ username })
-      .then((user) => {
-        if (!user) return done(null, false);
-        if (!user.validateHash(password)) return done(null, false);
-        return done(null, user);
-      })
-      .catch(err => new Error(err));
+  passport.use('local-login', new LocalStrategy(strategyOptions, async (req, email, password, done) => {
+    const user = await User.findOne({ email }).populate('usergroup');
+    if (!user) return done(null, false);
+    if (user.token) return done(null, false);
+    if (!user.validateHash(password)) return done(null, false);
+    return done(null, user);
   }));
 };

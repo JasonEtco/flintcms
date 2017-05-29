@@ -3,7 +3,7 @@ import {
   DELETE_TOAST,
   OPEN_MODAL,
   CLOSE_MODALS,
-} from '../actions/uiActions';
+} from 'actions/uiActions';
 
 export default function ui(state = {}, action) {
   switch (action.type) {

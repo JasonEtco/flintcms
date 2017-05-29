@@ -2,28 +2,36 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const WebpackChunkHash = require('webpack-chunk-hash');
+
+const { browsers, resolve, vendor } = require('./constants');
 
 module.exports = {
-  devtool: 'eval-source-map',
-  entry: [
-    'webpack-hot-middleware/client?reload=true&dynamicPublicPath=true',
-    'whatwg-fetch',
-    path.join(__dirname, '..', 'app', 'main.js'),
-  ],
+  devtool: 'cheap-module-source-map',
+  entry: {
+    main: [
+      'babel-polyfill',
+      'webpack-hot-middleware/client?reload=true&dynamicPublicPath=true',
+      path.resolve(__dirname, '..', 'app', 'main.js'),
+    ],
+    vendor,
+  },
   output: {
     path: path.join(__dirname, '..', 'admin'),
     filename: '[name].js',
     publicPath: '/admin/',
   },
+  resolve,
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '..', 'app', 'index.tpl.html'),
       inject: 'body',
       filename: 'index.html',
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
@@ -34,40 +42,96 @@ module.exports = {
         to: 'assets',
         ignore: ['fonts/**/*'],
       },
+      {
+        context: path.join(__dirname, '..', 'app'),
+        from: 'manifest.json',
+        to: '',
+      },
     ]),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vendor', 'manifest'], // vendor libs + extracted manifest
+      minChunks: Infinity,
+    }),
+    new webpack.HashedModuleIdsPlugin(),
+    new WebpackChunkHash(),
+    new ChunkManifestPlugin({
+      filename: 'chunk-manifest.json',
+      manifestVariable: 'webpackManifest',
+    }),
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: [
-          'react',
-          'es2015',
-          'stage-0',
-          'react-hmre',
-        ],
-        plugins: ['transform-runtime'],
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['env', {
+              targets: { browsers },
+              debug: false,
+              loose: true,
+              modules: false,
+              useBuiltIns: true,
+            }],
+            'react',
+            'react-hmre',
+          ],
+          plugins: [
+            [
+              'transform-object-rest-spread',
+              { useBuiltIns: true },
+            ],
+            'transform-runtime',
+            'transform-class-properties',
+          ],
+        },
       },
     }, {
       test: /\.scss$/,
-      loaders: ['style', 'css', 'sass?sourceMap'],
+      use: [{
+        loader: 'style-loader',
+      }, {
+        loader: 'css-loader',
+        options: {
+          sourceMap: true,
+        },
+      }, {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: true,
+          data: '@import "tools";',
+          includePaths: [
+            path.resolve(__dirname, '../app/scss/tools'),
+          ],
+        },
+      }],
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
-      loaders: [
-        'file?hash=sha512&digest=hex&name=[hash].[ext]',
-        'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false',
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            hash: 'sha512',
+            digest: 'hex',
+            name: '[hash].[ext]',
+          },
+        },
+        {
+          loader: 'image-webpack-loader',
+          options: {
+            bypassOnDebug: true,
+          },
+        },
       ],
     }, {
       test: /\.(eot|svg|ttf|woff?)$/,
-      loader: 'file?name=assets/fonts/[name].[ext]',
+      use: {
+        loader: 'file-loader',
+        options: {
+          name: 'assets/fonts/[name].[ext]',
+        },
+      },
     }],
-  },
-  sassLoader: {
-    data: '@import "tools";',
-    includePaths: [
-      path.resolve(__dirname, '../app/scss/tools'),
-    ],
   },
 };

@@ -1,14 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import Breadcrumbs from 'components/Breadcrumbs';
+import Footer from 'containers/Footer';
 import './Page.scss';
-import Breadcrumbs from '../../components/Breadcrumbs';
-import Footer from '../Footer';
 
 export default class Page extends Component {
   static propTypes = {
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
     ]).isRequired,
     links: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -27,19 +28,26 @@ export default class Page extends Component {
     const { name, children, links, onSubmit } = this.props;
     const classes = classnames(
       'page',
-      { [`page--${name}`]: true },
+      `page--${name}`,
+      { 'page--form': onSubmit },
       { 'has-breadcrumbs': links && links.length > 0 },
     );
 
-    let content = children;
     if (onSubmit) {
-      content = <form className="page__form" onSubmit={onSubmit} ref={(r) => { this.form = r; }}>{children}</form>;
+      return (
+        <form className={classes} onSubmit={onSubmit} ref={(r) => { this.form = r; }}>
+          {links && <Breadcrumbs links={links} />}
+          {children}
+
+          <Footer />
+        </form>
+      );
     }
 
     return (
       <section className={classes}>
         {links && <Breadcrumbs links={links} />}
-        {content}
+        {children}
 
         <Footer />
       </section>

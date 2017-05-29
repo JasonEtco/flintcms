@@ -1,9 +1,10 @@
-const {
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Entries');
 const h = require('../../../utils/helpers');
+const events = require('../../../utils/events');
+const emitSocketEvent = require('../../../utils/emitSocketEvent');
+const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Entry = mongoose.model('Entry');
 const Section = mongoose.model('Section');
@@ -16,19 +17,42 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, args) {
-    const slug = h.slugify(args.data.title);
+  async resolve(root, args, ctx) {
+    const perms = await getUserPermissions(ctx.user._id);
 
+    // Ensure that the user can add new entries
+    if (!perms.entries.canAddEntries) throw new Error('You do not have permission to create new Entries');
+
+    // Ensure that the user is attempting and allowed to create a live entry
+    if (args.data.status === 'live' && !perms.entries.canEditLive) {
+      throw new Error('You do not have permission to create a live Entry. Change the status to "Draft".');
+    }
+
+    // Check that the section exists
     if (!await Section.findById(args.data.section)) throw new Error('That section does not exist.');
+
+    // Check to see that there isn't already an entry with the slug
+    const slug = h.slugify(args.data.title);
     if (await Entry.findOne({ slug })) throw new Error('There is already an entry with that slug.');
 
-    const data = await h.reduceToObj(args.data.fields, 'fieldSlug', 'value', args.data);
+    // Format fields in the entry
+    const data = await h.reduceToObj(args.data.fields, 'handle', 'value', args.data);
 
+    // Create new Entry document
     const newEntry = new Entry(data);
-    const savedEntry = await newEntry.save();
 
+    // Populate the author field for a better response to the client
+    await Entry.populate(newEntry, { path: 'author' });
+
+    // Emit new-entry event
+    events.emit('pre-new-entry', newEntry);
+
+    // Save the new entry
+    const savedEntry = await newEntry.save();
     if (!savedEntry) throw new Error('Error adding new entry');
-    root.io.emit('new-entry', savedEntry);
+
+    events.emit('post-new-entry', savedEntry);
+    emitSocketEvent(root, 'new-entry', savedEntry);
     return savedEntry;
   },
 };

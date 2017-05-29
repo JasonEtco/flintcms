@@ -1,0 +1,16 @@
+.page--styles .page__inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.style-editor {
+    &__editor {
+        height: 100%;
+        border: 1px solid $grey-light;
+        border-radius: 3px;
+
+        .ReactCodeMirror, .CodeMirror {
+            height: 100%;
+        }
+    }
+}

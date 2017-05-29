@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import h from '../../utils/helpers';
+import { formatStringWithCode } from 'utils/helpers';
 import './Input.scss';
 
 export default class Input extends Component {
@@ -13,13 +14,16 @@ export default class Input extends Component {
     full: PropTypes.bool,
     code: PropTypes.bool,
     onChange: PropTypes.func,
+    onKeyPress: PropTypes.func,
     className: PropTypes.string,
     instructions: PropTypes.string,
     required: PropTypes.bool,
     autoFocus: PropTypes.bool,
+    autoCorrect: PropTypes.bool,
     disabled: PropTypes.bool,
     defaultValue: PropTypes.string,
     value: PropTypes.string,
+    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   }
 
   static defaultProps = {
@@ -28,7 +32,8 @@ export default class Input extends Component {
     placeholder: null,
     big: false,
     full: false,
-    onChange: f => f,
+    onChange: null,
+    onKeyPress: null,
     className: null,
     instructions: null,
     required: false,
@@ -37,19 +42,26 @@ export default class Input extends Component {
     defaultValue: undefined,
     value: undefined,
     autoFocus: false,
+    autoCorrect: false,
+    maxLength: null,
   }
 
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+
+    const value = props.value || props.defaultValue || '';
+    this.value = value;
+    this.state = { value };
   }
 
-  handleChange() {
-    const { name, onChange } = this.props;
-    const { value } = this[name];
+  handleChange({ target }) {
+    const { onChange } = this.props;
+    const { value } = target;
 
     this.value = value;
-    onChange(value);
+    this.setState({ value });
+    if (onChange) onChange(value);
   }
 
   render() {
@@ -68,15 +80,18 @@ export default class Input extends Component {
       defaultValue,
       value,
       autoFocus,
+      autoCorrect,
+      maxLength,
+      onKeyPress,
     } = this.props;
 
     const classes = classnames(
       'input-wrapper',
       'form-element',
+      { 'form-element--required': required },
       { 'input-wrapper--big': big },
       { 'input-wrapper--full': full },
       { 'input-wrapper--code': code },
-      { 'input-wrapper--required': required },
       { 'input-wrapper--disabled': disabled },
       className,
     );
@@ -93,8 +108,10 @@ export default class Input extends Component {
         defaultValue={defaultValue}
         autoFocus={autoFocus}
         value={value}
-        onChange={() => this.handleChange()}
-        ref={(r) => { this[name] = r; }}
+        onKeyPress={onKeyPress}
+        onChange={event => this.handleChange(event)}
+        autoCorrect={autoCorrect}
+        maxLength={maxLength}
       />
     );
 
@@ -102,9 +119,10 @@ export default class Input extends Component {
       <div className={classes}>
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions &&
-          <p className="input__instructions" dangerouslySetInnerHTML={{ __html: h.formatStringWithCode(instructions) }} />  // eslint-disable-line react/no-danger
+          <p className="input__instructions" dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} />  // eslint-disable-line react/no-danger
         }
         {input}
+        {maxLength && <span className="input__max">{this.state.value.length}/{maxLength} characters</span>}
       </div>
     );
   }

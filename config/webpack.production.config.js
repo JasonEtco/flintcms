@@ -3,37 +3,42 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const WebpackChunkHash = require('webpack-chunk-hash');
+
 const autoprefixer = require('autoprefixer');
-const { browsers } = require('./browser');
+const BabiliPlugin = require('babili-webpack-plugin');
+const { browsers, resolve, vendor } = require('./constants');
 
 module.exports = {
-  entry: [
-    'whatwg-fetch',
-    path.resolve(__dirname, '..', 'app', 'main.js'),
-  ],
+  entry: {
+    main: [
+      'babel-polyfill',
+      path.resolve(__dirname, '..', 'app', 'main.js'),
+    ],
+    vendor,
+  },
   output: {
     path: path.join(__dirname, '..', 'admin'),
-    filename: '[name]-[hash].min.js',
+    filename: '[name]-[chunkhash].min.js',
+    chunkFilename: '[name]-[chunkhash].min.js',
     publicPath: '/admin',
   },
+  resolve,
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '..', 'app', 'index.tpl.html'),
       inject: 'body',
       filename: 'index.html',
     }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+    }),
+    new BabiliPlugin(),
     new ExtractTextPlugin('[name]-[hash].min.css'),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false,
-        screw_ie8: true,
-      },
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new CopyWebpackPlugin([
       {
         context: path.join(__dirname, '..', 'app'),
@@ -41,41 +46,97 @@ module.exports = {
         to: 'assets',
         ignore: ['fonts/**/*'],
       },
+      {
+        context: path.join(__dirname, '..', 'app'),
+        from: 'manifest.json',
+        to: '',
+      },
     ]),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vendor', 'manifest'], // vendor libs + extracted manifest
+      minChunks: Infinity,
+    }),
+    new webpack.HashedModuleIdsPlugin(),
+    new WebpackChunkHash(),
+    new ChunkManifestPlugin({
+      filename: 'chunk-manifest.json',
+      manifestVariable: 'webpackManifest',
+    }),
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: [['env', { targets: { browsers } }], 'es2015', 'stage-0', 'react'],
-        plugins: ['transform-runtime'],
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['env', {
+              targets: { browsers },
+              debug: false,
+              loose: true,
+              modules: false,
+              useBuiltIns: true,
+            }],
+            'react',
+          ],
+          plugins: [
+            [
+              'transform-object-rest-spread',
+              { useBuiltIns: true },
+            ],
+            'transform-runtime',
+            'transform-class-properties',
+          ],
+        },
       },
     }, {
-      test: /\.json/,
-      loader: 'json',
-    }, {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract(['css', 'sass!postcss?sourceMap']),
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: true,
+            plugins: () => [autoprefixer(browsers)],
+          },
+        }, {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true,
+            data: '@import "tools";',
+            includePaths: [
+              path.resolve(__dirname, '../app/scss/tools'),
+            ],
+          },
+        }],
+      }),
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
-      loaders: [
-        'file?hash=sha512&digest=hex&name=[hash].[ext]',
-        'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false',
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            hash: 'sha512',
+            digest: 'hex',
+            name: '[hash].[ext]',
+          },
+        },
+        {
+          loader: 'image-webpack-loader',
+          options: {
+            bypassOnDebug: true,
+          },
+        },
       ],
     }, {
       test: /\.(eot|svg|ttf|woff?)$/,
-      loader: 'file?name=assets/fonts/[name].[ext]',
+      use: {
+        loader: 'file-loader',
+        options: {
+          name: 'assets/fonts/[name].[ext]',
+        },
+      },
     }],
-  },
-  postcss: [
-    autoprefixer({ browsers }),
-  ],
-  sassLoader: {
-    data: '@import "tools";',
-    includePaths: [
-      path.resolve(__dirname, '..', 'app', 'scss', 'tools'),
-    ],
   },
 };

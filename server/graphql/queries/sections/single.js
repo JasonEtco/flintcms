@@ -1,9 +1,6 @@
-const {
-  GraphQLID,
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLID, GraphQLString } = require('graphql');
 const mongoose = require('mongoose');
-const { outputType } = require('../../types/Entries');
+const { outputType } = require('../../types/Sections');
 const getProjection = require('../../get-projection');
 
 const Section = mongoose.model('Section');
@@ -13,14 +10,18 @@ module.exports = {
   args: {
     _id: {
       name: '_id',
-      type: new GraphQLNonNull(GraphQLID),
+      type: GraphQLID,
+    },
+    slug: {
+      name: 'slug',
+      type: GraphQLString,
     },
   },
   resolve(root, args, ctx, ast) {
     const projection = getProjection(ast);
 
     return Section
-      .findById(args.id)
+      .findOne(args)
       .select(projection)
       .exec();
   },

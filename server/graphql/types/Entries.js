@@ -6,40 +6,42 @@ const {
   GraphQLID,
   GraphQLList,
 } = require('graphql');
+const { ObjectType, DateTime } = require('./CustomTypes');
+const userTypes = require('./Users');
 
 const FieldType = new GraphQLObjectType({
   name: 'EntryFields',
-  fields: () => ({
+  fields: {
     fieldId: {
       type: new GraphQLNonNull(GraphQLID),
     },
-    fieldSlug: {
+    handle: {
       type: GraphQLString,
     },
     value: {
-      type: GraphQLString,
+      type: ObjectType,
     },
-  }),
+  },
 });
 
 const FieldTypeInput = new GraphQLInputObjectType({
   name: 'EntryFieldsInput',
-  fields: () => ({
+  fields: {
     fieldId: {
       type: new GraphQLNonNull(GraphQLID),
     },
-    fieldSlug: {
+    handle: {
       type: GraphQLString,
     },
     value: {
-      type: GraphQLString,
+      type: ObjectType,
     },
-  }),
+  },
 });
 
 const outputType = new GraphQLObjectType({
   name: 'Entries',
-  fields: () => ({
+  fields: {
     _id: {
       type: new GraphQLNonNull(GraphQLID),
     },
@@ -51,20 +53,34 @@ const outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLID),
     },
     slug: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    status: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Live, Draft or Disabled',
     },
     dateCreated: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(DateTime),
     },
     author: {
-      type: new GraphQLNonNull(GraphQLID),
+      type: new GraphQLNonNull(userTypes.outputType),
       description: 'Author of the entry.',
     },
     fields: {
       type: new GraphQLList(FieldType),
       description: 'A list of the fields used in the entry.',
     },
-  }),
+    template: {
+      type: GraphQLString,
+      description: 'The template of the entry',
+      resolve: entry => entry.getTemplate(entry),
+    },
+    url: {
+      type: GraphQLString,
+      description: 'The Url of the entry',
+      resolve: entry => entry.getUrl(entry),
+    },
+  },
 });
 
 const inputType = new GraphQLInputObjectType({
@@ -73,6 +89,10 @@ const inputType = new GraphQLInputObjectType({
     title: {
       type: GraphQLString,
       description: 'Title of the entry.',
+    },
+    status: {
+      type: GraphQLString,
+      description: 'Live, Draft or Disabled',
     },
     section: {
       type: GraphQLID,
@@ -84,6 +104,9 @@ const inputType = new GraphQLInputObjectType({
     fields: {
       type: new GraphQLList(FieldTypeInput),
       description: 'A list of the fields used in the entry.',
+    },
+    dateCreated: {
+      type: GraphQLString,
     },
   },
 });

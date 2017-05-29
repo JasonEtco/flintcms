@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classnames from 'classnames';
 import target from './utils/target';

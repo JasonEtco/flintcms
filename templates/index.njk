@@ -1,0 +1,42 @@
+{% extends "base.njk" %}
+{% set blog = flint.section('assssetttssss') %}
+
+{% block body %}
+  {% include "_partials/nav.njk" %}
+  <h1>{{ siteName }}</h1>
+  <h2>{{ entry.title }}</h2>
+
+    {{ entry.test }}
+    {% if entry.richText %}
+      {{ entry.richText | safe }}
+    {% else %}
+      No rich text!
+    {% endif %}
+
+    {% if entry.asssset %}
+      <img src="/public/assets/{{ entry.asssset.filename }}" alt="">
+    {% endif %}
+
+
+    {% if entry.assetMatrix %}
+      {% for block in entry.assetMatrix %}
+        <h3>{{ block['asset-title'] }}</h3>
+        <img src="/public/assets/{{ block.asset.filename }}" alt="block.asset.title">
+      {% endfor %}
+    {% endif %}
+
+  {{ entry | json | safe }}
+  {#{{ flint | json | safe }}#}
+
+    <h2>{{blog.title}}</h2>
+
+    {% for ent in blog.entries %}
+      <h3><a href="{{ent.url}}">{{ent.title}}</a></h3>
+    {% endfor %}
+
+    <h2>{{dif.title}}</h2>
+
+    {% for ent in dif.entries %}
+      <h3><a href="{{ent.url}}">{{ent.title}}</a></h3>
+    {% endfor %}
+{% endblock %}

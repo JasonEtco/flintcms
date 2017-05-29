@@ -1,7 +1,19 @@
 const jimp = require('jimp');
 const { statAsync } = require('./fsPromises');
 
-module.exports = async (pathToFile) => {
+/**
+ * Gets the mimetype, width, height and file size of an asset.
+ * @param {String} pathToFile
+ *
+ * @typedef {Object} AssetDetails
+ * @property {string} mimetype - MimeType of the asset
+ * @property {number} width - Width of the asset
+ * @property {number} height - Height of the asset
+ * @property {number} size - File size in bytes
+ *
+ * @returns {AssetDetails}
+ */
+async function getAssetDetails(pathToFile) {
   const { size } = await statAsync(pathToFile).catch(err => new Error(err));
   const {
     _originalMime: mimetype,
@@ -9,4 +21,6 @@ module.exports = async (pathToFile) => {
   } = await jimp.read(pathToFile);
 
   return { mimetype, width, height, size };
-};
+}
+
+module.exports = getAssetDetails;

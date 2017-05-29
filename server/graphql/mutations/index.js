@@ -3,5 +3,7 @@ const fields = require('./fields');
 const sections = require('./sections');
 const assets = require('./assets');
 const users = require('./users');
+const usergroups = require('./usergroups');
+const site = require('./site');
 
-module.exports = Object.assign({}, entries, fields, sections, assets, users);
+module.exports = Object.assign({}, entries, fields, sections, assets, users, usergroups, site);

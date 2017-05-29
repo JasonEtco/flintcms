@@ -1,26 +1,20 @@
-import React, { Component, PropTypes } from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import h from '../../utils/helpers';
-import p from '../../utils/prettyNames';
-import Input from '../Input';
+import { sortArrayOfObjByString } from 'utils/helpers';
+import Input from 'components/Input';
 import './Table.scss';
 
-const Cell = ({ column, children }) => (
-  <td className={`table__cell table__cell--${column}`}>
-    {children.component || children }
-  </td>
-);
+import THead from './THead';
+import Cell from './Cell';
 
-Cell.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  column: PropTypes.string.isRequired,
-};
-Cell.defaultProps = { children: '-' };
 
 export default class Table extends Component {
   static propTypes = {
     data: PropTypes.arrayOf((propValue, key, componentName, location, propName) => {
-      const msg = `Invalid prop  \`${propName}\` supplied to \`${componentName}\`.`;
+      const msg = `Invalid prop \`${propName}\` supplied to \`${componentName}\`.`;
       if (typeof propValue !== 'object') {
         return new Error(`${msg} Must be an array of objects.`);
       }
@@ -30,23 +24,40 @@ export default class Table extends Component {
       return true;
     }).isRequired,
     showSearch: PropTypes.bool,
+    formElement: PropTypes.bool,
     sortBy: PropTypes.string,
+    className: PropTypes.string,
+    onRowClick: PropTypes.func,
   }
 
   static defaultProps = {
     showSearch: true,
     sortBy: 'title',
+    className: '',
+    onRowClick: null,
+    formElement: false,
   }
 
   constructor(props) {
     super(props);
 
     this.handleSort = this.handleSort.bind(this);
+    this.handleRowClick = this.handleRowClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
-    this.state = { sortBy: props.sortBy, direction: 'DESC', search: '' };
+    this.filterer = this.filterer.bind(this);
+    this.handleResize = this.handleResize.bind(this);
+    this.state = { sortBy: props.sortBy, direction: 'DESC', search: '', shouldTruncate: this.shouldTruncate };
   }
 
+  componentDidMount() { window.addEventListener('resize', this.handleResize); }
+  componentWillUnmount() { window.removeEventListener('resize', this.handleResize); }
+
+  // eslint-disable-next-line class-methods-use-this
+  get shouldTruncate() { return window.innerWidth <= 768; }
+
+  handleResize() {
+    this.setState({ shouldTruncate: this.shouldTruncate });
+  }
 
   handleSort(sortBy) {
     if (sortBy === this.state.sortBy) {
@@ -59,21 +70,31 @@ export default class Table extends Component {
     this.setState({ search });
   }
 
+  filterer(row) {
+    const { search } = this.state;
+    const re = new RegExp(search.replace(/[/\\^$*+?()|[\]]/g, '\\$&'), 'i');
+
+    let flag = false;
+    Object.keys(row).forEach((key) => {
+      const v = row[key];
+      if (typeof v === 'object' && v.sortBy !== false && v.value !== undefined && v.value.toString().search(re) !== -1) flag = true;
+      if (v.toString().search(re) !== -1) flag = true;
+    });
+    return flag;
+  }
+
+  handleRowClick(key) {
+    const { onRowClick } = this.props;
+    if (onRowClick) onRowClick(key);
+  }
+
   render() {
-    const { data, showSearch } = this.props;
-    const { sortBy, direction, search } = this.state;
+    const { data, showSearch, className, formElement } = this.props;
+    const { sortBy, direction, search, shouldTruncate } = this.state;
 
     let filtered = data;
     if (search !== '' && showSearch) {
-      filtered = data.filter((t) => {
-        const re = new RegExp(search.replace(/[/\\^$*+?()|[\]]/g, '\\$&'), 'i');
-        Object.keys(t).forEach((prop) => {
-          if ((typeof t[prop] === 'string' && t[prop].search(re) > -1)
-           || (typeof t[prop] === 'object' && t[prop].value.search(re) > -1)) return true;
-          return false;
-        });
-        return false;
-      });
+      filtered = data.filter(this.filterer);
     }
 
     const columns = filtered
@@ -81,10 +102,14 @@ export default class Table extends Component {
       .filter((el, i, self) => i === self.indexOf(el))
       .filter(el => el !== 'key');
 
-    const sorted = h.sortArrayOfObjByString(filtered, sortBy, direction);
+    const sorted = sortArrayOfObjByString(filtered, sortBy, direction);
+    const classes = classnames(
+      'table-wrapper',
+      { 'form-element': formElement },
+    );
 
     return (
-      <div className="table-wrapper">
+      <div className={classes}>
         {showSearch &&
           <Input
             onChange={this.handleChange}
@@ -95,35 +120,30 @@ export default class Table extends Component {
             className="table__search"
           />
         }
-        <table className="table">
+        <table className={`table ${className}`}>
           <thead>
             <tr className="table__row">
               {columns.map((column) => {
-                const btnClass = classnames(
-                  'table__header__btn',
-                  { 'is-active': sortBy === column },
-                  { desc: sortBy === column && direction === 'DESC' },
-                  { asc: sortBy === column && direction === 'ASC' },
-                );
-
                 const first = data.find(c => c[column]);
                 const has = typeof first[column].sortBy === 'boolean' && first[column].sortBy === false;
 
-                if (has) return <th key={column} />;
                 return (
-                  <th className="table__header" key={column}>
-                    <button
-                      className={btnClass}
-                      onClick={() => this.handleSort(column)}
-                    >{p[column] || column}</button>
-                  </th>
+                  <THead
+                    key={column}
+                    sortBy={sortBy}
+                    column={column}
+                    direction={direction}
+                    has={has}
+                    onClick={() => this.handleSort(column)}
+                    shouldTruncate={shouldTruncate}
+                  />
                 );
               })}
             </tr>
           </thead>
           <tbody>
             {sorted.map(tr =>
-              <tr className="table__row" key={tr.key}>{columns.map(column =>
+              <tr className="table__row" key={tr.key} onClick={() => this.handleRowClick(tr.key)}>{columns.map(column =>
                 <Cell key={column} column={column}>{tr[column]}</Cell>)}
               </tr>)}
           </tbody>

@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { deleteToast } from '../../actions/uiActions';
+import { deleteToast } from 'actions/uiActions';
 import './Toast.scss';
 
 export default class Toast extends Component {
@@ -23,7 +24,7 @@ export default class Toast extends Component {
   state = { leaving: false, entering: true }
 
   componentDidMount() {
-    window.requestAnimationFrame(() => this.setState({ entering: false }));
+    setTimeout(() => this.setState({ entering: false }), 0);
 
     setTimeout(() => {
       this.setState({ leaving: true });

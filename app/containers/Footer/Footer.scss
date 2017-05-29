@@ -3,6 +3,10 @@
     border-top: 1px solid $grey-light;
     text-align: center;
 
+    @include media($on-mobile) {
+        padding: 1em;
+    }
+
     &__made-with {
         color: $blurple;
         opacity: 0.5;

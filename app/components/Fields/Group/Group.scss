@@ -1,0 +1,47 @@
+.group {
+    &__buttons {
+        display: flex;
+        font-size: $size0;
+
+        &__btn {
+            padding: 0.6em;
+            border: 1px solid $grey-light;
+            background: white;
+            font-family: inherit;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $grey-light;
+            }
+
+            &:first-of-type {
+                border-top-left-radius: 3px;
+                border-bottom-left-radius: 3px;
+
+                &::before {
+                    content: '+ ';
+                }
+            }
+
+            &:last-of-type {
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+        }
+    }
+
+    &__block {
+        position: relative;
+        padding: 1em;
+        border: 1px solid $grey-light;
+        border-radius: 3px;
+        background-color: darken($grey-lighter, 5%);
+
+        &__btns {
+            position: absolute;
+            z-index: 2;
+            top: 1em;
+            right: 1em;
+        }
+    }
+}

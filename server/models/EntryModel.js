@@ -3,6 +3,8 @@ const h = require('../utils/helpers');
 
 const Schema = mongoose.Schema;
 
+const Section = mongoose.model('Section');
+
 const EntrySchema = new Schema({
   title: {
     type: String,
@@ -24,12 +26,12 @@ const EntrySchema = new Schema({
       ref: 'Field',
       required: true,
     },
-    fieldSlug: {
+    handle: {
       type: String,
       required: true,
     },
     value: {
-      type: String,
+      type: Schema.Types.Mixed,
       required: true,
     },
   }],
@@ -42,13 +44,43 @@ const EntrySchema = new Schema({
     ref: 'User',
     required: true,
   },
+  status: {
+    type: String,
+    enum: ['live', 'draft', 'disabled'],
+    default: 'disabled',
+  },
 });
+
+EntrySchema.name = 'Entry';
 
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 EntrySchema.pre('validate', function (next) {
-  this.slug = h.slugify(this.title);
+  const slug = h.slugify(this.title);
+
+  if (slug === '') {
+    next(new Error('Your entry\'s title must have some real characters'));
+    return;
+  }
+
+  this.slug = slug;
   next();
 });
+
+// eslint-disable-next-line func-names
+EntrySchema.methods.getTemplate = async function ({ section }) {
+  const foundSection = await Section.findById(section).select('template').lean();
+  if (!foundSection) throw new Error('The Section could not be found');
+
+  return foundSection.template;
+};
+
+// eslint-disable-next-line func-names
+EntrySchema.methods.getUrl = async function ({ section, slug }) {
+  const foundSection = await Section.findById(section).select('slug').lean();
+  if (!foundSection) throw new Error('The Section could not be found');
+
+  return `/${foundSection.slug}/${slug}`;
+};
 
 module.exports = mongoose.model('Entry', EntrySchema, 'entries');

@@ -1,0 +1,79 @@
+.list {
+    &-wrapper {
+        width: 100%;
+    }
+
+    &__table {
+        width: 100%;
+        border: 1px solid $grey-light;
+        border-radius: 3px;
+        border-collapse: collapse;
+        font-size: $size0;
+
+        &__head {
+            padding: 0.6em;
+            border-bottom: 1px solid $grey-light;
+            text-align: left;
+
+            &:first-child {
+                border-right: 1px solid $grey-light;
+            }
+        }
+
+        &__row {
+            &:nth-child(even) {
+                background-color: lighten($grey-light, 10%);
+            }
+        }
+
+        &__cell {
+            margin: 0;
+
+            &:first-child {
+                border-right: 1px solid $grey-light;
+            }
+
+            &__input {
+                box-sizing: border-box;
+                width: 100%;
+                padding: 0.6em;
+                border: none;
+                margin: 0;
+                background-color: transparent;
+                font-family: inherit;
+                outline: none;
+                @extend %focus;
+            }
+
+            &--remove {
+                width: 3em;
+                background-color: $grey-light;
+            }
+
+            &__btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.5em;
+                height: 1.5em;
+                border: none;
+                border-radius: 50%;
+                margin: 0 auto;
+                background: rgba(black, 0.3);
+                cursor: pointer;
+
+                &:hover { background-color: rgba(black, 0.4); }
+
+                svg { fill: $grey-light; }
+            }
+        }
+    }
+
+    &__btn {
+        border: 1px solid $grey;
+        margin-top: 0.6em;
+        background: lighten($grey-light, 10%);
+        font-size: $size0;
+        font-family: inherit;
+    }
+}

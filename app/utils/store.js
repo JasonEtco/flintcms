@@ -1,21 +1,25 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
-import { browserHistory } from 'react-router';
+import { routerMiddleware } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
 import rootReducer from './rootReducer';
 
 
 const defaultState = {
   user: { isFetching: true },
+  users: { isFetching: true },
   entries: { isFetching: true },
   sections: { isFetching: true },
   assets: { isFetching: true },
+  site: { isFetching: true },
+  plugins: { isFetching: true },
   ui: {
     toasts: [],
     modalIsOpen: false,
   },
 };
-const routerMiddle = routerMiddleware(browserHistory);
+export const history = createHistory({ basename: '/admin' });
+const routerMiddle = routerMiddleware(history);
 
 const enhancers = compose(
   applyMiddleware(thunk, routerMiddle),
@@ -27,6 +31,5 @@ const store = createStore(
   defaultState,
   enhancers,
 );
-export const history = syncHistoryWithStore(browserHistory, store);
 
 export default store;

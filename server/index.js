@@ -12,14 +12,15 @@ const passport = require('passport');
 require('./utils/database');
 require('./utils/passport')(passport);
 
-require('./utils/registerHelpers');
-require('./utils/registerPartials');
 const compile = require('./utils/compile');
+const fourOhFourHandler = require('./utils/fourOhFourHandler');
 
+require('./utils/compileSass')();
 const getEntryData = require('./utils/getEntryData');
-const getTemplateFromEntry = require('./utils/getTemplateFromEntry');
 
-const app = module.exports = express();
+const app = express();
+module.exports = app;
+
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
@@ -36,32 +37,32 @@ app.use(passport.session());
 
 app.use(compression());
 
-const routes = {
-  index: path.resolve(__dirname, '..', 'templates', 'index.hbs'),
-};
-
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
 
-app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
+app.use('/public', express.static(path.join(__dirname, '..', 'public')));
+app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
 app.use('/admin', require('./apps/admin'));
 app.use('/graphql', require('./apps/graphql'));
+app.use(require('./utils/publicRegistration'));
 
-app.get('/', (req, res) => compile('index', { name: 'Jason' }).then(r => res.send(r)));
+// ===== Template Routes
 
-app.get('/all', async (req, res) => {
-  const EntryData = await getEntryData(req.params.slug);
-  const compiled = await compile(routes.index, { entries: EntryData.toObject() });
+app.get('/', async (req, res) => {
+  const compiled = await compile('index');
   res.send(compiled);
 });
 
-app.get('/:slug', async (req, res) => {
-  const EntryData = await getEntryData(req.params.slug);
-  const data = await getTemplateFromEntry(EntryData);
-  const compiled = await compile(data.template, data.toObject());
+app.get('/:section/:slug', async (req, res) => {
+  const EntryData = await getEntryData(req.params);
+
+  if (!EntryData) {
+    fourOhFourHandler(res);
+    return;
+  }
+
+  const compiled = await compile(EntryData.template, EntryData);
   res.send(compiled);
 });
 
 http.listen(port, () => console.log(`[HTTP Server] Running at http://localhost:${port}`));
-
-module.exports = app;

@@ -1,51 +1,27 @@
 import React from 'react';
-import Fields from '../components/Fields';
+import Fields from 'components/Fields';
 
-export default function renderOption(field, value) {
-  switch (field.type) {
-    case 'Dropdown':
-      return (
-        <Fields.Dropdown
-          key={field._id}
-          name={field.slug}
-          label={field.title}
-          instructions={field.instructions}
-          options={field.options}
-          defaultValue={value}
-        />
-      );
-    case 'Text':
-      return (
-        <Fields.Text
-          key={field._id}
-          name={field.slug}
-          label={field.title}
-          instructions={field.instructions}
-          defaultValue={value}
-        />
-      );
-    case 'Color':
-      return (
-        <Fields.Color
-          key={field._id}
-          name={field.slug}
-          label={field.title}
-          instructions={field.instructions}
-          defaultValue={value}
-        />
-      );
-    case 'RichText':
-      return (
-        <Fields.RichText
-          key={field._id}
-          name={field.slug}
-          label={field.title}
-          instructions={field.instructions}
-          defaultValue={value}
-        />
-      );
+/**
+ * Returns a React component of the relevant Field
+ * @param {Object} field - The field object
+ * @param {Any} [value]
+ * @param {Object} betterProps - Props to overwrite with
+ */
+export default function renderOption(field, value, betterProps) {
+  const fieldType = Fields[field.type];
 
-    default:
-      return false;
-  }
+  const props = {
+    key: field._id,
+    name: field.handle,
+    label: field.title,
+    instructions: field.instructions,
+    defaultValue: value || (field.options ? field.options.defaultValue : ''),
+    ...field.options,
+    ...fieldType.props,
+    ...betterProps,
+  };
+
+  const Component = fieldType.component;
+
+  return <Component {...props} />;
 }

@@ -1,7 +1,4 @@
-const {
-  GraphQLID,
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 
 const { outputType } = require('../../types/Users');
@@ -14,15 +11,18 @@ module.exports = {
   args: {
     _id: {
       name: '_id',
-      type: new GraphQLNonNull(GraphQLID),
+      type: GraphQLID,
     },
   },
   resolve(root, args, ctx, ast) {
+    const _id = args._id || ctx.user._id;
     const projection = getProjection(ast);
 
     return User
-      .findById(args.id)
+      .findById(_id)
+      .populate('usergroup')
       .select(projection)
+      .lean()
       .exec();
   },
 };

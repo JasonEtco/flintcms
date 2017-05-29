@@ -43,7 +43,6 @@
                 * { margin: 0; text-align: left; }
 
                 ul, ol { padding-left: 1em; }
-
             }
 
             button {
@@ -69,11 +68,14 @@
     }
 
     &__editor {
-        padding: 1em;
+        overflow-y: auto;
+        max-height: 500px;
+        padding: 2em;
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
         border: 1px solid $grey-light;
         border-top: none;
+        @include scrollbar($grey-light, white, 8px);
     }
 
     &__url {

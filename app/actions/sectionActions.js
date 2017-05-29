@@ -1,22 +1,31 @@
+import React from 'react';
 import { push } from 'react-router-redux';
-import GraphQLClass from '../utils/graphqlClass';
 import graphFetcher from '../utils/graphFetcher';
-import h from '../utils/helpers';
-import { errorToasts } from './uiActions';
+import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_SECTIONS = 'REQUEST_SECTIONS';
 export const RECEIVE_SECTIONS = 'RECEIVE_SECTIONS';
 export const NEW_SECTION = 'NEW_SECTION';
 export const DELETE_SECTION = 'DELETE_SECTION';
+export const UPDATE_SECTION = 'UPDATE_SECTION';
 
-export function newSection(title, template, fields) {
-  return (dispatch, getState) => {
+/**
+ * Creates a new Section
+ * @param {Object} param0 - New Section data
+ * @param {String} param0.title
+ * @param {String} param0.template
+ * @param {Array} param0.fields
+ */
+export function newSection({ title, template, fields }) {
+  return (dispatch) => {
     const query = `mutation ($data: SectionsInput!) {
         addSection(data: $data) {
           _id
+          template
           title
           slug
           fields
+          dateCreated
         }
       }`;
 
@@ -31,61 +40,82 @@ export function newSection(title, template, fields) {
     return graphFetcher(query, variables)
       .then((json) => {
         const { addSection } = json.data.data;
-        const { sections } = getState().sections;
-        // Only add the new section to store if it doesn't already exist
-        // In case socket event happens first
-        if (!h.checkFor(sections, '_id', addSection._id)) {
-          dispatch({ type: NEW_SECTION, addSection });
-        }
-        dispatch(push(`/admin/entries/${addSection.slug}`));
+        dispatch({ type: NEW_SECTION, addSection });
+        dispatch(newToast({
+          message: <span><b>{addSection.title}</b> has been created!</span>,
+          style: 'success',
+        }));
+        dispatch(push(`/entries/${addSection.slug}`));
       })
-      .catch(err => new Error(err));
+      .catch(errorToasts);
   };
 }
 
-export function deleteSection(_id) {
-  return (dispatch) => {
-    const query = `mutation ($_id:ID!) {
-      removeSection(_id: $_id) {
+/**
+ * Updates a Section document.
+ * @param {String} _id - Mongo ID of the Section to update.
+ * @param {Object} param1 - Section Object
+ * @param {String} param1.title
+ * @param {String} param1.template
+ * @param {Array} param1.fields
+ */
+export function updateSection(_id, { title, template, fields }) {
+  return async (dispatch) => {
+    const query = `mutation ($_id: ID!, $data: SectionsInput!) {
+      updateSection(_id: $_id, data: $data) {
         _id
+        template
+        title
+        slug
+        fields
       }
     }`;
 
     const variables = {
       _id,
+      data: {
+        title,
+        template,
+        fields,
+      },
     };
 
     return graphFetcher(query, variables)
       .then((json) => {
-        const { removeSection } = json.data;
-        dispatch({ type: DELETE_SECTION, id: removeSection._id });
-        dispatch(push('/admin/settings/sections'));
+        const updatedSection = json.data.data.updateSection;
+        dispatch({ type: UPDATE_SECTION, updateSection: updatedSection });
+        dispatch(newToast({
+          message: <span><b>{updatedSection.title}</b> has been updated!</span>,
+          style: 'success',
+        }));
       })
-      .catch((error) => {
-        if (error.response) dispatch(errorToasts(error.response.data.errors));
-      });
+      .catch(errorToasts);
   };
 }
 
-export function fetchSectionsIfNeeded() {
-  return (dispatch, getState) => {
-    const fetcherOptions = {
-      name: 'sections',
-      request: REQUEST_SECTIONS,
-      receive: RECEIVE_SECTIONS,
-    };
-
-    const query = `{
-      sections {
+/**
+ * Deletes a Section from the database.
+ * @param {String} _id - Mongo ID of Section.
+ */
+export function deleteSection(_id) {
+  return (dispatch) => {
+    const query = `mutation ($_id:ID!) {
+      removeSection(_id: $_id) {
         _id
         title
-        slug
-        fields
-        dateCreated
       }
     }`;
 
-    const fetcher = new GraphQLClass(fetcherOptions, query);
-    return fetcher.beginFetch(dispatch, getState());
+    return graphFetcher(query, { _id })
+      .then((json) => {
+        const { removeSection } = json.data.data;
+        dispatch({ type: DELETE_SECTION, _id: removeSection._id });
+        dispatch(newToast({
+          message: <span><b>{removeSection.title}</b> has been deleted!</span>,
+          style: 'success',
+        }));
+        dispatch(push('/settings/sections'));
+      })
+      .catch(errorToasts);
   };
 }
