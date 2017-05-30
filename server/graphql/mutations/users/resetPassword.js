@@ -18,7 +18,7 @@ module.exports = {
     const { perms } = root;
     if (!perms.users.canManageUsers) throw new Error('You do not have permission to manage users.');
 
-    const user = await User.findById(_id);
+    const user = await User.findById(_id).exec();
     if (!user) throw new Error('There is no user with that id.');
 
     const token = await randtoken.generate(16);
