@@ -17,7 +17,7 @@ router.post('/login', passport.authenticate('local-login', strategyOptions), (re
 
 router.post('/setpassword', async (req, res) => {
   const { token, password } = req.body;
-  const user = await User.findOne({ token });
+  const user = await User.findOne({ token }).exec();
   if (!user) throw new Error('Cannot find user');
 
   user.password = await user.generateHash(password);
@@ -26,8 +26,13 @@ router.post('/setpassword', async (req, res) => {
   const savedUser = await user.save();
   if (!savedUser) throw new Error('Could not save the User');
 
-  req.login(savedUser);
-  res.status(200).json({ success: true });
+  req.login(user, (err) => {
+    if (!err) {
+      res.status(200).json({ success: true });
+    } else {
+      throw new Error(err);
+    }
+  });
 });
 
 router.post('/forgotpassword', async (req, res) => {

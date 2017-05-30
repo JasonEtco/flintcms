@@ -26,23 +26,19 @@ export default class Login extends Component {
 
   checkInputs() {
     const { confirm, password } = this;
-    this.setState({ same: confirm.value === password.value });
+    const same = confirm.value === '' || confirm.value === password.value;
+    this.setState({ same });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { value } = this.password;
 
     post('/admin/setpassword', {
-      password: value,
+      password: this.password.value,
       token: this.props.match.params.token,
     })
-      .then(() => {
-        this.props.history.push('/login');
-      })
-      .catch(() => {
-        this.setState({ error: true });
-      });
+      .then(() => { this.props.history.push('/'); })
+      .catch(() => { this.setState({ error: true }); });
   }
 
   render() {
