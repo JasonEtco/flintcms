@@ -37,7 +37,8 @@
   "assets": [
     { "name": "canAddAssets", "defaultValue": false, "label": "Can Upload New Assets" },
     { "name": "canEditAssets", "defaultValue": false, "label": "Can Edit Assets" },
-    { "name": "canDeleteAssets", "defaultValue": false, "label": "Can Delete Assets" }
+    { "name": "canDeleteAssets", "defaultValue": false, "label": "Can Delete Assets" },
+    { "name": "canIndexAssets", "defaultValue": false, "label": "Can Re-Index Assets" }
   ],
 
   "site": [

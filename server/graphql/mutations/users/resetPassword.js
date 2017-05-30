@@ -2,7 +2,6 @@ const { GraphQLNonNull, GraphQLID } = require('graphql');
 const randtoken = require('rand-token');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Users');
-const getUserPermissions = require('../../../utils/getUserPermissions');
 const sendEmail = require('../../../utils/emails/sendEmail');
 
 const User = mongoose.model('User');
@@ -15,8 +14,8 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, { _id }, ctx) {
-    const perms = await getUserPermissions(ctx.user._id);
+  async resolve(root, { _id }) {
+    const { perms } = root;
     if (!perms.users.canManageUsers) throw new Error('You do not have permission to manage users.');
 
     const user = await User.findById(_id);

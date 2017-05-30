@@ -8,8 +8,10 @@ import LoginContainer from 'containers/LoginContainer';
 
 export default class Login extends Component {
   static propTypes = {
-    params: PropTypes.shape({
-      token: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        token: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
     history: PropTypes.object.isRequired,
   }
@@ -33,7 +35,7 @@ export default class Login extends Component {
 
     post('/admin/setpassword', {
       password: value,
-      token: this.props.params.token,
+      token: this.props.match.params.token,
     })
       .then(() => {
         this.props.history.push('/login');

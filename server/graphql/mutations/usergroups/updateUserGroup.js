@@ -1,9 +1,6 @@
 const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/UserGroups');
-const emitSocketEvent = require('../../../utils/emitSocketEvent');
-const events = require('../../../utils/events');
-const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -19,21 +16,21 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, { _id, data }, ctx) {
-    const perms = await getUserPermissions(ctx.user._id);
+  async resolve(root, { _id, data }) {
+    const { perms } = root;
     if (!perms.usergroups.canEditUserGroups) throw new Error('You do not have permission to edit User Groups.');
 
     const foundUserGroup = await UserGroup.findById(_id);
     if (!foundUserGroup) throw new Error('There is no UserGroup with this ID');
     if (foundUserGroup.slug === 'admin') throw new Error('You cannot edit the Admin usergroup.');
 
-    events.emit('pre-update-usergroup', { _id, data });
+    root.events.emit('pre-update-usergroup', { _id, data });
     const updatedUserGroup = await UserGroup.findByIdAndUpdate(_id, data, { new: true });
 
     if (!updatedUserGroup) throw new Error('Error updating UserGroup');
 
-    events.emit('post-update-usergroup', updatedUserGroup);
-    emitSocketEvent(root, 'update-usergroup', updatedUserGroup);
+    root.events.emit('post-update-usergroup', updatedUserGroup);
+    root.socketEvent('update-usergroup', updatedUserGroup);
     return updatedUserGroup;
   },
 };

@@ -1,7 +1,4 @@
-const {
-  GraphQLNonNull,
-  GraphQLID,
-} = require('graphql');
+const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
@@ -18,6 +15,8 @@ module.exports = {
     },
   },
   async resolve(root, { _id }) {
+    if (!root.perms.canDeleteAssets) throw new Error('You do not have permission to delete assets.');
+
     const foundAsset = await Asset.findById(_id).exec();
     if (!foundAsset) throw new Error('This asset doesn\'t exist.');
 
@@ -27,7 +26,7 @@ module.exports = {
     const pathToFile = path.join(__dirname, '..', '..', '..', '..', 'public', 'assets', foundAsset.filename);
     fs.unlinkSync(pathToFile);
 
-    root.io.emit('delete-asset', removedAsset);
+    root.socketEvent('delete-asset', removedAsset);
     return removedAsset;
   },
 };

@@ -2,9 +2,6 @@ const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Entries');
 const getProjection = require('../../get-projection');
-const emitSocketEvent = require('../../../utils/emitSocketEvent');
-const events = require('../../../utils/events');
-const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Entry = mongoose.model('Entry');
 
@@ -18,8 +15,7 @@ module.exports = {
     },
   },
   async resolve(root, { _id }, ctx, ast) {
-    const perms = await getUserPermissions(ctx.user._id);
-
+    const { perms } = root;
     if (!perms.entries.canDeleteEntries) {
       throw new Error('You do not have permission to delete Entries');
     }
@@ -32,7 +28,7 @@ module.exports = {
     }
 
     const projection = getProjection(ast);
-    events.emit('pre-delete-entry', _id);
+    root.events.emit('pre-delete-entry', _id);
 
     const removedEntry = await Entry
       .findByIdAndRemove(_id, { select: projection })
@@ -40,8 +36,8 @@ module.exports = {
 
     if (!removedEntry) throw new Error('Error removing entry');
 
-    events.emit('post-delete-entry', removedEntry);
-    emitSocketEvent(root, 'delete-entry', removedEntry);
+    root.events.emit('post-delete-entry', removedEntry);
+    root.socketEvent('delete-entry', removedEntry);
     return removedEntry;
   },
 };

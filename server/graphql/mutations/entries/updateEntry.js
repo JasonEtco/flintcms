@@ -1,9 +1,6 @@
 const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Entries');
-const events = require('../../../utils/events');
-const emitSocketEvent = require('../../../utils/emitSocketEvent');
-const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Entry = mongoose.model('Entry');
 
@@ -20,10 +17,9 @@ module.exports = {
     },
   },
   async resolve(root, { _id, data }, ctx) {
+    const { perms } = root;
     const foundEntry = await Entry.findById(_id).lean().exec();
     if (!foundEntry) throw new Error('There is no Entry with this ID');
-
-    const perms = await getUserPermissions(ctx.user._id);
 
     const isOwnEntry = foundEntry.author.toString() === ctx.user._id.toString();
 
@@ -42,13 +38,13 @@ module.exports = {
       throw new Error('You are not allowed to edit a live entry. Sorry!');
     }
 
-    events.emit('pre-update-entry', { _id, data });
+    root.events.emit('pre-update-entry', { _id, data });
 
     const updatedEntry = await Entry.findByIdAndUpdate(_id, data, { new: true });
     if (!updatedEntry) throw new Error('Error updating entry');
 
-    events.emit('post-update-entry', updatedEntry);
-    emitSocketEvent(root, 'update-entry', updatedEntry);
+    root.events.emit('post-update-entry', updatedEntry);
+    root.socketEvent('update-entry', updatedEntry);
     return updatedEntry;
   },
 };
