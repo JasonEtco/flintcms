@@ -87,7 +87,7 @@ export default class Main extends Component {
 
     return (
       <main className="main">
-        <button className="nav__toggle" type="button" onClick={() => this.setState({ navIsOpen: !navIsOpen })}><Icon icon="gear" /></button>
+        <button className="nav__toggle" type="button" onClick={() => this.setState({ navIsOpen: !navIsOpen })}><Icon icon="hamburger" /></button>
         <MainNav siteName={site.siteName} user={user} open={navIsOpen} closeNav={this.closeNav} />
 
         <Switch>
