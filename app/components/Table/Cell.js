@@ -4,7 +4,7 @@ import { truncate } from 'utils/helpers';
 
 const Cell = ({ column, children }) => (
   <td className={`table__cell table__cell--${column}`}>
-    {children.component || truncate(children, 20) }
+    {typeof children === 'string' ? truncate(children, 20) : children.component}
   </td>
 );
 
