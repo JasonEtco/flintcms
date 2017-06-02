@@ -16,12 +16,12 @@ module.exports = {
   },
   async resolve(root, { _id }) {
     const { perms } = root;
-    if (!perms.users.canManageUsers) throw new Error('You do not have permission to manage users.');
+    if (!perms.users.canResetUserPasswords) throw new Error('You do not have permission to manage users.');
 
     const user = await User.findById(_id).exec();
     if (!user) throw new Error('There is no user with that id.');
 
-    const token = await randtoken.generate(16);
+    const token = user.token || await randtoken.generate(16);
     const data = { token, password: undefined };
 
     const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true });

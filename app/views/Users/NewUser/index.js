@@ -6,6 +6,7 @@ import Input from 'components/Input';
 import Dropdown from 'components/Fields/Dropdown';
 import Button from 'components/Button';
 import TitleBar from 'components/TitleBar';
+import Aside from 'containers/Aside';
 import t from 'utils/types';
 import { arrayMove } from 'utils/helpers';
 
@@ -85,14 +86,14 @@ export default class NewUser extends Component {
             />
           </div>
 
-          <aside className="aside">
+          <Aside noStatus>
             <Dropdown
               label="Usergroup"
               name="usergroup"
               full
               options={formattedUsergroups}
             />
-          </aside>
+          </Aside>
         </div>
       </Page>
     );

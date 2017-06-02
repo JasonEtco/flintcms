@@ -18,7 +18,8 @@ module.exports = {
   },
   async resolve(root, { _id, data }, ctx) {
     const { perms } = root;
-    if (!perms.users.canManageUsers && _id !== ctx.user._id) throw new Error('You do not have permission to manage users.');
+    if (!perms.users.canEditUsers && _id !== ctx.user._id) throw new Error('You do not have permission to edit users.');
+    if (!perms.users.canChangeUsersUsergroup && _id !== ctx.user._id) throw new Error('You do not have permission to change a user\'s usergroup.');
 
     const foundUser = await User.findById(_id).lean().exec();
     if (!foundUser) throw new Error('There is no User with this ID');

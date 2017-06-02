@@ -24,7 +24,9 @@
   "users": [
     { "name": "canAddUsers", "defaultValue": false, "label": "Can Add Users" },
     { "name": "canEditUsers", "defaultValue": false, "label": "Can Edit Users" },
-    { "name": "canDeleteUsers", "defaultValue": false, "label": "Can Delete Users" }
+    { "name": "canDeleteUsers", "defaultValue": false, "label": "Can Delete Users" },
+    { "name": "canResetUserPasswords", "defaultValue": false, "label": "Can Send `Password Reset` emails to Users" },
+    { "name": "canChangeUsersUsergroup", "defaultValue": false, "label": "Can Change a User's Usergroup" }
   ],
 
   "usergroups": [

@@ -131,11 +131,9 @@ export function userDetails(_id) {
  */
 export function sendPasswordReset(_id) {
   return (dispatch) => {
-    const query = `{
-      mutation ($_id: ID!) {
-        resetPassword (_id: $_id) {
-          _id
-        }
+    const query = `mutation ($_id:ID!) {
+      resetPassword(_id:$_id) {
+        _id
       }
     }`;
 
