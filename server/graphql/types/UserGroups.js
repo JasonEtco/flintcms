@@ -48,12 +48,22 @@ exports.outputType = new GraphQLObjectType({
   fields: {
     _id: {
       type: new GraphQLNonNull(GraphQLID),
+      description: 'Mongo ID string.',
     },
-    title: { type: new GraphQLNonNull(GraphQLString) },
-    slug: { type: new GraphQLNonNull(GraphQLString) },
-    dateCreated: { type: new GraphQLNonNull(DateTime) },
+    title: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Title of the usergroup',
+    },
+    slug: {
+      type: new GraphQLNonNull(GraphQLString),
+      descriptions: 'The slug, a slugified version of a title, of the usergroup.',
+    },
+    dateCreated: {
+      type: new GraphQLNonNull(DateTime),
+    },
     permissions: {
       type: new GraphQLNonNull(PermissionsType),
+      description: 'Permissions object that contains all the many permissions available to a user.',
     },
   },
 });
@@ -61,9 +71,13 @@ exports.outputType = new GraphQLObjectType({
 exports.inputType = new GraphQLInputObjectType({
   name: 'UserGroupInput',
   fields: {
-    title: { type: new GraphQLNonNull(GraphQLString) },
+    title: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Title of the usergroup',
+    },
     permissions: {
       type: new GraphQLNonNull(PermissionsTypeInput),
+      description: 'Permissions object that contains all the many permissions available to a user.',
     },
   },
 });

@@ -36,9 +36,7 @@ function parseDateFromLiteral(ast) {
 
 module.exports = new GraphQLScalarType({
   name: 'Timestamp',
-  description:
-    'The javascript `Date` as integer. Type represents date and time ' +
-    'as number of milliseconds from start of UNIX epoch.',
+  description: 'The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.',
   serialize: serializeDate,
   parseValue: parseDate,
   parseLiteral: parseDateFromLiteral,

@@ -11,26 +11,31 @@ exports.outputType = new GraphQLObjectType({
   fields: {
     _id: {
       type: new GraphQLNonNull(GraphQLID),
+      description: 'Mongo ID string.',
     },
     name: {
       type: new GraphQLNonNull(GraphQLString),
+      description: 'Name of the plugin.',
     },
     icon: {
       type: new GraphQLObjectType({
         name: 'PluginIcon',
         fields: {
-          path: { type: new GraphQLNonNull(GraphQLString) },
+          path: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: 'The path, from the plugin\'s entry point to the icon file.',
+          },
           buffer: {
             type: new GraphQLNonNull(GraphQLString),
-            resolve(plug) {
-              return plug.buffer.toString('base64');
-            },
+            resolve: plug => plug.buffer.toString('base64'),
+            description: 'The buffer for the plugin\'s icon.',
           },
         },
       }),
     },
     dateInstalled: {
       type: new GraphQLNonNull(DateTime),
+      description: 'The date, in a UNIX timestamp, that the plugin was installed.',
     },
   },
 });

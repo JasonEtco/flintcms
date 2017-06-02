@@ -44,6 +44,7 @@ const outputType = new GraphQLObjectType({
   fields: {
     _id: {
       type: new GraphQLNonNull(GraphQLID),
+      description: 'Mongo ID string.',
     },
     title: {
       type: GraphQLString,
@@ -51,9 +52,11 @@ const outputType = new GraphQLObjectType({
     },
     section: {
       type: new GraphQLNonNull(GraphQLID),
+      description: 'The `id` of the entry\'s section.',
     },
     slug: {
       type: new GraphQLNonNull(GraphQLString),
+      descriptions: 'The slug, a slugified version of a title, of the entry.',
     },
     status: {
       type: new GraphQLNonNull(GraphQLString),
@@ -96,6 +99,7 @@ const inputType = new GraphQLInputObjectType({
     },
     section: {
       type: GraphQLID,
+      description: 'The `id` of the entry\'s section.',
     },
     author: {
       type: GraphQLID,
