@@ -208,6 +208,21 @@ export function checkFor(arr, f, w) {
 }
 
 /**
+ * Removes properties with null or undefined values
+ * @param {object} obj
+ */
+export function cleanObject(obj) {
+  const keys = Object.keys(obj);
+  return keys.reduce((prev, curr) => {
+    if (obj[curr] !== null && obj[curr] !== undefined) {
+      return { ...prev, [curr]: obj[curr] };
+    }
+
+    return prev;
+  }, {});
+}
+
+/**
  * Formats raw bytes into legible text
  * @param {Number} bytes - Raw bytes
  * @param {Number} decimals - Number of decimals

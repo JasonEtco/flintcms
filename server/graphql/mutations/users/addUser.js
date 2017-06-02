@@ -28,10 +28,17 @@ module.exports = {
 
     const newUser = new User(args.user);
 
-    const { defaultUserGroup } = await Site.findOne();
-    newUser.usergroup = defaultUserGroup;
+    // Set usergroup if there isn't already one
+    if (!args.user.usergroup) {
+      const { defaultUserGroup } = await Site.findOne();
+      if (!defaultUserGroup) throw new Error('There is no default user group.');
+      newUser.usergroup = defaultUserGroup;
+    }
 
+    // Generate hashed password
     newUser.password = await newUser.generateHash(password);
+
+    // Create temporary token to send confirmation email
     const token = await randtoken.generate(16);
     newUser.token = token;
 

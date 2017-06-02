@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { string, arrayOf, oneOfType, shape, object, bool, func, any } from 'prop-types';
 import classnames from 'classnames';
 import { alphabetizeSort } from 'utils/helpers';
 import './Dropdown.scss';
-
-const { string, arrayOf, oneOfType, shape, object, bool, func, any } = PropTypes;
 
 export const DropdownChild = ({ children }) => <div className="dropdown__child">{children}</div>;
 DropdownChild.propTypes = { children: any.isRequired };
@@ -115,6 +113,7 @@ export default class Dropdown extends Component {
         <div className="dropdown__options">
           {sorted.map(opt => (
             <button
+              title={opt.label || opt.value}
               role="option"
               aria-selected={value === opt.value}
               type="button"

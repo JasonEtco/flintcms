@@ -7,6 +7,7 @@ export const REQUEST_USER = 'REQUEST_USER';
 export const RECEIVE_USER = 'RECEIVE_USER';
 export const NEW_USER = 'NEW_USER';
 export const UPDATE_USER = 'UPDATE_USER';
+export const DELETE_USER = 'DELETE_USER';
 
 export const REQUEST_USERS = 'REQUEST_USERS';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
@@ -38,6 +39,28 @@ export function newUser(user) {
       .then((json) => {
         const { addUser } = json.data.data;
         dispatch({ type: NEW_USER, addUser });
+        dispatch(push('/users'));
+      })
+      .catch(errorToasts);
+  };
+}
+
+/**
+ * Adds a new user to the database
+ * @param {String} _id
+ */
+export function deleteUser(_id) {
+  return (dispatch) => {
+    const query = `mutation ($_id: ID!) {
+      deleteUser(_id: $_id) {
+        _id
+      }
+    }`;
+
+    return graphFetcher(query, { _id })
+      .then((json) => {
+        const { deleteUser: deletedUser } = json.data.data;
+        dispatch({ type: DELETE_USER, deletedUser });
         dispatch(push('/users'));
       })
       .catch(errorToasts);
