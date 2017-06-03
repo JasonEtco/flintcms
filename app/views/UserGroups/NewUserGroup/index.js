@@ -7,7 +7,7 @@ import Input from 'components/Input';
 import TitleBar from 'components/TitleBar';
 import Button from 'components/Button';
 import Checkboxes from 'components/Checkbox/Checkboxes';
-import { slugify, capitalize } from 'utils/helpers';
+import { capitalize } from 'utils/helpers';
 import permissions from '../../../../server/utils/permissions.json';
 
 export default class NewUserGroup extends Component {
@@ -57,18 +57,6 @@ export default class NewUserGroup extends Component {
               required
               full
               onChange={this.handleTitleChange}
-            />
-
-            <Input
-              name="slug"
-              label="User Group slug"
-              instructions="You can use this slug to reference this specific entry in a template."
-              ref={(r) => { this.slug = r; }}
-              required
-              full
-              code
-              disabled
-              value={slugify(this.state.title)}
             />
 
             {Object.keys(permissions).map(key => <Checkboxes key={key} label={capitalize(key)} checkboxes={permissions[key]} name={`permissions[${key}]`} />)}
