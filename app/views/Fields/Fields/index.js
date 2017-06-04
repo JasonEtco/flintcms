@@ -30,6 +30,7 @@ export default class Fields extends Component {
         component: <Link to={`/settings/fields/${props._id}`}>{props.title}</Link>,
       },
       slug: props.slug,
+      type: props.type,
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
         component: formatDate(props.dateCreated),

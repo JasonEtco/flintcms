@@ -23,13 +23,13 @@ module.exports = {
     if (await Field.findOne({ slug })) throw new Error('There is already a field with that slug.');
 
     const newField = new Field(args.data);
-    root.root.events.emit('pre-new-field', newField);
+    root.events.emit('pre-new-field', newField);
 
     // Emit new-field event, wait for plugins to affect the new field
     const savedField = await newField.save();
 
-    root.root.events.emit('post-new-field', savedField);
-    root.emitSocketEvent('new-field', savedField);
+    root.events.emit('post-new-field', savedField);
+    root.socketEvent('new-field', savedField);
     return savedField;
   },
 };
