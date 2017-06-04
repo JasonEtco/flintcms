@@ -33,7 +33,13 @@ function preserveCamelCase(str) {
   return str;
 }
 
-export default function (str) {
+/**
+ * Converts a string to Camel Case.
+ * `Hello World! => helloWorld`
+ * @param {String} str
+ * @returns {String}
+ */
+function camelcase(str) {
   if (arguments.length > 1) {
     str = Array.from(arguments)
       .map(x => x.trim())
@@ -66,3 +72,5 @@ export default function (str) {
     .toLowerCase()
     .replace(/[_.\- ]+(\w|$)/g, (m, p1) => p1.toUpperCase());
 }
+
+export default camelcase;

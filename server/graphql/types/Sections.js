@@ -16,6 +16,10 @@ const outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       descriptions: 'The slug, a slugified version of a title, of the section.',
     },
+    handle: {
+      type: new GraphQLNonNull(GraphQLString),
+      descriptions: 'The handle, a camelcase version of a title, of the section.',
+    },
     fields: {
       type: new GraphQLList(new GraphQLNonNull(GraphQLID)),
       description: '`id`s of fields',

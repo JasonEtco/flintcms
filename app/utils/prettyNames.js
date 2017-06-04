@@ -9,6 +9,7 @@ const names = {
   username: 'Username',
   name: 'Name',
   type: 'Type',
+  handle: 'Handle',
 };
 
 export default names;

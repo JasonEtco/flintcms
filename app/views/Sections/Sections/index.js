@@ -29,7 +29,14 @@ export default class Sections extends Component {
         value: props.title,
         component: <Link to={`/settings/sections/${props.slug}`}>{props.title}</Link>,
       },
-      slug: props.slug,
+      slug: {
+        value: props.slug,
+        component: <code>{props.slug}</code>,
+      },
+      handle: {
+        value: props.handle,
+        component: <code>{props.handle}</code>,
+      },
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
         component: formatDate(props.dateCreated),

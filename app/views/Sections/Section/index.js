@@ -12,20 +12,14 @@ import { withRouter } from 'react-router';
 
 export default withRouter(class Section extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    fields: t.fields,
-    sections: t.sections,
+    dispatch: PropTypes.func.isRequired,
+    fields: t.fields.isRequired,
+    sections: t.sections.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         slug: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    fields: null,
-    sections: null,
   }
 
   constructor(props) {
@@ -81,7 +75,7 @@ export default withRouter(class Section extends Component {
             <Input
               name="handle"
               label="Section Handle"
-              instructions="You can use this handle to reference this specific entry in a template."
+              instructions="You can use this handle to reference this specific section in a template."
               required
               full
               code
@@ -92,7 +86,7 @@ export default withRouter(class Section extends Component {
             <Input
               name="template"
               label="Template"
-              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.hbs`."
+              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`."
               ref={(r) => { this.template = r; }}
               required
               full

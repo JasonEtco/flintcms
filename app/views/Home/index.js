@@ -41,7 +41,7 @@ export default class Home extends Component {
             <div className="home__column">
               <h3 className="subtitle">Recent Entries</h3>
               <ul className="home__list">
-                {newEntries.map(e =>
+                {newEntries.map(e => (
                   <li key={e._id} className="home__list-item">
                     <Link to={`/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>
                       <h4>{e.title}</h4>
@@ -50,7 +50,7 @@ export default class Home extends Component {
                         <span className="home__list-item__date">{formatDate(e.dateCreated)}</span>
                       </div>
                     </Link>
-                  </li>)}
+                  </li>))}
               </ul>
             </div>
           </div>

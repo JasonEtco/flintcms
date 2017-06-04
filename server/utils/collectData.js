@@ -26,7 +26,7 @@ async function formatEntryFields(entries) {
  */
 async function sectionEntries(dataSections, entries) {
   // Organizes sections by _id/slug
-  const sections = await h.reduceToObj(dataSections, '_id', 'slug');
+  const sections = await h.reduceToObj(dataSections, '_id', 'handle');
 
   // Get just the _ids from the new sections object
   const sectionKeys = Object.keys(sections);
@@ -75,6 +75,7 @@ async function collectData(entry) {
       _id
       title
       slug
+      handle
     }
     users {
       _id

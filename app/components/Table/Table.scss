@@ -63,6 +63,13 @@
             &:hover { text-decoration: underline; }
         }
 
+        code {
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            border: 1px solid $grey-light;
+            background-color: darken($grey-lighter, 5%);
+        }
+
         &--delete, &--status { width: 1em; }
 
         &--image {

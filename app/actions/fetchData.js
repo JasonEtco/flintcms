@@ -60,6 +60,7 @@ const query = `{
     template
     title
     slug
+    handle
     fields
     dateCreated
   }
