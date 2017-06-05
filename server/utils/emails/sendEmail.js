@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 const htmlToText = require('html-to-text');
 const path = require('path');
 const compile = require('./compile');
-const config = require('../../../config');
 
 const pathToFlintLogo = path.join(__dirname, 'flintlogo.png');
 
@@ -32,7 +31,7 @@ transporter.verify((error) => {
  * @param {Object} data - Data object
  */
 async function sendEmail(to, template, data) {
-  const html = await compile(template, Object.assign(data, config));
+  const html = await compile(template, data);
   const text = htmlToText.fromString(html);
 
   transporter.sendMail({

@@ -1,22 +1,17 @@
-const path = require('path');
 const nunjucks = require('nunjucks');
-const siteConfig = require('../../config');
 
-const templatesDir = path.resolve(__dirname, '..', '..', 'templates');
-exports.templatesDir = templatesDir;
-
-const nun = nunjucks.configure(templatesDir, {
+const nun = nunjucks.configure(global.FlintSettings.templatePath, {
   noCache: process.env.NODE_ENV !== 'production',
 });
 
-Object.keys(siteConfig).forEach((key) => {
-  nun.addGlobal(key, siteConfig[key]);
+Object.keys(global.FlintSettings.siteConfig).forEach((key) => {
+  nun.addGlobal(key, global.FlintSettings.siteConfig[key]);
 });
 
 nun.addGlobal('getContext', () => this.ctx);
 
 nun.addFilter('json', obj => `<pre><code>${JSON.stringify(obj, null, 2)}</code></pre>`);
 
-nunjucks.precompile(templatesDir, { env: nun });
+nunjucks.precompile(global.FlintSettings.templatePath, { env: nun });
 
 exports.nun = nun;

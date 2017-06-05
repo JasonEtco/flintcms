@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 const { readdirAsync, readFileAsync } = require('./fsPromises');
 
-const pathToPlugins = path.join(__dirname, '..', '..', 'plugins');
 const Plugin = mongoose.model('Plugin');
 
 /**
@@ -10,6 +9,7 @@ const Plugin = mongoose.model('Plugin');
  * adding new ones to the DB and registering them with Mongoose
  */
 async function registerPlugins() {
+  const pathToPlugins = global.FlintSettings.pluginPath;
   const pluginFolders = await readdirAsync(pathToPlugins);
 
   pluginFolders.forEach(async (directoryName) => {

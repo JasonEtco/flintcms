@@ -19,7 +19,7 @@ require('./utils/compileSass')();
 const getEntryData = require('./utils/getEntryData');
 
 const app = express();
-module.exports = app;
+exports.app = app;
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -37,9 +37,6 @@ app.use(passport.session());
 
 app.use(compression());
 
-const isDeveloping = process.env.NODE_ENV !== 'production';
-const port = isDeveloping ? 4000 : process.env.PORT;
-
 app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
 app.use('/admin', require('./apps/admin'));
@@ -53,16 +50,20 @@ app.get('/', async (req, res) => {
   res.send(compiled);
 });
 
-app.get('/:section/:slug', async (req, res) => {
-  const EntryData = await getEntryData(req.params);
+// app.get('/:section/:slug', async (req, res) => {
+//   const EntryData = await getEntryData(req.params);
 
-  if (!EntryData) {
-    fourOhFourHandler(res);
-    return;
-  }
+//   if (!EntryData) {
+//     fourOhFourHandler(res);
+//     return;
+//   }
 
-  const compiled = await compile(EntryData.template, EntryData);
-  res.send(compiled);
-});
+//   const compiled = await compile(EntryData.template, EntryData);
+//   res.send(compiled);
+// });
 
-http.listen(port, () => console.log(`[HTTP Server] Running at http://localhost:${port}`));
+function startServer(port) {
+  http.listen(port, () => console.log(`[HTTP Server] Running at http://localhost:${port}`));
+}
+
+exports.startServer = startServer;

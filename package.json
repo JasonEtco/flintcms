@@ -2,7 +2,7 @@
   "name": "flint",
   "version": "1.0.0",
   "description": "NodeJS CMS",
-  "main": "server/index.js",
+  "main": "index.js",
   "author": "Jason Etcovitch",
   "license": "MIT",
   "engines": {

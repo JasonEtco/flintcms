@@ -4,7 +4,7 @@ const express = require('express');
 const multer = require('multer');
 const jimp = require('jimp');
 const { graphql } = require('graphql');
-const app = require('../../index');
+const { app } = require('../../index');
 
 const io = app.get('io');
 

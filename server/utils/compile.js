@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const collectData = require('./collectData');
-const siteConfig = require('../../config');
-const { nun, templatesDir } = require('./nunjucks');
+const { nun } = require('./nunjucks');
 
 /**
  * Compiles template/data with Nunjucks into an HTML string
@@ -15,14 +14,14 @@ async function compile(template, data) {
 
   return new Promise((resolve, reject) => {
     const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`;
-    const templatePath = path.resolve(templatesDir, templateWithFormat);
+    const templatePath = path.join(global.FlintSettings.templatePath, templateWithFormat);
 
     fs.readFile(templatePath, 'utf-8', async (err) => {
       if (err) reject(err);
 
       let html = await nun.render(templatePath, compiledData);
 
-      if (process.env.DEBUG || siteConfig.debugMode) {
+      if (process.env.DEBUG) {
         const scr = `
         console.log('%cFlint Debug Mode', 'color: #fe6300; font-weight: bold; font-size: 1.2rem;');
 
