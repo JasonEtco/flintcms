@@ -17,10 +17,10 @@ module.exports = {
     },
   },
   async resolve(root, args) {
-    const { username, password } = args.user;
+    const { username } = args.user;
 
     const { perms } = root;
-    if (!perms.users.canAddUsers) throw new Error('You do not have permission to manage users.');
+    if (perms && !perms.users.canAddUsers) throw new Error('You do not have permission to manage users.');
 
     if (!username) throw new Error('You must include a username.');
 
@@ -34,9 +34,6 @@ module.exports = {
       if (!defaultUserGroup) throw new Error('There is no default user group.');
       newUser.usergroup = defaultUserGroup;
     }
-
-    // Generate hashed password
-    newUser.password = await newUser.generateHash(password);
 
     // Create temporary token to send confirmation email
     const token = await randtoken.generate(16);

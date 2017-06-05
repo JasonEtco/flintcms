@@ -5,6 +5,7 @@ const randtoken = require('rand-token');
 const sendEmail = require('../../utils/emails/sendEmail');
 
 const User = mongoose.model('User');
+const UserGroup = mongoose.model('UserGroup');
 const router = express.Router();
 
 const strategyOptions = { passReqToCallback: true };
@@ -13,6 +14,40 @@ router.post('/signup', passport.authenticate('local-signup', strategyOptions));
 
 router.post('/login', passport.authenticate('local-login', strategyOptions), (req, res) => {
   res.json({ success: true });
+});
+
+router.post('/firstuser', async (req, res) => {
+  const user = await User.findOne().exec();
+  if (user) {
+    res.status(200).json({ success: false, message: 'There is already a user in the database.' });
+    return;
+  }
+
+  const newUser = new User(req.body);
+  newUser.password = newUser.generateHash(req.body.password);
+
+  const adminUserGroup = await UserGroup.findOne({ slug: 'admin' }).exec();
+  newUser.usergroup = adminUserGroup._id;
+
+  const savedUser = await newUser.save();
+  if (!savedUser) throw new Error('Could not save the User');
+
+  req.login(savedUser, (err) => {
+    if (!err) {
+      res.status(200).json({ success: true });
+    } else {
+      throw new Error(err);
+    }
+  });
+});
+
+router.get('/firstinstall', async (req, res) => {
+  const foundUser = await User.findOne().exec();
+  if (foundUser) {
+    res.json({ aUserExists: true });
+  } else {
+    res.json({ aUserExists: false });
+  }
 });
 
 router.post('/setpassword', async (req, res) => {
