@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { shuffle } from 'utils/helpers';
 import FlintLogo from 'components/FlintLogo';
+import { version } from '../../../package.json';
 import './Footer.scss';
 
 const baseEmojis = ['🍍', '🕑', '🎏', '🔥', '🦄', '🍑', '🔑', '🙌', '❤️'];
@@ -21,6 +22,7 @@ export default class Footer extends Component {
         <span className="footer__made-with">Made with {btn} on 🌏 by <a href="https://github.com/JasonEtco">Jason Etcovitch</a>
         </span>
         <FlintLogo />
+        <span className="footer__made-with">Version {version}</span>
       </footer>
     );
   }
