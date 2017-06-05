@@ -17,6 +17,7 @@ exports.Flint = class Flint {
   /**
    * Create a Flint server
    * @param {FLINT} settings
+   * @param {boolean} isDeveloping
    */
   constructor(settings, isDeveloping) {
     const appDir = path.dirname(require.main.filename);

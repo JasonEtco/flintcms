@@ -8,6 +8,7 @@ import Main from 'containers/Main';
 import Login from 'views/Auth/Login';
 import SetPassword from 'views/Auth/SetPassword';
 import ForgotPassword from 'views/Auth/ForgotPassword';
+import Install from 'views/Auth/Install';
 import store, { history } from 'utils/store';
 import './main.scss';
 
@@ -24,6 +25,7 @@ const appWrapper = (
         <Route exact path="/login" component={Login} />
         <Route exact path="/sp/:token" component={SetPassword} />
         <Route exact path="/fp" component={ForgotPassword} />
+        <Route exact path="/install" component={Install} />
         <Route path="/" render={props => <App {...props} />} />
       </Switch>
     </ConnectedRouter>

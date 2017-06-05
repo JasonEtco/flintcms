@@ -1,0 +1,42 @@
+.install {
+    display: flex;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .flint-logo-wrapper {
+        margin: 3em 0 2em;
+
+        .flint-logo { fill: $grey; }
+    }
+
+    &__inner {
+        @extend %card;
+        display: flex;
+        width: 700px;
+        max-width: 90%;
+    }
+
+    &__col {
+        width: 50%;
+    }
+
+    &__form {
+        flex: 2;
+    }
+
+    &__title {
+        display: block;
+        width: 100%;
+        margin-bottom: 1em;
+        font-size: $size3;
+        text-align: center;
+    }
+
+    .btn { width: 100%; }
+
+    // .form-element + .form-element { margin-top: 0.5em; }
+}

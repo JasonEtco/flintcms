@@ -13,7 +13,7 @@ const admin = express();
 admin.use(require('./routes/auth'));
 admin.use('/api', require('./api'));
 
-if (global.FLINT.isDeveloping) {
+if (process.env.BUILD_DASHBOARD) {
   const compiler = webpack(config);
   const middleware = webpackMiddleware(compiler, {
     publicPath: '/',
