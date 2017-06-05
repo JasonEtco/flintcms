@@ -57,7 +57,8 @@ export default class Install extends Component {
           <div className="install__col">
             <FlintLogo />
             <h1 className="install__title">Welcome to Flint!</h1>
-            <p>Seeing this page means that you&apos;ve just started your Flint site for the first time and need to make a user account.</p>
+            <p>Seeing this page means that you&apos;ve
+            just started your Flint site for the first time and need to make a user account.</p>
           </div>
           <form className="install__form" onSubmit={this.handleSubmit}>
             {error && <Notification type="error">An error occured!</Notification>}
