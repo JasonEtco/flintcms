@@ -17,7 +17,7 @@
     "serve": "node server/index.js",
     "local": "cross-env NODE_ENV=production PORT=4000 npm run serve",
     "heroku-postbuild": "npm run build",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "stylelint": {
     "extends": [
