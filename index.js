@@ -16,7 +16,7 @@ module.exports = class Flint {
    * Create a Flint server
    * @param {FlintSettings} settings
    */
-  constructor(settings) {
+  constructor(settings, isDeveloping) {
     const appDir = path.dirname(require.main.filename);
     const { templatePath, scssPath, publicPath, configPath } = settings;
 
@@ -25,10 +25,10 @@ module.exports = class Flint {
       scssPath: path.join(appDir, scssPath || 'scss'),
       publicPath: path.join(appDir, publicPath || 'public'),
       configPath: path.join(appDir, configPath || 'config'),
+      isDeveloping,
     });
 
-    const isDeveloping = process.env.NODE_ENV !== 'production';
-    this.port = isDeveloping ? 4000 : process.env.PORT;
+    this.port = !isDeveloping && process.env.PORT ? process.env.PORT : 4000;
 
     global.FlintSettings = formattedSettings;
   }

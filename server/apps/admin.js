@@ -9,12 +9,10 @@ const config = require('../../config/webpack.config');
 
 const admin = express();
 
-const isDeveloping = process.env.NODE_ENV !== 'production';
-
 admin.use(require('./routes/auth'));
 admin.use('/api', require('./api'));
 
-if (isDeveloping) {
+if (global.FlintSettings.isDeveloping) {
   const compiler = webpack(config);
   const middleware = webpackMiddleware(compiler, {
     publicPath: '/',

@@ -37,7 +37,7 @@ app.use(passport.session());
 
 app.use(compression());
 
-app.use('/public', express.static(path.join(__dirname, '..', 'public')));
+app.use('/public', express.static(global.FlintSettings.publicPath));
 app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
 app.use('/admin', require('./apps/admin'));
 app.use('/graphql', require('./apps/graphql'));

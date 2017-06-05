@@ -11,13 +11,11 @@ const io = app.get('io');
 
 const graphql = express();
 
-const isDeveloping = process.env.NODE_ENV !== 'production';
-
 graphql.use(h.loggedIn);
 graphql.use('/', graphqlHTTP(async req => ({
   schema,
   pretty: true,
-  graphiql: isDeveloping,
+  graphiql: global.FlintSettings.isDeveloping,
   rootValue: {
     io,
     req,
