@@ -1,8 +1,9 @@
 const graphqlHTTP = require('express-graphql');
 const h = require('../utils/helpers');
-const schema = require('../graphql');
 const express = require('express');
+const chalk = require('chalk');
 const { app } = require('../index');
+const schema = require('../graphql');
 const getUserPermissions = require('../utils/getUserPermissions');
 const emitSocketEvent = require('../utils/emitSocketEvent');
 const events = require('../utils/events');
@@ -15,7 +16,7 @@ graphql.use(h.loggedIn);
 graphql.use('/', graphqlHTTP(async req => ({
   schema,
   pretty: true,
-  graphiql: global.FlintSettings.isDeveloping,
+  graphiql: global.FLINT.isDeveloping,
   rootValue: {
     io,
     req,
@@ -26,5 +27,5 @@ graphql.use('/', graphqlHTTP(async req => ({
 })));
 
 // eslint-disable-next-line no-console
-console.log('[App: GraphQL] initialized.');
+console.log(`${chalk.gray('[App: GraphQL]')} initialized.`);
 module.exports = graphql;

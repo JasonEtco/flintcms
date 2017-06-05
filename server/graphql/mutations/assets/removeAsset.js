@@ -23,7 +23,7 @@ module.exports = {
     const removedAsset = await Asset.findByIdAndRemove(_id).exec();
     if (!removedAsset) throw new Error('Error removing asset');
 
-    const pathToFile = path.join(__dirname, '..', '..', '..', '..', 'public', 'assets', foundAsset.filename);
+    const pathToFile = path.join(global.FLINT.publicPath, 'assets', foundAsset.filename);
     fs.unlinkSync(pathToFile);
 
     root.socketEvent('delete-asset', removedAsset);

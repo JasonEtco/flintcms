@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const path = require('path');
+const chalk = require('chalk');
 const { readdirAsync, readFileAsync } = require('./fsPromises');
 
 const Plugin = mongoose.model('Plugin');
@@ -9,7 +10,7 @@ const Plugin = mongoose.model('Plugin');
  * adding new ones to the DB and registering them with Mongoose
  */
 async function registerPlugins() {
-  const pathToPlugins = global.FlintSettings.pluginPath;
+  const pathToPlugins = global.FLINT.pluginPath;
   const pluginFolders = await readdirAsync(pathToPlugins);
 
   pluginFolders.forEach(async (directoryName) => {
@@ -44,7 +45,7 @@ async function registerPlugins() {
     }
 
     // eslint-disable-next-line no-console
-    console.log(`[Plugin] Registering the [${Class.name}] plugin`);
+    console.log(`${chalk.grey('[Plugin]')} Registering the ${chalk.bold(`[${Class.name}]`)} plugin`);
     mongoose.plugin(schema => new Class(schema));
   });
 }

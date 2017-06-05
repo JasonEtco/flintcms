@@ -14,7 +14,7 @@ async function compile(template, data) {
 
   return new Promise((resolve, reject) => {
     const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`;
-    const templatePath = path.join(global.FlintSettings.templatePath, templateWithFormat);
+    const templatePath = path.join(global.FLINT.templatePath, templateWithFormat);
 
     fs.readFile(templatePath, 'utf-8', async (err) => {
       if (err) reject(err);

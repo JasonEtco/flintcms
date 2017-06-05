@@ -7,10 +7,10 @@ const fs = require('fs');
  */
 async function compileSass() {
   sass.render({
-    file: path.join(global.FlintSettings.scssPath, 'main.scss'),
+    file: path.join(global.FLINT.scssPath, 'main.scss'),
     outputStyle: process.env.NODE_ENV === 'production' ? 'compressed' : 'nested',
   }, async (err, res) => {
-    const cssPath = path.join(global.FlintSettings.publicPath);
+    const cssPath = path.join(global.FLINT.publicPath);
     if (!fs.existsSync(cssPath)) {
       fs.mkdirSync(cssPath);
     }

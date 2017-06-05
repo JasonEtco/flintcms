@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const htmlToText = require('html-to-text');
 const path = require('path');
+const chalk = require('chalk');
 const compile = require('./compile');
 
 const pathToFlintLogo = path.join(__dirname, 'flintlogo.png');
@@ -20,7 +21,7 @@ transporter.verify((error) => {
   if (error) {
     console.log(error); // eslint-disable-line no-console
   } else {
-    console.log('[Email Service] Server can send emails!'); // eslint-disable-line no-console
+    console.log(`${chalk.yellow('[Email Service]')} Server can send emails!`); // eslint-disable-line no-console
   }
 });
 

@@ -1,4 +1,3 @@
-// const fs = require('fs');
 const sass = require('node-sass');
 const path = require('path');
 const { Inky } = require('inky');

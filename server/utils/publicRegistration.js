@@ -14,12 +14,12 @@ async function publicMiddleware(req, res, next) {
   }
 }
 
-if (global.FlintSettings.signupRoute) {
-  router.post(global.FlintSettings.signupRoute, publicMiddleware, passport.authenticate('local-signup'));
+if (global.FLINT.signupRoute) {
+  router.post(global.FLINT.signupRoute, publicMiddleware, passport.authenticate('local-signup'));
 }
 
-if (global.FlintSettings.loginRoute) {
-  router.post(global.FlintSettings.loginRoute, passport.authenticate('local-login'));
+if (global.FLINT.loginRoute) {
+  router.post(global.FLINT.loginRoute, passport.authenticate('local-login'));
 }
 
 module.exports = router;

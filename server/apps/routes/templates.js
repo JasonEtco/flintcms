@@ -18,9 +18,8 @@ router.get('/templates', (req, res) => {
     });
     return newFilelist;
   };
-  const pathToTemplates = path.resolve(__dirname, '..', '..', 'templates');
 
-  res.status(200).json(walkSync(pathToTemplates));
+  res.status(200).json(walkSync(global.FLINT.templatePath));
 });
 
 module.exports = router;

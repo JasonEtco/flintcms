@@ -1,7 +1,7 @@
 const path = require('path');
 
 /**
- * @typedef {Object} FlintSettings
+ * @typedef {Object} FLINT
  * @property {String} templatePath - Path to your templates directory
  * @property {String} scssPath - Path to your scss directory
  * @property {String} publicPath - Path to your public directory
@@ -11,26 +11,27 @@ const path = require('path');
 /**
  * Flint class
  */
-module.exports = class Flint {
+exports.Flint = class Flint {
   /**
    * Create a Flint server
-   * @param {FlintSettings} settings
+   * @param {FLINT} settings
    */
   constructor(settings, isDeveloping) {
     const appDir = path.dirname(require.main.filename);
-    const { templatePath, scssPath, publicPath, configPath } = settings;
+    const { templatePath, scssPath, publicPath, configPath, pluginPath } = settings;
 
     const formattedSettings = Object.assign({}, settings, {
       templatePath: path.join(appDir, templatePath || 'templates'),
       scssPath: path.join(appDir, scssPath || 'scss'),
       publicPath: path.join(appDir, publicPath || 'public'),
       configPath: path.join(appDir, configPath || 'config'),
+      pluginPath: path.join(appDir, pluginPath || 'plugins'),
       isDeveloping,
     });
 
     this.port = !isDeveloping && process.env.PORT ? process.env.PORT : 4000;
 
-    global.FlintSettings = formattedSettings;
+    global.FLINT = formattedSettings;
   }
 
   startServer(port = this.port) {
@@ -38,3 +39,5 @@ module.exports = class Flint {
     startServer(port);
   }
 };
+
+exports.FlintPlugin = require('./server/utils/FlintPlugin');

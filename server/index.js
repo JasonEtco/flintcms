@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 
 const express = require('express');
+const chalk = require('chalk');
 const session = require('cookie-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -37,7 +38,7 @@ app.use(passport.session());
 
 app.use(compression());
 
-app.use('/public', express.static(global.FlintSettings.publicPath));
+app.use('/public', express.static(global.FLINT.publicPath));
 app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
 app.use('/admin', require('./apps/admin'));
 app.use('/graphql', require('./apps/graphql'));
@@ -63,7 +64,7 @@ app.get('/', async (req, res) => {
 // });
 
 function startServer(port) {
-  http.listen(port, () => console.log(`[HTTP Server] Running at http://localhost:${port}`));
+  http.listen(port, () => console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`));
 }
 
 exports.startServer = startServer;
