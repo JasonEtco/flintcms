@@ -7,7 +7,7 @@ const fs = require('fs');
  */
 async function compileSass() {
   sass.render({
-    file: global.FlintSettings.scssPath,
+    file: path.join(global.FlintSettings.scssPath, 'main.scss'),
     outputStyle: process.env.NODE_ENV === 'production' ? 'compressed' : 'nested',
   }, async (err, res) => {
     const cssPath = path.join(global.FlintSettings.publicPath);

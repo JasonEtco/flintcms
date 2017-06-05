@@ -3,7 +3,6 @@ import {
   RECEIVE_SITE,
   UPDATE_SITE,
 } from 'actions/siteActions';
-import siteConfig from '../../config';
 
 export default function site(state = {}, action) {
   switch (action.type) {
@@ -20,7 +19,6 @@ export default function site(state = {}, action) {
       return {
         ...state,
         ...action.site,
-        ...siteConfig,
         isFetching: false,
         didInvalidate: false,
         lastUpdated: action.receivedAt,

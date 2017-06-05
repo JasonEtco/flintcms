@@ -4,8 +4,8 @@ const nun = nunjucks.configure(global.FlintSettings.templatePath, {
   noCache: process.env.NODE_ENV !== 'production',
 });
 
-Object.keys(global.FlintSettings.siteConfig).forEach((key) => {
-  nun.addGlobal(key, global.FlintSettings.siteConfig[key]);
+Object.keys(global.FlintSettings).forEach((key) => {
+  nun.addGlobal(key, global.FlintSettings[key]);
 });
 
 nun.addGlobal('getContext', () => this.ctx);
