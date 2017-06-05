@@ -23,7 +23,16 @@ const SiteSchema = new Schema({
     type: Boolean,
     default: false,
   },
-});
+  templatePath: String,
+  scssPath: String,
+  publicPath: String,
+  configPath: String,
+  pluginPath: String,
+  scssEntryPoint: {
+    type: String,
+    default: 'main.scss',
+  },
+}, { strict: false });
 
 SiteSchema.name = 'Site';
 

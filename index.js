@@ -37,6 +37,7 @@ exports.Flint = class Flint {
   }
 
   startServer(port = this.port) {
+    // eslint-disable-next-line global-require
     const { startServer } = require('./server');
     startServer(port);
   }
