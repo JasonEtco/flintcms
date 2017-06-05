@@ -5,7 +5,9 @@ const path = require('path');
  * @property {String} templatePath - Path to your templates directory
  * @property {String} scssPath - Path to your scss directory
  * @property {String} publicPath - Path to your public directory
+ * @property {String} pluginPath - Path to your plugins directory
  * @property {String} configPath - Path to your config file
+ * @property {String} scssEntryPoint - The entry point to your SCSS styles (within the scssPath)
  */
 
 /**
