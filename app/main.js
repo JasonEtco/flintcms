@@ -1,3 +1,6 @@
+/* eslint-disable import/first */
+
+import './main.scss';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
@@ -10,7 +13,6 @@ import SetPassword from 'views/Auth/SetPassword';
 import ForgotPassword from 'views/Auth/ForgotPassword';
 import Install from 'views/Auth/Install';
 import store, { history } from 'utils/store';
-import './main.scss';
 
 export default function mapStateToProps(state) {
   return { ...state };

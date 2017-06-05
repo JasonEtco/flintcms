@@ -31,18 +31,6 @@
         @include media($on-mobile) { margin-bottom: 0.2em; }
     }
 
-    &-group {
-        display: flex;
-        align-items: center;
-
-        .input-wrapper {
-            width: calc(50% - 0.5em);
-            margin-top: 0 !important;
-
-            &:first-of-type { margin-right: 1em; }
-        }
-    }
-
     &-icon-wrapper {
         display: flex;
         width: 100%;
@@ -103,6 +91,18 @@
             .input:disabled {
                 background-color: darken(white, 4%);
             }
+        }
+    }
+
+    &-group {
+        display: flex;
+        align-items: center;
+
+        .input-wrapper {
+            width: calc(50% - 0.5em);
+            margin-top: 0;
+
+            &:first-of-type { margin-right: 1em; }
         }
     }
 }
