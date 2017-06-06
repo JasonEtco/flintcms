@@ -51,13 +51,14 @@ export default class RichText extends Component {
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
     defaultValue: PropTypes.string,
-    required: PropTypes.bool.isRequired,
+    required: PropTypes.bool,
   }
 
   static defaultProps = {
     instructions: null,
     defaultValue: null,
     contentState: null,
+    required: false,
   }
 
   static validate(val) {

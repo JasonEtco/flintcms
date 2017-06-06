@@ -10,7 +10,7 @@ export default class Aside extends Component {
     noStatus: PropTypes.bool,
     status: PropTypes.oneOf(['live', 'draft', 'disabled']),
     dateCreated: PropTypes.number,
-    children: PropTypes.elements,
+    children: PropTypes.any,
     disabled: PropTypes.bool,
   }
 
