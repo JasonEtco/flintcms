@@ -7,16 +7,12 @@
   "license": "MIT",
   "engines": {
     "node": "7.10.0",
-    "npm": "4.2.0"
+    "npm": "^5.0.0"
   },
   "scripts": {
     "start": "nodemon --ignore app server/index.js",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
-    "test": "jest --coverage",
-    "serve": "node server/index.js",
-    "local": "cross-env NODE_ENV=production PORT=4000 npm run serve",
-    "heroku-postbuild": "npm run build",
     "prepare": "npm run build"
   },
   "stylelint": {
@@ -128,7 +124,6 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
-    "jest": "^20.0.4",
     "stylelint": "^7.7.1",
     "stylelint-config-devshelf": "^1.2.0",
     "stylelint-scss": "^1.4.1"
