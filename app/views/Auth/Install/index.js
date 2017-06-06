@@ -40,10 +40,6 @@ export default class Install extends Component {
       email: this.email.value,
       username: this.username.value,
       password: this.password.value,
-      name: {
-        first: this.first.value,
-        last: this.last.value,
-      },
     })
       .then(() => { this.props.history.push('/'); })
       .catch(() => { this.setState({ error: true }); });
@@ -56,20 +52,15 @@ export default class Install extends Component {
         <div className="install__inner">
           <div className="install__col">
             <FlintLogo />
-            <h1 className="install__title">Welcome to Flint!</h1>
             <p>Seeing this page means that you&apos;ve
             just started your Flint site for the first time and need to make a user account.</p>
           </div>
           <form className="install__form" onSubmit={this.handleSubmit}>
             {error && <Notification type="error">An error occured!</Notification>}
             {!same && <Notification type="error">Your passwords are not the same!</Notification>}
-            <Input full required ref={(r) => { this.email = r; }} name="email" label="Email" placeholder="Email" type="email" />
-            <Input full required ref={(r) => { this.username = r; }} name="username" instructions="How others will see you in the admin dashboard." label="Username" placeholder="Username" />
-            <Input full required ref={(r) => { this.password = r; }} name="password" label="Password" placeholder="Password" type="password" />
-            <div className="input-group form-element">
-              <Input ref={(r) => { this.first = r; }} name="first" label="First Name" placeholder="First Name" />
-              <Input ref={(r) => { this.last = r; }} name="last" label="Last Name" placeholder="Last Name" />
-            </div>
+            <Input autoFocus full required ref={(r) => { this.email = r; }} name="email" placeholder="Email" type="email" />
+            <Input full required ref={(r) => { this.username = r; }} name="username" placeholder="Username" />
+            <Input full required ref={(r) => { this.password = r; }} name="password" placeholder="Password" type="password" />
             <Button type="submit" formElement>Create Account</Button>
           </form>
         </div>
