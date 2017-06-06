@@ -12,6 +12,8 @@ const validateEnvVariables = require('./server/utils/validateEnvVariables');
  * @property {String} pluginPath - Path to your plugins directory
  * @property {String} configPath - Path to your config file
  * @property {String} scssEntryPoint - The entry point to your SCSS styles (within the scssPath)
+ * @property {String} siteName - The title of your site
+ * @property {String} siteUrl - The URL to your site
  */
 
 /**

@@ -1,6 +1,7 @@
 const { graphql } = require('graphql');
 const schema = require('../graphql');
 const h = require('./helpers');
+const perms = require('../utils/permissions.json');
 
 /**
  * Adds organized key/value field pairs onto entries
@@ -44,6 +45,12 @@ async function sectionEntries(dataSections, entries) {
 }
 
 
+const permissions = `
+  permissions {
+    ${Object.keys(perms).map(key => `${key} {\n${perms[key].map(({ name }) => `\t${name}`).join('\n')}\n}`).join('\n')}
+  }
+`;
+
 /**
  * Collects all of the entries, sections, users and fields
  * and prepares them for us in a template
@@ -52,12 +59,23 @@ async function sectionEntries(dataSections, entries) {
  */
 async function collectData(entry) {
   const query = `{
+    assets {
+      _id
+      title
+      filename
+      size
+      width
+      height
+      dateCreated
+    }
+
     entries (status: "live") {
       _id
       title
       slug
       section
       url
+      dateCreated
       author {
         name {
           first
@@ -76,12 +94,47 @@ async function collectData(entry) {
       title
       slug
       handle
+      template
+      fields
+      dateCreated
     }
     users {
       _id
       username
+      dateCreated
+      email
+      name {
+        first
+        last
+      }
+      usergroup {
+        _id
+        title
+        slug
+        dateCreated
+        ${permissions}
+      }
+    }
+    usergroups {
+      _id
+      title
+      slug
+      dateCreated
+      ${permissions}
+    }
+    fields {
+      _id
+      type
+      title
+      slug
+      handle
+      required
+      optionssa
+      dateCreated
     }
     site {
+      siteName
+      siteUrl
       style
     }
   }`;
