@@ -1,6 +1,6 @@
 {
   "name": "flintcms",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "NodeJS CMS",
   "main": "index.js",
   "author": "Jason Etcovitch",
