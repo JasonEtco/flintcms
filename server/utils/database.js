@@ -1,6 +1,5 @@
 /* eslint no-console: 0 */
 
-require('dotenv').config();
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;

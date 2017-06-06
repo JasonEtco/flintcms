@@ -7,6 +7,7 @@ const FlintLogo = ({ width, height, className, poweredBy }) => (
     {poweredBy && <h6 className="flint-logo__poweredBy">Powered by</h6>}
     <svg xmlns="http://www.w3.org/2000/svg" className="flint-logo" width={width} height={height} viewBox="0 0 198.77 48.61">
       <title>FlintCMS</title>
+      <desc>FlintCMS Logo</desc>
       <g className="flint-logo__flint">
         <path d="M13.4,12.43v3.25h7.26v7.46H13.4v25H4.64v-25H0V15.69H4.64V12.3C4.64,5,9.22.33,16.35.33A12.65,12.65,0,0,1,20.67,1V8.31A9.73,9.73,0,0,0,17.92,8C16,8,13.4,8.83,13.4,12.43Z" />
         <path d="M23.44,48.16V.79h8.7V48.16Z" />

@@ -1,4 +1,8 @@
+require('dotenv').config();
+
 const path = require('path');
+const generateEnvFile = require('./server/utils/generateEnvFile');
+const validateEnvVariables = require('./server/utils/validateEnvVariables');
 
 /**
  * @typedef {Object} FLINT
@@ -23,24 +27,28 @@ exports.Flint = class Flint {
     const appDir = path.dirname(require.main.filename);
     const { templatePath, scssPath, publicPath, configPath, pluginPath } = settings;
 
-    const formattedSettings = Object.assign({}, settings, {
+    global.FLINT = Object.assign({}, settings, {
       templatePath: path.join(appDir, templatePath || 'templates'),
       scssPath: path.join(appDir, scssPath || 'scss'),
       publicPath: path.join(appDir, publicPath || 'public'),
       configPath: path.join(appDir, configPath || 'config'),
       pluginPath: path.join(appDir, pluginPath || 'plugins'),
       isDeveloping,
+      appDir,
     });
 
     this.port = !isDeveloping && process.env.PORT ? process.env.PORT : 4000;
-
-    global.FLINT = formattedSettings;
   }
 
   startServer(port = this.port) {
-    // eslint-disable-next-line global-require
-    const { startServer } = require('./server');
-    startServer(port);
+    const missingEnvVariables = validateEnvVariables();
+    const shouldContinue = generateEnvFile() && missingEnvVariables.length === 0;
+
+    if (shouldContinue) {
+      // eslint-disable-next-line global-require
+      const { startServer } = require('./server');
+      startServer(port);
+    }
   }
 };
 
