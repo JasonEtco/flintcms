@@ -1,8 +1,9 @@
 {
   "name": "flintcms",
   "version": "0.0.5",
-  "description": "NodeJS CMS",
+  "description": "Content-Focused CMS built on Node.js",
   "main": "index.js",
+  "repository": "https://github.com/JasonEtco/flintcms",
   "author": "Jason Etcovitch",
   "license": "MIT",
   "engines": {
