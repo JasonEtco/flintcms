@@ -30,7 +30,7 @@ export default class Users extends Component {
         value: props.username,
         component: <Link to={`/users/${props._id}`}>{props.username}</Link>,
       },
-      name: `${props.name.first} ${props.name.last}`,
+      name: props.name.first && props.name.last ? `${props.name.first} ${props.name.last}` : '-',
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
         component: formatDate(props.dateCreated),

@@ -66,7 +66,7 @@ export default class MainNav extends Component {
             <img src={`/public/assets/${user.image}`} alt={user.username} />
           </div>
           <div className="nav__user__text">
-            <Link className="nav__user__text__title" to={`/users/${user._id}`}>Hey {user.name.first || user.username}!</Link>
+            <Link className="nav__user__text__title" to={`/users/${user._id}`}>Hey {user.name ? user.name.first : user.username}!</Link>
             <a className="nav__user__text__logout" href="/admin/logout">Logout</a>
           </div>
         </div>
