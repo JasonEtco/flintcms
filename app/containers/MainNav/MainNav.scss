@@ -25,6 +25,44 @@
         }
     }
 
+    &__hasUpdate {
+        position: absolute;
+        top: 1em;
+        right: -1em;
+
+        &__tooltip {
+            position: absolute;
+            top: calc(100% + 1em);
+            left: 50%;
+            display: none;
+            width: 100px;
+            padding: 0.4em;
+            border-radius: 5px;
+            background-color: $grey;
+            color: white;
+            font-size: 0.7rem;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: $shadow2;
+            transform: translateX(-50%);
+
+            &::before {
+                @include triangle(top, 6px, $grey);
+                content: '';
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        &:hover {
+            .nav__hasUpdate__tooltip {
+                display: block;
+            }
+        }
+    }
+
     &__toggle {
         display: none;
         width: 100%;
