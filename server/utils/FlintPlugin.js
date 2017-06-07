@@ -1,4 +1,6 @@
 const events = require('./events');
+const path = require('path');
+const chalk = require('chalk');
 
 /**
  * Flint Plugin Class
@@ -9,6 +11,12 @@ class FlintPlugin {
     this.init(schema, events);
   }
 
+  static get uid() {
+    // eslint-disable-next-line no-console
+    console.log(__dirname);
+    // console.error(chalk.red('A plugin forgot to set a static getter for the uid. See https://flintcms.co/docs/plugins for more information.'));
+  }
+
   /**
    * @type {String}
    */
@@ -17,7 +25,7 @@ class FlintPlugin {
   /**
    * @type {String}
    */
-  static get icon() { return 'icon.png'; }
+  static get icon() { return path.join(__dirname, 'icon.png'); }
 
   /**
    * @type {object}

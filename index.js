@@ -9,15 +9,16 @@ const validateEnvVariables = require('./server/utils/validateEnvVariables');
  * @property {String} templatePath - Path to your templates directory
  * @property {String} scssPath - Path to your scss directory
  * @property {String} publicPath - Path to your public directory
- * @property {String} pluginPath - Path to your plugins directory
  * @property {String} configPath - Path to your config file
  * @property {String} scssEntryPoint - The entry point to your SCSS styles (within the scssPath)
  * @property {String} siteName - The title of your site
  * @property {String} siteUrl - The URL to your site
+ * @property {Function[]} plugins - Array of required Class modules
  */
 
 /**
  * Flint class
+ * @class
  */
 exports.Flint = class Flint {
   /**
@@ -27,14 +28,13 @@ exports.Flint = class Flint {
    */
   constructor(settings, isDeveloping) {
     const appDir = path.dirname(require.main.filename);
-    const { templatePath, scssPath, publicPath, configPath, pluginPath } = settings;
+    const { templatePath, scssPath, publicPath, configPath } = settings;
 
     global.FLINT = Object.assign({}, settings, {
       templatePath: path.join(appDir, templatePath || 'templates'),
       scssPath: path.join(appDir, scssPath || 'scss'),
       publicPath: path.join(appDir, publicPath || 'public'),
       configPath: path.join(appDir, configPath || 'config'),
-      pluginPath: path.join(appDir, pluginPath || 'plugins'),
       isDeveloping,
       appDir,
     });
