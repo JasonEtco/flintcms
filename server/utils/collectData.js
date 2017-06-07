@@ -89,6 +89,7 @@ async function collectData(entry) {
         value
       }
     }
+
     sections {
       _id
       title
@@ -98,6 +99,7 @@ async function collectData(entry) {
       fields
       dateCreated
     }
+
     users {
       _id
       username
@@ -115,6 +117,7 @@ async function collectData(entry) {
         ${permissions}
       }
     }
+
     usergroups {
       _id
       title
@@ -122,6 +125,7 @@ async function collectData(entry) {
       dateCreated
       ${permissions}
     }
+
     fields {
       _id
       type
@@ -129,9 +133,10 @@ async function collectData(entry) {
       slug
       handle
       required
-      optionssa
+      options
       dateCreated
     }
+
     site {
       siteName
       siteUrl
