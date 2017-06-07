@@ -10,7 +10,7 @@ Every content management system falls into one of two categories: can be customi
 
 ## Getting Started
 
-```
+```bash
 npm install flintcms
 ```
 
