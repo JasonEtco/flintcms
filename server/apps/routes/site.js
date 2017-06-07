@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const getLatestVersion = require('latest-version');
-const semverDiff = require('latest-version');
+const semverDiff = require('semver-diff');
 const pkg = require('../../../package.json');
 
 const router = express.Router();
