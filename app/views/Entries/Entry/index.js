@@ -17,23 +17,15 @@ import { withRouter } from 'react-router';
 
 export default withRouter(class Entry extends Component {
   static propTypes = {
-    entries: t.entries,
-    fields: t.fields,
-    sections: t.sections,
+    entries: t.entries.isRequired,
+    fields: t.fields.isRequired,
+    sections: t.sections.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    title: '',
-    dispatch: null,
-    entries: null,
-    fields: null,
-    sections: null,
+    dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {
