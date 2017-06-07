@@ -13,8 +13,7 @@ class FlintPlugin {
 
   static get uid() {
     // eslint-disable-next-line no-console
-    console.log(__dirname);
-    // console.error(chalk.red('A plugin forgot to set a static getter for the uid. See https://flintcms.co/docs/plugins for more information.'));
+    console.error(chalk.red('A plugin forgot to set a static getter for the uid. See https://flintcms.co/docs/plugins for more information.'));
   }
 
   /**
