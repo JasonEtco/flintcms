@@ -46,7 +46,6 @@
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-hmre": "^1.1.1",
-    "babili-webpack-plugin": "^0.1.1",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.16.0",
     "camelcase": "^4.0.0",

@@ -8,7 +8,6 @@ const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const WebpackChunkHash = require('webpack-chunk-hash');
 
 const autoprefixer = require('autoprefixer');
-const BabiliPlugin = require('babili-webpack-plugin');
 const { browsers, resolve, vendor } = require('./constants');
 
 module.exports = {
@@ -36,7 +35,8 @@ module.exports = {
       analyzerMode: 'static',
       openAnalyzer: false,
     }),
-    new BabiliPlugin(),
+    // new BabiliPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin('[name]-[hash].min.css'),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new CopyWebpackPlugin([
