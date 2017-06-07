@@ -39,12 +39,12 @@ module.exports = {
     const token = await randtoken.generate(16);
     newUser.token = token;
 
-    await User.populate(newUser, { path: 'usergroup' });
 
     root.events.emit('pre-new-user', newUser);
 
     const savedUser = await newUser.save();
     if (!savedUser) throw new Error('Could not save the User');
+    await User.populate(savedUser, { path: 'usergroup' });
 
     sendEmail(args.user.email, 'new-account', { subject: 'Confirm your account', token });
     root.events.emit('post-new-user', savedUser);

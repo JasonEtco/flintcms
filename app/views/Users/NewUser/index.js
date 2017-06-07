@@ -23,7 +23,7 @@ export default class NewUser extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { username, first, last, email } = this;
+    const { username, first, last, email, usergroup } = this;
     this.props.dispatch(newUser({
       username: username.value,
       email: email.value,
@@ -31,6 +31,7 @@ export default class NewUser extends Component {
         first: first.value,
         last: last.value,
       },
+      usergroup: usergroup.value,
     }));
   }
 
@@ -91,6 +92,7 @@ export default class NewUser extends Component {
               label="Usergroup"
               name="usergroup"
               full
+              ref={(r) => { this.usergroup = r; }}
               options={formattedUsergroups}
             />
           </Aside>

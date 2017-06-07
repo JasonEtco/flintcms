@@ -36,7 +36,7 @@ async function sendEmail(to, template, data) {
   const text = htmlToText.fromString(html);
 
   transporter.sendMail({
-    from: 'FlintCMS - Do not reply <info@flint.com>',
+    from: 'FlintCMS - Do not reply <info@flintcms.co>',
     to,
     subject: data.subject,
     html,

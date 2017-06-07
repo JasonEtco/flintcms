@@ -10,10 +10,7 @@ const UserSchema = new Schema({
     first: String,
     last: String,
   },
-  password: {
-    type: String,
-    required: true,
-  },
+  password: String,
   email: {
     type: String,
     required: true,
@@ -45,7 +42,7 @@ UserSchema.name = 'User';
 
 // eslint-disable-next-line func-names
 UserSchema.pre('validate', async function (next) {
-  if (!this.usergroup) next();
+  if (this.usergroup) next();
 
   const { _id } = await UserGroup.findOne({ slug: 'admin' }).select('_id').exec();
   this.usergroup = _id;

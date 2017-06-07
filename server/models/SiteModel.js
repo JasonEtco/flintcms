@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const SiteSchema = new Schema({
   defaultUserGroup: {
-    type: String,
-    default: 'admin',
+    type: Schema.Types.ObjectId,
+    ref: 'UserGroup',
   },
   siteName: {
     type: String,
