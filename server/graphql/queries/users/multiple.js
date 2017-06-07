@@ -17,7 +17,9 @@ module.exports = {
 
     return User
       .find()
+      .populate('usergroup')
       .select(projection)
+      .lean()
       .exec();
   },
 };
