@@ -12,7 +12,8 @@ function registerPlugins() {
   const plugins = global.FLINT.plugins;
 
   plugins.forEach(async (PluginClass) => {
-    if (!PluginClass.uid) throw new Error(`${PluginClass.name}`);
+    if (!PluginClass.uid) throw new Error(`${PluginClass.name} is missing a UID.`);
+    if (!PluginClass.version) throw new Error(`${PluginClass.name} is missing a version.`);
 
     mongoose.plugin((schema) => {
       if (schema.name === undefined) return null;
@@ -28,6 +29,7 @@ function registerPlugins() {
     const pluginData = Object.assign({}, {
       name: PluginClass.name,
       uid: PluginClass.uid,
+      version: PluginClass.version,
       icon: {
         path: PluginClass.icon,
         buffer,
