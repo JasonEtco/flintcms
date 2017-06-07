@@ -13,19 +13,14 @@ import { withRouter } from 'react-router';
 
 export default withRouter(class Field extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    fields: t.fields,
+    dispatch: PropTypes.func.isRequired,
+    fields: t.fields.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
     location: PropTypes.object.isRequired,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    fields: null,
   }
 
   constructor(props) {

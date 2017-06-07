@@ -80,7 +80,7 @@ export default withRouter(class Section extends Component {
               full
               code
               disableds
-              value={this.section.slug}
+              value={this.section.handle}
             />
 
             <Input

@@ -46,17 +46,12 @@ import MainNav from '../MainNav';
 
 export default class Main extends Component {
   static propTypes = {
-    site: t.site,
+    site: t.site.isRequired,
     socket: PropTypes.object.isRequired,
     ui: PropTypes.object.isRequired,
-    user: t.user,
+    user: t.user.isRequired,
     location: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    site: null,
-    user: null,
   }
 
   state = { navIsOpen: false }

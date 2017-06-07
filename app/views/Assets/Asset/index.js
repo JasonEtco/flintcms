@@ -16,13 +16,8 @@ export default withRouter(class Asset extends Component {
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    assets: t.assets,
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    assets: null,
+    assets: t.assets.isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {

@@ -5,15 +5,11 @@ import Page from 'containers/Page';
 import TitleBar from 'components/TitleBar';
 import Input from 'components/Input';
 import FileInput from 'components/FileInput';
-import Button from 'components/Button';
+import Button from 'components/Button';s
 
 export default class NewAsset extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
+    dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {

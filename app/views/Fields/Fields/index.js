@@ -11,13 +11,8 @@ import { deleteField } from 'actions/fieldActions';
 
 export default class Fields extends Component {
   static propTypes = {
-    fields: t.fields,
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    fields: null,
+    fields: t.fields.isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   render() {

@@ -11,13 +11,8 @@ import { deleteSection } from 'actions/sectionActions';
 
 export default class Sections extends Component {
   static propTypes = {
-    sections: t.sections,
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    sections: null,
+    sections: t.sections.isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   render() {

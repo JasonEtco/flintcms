@@ -1,4 +1,5 @@
 import moment from 'moment';
+import store from './store';
 
 /**
  * Sorts an array of objects by the given string
@@ -164,6 +165,21 @@ export function getUrlParameter(name, str = location.search) {
   const regex = new RegExp(`[\\?&]${filteredName}=([^&#]*)`);
   const results = regex.exec(str);
   return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+/**
+ * Sets the document's `<title>` attribute, has fallback to reset it if the `str` param is undefined.
+ * @param {String} [str] - String to add before the site's name, formatted like `str` - `siteName`
+ */
+export function setTitle(str) {
+  const { siteName } = store.getState().site;
+  if (str) {
+    document.title = `${str} - ${siteName}`;
+  } else if (siteName) {
+    document.title = `${siteName} · FlintCMS Dashboard`;
+  } else {
+    document.title = 'FlintCMS Dashboard';
+  }
 }
 
 /**
