@@ -61,7 +61,7 @@ export default withRouter(class Entry extends Component {
     const { match, dispatch } = this.props;
     dispatch(openModal(
       <ConfirmModal
-        confirm={() => dispatch(deleteEntry(match.params.id))}
+        confirm={() => dispatch(deleteEntry(match.params.id, true))}
         message={'Are you sure you want to delete this entry?'}
       />),
     );

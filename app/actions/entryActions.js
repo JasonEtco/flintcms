@@ -146,8 +146,9 @@ export function updateEntry(_id, data) {
 /**
  * Posts to GraphQL to delete an Entry
  * @param {string} _id
+ * @param {boolean} [redirect=false] - Redirect to the entries page after deleting the entry
  */
-export function deleteEntry(_id) {
+export function deleteEntry(_id, redirect = false) {
   return (dispatch) => {
     const query = `mutation ($_id:ID!) {
       removeEntry(_id: $_id) {
@@ -159,8 +160,8 @@ export function deleteEntry(_id) {
     return graphFetcher(query, { _id })
       .then((json) => {
         const { removeEntry } = json.data.data;
+        if (redirect) dispatch(push('/entries'));
         dispatch({ type: DELETE_ENTRY, id: removeEntry._id });
-        dispatch(push('/entries'));
         dispatch(newToast({
           message: <span><b>{removeEntry.title}</b> has been deleted.</span>,
           style: 'success',
