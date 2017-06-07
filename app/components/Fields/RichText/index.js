@@ -91,12 +91,17 @@ export default class RichText extends Component {
         urlValue: '',
       };
     } else {
-      this.state = {
-        editorState: EditorState.createEmpty(decorator),
-        showURLInput: false,
-        value: '',
-        urlValue: '',
-      };
+      try {
+        const editorState = EditorState.createEmpty(decorator);
+        this.state = {
+          editorState,
+          showURLInput: false,
+          value: '',
+          urlValue: '',
+        };
+      } catch (e) {
+        throw new Error('Editor State Error!');
+      }
     }
 
     this.focus = () => this[props.name].focus();
