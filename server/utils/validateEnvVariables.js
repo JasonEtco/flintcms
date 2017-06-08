@@ -2,8 +2,6 @@ const chalk = require('chalk');
 
 const variables = [
   'DB_HOST',
-  'DB_USER',
-  'DB_PASS',
   'SESSION_SECRET',
   'MAIL_HOST',
   'MAIL_USER',

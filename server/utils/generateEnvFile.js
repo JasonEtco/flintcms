@@ -15,7 +15,12 @@ function generateSecret(length = 32) {
   return retVal;
 }
 
-const envTemplate = secret => `# Secret settings
+const envTemplate = secret => `# It is very important that you
+# DO NOT commit this file to version control.
+# It should contain sensitive information, and should not be shared in
+# a public environment.
+
+# Secret settings
 SESSION_SECRET=${secret}
 
 # Mongo Credentials

@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 
 const mongoose = require('mongoose');
+const chalk = require('chalk');
 
 mongoose.Promise = global.Promise;
 
@@ -12,7 +13,9 @@ const mongoCredentials = {
 
 mongoose.connect(mongoUri, mongoCredentials);
 
-mongoose.connection.on('error', console.error.bind(console, 'Connection error:'));
+mongoose.connection.on('open', console.log.bind(console, `${chalk.green('[Mongoose]')} connection has been successfully established.`));
+
+mongoose.connection.on('error', console.error.bind(console, `${chalk.red('[Mongoose]')} Connection error:`));
 
 // Close the Mongoose connected on Ctrl+C
 process.on('SIGINT', () => {
