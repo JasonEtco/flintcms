@@ -18,7 +18,11 @@ module.exports = {
   async resolve(root, { _id }, ctx, ast) {
     if (!root.perms.fields.canAddFields) throw new Error('You do not have permission to create a new Field.');
 
-    root.events.emit('pre-delete-field', _id);
+    const foundField = await Field.findById(_id).exec();
+    if (!foundField) throw new Error('The field could not be found.')
+;
+    root.events.emit('pre-delete-field', foundField);
+
     const projection = getProjection(ast);
     const removedField = await Field
       .findByIdAndRemove(_id, { select: projection })

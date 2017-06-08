@@ -28,7 +28,7 @@ module.exports = {
     }
 
     const projection = getProjection(ast);
-    root.events.emit('pre-delete-entry', _id);
+    root.events.emit('pre-delete-entry', foundEntry);
 
     const removedEntry = await Entry
       .findByIdAndRemove(_id, { select: projection })

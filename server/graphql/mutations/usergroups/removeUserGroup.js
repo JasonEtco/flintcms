@@ -14,15 +14,17 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, args, ctx, ast) {
+  async resolve(root, { _id }, ctx, ast) {
     const { perms } = root;
     if (!perms.usergroups.canDeleteUserGroups) throw new Error('You do not have permission to delete User Groups.');
 
     const projection = getProjection(ast);
 
-    root.events.emit('pre-delete-usergroup', args._id);
+    const foundUserGroup = await UserGroup.findById(_id);
+    root.events.emit('pre-delete-usergroup', foundUserGroup);
+
     const removedUserGroup = await UserGroup
-      .findByIdAndRemove(args._id, { select: projection })
+      .findByIdAndRemove(_id, { select: projection })
       .exec();
 
     if (!removedUserGroup) throw new Error('Error removing user group');

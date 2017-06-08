@@ -20,7 +20,6 @@ module.exports = {
 
     root.events.emit('pre-new-usergroup', newUserGroup);
 
-    // Emit new-usergroup event, wait for plugins to affect the new usergroup
     const savedUserGroup = await newUserGroup.save();
 
     if (!savedUserGroup) throw new Error('Error adding new entry');
