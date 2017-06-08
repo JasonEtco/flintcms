@@ -18,16 +18,15 @@ export default function GroupTile({ onClick, label, handle, dispatch, isActive, 
 }
 
 GroupTile.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   handle: PropTypes.string,
   isActive: PropTypes.bool.isRequired,
   onDelete: PropTypes.func,
-  dispatch: PropTypes.func,
 };
 
 GroupTile.defaultProps = {
   onDelete: null,
   handle: null,
-  dispatch: null,
 };

@@ -12,11 +12,7 @@ import FieldOptions from 'components/FieldOptions';
 
 export default class NewField extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
+    dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {

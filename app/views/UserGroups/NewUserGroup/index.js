@@ -12,13 +12,8 @@ import permissions from '../../../../server/utils/permissions.json';
 
 export default class NewUserGroup extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
+    dispatch: PropTypes.func.isRequired,
   }
-
-  static defaultProps = {
-    dispatch: null,
-  }
-
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);

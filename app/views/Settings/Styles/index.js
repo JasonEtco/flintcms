@@ -13,15 +13,9 @@ export default class Styles extends Component {
   static propTypes = {
     site: PropTypes.shape({
       style: PropTypes.string,
-    }),
-    dispatch: PropTypes.func,
+    }).isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
-
-  static defaultProps = {
-    site: null,
-    dispatch: null,
-  }
-
   constructor(props) {
     super(props);
     this.canSave = this.canSave.bind(this);
