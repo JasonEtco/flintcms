@@ -16,7 +16,7 @@ graphql.use(h.loggedIn);
 graphql.use('/', graphqlHTTP(async req => ({
   schema,
   pretty: true,
-  graphiql: global.FLINT.isDeveloping,
+  graphiql: global.FLINT.debugMode,
   rootValue: {
     io,
     req,

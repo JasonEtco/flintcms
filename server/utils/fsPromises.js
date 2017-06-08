@@ -7,6 +7,13 @@ exports.readdirAsync = (path, options = { encoding: 'utf8' }) => new Promise((re
   });
 });
 
+exports.mkdirAsync = path => new Promise((resolve, reject) => {
+  fs.mkdir(path, (err) => {
+    if (err) reject(err);
+    else resolve(path);
+  });
+});
+
 exports.statAsync = file => new Promise((resolve, reject) => {
   fs.stat(file, (err, f) => {
     if (err) reject(err);

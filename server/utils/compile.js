@@ -21,7 +21,7 @@ async function compile(template, data) {
 
       let html = await nun.render(templatePath, compiledData);
 
-      if (process.env.DEBUG) {
+      if (global.FLINT.debugMode) {
         const scr = `
         console.log('%cFlint Debug Mode', 'color: #fe6300; font-weight: bold; font-size: 1.2rem;');
 

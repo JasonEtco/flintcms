@@ -11,7 +11,7 @@
     "npm": "^5.0.0"
   },
   "scripts": {
-    "start": "nodemon --ignore app server/index.js",
+    "start": "nodemon --ignore app dev.js",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
     "prepare": "npm run build"

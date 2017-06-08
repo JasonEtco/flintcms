@@ -18,9 +18,6 @@ function generateSecret(length = 32) {
 const envTemplate = secret => `# Secret settings
 SESSION_SECRET=${secret}
 
-# Debug settings
-DEBUG=false
-
 # Mongo Credentials
 DB_HOST=
 DB_USER=

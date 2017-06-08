@@ -1,2 +1,6 @@
 node_modules
 admin
+templates
+public
+scss
+.env
