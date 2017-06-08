@@ -27,10 +27,7 @@ const UserSchema = new Schema({
     ref: 'UserGroup',
     required: true,
   },
-  image: {
-    type: String,
-    default: 'default_user.png',
-  },
+  image: String,
   dateCreated: {
     type: Date,
     default: Date.now,

@@ -28,7 +28,7 @@ exports.outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(DateTime),
     },
     image: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
       description: 'User\'s avatar.',
     },
     usergroup: {

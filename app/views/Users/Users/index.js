@@ -9,6 +9,7 @@ import getUserPermissions from 'utils/getUserPermissions';
 import t from 'utils/types';
 import { deleteUser } from 'actions/userActions';
 import DeleteIcon from 'components/DeleteIcon';
+import Avatar from 'components/Avatar';
 
 export default class Users extends Component {
   static propTypes = {
@@ -24,7 +25,7 @@ export default class Users extends Component {
       key: props._id,
       image: {
         sortBy: false,
-        component: <img src={`/public/assets/${props.image}`} alt={props.username} />,
+        component: <Avatar user={props} />,
       },
       username: {
         value: props.username,

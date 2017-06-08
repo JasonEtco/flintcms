@@ -4,6 +4,7 @@ import { get } from 'axios';
 import { Link } from 'react-router-dom';
 import Icon from 'utils/icons';
 import t from 'utils/types';
+import Avatar from 'components/Avatar';
 import './MainNav.scss';
 
 const NavItem = ({ to, icon, children }) => (
@@ -83,7 +84,7 @@ export default class MainNav extends Component {
 
         <div className="nav__user">
           <div className="nav__user__avatar">
-            <img src={`/public/assets/${user.image}`} alt={user.username} />
+            <Avatar user={user} />
           </div>
           <div className="nav__user__text">
             <Link className="nav__user__text__title" to={`/users/${user._id}`}>Hey {user.name ? user.name.first : user.username}!</Link>
