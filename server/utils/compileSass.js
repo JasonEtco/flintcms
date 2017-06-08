@@ -34,7 +34,7 @@ async function compileSass() {
       await writeFileAsync(pathToFile, scss.css);
       return `${chalk.grey('[SCSS]')} Your SCSS has been compiled to ${pathToFile}`;
     } catch (e) {
-      return chalk.magenta('There was an error compiling your SCSS. Check your site configuration.');
+      return `${chalk.red('[SCSS]')} There was an error compiling your SCSS. Check your site configuration.`;
     }
   }
 

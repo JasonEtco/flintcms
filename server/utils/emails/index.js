@@ -15,7 +15,13 @@ function verifyNodemailer() {
   return new Promise((resolve, reject) => {
     transporter.verify((error) => {
       if (error) {
-        reject(error);
+        switch (error.code) {
+          case 'ECONNECTION':
+            reject(`${chalk.red('[Email Service]')} Connection could not be established, you may be offline.`);
+            break;
+          default:
+            reject(error);
+        }
       }
       resolve(`${chalk.grey('[Email Service]')} Server can send emails!`);
     });

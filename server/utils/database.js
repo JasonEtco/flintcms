@@ -11,11 +11,31 @@ const mongoCredentials = {
   pass: process.env.DB_PASS,
 };
 
-mongoose.connect(mongoUri, mongoCredentials);
+module.exports = function connectToDatabase() {
+  mongoose.connect(mongoUri, mongoCredentials);
+  return new Promise((resolve, reject) => {
+    mongoose.connection.on('open', () => {
+      require('../models/PluginModel');
+      require('./registerPlugins')();
 
-mongoose.connection.on('open', console.log.bind(console, `${chalk.green('[Mongoose]')} connection has been successfully established.`));
+      require('../models/UserGroupModel');
+      require('./createAdminUserGroup')();
 
-mongoose.connection.on('error', console.error.bind(console, `${chalk.red('[Mongoose]')} Connection error:`));
+      require('../models/UserModel');
+      require('../models/SectionModel');
+      require('../models/EntryModel');
+      require('../models/FieldModel');
+      require('../models/AssetModel');
+
+      require('../models/SiteModel');
+      require('./updateSiteConfig')();
+
+      resolve(`${chalk.green('[Mongoose]')} connection has been successfully established.`);
+    });
+    mongoose.connection.on('error', (e) =>
+      reject(`${chalk.red('[Mongoose]')} Connection error: ${e}`));
+  })
+}
 
 // Close the Mongoose connected on Ctrl+C
 process.on('SIGINT', () => {
@@ -24,19 +44,3 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
-
-
-require('../models/PluginModel');
-require('./registerPlugins')();
-
-require('../models/UserGroupModel');
-require('./createAdminUserGroup')();
-
-require('../models/UserModel');
-require('../models/SectionModel');
-require('../models/EntryModel');
-require('../models/FieldModel');
-require('../models/AssetModel');
-
-require('../models/SiteModel');
-require('./updateSiteConfig')();

@@ -8,6 +8,7 @@ const scaffold = require('./server/utils/scaffold');
 const { verifyNodemailer } = require('./server/utils/emails');
 const compileSass = require('./server/utils/compileSass');
 const FlintPlugin = require('./server/utils/FlintPlugin');
+const connectToDatabase = require('./server/utils/database');
 
 /**
  * @typedef {Object} FLINT
@@ -60,11 +61,15 @@ module.exports = class Flint {
   async startServer(port = this.port) {
     const missingEnvVariables = validateEnvVariables();
     const shouldContinue = generateEnvFile() && missingEnvVariables.length === 0;
+    if (!shouldContinue) console.error(chalk.red('Could not start the server.'));
 
-    if (!shouldContinue) throw new Error(chalk.red('Could not start the server.'));
+    const connectedToDatabase = await connectToDatabase();
+    console.log(connectedToDatabase);
 
-    const canSendEmails = await verifyNodemailer();
-    console.log(canSendEmails); // eslint-disable-line no-console
+    const canSendEmails = await verifyNodemailer().catch(console.error);
+    if (canSendEmails) {
+      console.log(canSendEmails); // eslint-disable-line no-console
+    }
 
     const canCompileSass = await compileSass();
     console.log(canCompileSass); // eslint-disable-line no-console

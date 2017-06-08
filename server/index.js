@@ -10,7 +10,6 @@ const path = require('path');
 const compression = require('compression');
 const passport = require('passport');
 
-require('./utils/database');
 require('./utils/passport')(passport);
 
 const compile = require('./utils/compile');
