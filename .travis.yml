@@ -3,3 +3,6 @@ node_js:
   - "7"
   - "8"
 script: npm run lint
+cache:
+  directories:
+    - node_modules
