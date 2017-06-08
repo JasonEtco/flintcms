@@ -6,7 +6,7 @@ import TitleBar from 'components/TitleBar';
 export default class Plugins extends Component {
   static propTypes = {
     plugins: PropTypes.shape({
-      isFetching: PropTypes.bool,
+      isFetching: PropTypes.bool.isRequired,
       plugins: PropTypes.arrayOf(PropTypes.shape({
         _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -15,11 +15,7 @@ export default class Plugins extends Component {
           buffer: PropTypes.string.isRequired,
         }),
       })),
-    }),
-  }
-
-  static defaultProps = {
-    plugins: null,
+    }).isRequired,
   }
 
   render() {
@@ -29,10 +25,10 @@ export default class Plugins extends Component {
         <TitleBar title="Plugins" />
         <div className="content">
           <div className="page__inner">
-            {plugins.plugins.map(plugin =>
+            {plugins.plugins.map(plugin => (
               <div key={plugin._id}>{plugin.name}
                 <img src={`data:image/png;base64,${plugin.icon.buffer}`} alt={plugin.name} />
-              </div>)}
+              </div>))}
           </div>
         </div>
       </Page>

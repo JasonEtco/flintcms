@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
-import { get, post } from 'axios';
+import { post } from 'axios';
 import { getUrlParameter } from 'utils/helpers';
 import Button from 'components/Button';
 import Input from 'components/Input';

@@ -168,7 +168,8 @@ export function getUrlParameter(name, str = location.search) {
 }
 
 /**
- * Sets the document's `<title>` attribute, has fallback to reset it if the `str` param is undefined.
+ * Sets the document's `<title>` attribute, has fallback
+ * to reset it if the `str` param is undefined.
  * @param {String} [str] - String to add before the site's name, formatted like `str` - `siteName`
  */
 export function setTitle(str) {
