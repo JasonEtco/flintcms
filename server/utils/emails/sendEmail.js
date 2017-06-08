@@ -1,29 +1,9 @@
-const nodemailer = require('nodemailer');
+const { transporter } = require('.');
 const htmlToText = require('html-to-text');
 const path = require('path');
-const chalk = require('chalk');
 const compile = require('./compile');
 
 const pathToFlintLogo = path.join(__dirname, 'flintlogo.png');
-
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST || 'smtp.gmail.com',
-  port: process.env.MAIL_PORT || 465,
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-  secure: process.env.MAIL_SECURE || true,
-});
-
-// Verify Nodemail setup and connection
-transporter.verify((error) => {
-  if (error) {
-    console.log(error); // eslint-disable-line no-console
-  } else {
-    console.log(`${chalk.yellow('[Email Service]')} Server can send emails!`); // eslint-disable-line no-console
-  }
-});
 
 /**
  * Send an email
