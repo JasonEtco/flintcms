@@ -26,7 +26,7 @@ Please discuss code changes before proposing a pull request by opening up an iss
 
 ### 🎉 Emojis 🍆
 
-Using emojis in commit messages in more than allowed, it's encouraged. They are fun and in many cases informative. That being said, there are some guidelines:
+Using emojis in commit messages is more than allowed, it's encouraged. They are fun and in many cases informative. That being said, there are some guidelines:
 * Please only use one emoji and at the beginning of your commit message.
 * If you do choose to put an emoji in a commit message, please do make sure that it has some kind of connection to the changes being proposed.
 
