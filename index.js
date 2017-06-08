@@ -46,7 +46,7 @@ exports.Flint = class Flint {
     global.FLINT = FLINT;
 
     scaffold(FLINT.templatePath);
-    scaffold(FLINT.scssPath);
+    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
     scaffold(FLINT.publicPath);
 
     this.port = process.env.PORT || 4000;
