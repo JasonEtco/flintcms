@@ -1,4 +1,4 @@
-const Flint = require('.').Flint;
+const Flint = require('.');
 
 const flintServer = new Flint({}, true);
 

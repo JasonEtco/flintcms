@@ -7,6 +7,7 @@ const validateEnvVariables = require('./server/utils/validateEnvVariables');
 const scaffold = require('./server/utils/scaffold');
 const { verifyNodemailer } = require('./server/utils/emails');
 const compileSass = require('./server/utils/compileSass');
+const FlintPlugin = require('./server/utils/FlintPlugin');
 
 /**
  * @typedef {Object} FLINT
@@ -23,7 +24,11 @@ const compileSass = require('./server/utils/compileSass');
  * Flint class
  * @class
  */
-exports.Flint = class Flint {
+module.exports = class Flint {
+  static get FlintPlugin() {
+    return FlintPlugin;
+  }
+
   /**
    * Create a Flint server
    * @param {FLINT} settings
@@ -69,5 +74,3 @@ exports.Flint = class Flint {
     return startServer(port);
   }
 };
-
-exports.FlintPlugin = require('./server/utils/FlintPlugin');
