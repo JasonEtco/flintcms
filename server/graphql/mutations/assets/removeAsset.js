@@ -19,6 +19,7 @@ module.exports = {
 
     const foundAsset = await Asset.findById(_id).exec();
     if (!foundAsset) throw new Error('This asset doesn\'t exist.');
+    root.events.emit('pre-delete-asset', foundAsset);
 
     const removedAsset = await Asset.findByIdAndRemove(_id).exec();
     if (!removedAsset) throw new Error('Error removing asset');
@@ -27,6 +28,7 @@ module.exports = {
     fs.unlinkSync(pathToFile);
 
     root.socketEvent('delete-asset', removedAsset);
+    root.events.emit('post-delete-asset', removedAsset);
     return removedAsset;
   },
 };

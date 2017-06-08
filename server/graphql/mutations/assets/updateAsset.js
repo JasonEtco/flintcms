@@ -21,13 +21,14 @@ module.exports = {
 
     const foundAsset = await Asset.findById(_id).lean().exec();
     if (!foundAsset) throw new Error('There is no Asset with this ID');
+    root.events.emit('pre-update-asset', { _id, data });
 
     const updatedAsset = await Asset.findByIdAndUpdate(_id, data, { new: true });
 
     if (!updatedAsset) throw new Error('Error updating Asset');
 
     root.socketEvent('update-asset', updatedAsset);
-
+    root.events.emit('post-update-asset', updatedAsset);
     return updatedAsset;
   },
 };

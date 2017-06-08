@@ -16,12 +16,14 @@ module.exports = {
     if (!perms.assets.canAddAssets) throw new Error('You do not have permission to add new assets.');
 
     const newAsset = new Asset(args.data);
+    root.events.emit('pre-new-asset', newAsset);
 
     const savedAsset = await newAsset.save();
 
     if (!savedAsset) throw new Error('There was a problem saving the asset.');
 
-    root.io.emit('new-asset', savedAsset);
+    root.events.emit('post-new-asset', savedAsset);
+    root.socketEvent('new-asset', savedAsset);
     return savedAsset;
   },
 };
