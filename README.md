@@ -16,7 +16,7 @@ npm install flintcms
 
 Then the entry point to your app:
 ```js
-const Flint = require('flintcms').Flint;
+const Flint = require('flintcms');
 
 const siteConfig = {
   siteName: 'My Awesome Flint Site',
