@@ -39,7 +39,7 @@ export default withRouter(class SettingsPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { dispatch } = this.props;
-    const data = serialize(this.page.form, { hash: true });
+    const data = serialize(this.pagewrapper.form, { hash: true });
     dispatch(updatePage(this.page._id, data));
   }
 
@@ -64,7 +64,7 @@ export default withRouter(class SettingsPage extends Component {
     ];
 
     return (
-      <Page name="page" onSubmit={this.handleSubmit} ref={(r) => { this.page = r; }} links={links}>
+      <Page name="page" onSubmit={this.handleSubmit} ref={(r) => { this.pagewrapper = r; }} links={links}>
         <TitleBar title={this.page.title}>
           <Button type="submit" small>Save Page</Button>
         </TitleBar>
