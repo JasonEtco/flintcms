@@ -15,6 +15,7 @@ module.exports = function connectToDatabase() {
   mongoose.connect(mongoUri, mongoCredentials);
   return new Promise((resolve, reject) => {
     mongoose.connection.on('open', () => {
+      /* eslint-disable global-require */
       require('../models/PluginModel');
       require('./registerPlugins')();
 
@@ -29,13 +30,14 @@ module.exports = function connectToDatabase() {
 
       require('../models/SiteModel');
       require('./updateSiteConfig')();
+      /* eslint-enable global-require */
 
       resolve(`${chalk.green('[Mongoose]')} connection has been successfully established.`);
     });
-    mongoose.connection.on('error', (e) =>
+    mongoose.connection.on('error', e =>
       reject(`${chalk.red('[Mongoose]')} Connection error: ${e}`));
-  })
-}
+  });
+};
 
 // Close the Mongoose connected on Ctrl+C
 process.on('SIGINT', () => {
