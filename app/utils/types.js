@@ -35,7 +35,7 @@ const types = {
     fields: arrayOf(shape({
       _id: string.isRequired,
       title: string.isRequired,
-      instructions: string.isRequired,
+      instructions: string,
       type: string.isRequired,
       dateCreated: number.isRequired,
       slug: string.isRequired,
@@ -130,7 +130,7 @@ const types = {
         last: string,
       }),
       dateCreated: number.isRequired,
-      image: string.isRequired,
+      image: string,
     })).isRequired,
   }),
 
