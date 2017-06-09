@@ -59,6 +59,7 @@ module.exports = class Flint {
   }
 
   async startServer(port = this.port) {
+    /* eslint-disable no-console */
     const missingEnvVariables = validateEnvVariables();
     const shouldContinue = generateEnvFile() && missingEnvVariables.length === 0;
     if (!shouldContinue) console.error(chalk.red('Could not start the server.'));
@@ -68,11 +69,12 @@ module.exports = class Flint {
 
     const canSendEmails = await verifyNodemailer().catch(console.error);
     if (canSendEmails) {
-      console.log(canSendEmails); // eslint-disable-line no-console
+      console.log(canSendEmails);
     }
 
     const canCompileSass = await compileSass();
-    console.log(canCompileSass); // eslint-disable-line no-console
+    console.log(canCompileSass);
+    /* eslint-enable no-console */
 
     // eslint-disable-next-line global-require
     const { startServer } = require('./server');
