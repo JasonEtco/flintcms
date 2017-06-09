@@ -8,8 +8,8 @@ const perms = require('../utils/permissions.json');
  * @param {Object[]} entries - Array of Entry objects
  * @returns {Object[]}
  */
-async function formatEntryFields(entries) {
-  return entries.map(entry => Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')));
+async function formatEntryFields(arr, target = 'fields') {
+  return arr.map(doc => Object.assign({}, doc, h.reduceToObj(doc[target], 'handle', 'value')));
 }
 
 
@@ -100,6 +100,23 @@ async function collectData(entry) {
       dateCreated
     }
 
+    pages {
+      _id
+      title
+      slug
+      handle
+      template
+      fields {
+        handle
+        fieldId
+        value
+      }
+      fieldLayout
+      dateCreated
+      homepage
+      route
+    }
+
     users {
       _id
       username
@@ -145,12 +162,16 @@ async function collectData(entry) {
   }`;
 
   const { data, errors } = await graphql(schema, query);
-
   if (errors) throw new Error(errors);
 
-  const formattedEntries = await formatEntryFields(data.entries);
+  const [formattedEntries, formattedPages] = await Promise.all([
+    formatEntryFields(data.entries),
+    formatEntryFields(data.pages),
+  ]);
+
   const sections = await sectionEntries(data.sections, formattedEntries);
   const flint = Object.assign({}, data, {
+    pages: formattedPages,
     sections,
     section(section) {
       return this.sections[section];

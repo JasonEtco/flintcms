@@ -58,6 +58,7 @@ export default class MainNav extends Component {
 
     const links = [
       { to: '/', icon: 'home', children: 'Home' },
+      { to: '/pages', icon: 'fileText', children: 'Pages' },
       { to: '/entries', icon: 'newspaper', children: 'Entries' },
       { to: '/users', icon: 'user', children: 'Users' },
       { to: '/settings', icon: 'gear', children: 'Settings', hidden: !showSettings },

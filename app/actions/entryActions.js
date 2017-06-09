@@ -1,7 +1,8 @@
 import React from 'react';
 import { push } from 'react-router-redux';
-import graphFetcher from '../utils/graphFetcher';
-import { getSlugFromId } from '../utils/helpers';
+import graphFetcher from 'utils/graphFetcher';
+import formatFields from 'utils/formatFields';
+import { getSlugFromId } from 'utils/helpers';
 import { newToast, errorToasts } from './uiActions';
 
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
@@ -10,32 +11,6 @@ export const NEW_ENTRY = 'NEW_ENTRY';
 export const UPDATE_ENTRY = 'UPDATE_ENTRY';
 export const DELETE_ENTRY = 'DELETE_ENTRY';
 export const ENTRY_DETAILS = 'ENTRY_DETAILS';
-
-/**
- * Formats fields by key/value pairs into a larger, more descriptive object
- * @param {Object} fields
- * @param {Object} stateFields
- *
- * @typedef {Object} FieldObject
- * @property {String} fieldId - Mongo ID of the Field
- * @property {String} handle - Slug of the Field's title
- * @property {Any} value - the value for this field in the Entry
- *
- * @returns {FieldObject}
- */
-async function formatFields(fields, stateFields) {
-  if (fields.length <= 0) return fields;
-
-  const options = await Object.keys(fields).map((key) => {
-    const fieldId = stateFields.find(field => key === field.handle)._id;
-    return {
-      fieldId,
-      handle: key,
-      value: fields[key],
-    };
-  });
-  return options;
-}
 
 /**
  * Creates a new Entry

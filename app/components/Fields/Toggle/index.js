@@ -8,12 +8,14 @@ export default class Toggle extends Component {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
+    onChange: PropTypes.func,
     defaultValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }
 
   static defaultProps = {
     instructions: null,
     defaultValue: false,
+    onChange: null,
   }
 
   constructor(props) {
@@ -28,6 +30,8 @@ export default class Toggle extends Component {
 
   handleChange() {
     const { isActive } = this.state;
+    const { onChange } = this.props;
+    if (onChange) onChange(!isActive);
     this.setState({ isActive: !isActive });
   }
 

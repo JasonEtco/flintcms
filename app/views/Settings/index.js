@@ -21,6 +21,7 @@ export default class Settings extends Component {
         { label: 'Sections', path: '/settings/sections', icon: 'stack', hidden: !showSection(perms.sections) },
         { label: 'Fields', path: '/settings/fields', icon: 'fileText', hidden: !showSection(perms.fields) },
         { label: 'Assets', path: '/settings/assets', icon: 'images', hidden: !showSection(perms.assets) },
+        { label: 'Pages', path: '/settings/pages', icon: 'images', hidden: !showSection(perms.pages) },
       ],
       Management: [
         { label: 'User Groups', path: '/settings/usergroups', icon: 'users', hidden: !perms.usergroups.canViewUserGroups },

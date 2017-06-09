@@ -55,6 +55,19 @@ const types = {
     })),
   }),
 
+  pages: shape({
+    ...commonProps,
+    pages: arrayOf(shape({
+      _id: string.isRequired,
+      title: string.isRequired,
+      slug: string.isRequired,
+      handle: string.isRequired,
+      dateCreated: number.isRequired,
+      homepage: bool.isRequired,
+      route: string.isRequired,
+    })),
+  }),
+
   site: shape({
     ...commonProps,
     defaultUserGroup: string,
