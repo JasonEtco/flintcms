@@ -25,8 +25,8 @@ async function compile(template, data) {
         const scr = `
         console.log('%cFlint Debug Mode', 'color: #fe6300; font-weight: bold; font-size: 1.2rem;');
 
-        console.groupCollapsed('Entry');
-          console.log(${JSON.stringify(compiledData.entry)});
+        console.groupCollapsed('this');
+          console.log(${JSON.stringify(compiledData.this)});
         console.groupEnd();
 
         console.groupCollapsed('Flint');

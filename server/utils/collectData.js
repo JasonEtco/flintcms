@@ -180,7 +180,7 @@ async function collectData(entry) {
 
   if (entry) {
     return {
-      entry: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
+      this: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
       flint,
     };
   }
