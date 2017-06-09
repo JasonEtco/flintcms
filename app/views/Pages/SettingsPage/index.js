@@ -33,7 +33,7 @@ export default withRouter(class SettingsPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleField = this.toggleField.bind(this);
 
-    this.state = { fields: this.page.fields, title: '', homepage: this.page.homepage };
+    this.state = { fields: this.page.fieldLayout, title: '', homepage: this.page.homepage };
   }
 
   handleSubmit(e) {
