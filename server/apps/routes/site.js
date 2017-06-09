@@ -15,7 +15,8 @@ router.get('/site', (req, res) => {
 
 router.get('/hasUpdate', async (req, res) => {
   const currentVersion = pkg.version;
-  const latestVersion = await getLatestVersion(pkg.name);
+  const latestVersion = await getLatestVersion(pkg.name)
+    .catch(() => { res.json({ hasUpdate: false }); });
 
   res.json({ hasUpdate: semverDiff(currentVersion, latestVersion) !== null });
 });

@@ -18,6 +18,7 @@ module.exports = {
   async resolve(root, args) {
     const { perms } = root;
     if (!perms.pages.canAddPages) throw new Error('You do not have permission to create a new Page.');
+    if (args.data.route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
 
     const { fieldLayout, title } = args.data;
     if (fieldLayout === undefined || fieldLayout.length === 0) throw new Error('You must include at least one field.');
@@ -36,6 +37,7 @@ module.exports = {
         await Page.findByIdAndUpdate(HomePage._id, { homepage: false });
       }
     }
+
 
     root.events.emit('pre-new-page', newPage);
 

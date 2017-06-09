@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('*', async (req, res, next) => {
+  if (req.originalUrl.startsWith('/admin')) next();
   const page = await Page.findOne({ route: req.originalUrl }).lean().exec();
   if (!page) next();
 
