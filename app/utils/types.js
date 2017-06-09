@@ -1,7 +1,19 @@
-import { bool, number, string, shape, arrayOf, object } from 'prop-types';
+import { bool, number, string, shape, arrayOf, oneOf, oneOfType } from 'prop-types';
+import p from '../../server/utils/permissions.json';
+
+// Reduces the master permissions object
+// into an format easily consumable by `prop-types`
+const permissions = Object.keys(p)
+  .reduce((prev, curr) => ({
+    ...prev,
+    [curr]: shape(p[curr].reduce((previ, c) => ({
+      ...previ,
+      [c.name]: bool.isRequired,
+    }), {})).isRequired,
+  }), {});
 
 const commonProps = {
-  isFetching: bool,
+  isFetching: bool.isRequired,
   didInvalidate: bool,
   lastUpdated: number,
 };
@@ -10,49 +22,49 @@ const types = {
   entries: shape({
     ...commonProps,
     entries: arrayOf(shape({
-      _id: string,
-      title: string,
-      slug: string,
-      dateCreated: number,
-      body: string,
-    })),
+      _id: string.isRequired,
+      title: string.isRequired,
+      slug: string.isRequired,
+      status: oneOf(['live', 'draft', 'disabled']).isRequired,
+      dateCreated: number.isRequired,
+    })).isRequired,
   }),
 
   fields: shape({
     ...commonProps,
     fields: arrayOf(shape({
-      _id: string,
-      title: string,
-      instructions: string,
-      type: string,
-      dateCreated: number,
-      slug: string,
-      handle: string,
+      _id: string.isRequired,
+      title: string.isRequired,
+      instructions: string.isRequired,
+      type: string.isRequired,
+      dateCreated: number.isRequired,
+      slug: string.isRequired,
+      handle: string.isRequired,
       required: bool,
-    })),
+    })).isRequired,
   }),
 
   assets: shape({
     ...commonProps,
     assets: arrayOf(shape({
-      _id: string,
-      title: string,
-      filename: string,
-      dateCreated: number,
-      size: number,
-      width: number,
-      height: number,
-    })),
+      _id: string.isRequired,
+      title: string.isRequired,
+      filename: string.isRequired,
+      dateCreated: number.isRequired,
+      size: number.isRequired,
+      width: number.isRequired,
+      height: number.isRequired,
+    })).isRequired,
   }),
 
   sections: shape({
     ...commonProps,
     sections: arrayOf(shape({
-      _id: string,
-      title: string,
-      slug: string,
-      dateCreated: number,
-    })),
+      _id: string.isRequired,
+      title: string.isRequired,
+      slug: string.isRequired,
+      dateCreated: number.isRequired,
+    })).isRequired,
   }),
 
   pages: shape({
@@ -65,7 +77,7 @@ const types = {
       dateCreated: number.isRequired,
       homepage: bool.isRequired,
       route: string.isRequired,
-    })),
+    })).isRequired,
   }),
 
   site: shape({
@@ -84,7 +96,7 @@ const types = {
     }),
     style: string,
     debugMode: bool,
-    scssEntryPoint: string,
+    scssEntryPoint: oneOfType([string, bool]),
     allowPublicRegistration: bool,
   }),
 
@@ -104,32 +116,32 @@ const types = {
       title: string,
       slug: string,
       dateCreated: number,
-      permissions: object,
+      permissions: shape(permissions),
     }),
   }),
 
   users: shape({
     ...commonProps,
     users: arrayOf(shape({
-      _id: string,
-      username: string,
+      _id: string.isRequired,
+      username: string.isRequired,
       name: shape({
         first: string,
         last: string,
       }),
-      dateCreated: number,
-      image: string,
-    })),
+      dateCreated: number.isRequired,
+      image: string.isRequired,
+    })).isRequired,
   }),
 
   usergroups: shape({
     ...commonProps,
     usergroups: arrayOf(shape({
-      _id: string,
-      title: string,
-      slug: string,
-      dateCreated: number,
-      permissions: object,
+      _id: string.isRequired,
+      title: string.isRequired,
+      slug: string.isRequired,
+      dateCreated: number.isRequired,
+      permissions: shape(permissions).isRequired,
     })),
   }),
 };
