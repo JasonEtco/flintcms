@@ -29,7 +29,7 @@ async function compile(template, data) {
           console.log(${JSON.stringify(compiledData.this)});
         console.groupEnd();
 
-        console.groupCollapsed('Flint');
+        console.groupCollapsed('flint');
           console.table(${JSON.stringify(compiledData.flint.pages)});
           console.table(${JSON.stringify(compiledData.flint.entries)});
           console.table(${JSON.stringify(compiledData.flint.sections)});
