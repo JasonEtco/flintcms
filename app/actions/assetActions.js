@@ -111,9 +111,7 @@ export function indexAssets() {
         const { savedFiles, removedFiles } = json.data.data.indexAssets;
         dispatch(newToast('Assets have been re-indexed!'));
 
-        savedFiles.forEach((addAsset) => {
-          dispatch({ type: NEW_ASSET, addAsset });
-        });
+        savedFiles.forEach(addAsset => dispatch({ type: NEW_ASSET, addAsset }));
         removedFiles.forEach(o => dispatch({ type: DELETE_ASSET, id: o._id }));
       })
       .catch(errorToasts);
