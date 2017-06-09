@@ -6,6 +6,7 @@ import Page from 'containers/Page';
 import Table from 'components/Table';
 import TitleBar from 'components/TitleBar';
 import t from 'utils/types';
+import Icon from 'utils/icons';
 import getUserPermissions from 'utils/getUserPermissions';
 import DeleteIcon from 'components/DeleteIcon';
 import { deletePage } from 'actions/pageActions';
@@ -53,7 +54,7 @@ export default class Pages extends Component {
       },
       homepage: {
         sortBy: false,
-        component: props.homepage ? <span>Home!</span> : '-',
+        component: props.homepage && <Icon icon="home" />,
       },
     }));
 
