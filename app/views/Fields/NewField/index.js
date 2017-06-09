@@ -7,7 +7,7 @@ import Fields from 'components/Fields';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import TitleBar from 'components/TitleBar';
-import { slugify } from 'utils/helpers';
+import camelcase from 'utils/camelcase';
 import FieldOptions from 'components/FieldOptions';
 
 export default class NewField extends Component {
@@ -74,7 +74,7 @@ export default class NewField extends Component {
               full
               code
               disabled
-              value={slugify(this.state.title)}
+              value={camelcase(this.state.title)}
             />
 
             <Input

@@ -19,8 +19,9 @@ module.exports = {
   async resolve(root, { _id, data }) {
     const { perms } = root;
     if (!perms.pages.canEditPages) throw new Error('You do not have permission to edit Pages.');
-    if (!await Page.findById(_id)) throw new Error('There is no Page with this ID');
-    if (data.route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
+    const foundPage = await Page.findById(_id).exec();
+    if (!foundPage) throw new Error('There is no Page with this ID');
+    if (!(foundPage.homepage || data.homepage) && data.route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
 
     root.events.emit('pre-update-page', { _id, data });
 
