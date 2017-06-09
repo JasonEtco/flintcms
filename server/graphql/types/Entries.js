@@ -6,38 +6,8 @@ const {
   GraphQLID,
   GraphQLList,
 } = require('graphql');
-const { ObjectType, DateTime } = require('./CustomTypes');
+const { FieldType, DateTime } = require('./CustomTypes');
 const userTypes = require('./Users');
-
-const FieldType = new GraphQLObjectType({
-  name: 'EntryFields',
-  fields: {
-    fieldId: {
-      type: new GraphQLNonNull(GraphQLID),
-    },
-    handle: {
-      type: GraphQLString,
-    },
-    value: {
-      type: ObjectType,
-    },
-  },
-});
-
-const FieldTypeInput = new GraphQLInputObjectType({
-  name: 'EntryFieldsInput',
-  fields: {
-    fieldId: {
-      type: new GraphQLNonNull(GraphQLID),
-    },
-    handle: {
-      type: GraphQLString,
-    },
-    value: {
-      type: ObjectType,
-    },
-  },
-});
 
 const outputType = new GraphQLObjectType({
   name: 'Entries',
@@ -70,7 +40,7 @@ const outputType = new GraphQLObjectType({
       description: 'Author of the entry.',
     },
     fields: {
-      type: new GraphQLList(FieldType),
+      type: new GraphQLList(FieldType.outputType),
       description: 'A list of the fields used in the entry.',
     },
     template: {
@@ -106,7 +76,7 @@ const inputType = new GraphQLInputObjectType({
       description: 'Author of the entry.',
     },
     fields: {
-      type: new GraphQLList(FieldTypeInput),
+      type: new GraphQLList(FieldType.inputType),
       description: 'A list of the fields used in the entry.',
     },
     dateCreated: {

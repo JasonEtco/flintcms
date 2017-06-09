@@ -13,6 +13,7 @@ const defaultState = {
   assets: { isFetching: true },
   site: { isFetching: true },
   plugins: { isFetching: true },
+  pages: { isFetching: true },
   ui: {
     toasts: [],
     modalIsOpen: false,

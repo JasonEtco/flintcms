@@ -22,6 +22,11 @@ import Section from 'views/Sections/Section';
 import Sections from 'views/Sections/Sections';
 import NewSection from 'views/Sections/NewSection';
 
+import Page from 'views/Pages/Page';
+import SettingsPage from 'views/Pages/SettingsPage';
+import Pages from 'views/Pages/Pages';
+import NewPage from 'views/Pages/NewPage';
+
 import UserGroup from 'views/UserGroups/UserGroup';
 import UserGroups from 'views/UserGroups/UserGroups';
 import NewUserGroup from 'views/UserGroups/NewUserGroup';
@@ -99,6 +104,12 @@ export default class Main extends Component {
           <Route exact path="/settings/sections" render={props => <Sections {...props} {...this.props} />} />
           <Route exact path="/settings/sections/new" render={props => <NewSection {...props} {...this.props} />} />
           <Route path="/settings/sections/:slug" render={props => <Section {...props} {...this.props} />} />
+
+          <Route exact path="/pages/:id" render={props => <Page {...props} {...this.props} />} />
+          <Route exact path="/pages" render={props => <Pages settings={false} {...props} {...this.props} />} />
+          <Route exact path="/settings/pages" render={props => <Pages {...props} {...this.props} />} />
+          <Route exact path="/settings/pages/new" render={props => <NewPage {...props} {...this.props} />} />
+          <Route path="/settings/pages/:slug" render={props => <SettingsPage {...props} {...this.props} />} />
 
           <Route exact path="/settings/usergroups" render={props => <UserGroups {...props} {...this.props} />} />
           <Route exact path="/settings/usergroups/new" render={props => <NewUserGroup {...props} {...this.props} />} />

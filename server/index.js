@@ -12,10 +12,6 @@ const passport = require('passport');
 
 require('./utils/passport')(passport);
 
-const compile = require('./utils/compile');
-const fourOhFourHandler = require('./utils/fourOhFourHandler');
-const getEntryData = require('./utils/getEntryData');
-
 const app = express();
 exports.app = app;
 
@@ -43,22 +39,7 @@ app.use(require('./utils/publicRegistration'));
 
 // ===== Template Routes
 
-app.get('/', async (req, res) => {
-  const compiled = await compile('index');
-  res.send(compiled);
-});
-
-app.get('/:section/:slug', async (req, res) => {
-  const EntryData = await getEntryData(req.params);
-
-  if (!EntryData) {
-    fourOhFourHandler(res);
-    return;
-  }
-
-  const compiled = await compile(EntryData.template, EntryData);
-  res.send(compiled);
-});
+app.use(require('./utils/templateRoutes'));
 
 function startServer(port) {
   http.listen(port, () => console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`));

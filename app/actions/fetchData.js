@@ -4,6 +4,7 @@ import graphFetcher from 'utils/graphFetcher';
 import store from 'utils/store';
 import { RECEIVE_ENTRIES } from './entryActions';
 import { RECEIVE_SECTIONS } from './sectionActions';
+import { RECEIVE_PAGES } from './pageActions';
 import { RECEIVE_FIELDS } from './fieldActions';
 import { RECEIVE_USER, RECEIVE_USERS } from './userActions';
 import { RECEIVE_USERGROUPS } from './usergroupActions';
@@ -63,6 +64,18 @@ const query = `{
     handle
     fields
     dateCreated
+  }
+
+  pages {
+    _id
+    template
+    title
+    slug
+    handle
+    fieldLayout
+    homepage
+    dateCreated
+    route
   }
 
   user {
@@ -128,9 +141,22 @@ export default async function bigFetch() {
 
   if (errors) throw new Error('Error!', errors);
 
-  const { sections, assets, entries, fields, user, users, usergroups, site, plugins } = data.data;
+  const {
+    sections,
+    assets,
+    entries,
+    fields,
+    user,
+    users,
+    usergroups,
+    site,
+    plugins,
+    pages,
+  } = data.data;
+
   const dispatchers = [
     { type: RECEIVE_SECTIONS, sections },
+    { type: RECEIVE_PAGES, pages },
     { type: RECEIVE_ASSETS, assets },
     { type: RECEIVE_ENTRIES, entries },
     { type: RECEIVE_FIELDS, fields },

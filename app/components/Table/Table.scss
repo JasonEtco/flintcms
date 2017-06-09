@@ -70,7 +70,7 @@
             background-color: darken($grey-lighter, 5%);
         }
 
-        &--delete, &--status { width: 1em; }
+        &--delete, &--status, &--homepage { width: 1em; }
 
         &--image {
             width: 3em;

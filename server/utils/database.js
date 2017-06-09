@@ -27,6 +27,7 @@ module.exports = function connectToDatabase() {
       require('../models/EntryModel');
       require('../models/FieldModel');
       require('../models/AssetModel');
+      require('../models/PageModel');
 
       require('../models/SiteModel');
       require('./updateSiteConfig')();

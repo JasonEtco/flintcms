@@ -6,6 +6,7 @@ const assets = require('./assets');
 const usergroups = require('./usergroups');
 const site = require('./site');
 const plugins = require('./plugins');
+const pages = require('./pages');
 
 module.exports = Object.assign({},
   entries,
@@ -15,4 +16,5 @@ module.exports = Object.assign({},
   assets,
   usergroups,
   site,
-  plugins);
+  plugins,
+  pages);
