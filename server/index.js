@@ -5,10 +5,11 @@ const chalk = require('chalk');
 const session = require('cookie-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-// const morgan = require('morgan');
+const morgan = require('morgan');
 const path = require('path');
 const compression = require('compression');
 const passport = require('passport');
+const fs = require('fs');
 
 require('./utils/passport')(passport);
 
@@ -20,7 +21,9 @@ const io = require('socket.io')(http);
 
 app.set('io', io);
 
-// app.use(morgan('combined'));
+const accessLogStream = fs.createWriteStream(path.join(global.FLINT.logsPath, 'http-requests.log'), { flags: 'a' });
+app.use(morgan('combined', { stream: accessLogStream }));
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

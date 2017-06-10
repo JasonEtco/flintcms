@@ -40,6 +40,7 @@ module.exports = class Flint {
     const { templatePath, scssPath, publicPath, plugins, scssEntryPoint } = settings;
 
     const FLINT = Object.assign({}, settings, {
+      logsPath: path.join(appDir, 'logs'),
       templatePath: path.join(appDir, templatePath || 'templates'),
       scssPath: path.join(appDir, scssPath || 'scss'),
       publicPath: path.join(appDir, publicPath || 'public'),
@@ -51,6 +52,7 @@ module.exports = class Flint {
 
     global.FLINT = FLINT;
 
+    scaffold(FLINT.logsPath);
     scaffold(FLINT.templatePath);
     if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
     scaffold(FLINT.publicPath);

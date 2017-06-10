@@ -4,3 +4,4 @@ templates
 public
 scss
 .env
+logs
