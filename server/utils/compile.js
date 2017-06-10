@@ -10,39 +10,39 @@ const { nun } = require('./nunjucks');
  * @returns {String} HTML String
  */
 async function compile(template, data) {
+  // Ensure that template has the .njk file extension
+  const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`;
+  const templatePath = path.join(global.FLINT.templatePath, templateWithFormat);
+
+  // Check that the template file actually exists
+  if (!fs.existsSync(templatePath)) return 'no-template';
+
+  // Collect site's data (entries, pages, sections, users, etc)
   const compiledData = await collectData(data);
 
-  return new Promise((resolve, reject) => {
-    const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`;
-    const templatePath = path.join(global.FLINT.templatePath, templateWithFormat);
+  let html = await nun.render(templatePath, compiledData);
+  if (!html) return 'no-html';
 
-    fs.readFile(templatePath, 'utf-8', async (err) => {
-      if (err) reject(err);
+  if (global.FLINT.debugMode) {
+    const scr = `
+    console.log('%cFlint Debug Mode', 'color: #fe6300; font-weight: bold; font-size: 1.2rem;');
 
-      let html = await nun.render(templatePath, compiledData);
+    console.groupCollapsed('this');
+      console.log(${JSON.stringify(compiledData.this)});
+    console.groupEnd();
 
-      if (global.FLINT.debugMode) {
-        const scr = `
-        console.log('%cFlint Debug Mode', 'color: #fe6300; font-weight: bold; font-size: 1.2rem;');
+    console.groupCollapsed('flint');
+      console.table(${JSON.stringify(compiledData.flint.pages)});
+      console.table(${JSON.stringify(compiledData.flint.entries)});
+      console.table(${JSON.stringify(compiledData.flint.sections)});
+      console.table(${JSON.stringify(compiledData.flint.fields)});
+    console.groupEnd();
+    `;
 
-        console.groupCollapsed('this');
-          console.log(${JSON.stringify(compiledData.this)});
-        console.groupEnd();
+    html = await html.replace('</body>', `<script>${scr}</script></body>`);
+  }
 
-        console.groupCollapsed('flint');
-          console.table(${JSON.stringify(compiledData.flint.pages)});
-          console.table(${JSON.stringify(compiledData.flint.entries)});
-          console.table(${JSON.stringify(compiledData.flint.sections)});
-          console.table(${JSON.stringify(compiledData.flint.fields)});
-        console.groupEnd();
-        `;
-
-        html = await html.replace('</body>', `<script>${scr}</script></body>`);
-      }
-
-      resolve(html);
-    });
-  });
+  return html;
 }
 
 module.exports = compile;

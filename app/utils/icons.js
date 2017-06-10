@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const icons = {
+  warning: <svg viewBox="0 0 16 16"><path d="M8 1.45l6.705 13.363H1.296L8.001 1.45zM8 0c-.345 0-.69.233-.951.698L.22 14.309C-.303 15.239.142 16 1.209 16h13.583c1.067 0 1.512-.761.989-1.691L8.952.698C8.69.233 8.346 0 8.001 0z" /><path d="M9 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM8 11a1 1 0 0 1-1-1V7a1 1 0 0 1 2 0v3a1 1 0 0 1-1 1z" /></svg>,
   pilcrow: <svg viewBox="0 0 16 16"><path d="M6 0h8v2h-2v14h-2V2H8v14H6V8a4 4 0 0 1 0-8z" /></svg>,
   underline: <svg viewBox="0 0 16 16"><path d="M11 1h2v6.5c0 2.485-2.239 4.5-5 4.5S3 9.985 3 7.5V1h2v6.5c0 .628.285 1.23.802 1.695C6.379 9.714 7.159 10 8 10s1.621-.286 2.198-.805C10.715 8.729 11 8.127 11 7.5V1zM3 13h10v2H3z" /></svg>,
   embed: <svg viewBox="0 0 16 16"><path d="M9 11.5l1.5 1.5 5-5-5-5L9 4.5 12.5 8zM7 4.5L5.5 3l-5 5 5 5L7 11.5 3.5 8z" /></svg>,

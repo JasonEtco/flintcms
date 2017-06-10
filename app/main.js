@@ -11,6 +11,7 @@ import Main from 'containers/Main';
 import Login from 'views/Auth/Login';
 import SetPassword from 'views/Auth/SetPassword';
 import ForgotPassword from 'views/Auth/ForgotPassword';
+import ErrorContainer from 'containers/ErrorContainer';
 import Install from 'views/Auth/Install';
 import store, { history } from 'utils/store';
 
@@ -24,6 +25,7 @@ const appWrapper = (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
+        <Route exact path="/error" component={ErrorContainer} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sp/:token" component={SetPassword} />
         <Route exact path="/fp" component={ForgotPassword} />

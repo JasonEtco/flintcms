@@ -7,6 +7,20 @@ const getEntryData = require('./getEntryData');
 const Page = mongoose.model('Page');
 const router = express.Router();
 
+function handleCompileErrorRoutes(req, res, compiled, template) {
+  switch (compiled) {
+    case 'no-html':
+    case 'no-template':
+      res.redirect(`/admin/error?r=${compiled}&t=${template}&p=${req.originalUrl}`);
+      break;
+    case 'no-exist':
+      fourOhFourHandler(res);
+      break;
+    default:
+      res.send(compiled);
+  }
+}
+
 router.get('/', async (req, res) => {
   const homepage = await Page.findOne({ homepage: true }).lean().exec();
   const compiled = await compile(homepage.template, homepage);
@@ -16,22 +30,19 @@ router.get('/', async (req, res) => {
 router.get('*', async (req, res, next) => {
   if (req.originalUrl.startsWith('/admin')) next();
   const page = await Page.findOne({ route: req.originalUrl }).lean().exec();
-  if (!page) next();
+  if (!page) return next();
 
   const compiled = await compile(page.template, page);
-  res.send(compiled);
+  return handleCompileErrorRoutes(req, res, compiled, page.template);
 });
 
 router.get('/:section/:slug', async (req, res) => {
-  const EntryData = await getEntryData(req.params);
+  const entry = await getEntryData(req.params);
 
-  if (!EntryData) {
-    fourOhFourHandler(res);
-    return;
-  }
+  if (!entry) return handleCompileErrorRoutes(req, res, 'no-exist');
 
-  const compiled = await compile(EntryData.template, EntryData);
-  res.send(compiled);
+  const compiled = await compile(entry.template, entry);
+  return handleCompileErrorRoutes(req, res, compiled, entry.template);
 });
 
 module.exports = router;
