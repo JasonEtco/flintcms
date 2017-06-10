@@ -17,8 +17,8 @@ function generateSecret(length = 32) {
 
 const envTemplate = secret => `# It is very important that you
 # DO NOT commit this file to version control.
-# It should contain sensitive information, and should not be shared in
-# a public environment.
+# It should contain sensitive information, and
+# should not be shared in a public environment.
 
 # Secret settings
 SESSION_SECRET=${secret}
