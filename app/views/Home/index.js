@@ -23,7 +23,12 @@ export default class Home extends Component {
 
           <div className="content">
             <div className="page__inner">
-              <h1>No content :(</h1>
+              <div className="home--empty">
+                <h1>Welcome to FlintCMS!</h1>
+                <p>
+                  You can get started by <Link to="/settings/fields/new">creating some fields</Link> to use in sections or pages. Then, <Link to="/settings/pages/new">create your website&apos;s homepage!</Link>
+                </p>
+              </div>
             </div>
           </div>
         </Page>

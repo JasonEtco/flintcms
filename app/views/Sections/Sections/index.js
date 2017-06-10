@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { formatDate } from 'utils/helpers';
 import Page from 'containers/Page';
+import Empty from 'containers/Empty';
 import Table from 'components/Table';
 import TitleBar from 'components/TitleBar';
 import t from 'utils/types';
@@ -54,7 +55,11 @@ export default class Sections extends Component {
 
         <div className="content">
           <div className="page__inner">
-            {reduced.length > 0 ? <Table data={reduced} /> : <h3>No sections!</h3>}
+            {reduced.length > 0 ? <Table data={reduced} /> : (
+              <Empty>
+                There are no Sections! Go ahead and <Link to="/settings/sections/new">make one.</Link>
+              </Empty>
+            )}
           </div>
         </div>
       </Page>

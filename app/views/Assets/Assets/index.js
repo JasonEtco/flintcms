@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { formatDate, formatBytes } from 'utils/helpers';
 import DeleteIcon from 'components/DeleteIcon';
 import Page from 'containers/Page';
+import Empty from 'containers/Empty';
 import Table from 'components/Table';
 import Button from 'components/Button';
 import TitleBar from 'components/TitleBar';
@@ -58,7 +59,11 @@ export default class Assets extends Component {
 
         <div className="content">
           <div className="page__inner">
-            {reduced.length > 0 ? <Table data={reduced} /> : <h3>No assets!</h3>}
+            {reduced.length > 0 ? <Table data={reduced} /> : (
+              <Empty>
+                There are no Assets! Go ahead and <Link to="/settings/assets/new">upload one.</Link>
+              </Empty>
+            )}
           </div>
         </div>
       </Page>

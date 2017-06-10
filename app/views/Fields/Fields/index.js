@@ -8,6 +8,7 @@ import DeleteIcon from 'components/DeleteIcon';
 import TitleBar from 'components/TitleBar';
 import t from 'utils/types';
 import { deleteField } from 'actions/fieldActions';
+import Empty from 'containers/Empty';
 
 export default class Fields extends Component {
   static propTypes = {
@@ -51,7 +52,11 @@ export default class Fields extends Component {
 
         <div className="content">
           <div className="page__inner">
-            {reduced.length > 0 ? <Table data={reduced} /> : <h3>No fields!</h3>}
+            {reduced.length > 0 ? <Table data={reduced} /> : (
+              <Empty>
+                There are no Fields! Go ahead and <Link to="/settings/fields/new">make one.</Link>
+              </Empty>
+            )}
           </div>
         </div>
       </Page>
