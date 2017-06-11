@@ -7,6 +7,7 @@ const schema = require('../graphql');
 const getUserPermissions = require('../utils/getUserPermissions');
 const emitSocketEvent = require('../utils/emitSocketEvent');
 const events = require('../utils/events');
+const log = require('../utils/log');
 
 const io = app.get('io');
 
@@ -20,9 +21,11 @@ graphql.use('/', graphqlHTTP(async req => ({
   rootValue: {
     io,
     req,
-    socketEvent: (event, payload) => emitSocketEvent({ io, req }, event, payload),
-    events,
+    user: req.user,
     perms: await getUserPermissions(req.user._id),
+    events,
+    socketEvent: (event, payload) => emitSocketEvent({ io, req }, event, payload),
+    log,
   },
 })));
 

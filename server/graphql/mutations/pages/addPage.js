@@ -15,8 +15,7 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, args) {
-    const { perms } = root;
+  async resolve({ perms, socketEvent, events, log, user }, args) {
     if (!perms.pages.canAddPages) throw new Error('You do not have permission to create a new Page.');
     if (!args.data.homepage && args.data.route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
 
@@ -38,13 +37,14 @@ module.exports = {
       }
     }
 
-    root.events.emit('pre-new-page', newPage);
+    events.emit('pre-new-page', newPage);
 
     const savedPage = await newPage.save();
     if (!savedPage) throw new Error('Could not save the page.');
 
-    root.socketEvent('new-page', savedPage);
-    root.events.emit('post-new-page', savedPage);
+    socketEvent('new-page', savedPage);
+    events.emit('post-new-page', savedPage);
+    log(`Saved a new Page (${savedPage.title}) - ${user.username}, ${user._id}`);
     return savedPage;
   },
 };
