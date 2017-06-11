@@ -144,6 +144,13 @@ const types = {
       permissions: shape(permissions).isRequired,
     })),
   }),
+
+  plugins: shape({
+    ...commonProps,
+    plugins: arrayOf(shape({
+      _id: string.isRequired,
+    })).isRequired,
+  }),
 };
 
 export default types;

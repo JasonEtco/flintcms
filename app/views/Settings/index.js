@@ -9,11 +9,12 @@ import './Settings.scss';
 
 export default class Settings extends Component {
   static propTypes = {
-    user: t.user.isRequired,
+    plugins: t.plugins.isRequired,
   }
 
   render() {
     const perms = getUserPermissions();
+    const { plugins } = this.props.plugins;
     const showSection = obj => obj && Object.keys(obj).some(v => obj[v]);
 
     const sections = {
@@ -29,7 +30,7 @@ export default class Settings extends Component {
       General: [
         { label: 'Site Settings', path: '/settings/general', icon: 'gear', hidden: !perms.site.canManageSite },
         { label: 'Custom Styles', path: '/settings/styles', icon: 'paint', hidden: !perms.site.canCustomStyles },
-        { label: 'Plugins', path: '/settings/plugins', icon: 'plug', hidden: !perms.site.canManagePlugins },
+        { label: 'Plugins', path: '/settings/plugins', icon: 'plug', hidden: !perms.site.canManagePlugins || plugins.length === 0 },
       ],
     };
 

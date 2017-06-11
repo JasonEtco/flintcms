@@ -53,5 +53,9 @@
     { "name": "canManageSite", "defaultValue": false, "label": "Can Manage Site Configuration" },
     { "name": "canCustomStyles", "defaultValue": false, "label": "Can Write Custom Styles" },
     { "name": "canManagePlugins", "defaultValue": false, "label": "Can Manage Plugins" }
+  ],
+
+  "plugins": [
+    { "name": "canManagePlugins", "defaultValue": false, "label": "Can Manage Plugins" }
   ]
 }
