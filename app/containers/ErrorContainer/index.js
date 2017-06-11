@@ -24,7 +24,7 @@ export default class ErrorContainer extends Component {
         str = <span>There was an error when compiling the template for the <strong>{page}</strong> page was requested.</span>;
         break;
       case 'no-homepage':
-        str = <span>Your website does not have a homepage yet! You can create one by <Link to="/login">signing in to the admin dashboard.</Link></span>;
+        str = <span>Your website does not have a homepage yet! You can create one by <Link to="/settings/pages/new">signing in to the admin dashboard.</Link></span>;
         break;
       default:
         str = <span>Unknown error!</span>;

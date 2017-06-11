@@ -1,26 +1,11 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const compile = require('./compile');
-const fourOhFourHandler = require('./fourOhFourHandler');
 const getEntryData = require('./getEntryData');
+const handleCompileErrorRoutes = require('./handleCompileErrorRoutes');
 
 const Page = mongoose.model('Page');
 const router = express.Router();
-
-function handleCompileErrorRoutes(req, res, compiled, template) {
-  switch (compiled) {
-    case 'no-html':
-    case 'no-template':
-    case 'no-homepage':
-      res.redirect(`/admin/error?r=${compiled}&t=${template}&p=${req.originalUrl}`);
-      break;
-    case 'no-exist':
-      fourOhFourHandler(res);
-      break;
-    default:
-      res.send(compiled);
-  }
-}
 
 router.get('/', async (req, res) => {
   const homepage = await Page.findOne({ homepage: true }).lean().exec();
