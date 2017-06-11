@@ -16,6 +16,15 @@
         background-color: darken($grey-lighter, 5%);
         font-size: $size0;
 
+        a {
+            color: $orange;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
         svg { fill: $grey; margin-bottom: 1em; }
     }
 }

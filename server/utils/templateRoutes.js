@@ -11,6 +11,7 @@ function handleCompileErrorRoutes(req, res, compiled, template) {
   switch (compiled) {
     case 'no-html':
     case 'no-template':
+    case 'no-homepage':
       res.redirect(`/admin/error?r=${compiled}&t=${template}&p=${req.originalUrl}`);
       break;
     case 'no-exist':
@@ -23,12 +24,13 @@ function handleCompileErrorRoutes(req, res, compiled, template) {
 
 router.get('/', async (req, res) => {
   const homepage = await Page.findOne({ homepage: true }).lean().exec();
+  if (!homepage) return handleCompileErrorRoutes(req, res, 'no-homepage');
+
   const compiled = await compile(homepage.template, homepage);
-  res.send(compiled);
+  return res.send(compiled);
 });
 
 router.get('*', async (req, res, next) => {
-  if (req.originalUrl.startsWith('/admin')) next();
   const page = await Page.findOne({ route: req.originalUrl }).lean().exec();
   if (!page) return next();
 
@@ -36,13 +38,14 @@ router.get('*', async (req, res, next) => {
   return handleCompileErrorRoutes(req, res, compiled, page.template);
 });
 
-router.get('/:section/:slug', async (req, res) => {
+router.get('/:section/:slug', async (req, res, next) => {
   const entry = await getEntryData(req.params);
-
-  if (!entry) return handleCompileErrorRoutes(req, res, 'no-exist');
+  if (!entry) return next();
 
   const compiled = await compile(entry.template, entry);
   return handleCompileErrorRoutes(req, res, compiled, entry.template);
 });
+
+router.use((req, res) => handleCompileErrorRoutes(req, res, 'no-exist'));
 
 module.exports = router;

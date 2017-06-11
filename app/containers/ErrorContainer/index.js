@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getUrlParameter } from 'utils/helpers';
 import Icon from 'utils/icons';
 import './ErrorContainer.scss';
@@ -21,6 +22,9 @@ export default class ErrorContainer extends Component {
         break;
       case 'no-html':
         str = <span>There was an error when compiling the template for the <strong>{page}</strong> page was requested.</span>;
+        break;
+      case 'no-homepage':
+        str = <span>Your website does not have a homepage yet! You can create one by <Link to="/login">signing in to the admin dashboard.</Link></span>;
         break;
       default:
         str = <span>Unknown error!</span>;
