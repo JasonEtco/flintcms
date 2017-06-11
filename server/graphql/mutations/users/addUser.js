@@ -16,14 +16,11 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, args) {
+  async resolve({ events, perms, socketEvent }, args) {
     const { username } = args.user;
 
-    const { perms } = root;
     if (perms && !perms.users.canAddUsers) throw new Error('You do not have permission to manage users.');
-
     if (!username) throw new Error('You must include a username.');
-
     if (await User.findOne({ username })) throw new Error('There is already a user with that username.');
 
     const newUser = new User(args.user);
@@ -40,15 +37,15 @@ module.exports = {
     newUser.token = token;
 
 
-    root.events.emit('pre-new-user', newUser);
+    events.emit('pre-new-user', newUser);
 
     const savedUser = await newUser.save();
     if (!savedUser) throw new Error('Could not save the User');
     await User.populate(savedUser, { path: 'usergroup' });
 
     sendEmail(args.user.email, 'new-account', { subject: 'Confirm your account', token });
-    root.events.emit('post-new-user', savedUser);
-    root.socketEvent('new-user', savedUser);
+    events.emit('post-new-user', savedUser);
+    socketEvent('new-user', savedUser);
     return savedUser;
   },
 };

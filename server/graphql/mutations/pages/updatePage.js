@@ -16,20 +16,19 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, { _id, data }) {
-    const { perms } = root;
+  async resolve({ events, perms, socketEvent }, { _id, data }) {
     if (!perms.pages.canEditPages) throw new Error('You do not have permission to edit Pages.');
     const foundPage = await Page.findById(_id).exec();
     if (!foundPage) throw new Error('There is no Page with this ID');
     if (!(foundPage.homepage || data.homepage) && data.route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
 
-    root.events.emit('pre-update-page', { _id, data });
+    events.emit('pre-update-page', { _id, data });
 
     const updatedPage = await Page.findByIdAndUpdate(_id, data, { new: true });
     if (!updatedPage) throw new Error('Error updating Page');
 
-    root.socketEvent('update-page', updatedPage);
-    root.events.emit('post-update-page', updatedPage);
+    socketEvent('update-page', updatedPage);
+    events.emit('post-update-page', updatedPage);
     return updatedPage;
   },
 };

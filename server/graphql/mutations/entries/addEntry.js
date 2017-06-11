@@ -14,9 +14,7 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, args) {
-    const { perms } = root;
-
+  async resolve({ events, perms, socketEvent }, args) {
     // Ensure that the user can add new entries
     if (!perms.entries.canAddEntries) throw new Error('You do not have permission to create new Entries');
 
@@ -42,14 +40,14 @@ module.exports = {
     await Entry.populate(newEntry, { path: 'author' });
 
     // Emit new-entry event
-    root.events.emit('pre-new-entry', newEntry);
+    events.emit('pre-new-entry', newEntry);
 
     // Save the new entry
     const savedEntry = await newEntry.save();
     if (!savedEntry) throw new Error('Error adding new entry');
 
-    root.events.emit('post-new-entry', savedEntry);
-    root.socketEvent('new-entry', savedEntry);
+    events.emit('post-new-entry', savedEntry);
+    socketEvent('new-entry', savedEntry);
     return savedEntry;
   },
 };

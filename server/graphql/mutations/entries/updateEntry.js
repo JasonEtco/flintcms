@@ -16,8 +16,7 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, { _id, data }, ctx) {
-    const { perms } = root;
+  async resolve({ events, perms, socketEvent }, { _id, data }, ctx) {
     const foundEntry = await Entry.findById(_id).lean().exec();
     if (!foundEntry) throw new Error('There is no Entry with this ID');
 
@@ -38,13 +37,13 @@ module.exports = {
       throw new Error('You are not allowed to edit a live entry. Sorry!');
     }
 
-    root.events.emit('pre-update-entry', { _id, data });
+    events.emit('pre-update-entry', { _id, data });
 
     const updatedEntry = await Entry.findByIdAndUpdate(_id, data, { new: true });
     if (!updatedEntry) throw new Error('Error updating entry');
 
-    root.events.emit('post-update-entry', updatedEntry);
-    root.socketEvent('update-entry', updatedEntry);
+    events.emit('post-update-entry', updatedEntry);
+    socketEvent('update-entry', updatedEntry);
     return updatedEntry;
   },
 };

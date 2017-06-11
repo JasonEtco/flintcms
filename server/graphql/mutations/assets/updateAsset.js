@@ -16,19 +16,19 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, { data, _id }) {
-    if (!root.perms.canEditAssets) throw new Error('You do not have permission to edit assets.');
+  async resolve({ events, perms, socketEvent }, { data, _id }) {
+    if (!perms.canEditAssets) throw new Error('You do not have permission to edit assets.');
 
     const foundAsset = await Asset.findById(_id).lean().exec();
     if (!foundAsset) throw new Error('There is no Asset with this ID');
-    root.events.emit('pre-update-asset', { _id, data });
+    events.emit('pre-update-asset', { _id, data });
 
     const updatedAsset = await Asset.findByIdAndUpdate(_id, data, { new: true });
 
     if (!updatedAsset) throw new Error('Error updating Asset');
 
-    root.socketEvent('update-asset', updatedAsset);
-    root.events.emit('post-update-asset', updatedAsset);
+    socketEvent('update-asset', updatedAsset);
+    events.emit('post-update-asset', updatedAsset);
     return updatedAsset;
   },
 };

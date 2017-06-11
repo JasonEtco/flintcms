@@ -14,8 +14,7 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, { _id }, ctx, ast) {
-    const { perms } = root;
+  async resolve({ events, perms, socketEvent }, { _id }, ctx, ast) {
     if (!perms.entries.canDeleteEntries) {
       throw new Error('You do not have permission to delete Entries');
     }
@@ -28,7 +27,7 @@ module.exports = {
     }
 
     const projection = getProjection(ast);
-    root.events.emit('pre-delete-entry', foundEntry);
+    events.emit('pre-delete-entry', foundEntry);
 
     const removedEntry = await Entry
       .findByIdAndRemove(_id, { select: projection })
@@ -36,8 +35,8 @@ module.exports = {
 
     if (!removedEntry) throw new Error('Error removing entry');
 
-    root.events.emit('post-delete-entry', removedEntry);
-    root.socketEvent('delete-entry', removedEntry);
+    events.emit('post-delete-entry', removedEntry);
+    socketEvent('delete-entry', removedEntry);
     return removedEntry;
   },
 };

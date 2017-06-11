@@ -14,8 +14,7 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, { _id }) {
-    const { perms } = root;
+  async resolve({ events, perms, socketEvent }, { _id }) {
     if (!perms.users.canResetUserPasswords) throw new Error('You do not have permission to manage users.');
 
     const user = await User.findById(_id).exec();

@@ -12,20 +12,19 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, { data }) {
-    const { perms } = root;
+  async resolve({ events, perms, socketEvent }, { data }) {
     if (!perms.usergroups.canAddUserGroups) throw new Error('You do not have permission to add User Groups.');
 
     const newUserGroup = new UserGroup(data);
 
-    root.events.emit('pre-new-usergroup', newUserGroup);
+    events.emit('pre-new-usergroup', newUserGroup);
 
     const savedUserGroup = await newUserGroup.save();
 
     if (!savedUserGroup) throw new Error('Error adding new entry');
 
-    root.events.emit('post-new-usergroup', savedUserGroup);
-    root.socketEvent('new-usergroup', savedUserGroup);
+    events.emit('post-new-usergroup', savedUserGroup);
+    socketEvent('new-usergroup', savedUserGroup);
     return savedUserGroup;
   },
 };

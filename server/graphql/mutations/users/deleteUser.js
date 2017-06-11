@@ -13,10 +13,10 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, { _id }, ctx, ast) {
+  async resolve({ events, perms, socketEvent }, { _id }, ctx, ast) {
     if (_id === ctx.user._id) throw new Error('You cannot delete your own account.');
 
-    if (!root.perms.users.canDeleteUsers) {
+    if (!perms.users.canDeleteUsers) {
       throw new Error('You do not have permission to delete Users.');
     }
 
@@ -24,7 +24,7 @@ module.exports = {
     if (!foundUser) throw new Error('There is no User with that id.');
 
     const projection = getProjection(ast);
-    root.events.emit('pre-delete-User', _id);
+    events.emit('pre-delete-User', _id);
 
     const removedUser = await User
       .findByIdAndRemove(_id, { select: projection })
@@ -32,8 +32,8 @@ module.exports = {
 
     if (!removedUser) throw new Error('Error removing User');
 
-    root.events.emit('post-delete-user', removedUser);
-    root.socketEvent('delete-user', removedUser);
+    events.emit('post-delete-user', removedUser);
+    socketEvent('delete-user', removedUser);
     return removedUser;
   },
 };

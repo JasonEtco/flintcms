@@ -16,21 +16,21 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, { _id, data }) {
+  async resolve({ events, perms, socketEvent }, { _id, data }) {
     const foundField = await Field.findById(_id).lean().exec();
     if (!foundField) throw new Error('There is no Field with this ID');
 
-    if (!root.perms.fields.canEditFields) throw new Error('You do not have permission to edit fields.');
+    if (!perms.fields.canEditFields) throw new Error('You do not have permission to edit fields.');
 
-    root.events.emit('pre-update-field', { _id, data });
+    events.emit('pre-update-field', { _id, data });
 
     const updatedField = await Field.findByIdAndUpdate(_id, data, { new: true });
 
     if (!updatedField) throw new Error('Error updating Field');
 
-    root.socketEvent('update-field', updatedField);
+    socketEvent('update-field', updatedField);
 
-    root.events.emit('post-update-field', updatedField);
+    events.emit('post-update-field', updatedField);
     return updatedField;
   },
 };

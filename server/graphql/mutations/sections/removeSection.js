@@ -14,12 +14,11 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, args, ctx, ast) {
-    const { perms } = root;
+  async resolve({ events, perms, socketEvent }, args, ctx, ast) {
     if (!perms.sections.canDeleteSections) throw new Error('You do not have permission to delete Sections.');
 
     const projection = getProjection(ast);
-    root.events.emit('pre-delete-section', args._id);
+    events.emit('pre-delete-section', args._id);
 
     const removedSection = await Section
       .findByIdAndRemove(args._id, { select: projection })
@@ -29,8 +28,8 @@ module.exports = {
 
     if (!removedSection) throw new Error('Error removing section');
 
-    root.socketEvent('delete-section', removedSection);
-    root.events.emit('post-delete-section', removedSection);
+    socketEvent('delete-section', removedSection);
+    events.emit('post-delete-section', removedSection);
     return removedSection;
   },
 };

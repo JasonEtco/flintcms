@@ -15,13 +15,13 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, { _id }, ctx, ast) {
-    if (!root.perms.fields.canAddFields) throw new Error('You do not have permission to create a new Field.');
+  async resolve({ io, events, perms, socketEvent }, { _id }, ctx, ast) {
+    if (!perms.fields.canAddFields) throw new Error('You do not have permission to create a new Field.');
 
     const foundField = await Field.findById(_id).exec();
     if (!foundField) throw new Error('The field could not be found.')
 ;
-    root.events.emit('pre-delete-field', foundField);
+    events.emit('pre-delete-field', foundField);
 
     const projection = getProjection(ast);
     const removedField = await Field
@@ -32,12 +32,12 @@ module.exports = {
       .then(sections => sections
       .forEach(sec => Section
       .findByIdAndUpdate(sec._id, { $pull: { fields: _id } }, { new: true })
-      .then(updateSection => root.io.emit('update-section', updateSection))));
+      .then(updateSection => io.emit('update-section', updateSection))));
 
     if (!removedField) throw new Error('Error removing field');
 
-    root.events.emit('post-delete-field', removedField);
-    root.socketEvent('delete-field', removedField);
+    events.emit('post-delete-field', removedField);
+    socketEvent('delete-field', removedField);
     return removedField;
   },
 };

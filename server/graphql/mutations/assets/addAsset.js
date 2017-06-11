@@ -12,18 +12,18 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve({ io, perms }, args) {
+  async resolve({ io, perms, events, socketEvent }, args) {
     if (!perms.assets.canAddAssets) throw new Error('You do not have permission to add new assets.');
 
     const newAsset = new Asset(args.data);
-    root.events.emit('pre-new-asset', newAsset);
+    events.emit('pre-new-asset', newAsset);
 
     const savedAsset = await newAsset.save();
 
     if (!savedAsset) throw new Error('There was a problem saving the asset.');
 
-    root.events.emit('post-new-asset', savedAsset);
-    root.socketEvent('new-asset', savedAsset);
+    events.emit('post-new-asset', savedAsset);
+    socketEvent('new-asset', savedAsset);
     return savedAsset;
   },
 };

@@ -15,8 +15,7 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, args) {
-    const { perms } = root;
+  async resolve({ events, perms, socketEvent }, args) {
     if (!perms.sections.canAddSections) throw new Error('You do not have permission to create a new Section.');
 
     const { fields, title } = args.data;
@@ -29,13 +28,13 @@ module.exports = {
 
     const newSection = new Section(args.data);
 
-    root.events.emit('pre-new-section', newSection);
+    events.emit('pre-new-section', newSection);
 
     const savedSection = await newSection.save();
     if (!savedSection) throw new Error('Could not save the section.');
 
-    root.socketEvent('new-section', savedSection);
-    root.events.emit('post-new-section', savedSection);
+    socketEvent('new-section', savedSection);
+    events.emit('post-new-section', savedSection);
     return savedSection;
   },
 };

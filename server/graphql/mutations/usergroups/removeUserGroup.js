@@ -14,14 +14,13 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, { _id }, ctx, ast) {
-    const { perms } = root;
+  async resolve({ events, perms, socketEvent }, { _id }, ctx, ast) {
     if (!perms.usergroups.canDeleteUserGroups) throw new Error('You do not have permission to delete User Groups.');
 
     const projection = getProjection(ast);
 
     const foundUserGroup = await UserGroup.findById(_id);
-    root.events.emit('pre-delete-usergroup', foundUserGroup);
+    events.emit('pre-delete-usergroup', foundUserGroup);
 
     const removedUserGroup = await UserGroup
       .findByIdAndRemove(_id, { select: projection })
@@ -29,8 +28,8 @@ module.exports = {
 
     if (!removedUserGroup) throw new Error('Error removing user group');
 
-    root.events.emit('post-delete-usergroup', removedUserGroup);
-    root.socketEvent('delete-usergroup', removedUserGroup);
+    events.emit('post-delete-usergroup', removedUserGroup);
+    socketEvent('delete-usergroup', removedUserGroup);
     return removedUserGroup;
   },
 };
