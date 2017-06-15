@@ -13,10 +13,20 @@ function handleCompileErrorRoutes(req, res, type, template) {
     case 'no-html':
     case 'no-template':
     case 'no-homepage': {
-      const r = type;
-      const p = req.originalUrl;
-      const t = template;
-      return res.redirect(`/admin/error?r=${r}&p=${p}&t=${t}`);
+      const obj = {
+        r: type,
+        p: req.originalUrl,
+      };
+
+      if (template) obj.t = template;
+
+      const queryString = Object.keys(obj).reduce((prev, curr, i) => {
+        let queryParam = `${curr}=${obj[curr]}`;
+        if (i !== 0) queryParam = `&${queryParam}`;
+        return `${prev}${queryParam}`;
+      }, '');
+
+      return res.redirect(`/admin/error?${queryString}`);
     }
     case 'no-exist':
       return fourOhFourHandler(req, res);
