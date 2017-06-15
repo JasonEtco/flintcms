@@ -63,8 +63,11 @@ module.exports = class Flint {
   async startServer(port = this.port) {
     /* eslint-disable no-console */
     const missingEnvVariables = validateEnvVariables();
-    const shouldContinue = generateEnvFile() && missingEnvVariables.length === 0;
-    if (!shouldContinue) console.error(chalk.red('Could not start the server.'));
+    const didGenerateEnv = await generateEnvFile();
+    if (didGenerateEnv) return null;
+
+    const shouldContinue = missingEnvVariables.length === 0;
+    if (!shouldContinue) return console.error(chalk.red('Could not start the server.'));
 
     const connectedToDatabase = await connectToDatabase();
     console.log(connectedToDatabase);
