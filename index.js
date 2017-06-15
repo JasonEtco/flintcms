@@ -60,6 +60,11 @@ module.exports = class Flint {
     this.port = process.env.PORT || 4000;
   }
 
+  /**
+   * Checks configuration for important credentials
+   * then starts the Flint server
+   * @param {Number} [port] - Defaults to either the process.env port or 4000
+   */
   async startServer(port = this.port) {
     /* eslint-disable no-console */
     const missingEnvVariables = validateEnvVariables();
