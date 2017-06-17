@@ -1,7 +1,7 @@
 node_modules
 admin
-templates
-public
-scss
+/templates
+/public
+/scss
 .env
-logs
+/logs
