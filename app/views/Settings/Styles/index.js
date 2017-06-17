@@ -16,6 +16,7 @@ export default class Styles extends Component {
     }).isRequired,
     dispatch: PropTypes.func.isRequired,
   }
+
   constructor(props) {
     super(props);
     this.canSave = this.canSave.bind(this);
