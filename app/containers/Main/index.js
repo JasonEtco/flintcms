@@ -43,6 +43,7 @@ import Settings from 'views/Settings';
 import Site from 'views/Settings/Site';
 import Styles from 'views/Settings/Styles';
 import Plugins from 'views/Settings/Plugins';
+import Logs from 'views/Settings/Logs';
 
 import FourOhFour from 'views/404';
 
@@ -126,6 +127,7 @@ export default class Main extends Component {
           <Route path="/settings/general" render={props => <Site {...props} {...this.props} />} />
           <Route path="/settings/styles" render={props => <Styles {...props} {...this.props} />} />
           <Route path="/settings/plugins" render={props => <Plugins {...props} {...this.props} />} />
+          <Route path="/settings/logs" render={props => <Logs {...props} {...this.props} />} />
 
           <Route path="*" component={FourOhFour} />
         </Switch>

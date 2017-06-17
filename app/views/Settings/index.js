@@ -26,6 +26,7 @@ export default class Settings extends Component {
       ],
       Management: [
         { label: 'User Groups', path: '/settings/usergroups', icon: 'users', hidden: !perms.usergroups.canViewUserGroups },
+        { label: 'Logs', path: '/settings/logs', icon: 'floppy' },
       ],
       General: [
         { label: 'Site Settings', path: '/settings/general', icon: 'gear', hidden: !perms.site.canManageSite },
