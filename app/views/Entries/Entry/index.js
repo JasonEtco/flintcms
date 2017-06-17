@@ -18,6 +18,7 @@ import { withRouter } from 'react-router';
 export default withRouter(class Entry extends Component {
   static propTypes = {
     entries: t.entries.isRequired,
+    user: t.user.isRequired,
     fields: t.fields.isRequired,
     sections: t.sections.isRequired,
     match: PropTypes.shape({
@@ -67,18 +68,18 @@ export default withRouter(class Entry extends Component {
     );
   }
 
-  renderFields(entryFields, fieldId) {
+  renderFields(entryFields, fieldId, canEdit) {
     const { fields } = this.props.fields;
     const foundField = fields.find(f => f._id === fieldId);
     const entryField = entryFields.find(f => f.fieldId === fieldId);
 
     return renderOption(foundField, entryField ? entryField.value : null, {
-      disabled: !getUserPermissions().entries.canEditEntries,
+      disabled: !canEdit,
     });
   }
 
   render() {
-    const { sections, match, entries } = this.props;
+    const { sections, match, entries, user } = this.props;
 
     const {
       section,
@@ -87,6 +88,7 @@ export default withRouter(class Entry extends Component {
       full,
       status,
       fields,
+      author,
       dateCreated,
     } = entries.entries.find(e => e._id === match.params.id);
 
@@ -101,21 +103,22 @@ export default withRouter(class Entry extends Component {
       { label: title, path: `/entries/${sectionObj.slug}/${_id}` },
     ];
 
-    const { canEditEntries, canDeleteEntries } = getUserPermissions().entries;
+    const { canEditOthersEntries, canDeleteEntries } = getUserPermissions().entries;
+    const canEdit = canEditOthersEntries || user._id === author;
 
     return (
       <Page name="entry" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
         <TitleBar title={title}>
-          {canEditEntries && <Button small onClick={this.Submit} type="submit">Save Entry</Button>}
+          {canEdit && <Button small onClick={this.Submit} type="submit">Save Entry</Button>}
           {canDeleteEntries && <Button small onClick={this.deleteEntry}>Delete Entry</Button>}
         </TitleBar>
         <div className="content">
           <div className="page__inner">
-            <Input label="Title" defaultValue={title} name="title" full required disabled={!canEditEntries} />
-            {sectionObj.fields.map(fieldId => this.renderFields(fields, fieldId))}
+            <Input label="Title" defaultValue={title} name="title" full required disabled={!canEdit} />
+            {sectionObj.fields.map(fieldId => this.renderFields(fields, fieldId, canEdit))}
           </div>
 
-          <Aside status={status} dateCreated={dateCreated} disabled={!canEditEntries} />
+          <Aside status={status} dateCreated={dateCreated} disabled={!canEdit} />
         </div>
       </Page>
     );
