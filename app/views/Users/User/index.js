@@ -62,7 +62,7 @@ export default withRouter(class User extends Component {
 
     if (user.full === undefined) return null;
 
-    const userTitle = user.name.first ? `${user.name.first} ${user.name.last}` : user.email;
+    const userTitle = user.name && user.name.first ? `${user.name.first} ${user.name.last}` : user.email;
 
     const links = [
       { label: 'Users', path: '/users' },
@@ -106,7 +106,7 @@ export default withRouter(class User extends Component {
               label="First Name"
               ref={(r) => { this.first = r; }}
               full
-              defaultValue={user.name.first}
+              defaultValue={user.name ? user.name.first : undefined}
             />
 
             <Input
@@ -114,7 +114,7 @@ export default withRouter(class User extends Component {
               label="Last Name"
               ref={(r) => { this.last = r; }}
               full
-              defaultValue={user.name.last}
+              defaultValue={user.name ? user.name.last : undefined}
             />
           </div>
 
