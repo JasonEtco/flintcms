@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const reducePermissionsToObject = require('./reducePermissionsToObject');
 
 const User = mongoose.model('User');
 
@@ -8,6 +9,10 @@ const User = mongoose.model('User');
  * @returns {Object} Object of the various booleans of permissions
  */
 async function getUserPermissions(_id) {
+  if (!_id) {
+    return reducePermissionsToObject((p, c) => Object.assign({}, p, { [c.name]: true }), {});
+  }
+
   const user = await User.findById(_id).exec();
   const perms = await user.getPermissions();
 

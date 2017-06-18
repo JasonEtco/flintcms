@@ -18,15 +18,15 @@ module.exports = {
       type: GraphQLString,
     },
   },
-  async resolve({ perms }, args, ctx, ast) {
+  async resolve(root, args, ctx, ast) {
     const isAUser = ctx !== undefined && ctx.user !== undefined;
     const projection = getProjection(ast);
 
     const fargs = {};
 
     if (args.status) {
-      if (isAUser) {
-        fargs.status = !perms.entries.canSeeDrafts ? 'live' : args.status;
+      if (isAUser && root.perms) {
+        fargs.status = !root.perms.entries.canSeeDrafts ? 'live' : args.status;
       } else {
         fargs.status = args.status;
       }

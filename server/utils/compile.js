@@ -18,7 +18,7 @@ async function compile(template, data) {
   if (!fs.existsSync(templatePath)) return 'no-template';
 
   // Collect site's data (entries, pages, sections, users, etc)
-  const compiledData = await collectData(data);
+  const compiledData = await collectData(data).catch(console.log); // eslint-disable-line no-console
 
   let html = await nun.render(templatePath, compiledData);
   if (!html) return 'no-html';

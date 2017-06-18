@@ -11,7 +11,8 @@ router.get('/', async (req, res) => {
   const homepage = await Page.findOne({ homepage: true }).lean().exec();
   if (!homepage) return handleCompileErrorRoutes(req, res, 'no-homepage');
 
-  const compiled = await compile(homepage.template, homepage);
+  const compiled = await compile(homepage.template, homepage)
+    .catch(console.log); // eslint-disable-line no-console
   return res.send(compiled);
 });
 
