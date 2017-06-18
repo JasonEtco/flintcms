@@ -59,7 +59,9 @@ export default withRouter(class Entries extends Component {
 
           <div className="content">
             <div className="page__inner">
-              <h1>Make a section first!</h1>
+              <Empty>
+                <p>You will need to make a <Link to="/settings/sections/new">section</Link> before making any entries.</p>
+              </Empty>
             </div>
           </div>
         </Page>
