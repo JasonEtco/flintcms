@@ -66,6 +66,23 @@ export function newPage({ title, homepage, template, dateCreated, fields, route 
   };
 }
 
+const updateQuery = `mutation ($_id: ID!, $data: PagesInput!) {
+  updatePage(_id: $_id, data: $data) {
+    _id
+    title
+    template
+    slug
+    handle
+    route
+    homepage
+    fields {
+      fieldId
+      handle
+      value
+    }
+  }
+}`;
+
 /**
  * Saves updates of an existing Page
  * @param {string} _id
@@ -74,37 +91,52 @@ export function newPage({ title, homepage, template, dateCreated, fields, route 
 export function updatePage(_id, data) {
   return async (dispatch, getState) => {
     const state = getState();
-    const { title, dateCreated, route, ...fields } = data;
+    const { title, dateCreated, ...fields } = data;
     const options = await formatFields(fields, state.fields.fields);
-
-    const query = `mutation ($_id: ID!, $data: PagesInput!) {
-      updatePage(_id: $_id, data: $data) {
-        _id
-        title
-        template
-        slug
-        handle
-        route
-        homepage
-        fields {
-          fieldId
-          handle
-          value
-        }
-      }
-    }`;
 
     const variables = {
       _id,
       data: {
-        route,
         title,
         dateCreated,
         fields: options,
       },
     };
 
-    return graphFetcher(query, variables)
+    return graphFetcher(updateQuery, variables)
+      .then((json) => {
+        const updatedPage = json.data.data.updatePage;
+        dispatch({ type: UPDATE_PAGE, updatePage: updatedPage });
+        dispatch(newToast({
+          message: <span><b>{updatedPage.title}</b> has been updated!</span>,
+          style: 'success',
+        }));
+      })
+      .catch(errorToasts);
+  };
+}
+
+/**
+ * Saves updates of an existing Page
+ * @param {string} _id
+ * @param {object} data
+ */
+export function updatePageSettings(_id, data) {
+  return (dispatch) => {
+    const { title, fields, dateCreated, route, template, homepage } = data;
+    const variables = {
+      _id,
+      data: {
+        title,
+        fieldLayout: fields,
+        dateCreated,
+        route,
+        template,
+        homepage,
+      },
+    };
+
+    return graphFetcher(updateQuery, variables)
       .then((json) => {
         const updatedPage = json.data.data.updatePage;
         dispatch({ type: UPDATE_PAGE, updatePage: updatedPage });

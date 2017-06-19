@@ -7,7 +7,7 @@ import Input from 'components/Input';
 import Toggle from 'components/Fields/Toggle';
 import TitleBar from 'components/TitleBar';
 import Button from 'components/Button';
-import { updatePage } from 'actions/pageActions';
+import { updatePageSettings } from 'actions/pageActions';
 import t from 'utils/types';
 import { withRouter } from 'react-router';
 
@@ -40,7 +40,7 @@ export default withRouter(class SettingsPage extends Component {
     e.preventDefault();
     const { dispatch } = this.props;
     const data = serialize(this.pagewrapper.form, { hash: true });
-    dispatch(updatePage(this.page._id, data));
+    dispatch(updatePageSettings(this.page._id, data));
   }
 
   toggleField(id) {
