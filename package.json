@@ -1,6 +1,6 @@
 {
   "name": "flintcms",
-  "version": "1.0.2-beta",
+  "version": "1.0.3-beta",
   "description": "Content-Focused CMS built on Node.js",
   "main": "index.js",
   "repository": "https://github.com/JasonEtco/flintcms",
