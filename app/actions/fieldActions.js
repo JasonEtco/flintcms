@@ -20,6 +20,7 @@ export function newField(data) {
         _id
         title
         slug
+        handle
         instructions
         type
         dateCreated

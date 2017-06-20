@@ -204,7 +204,6 @@ class Panel extends Component {
                 onClick={() => this.changeBlockType(blockKey)}
                 label={blockKey}
                 onDelete={this.deleteBlock}
-                dispatch={this.props.dispatch}
               />))}
             <Button small onClick={this.newBlockType}>New Block Type</Button>
           </div>
