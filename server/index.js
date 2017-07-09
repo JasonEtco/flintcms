@@ -44,6 +44,10 @@ app.use(require('./utils/publicRegistration'));
 
 app.use(require('./utils/templateRoutes'));
 
+/**
+ * Starts the Flint server.
+ * @param {Number} port - Port to listen on for the main server
+ */
 function startServer(port) {
   http.listen(port, () => console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`));
 }
