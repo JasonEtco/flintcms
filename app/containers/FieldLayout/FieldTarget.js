@@ -34,15 +34,15 @@ class FieldTarget extends Component {
 
     return connectDropTarget(
       <ul className={classes}>
-        {fields.map((field, i) =>
+        {fields.map((field, i) => (
           <FieldTargetCard
             key={field._id}
             field={field}
             index={i}
             removeField={removeField}
             sortField={sortField}
-          />,
-        )}
+          />
+        ))}
       </ul>,
     );
   }

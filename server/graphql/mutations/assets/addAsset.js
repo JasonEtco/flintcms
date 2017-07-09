@@ -1,6 +1,4 @@
-const {
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Assets');
 
@@ -14,14 +12,18 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, args) {
+  async resolve({ io, perms, events, socketEvent }, args) {
+    if (!perms.assets.canAddAssets) throw new Error('You do not have permission to add new assets.');
+
     const newAsset = new Asset(args.data);
+    events.emit('pre-new-asset', newAsset);
 
     const savedAsset = await newAsset.save();
 
     if (!savedAsset) throw new Error('There was a problem saving the asset.');
 
-    root.io.emit('new-asset', savedAsset);
+    events.emit('post-new-asset', savedAsset);
+    socketEvent('new-asset', savedAsset);
     return savedAsset;
   },
 };

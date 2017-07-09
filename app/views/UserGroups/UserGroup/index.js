@@ -14,18 +14,13 @@ import permissions from '../../../../server/utils/permissions.json';
 
 export default withRouter(class UserGroup extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    usergroups: t.usergroups,
+    dispatch: PropTypes.func.isRequired,
+    usergroups: t.usergroups.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         slug: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    usergroups: null,
   }
 
   constructor(props) {

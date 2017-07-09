@@ -16,6 +16,7 @@ exports.resolve = {
     views: path.join(__dirname, '..', 'app', 'views'),
     actions: path.join(__dirname, '..', 'app', 'actions'),
     utils: path.join(__dirname, '..', 'app', 'utils'),
+    assets: path.join(__dirname, '..', 'app', 'assets'),
   },
 };
 

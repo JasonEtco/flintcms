@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { formatDate } from 'utils/helpers';
 import Page from 'containers/Page';
+import Empty from 'containers/Empty';
 import Table from 'components/Table';
 import TitleBar from 'components/TitleBar';
 import t from 'utils/types';
@@ -11,13 +12,8 @@ import { deleteSection } from 'actions/sectionActions';
 
 export default class Sections extends Component {
   static propTypes = {
-    sections: t.sections,
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    sections: null,
+    sections: t.sections.isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   render() {
@@ -29,7 +25,14 @@ export default class Sections extends Component {
         value: props.title,
         component: <Link to={`/settings/sections/${props.slug}`}>{props.title}</Link>,
       },
-      slug: props.slug,
+      slug: {
+        value: props.slug,
+        component: <code>{props.slug}</code>,
+      },
+      handle: {
+        value: props.handle,
+        component: <code>{props.handle}</code>,
+      },
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
         component: formatDate(props.dateCreated),
@@ -52,7 +55,11 @@ export default class Sections extends Component {
 
         <div className="content">
           <div className="page__inner">
-            {reduced.length > 0 ? <Table data={reduced} /> : <h3>No sections!</h3>}
+            {reduced.length > 0 ? <Table data={reduced} /> : (
+              <Empty>
+                There are no Sections! Go ahead and <Link to="/settings/sections/new">make one.</Link>
+              </Empty>
+            )}
           </div>
         </div>
       </Page>

@@ -1,14 +1,15 @@
 const { graphql } = require('graphql');
 const schema = require('../graphql');
 const h = require('./helpers');
+const perms = require('../utils/permissions.json');
 
 /**
  * Adds organized key/value field pairs onto entries
  * @param {Object[]} entries - Array of Entry objects
  * @returns {Object[]}
  */
-async function formatEntryFields(entries) {
-  return entries.map(entry => Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')));
+async function formatEntryFields(arr, target = 'fields') {
+  return arr.map(doc => Object.assign({}, doc, h.reduceToObj(doc[target], 'handle', 'value')));
 }
 
 
@@ -26,7 +27,7 @@ async function formatEntryFields(entries) {
  */
 async function sectionEntries(dataSections, entries) {
   // Organizes sections by _id/slug
-  const sections = await h.reduceToObj(dataSections, '_id', 'slug');
+  const sections = await h.reduceToObj(dataSections, '_id', 'handle');
 
   // Get just the _ids from the new sections object
   const sectionKeys = Object.keys(sections);
@@ -44,6 +45,12 @@ async function sectionEntries(dataSections, entries) {
 }
 
 
+const permissions = `
+  permissions {
+    ${Object.keys(perms).map(key => `${key} {\n${perms[key].map(({ name }) => `\t${name}`).join('\n')}\n}`).join('\n')}
+  }
+`;
+
 /**
  * Collects all of the entries, sections, users and fields
  * and prepares them for us in a template
@@ -52,12 +59,23 @@ async function sectionEntries(dataSections, entries) {
  */
 async function collectData(entry) {
   const query = `{
+    assets {
+      _id
+      title
+      filename
+      size
+      width
+      height
+      dateCreated
+    }
+
     entries (status: "live") {
       _id
       title
       slug
       section
       url
+      dateCreated
       author {
         name {
           first
@@ -71,27 +89,92 @@ async function collectData(entry) {
         value
       }
     }
+
     sections {
       _id
       title
       slug
+      handle
+      template
+      fields
+      dateCreated
     }
+
+    pages {
+      _id
+      title
+      slug
+      handle
+      template
+      fields {
+        handle
+        fieldId
+        value
+      }
+      fieldLayout
+      dateCreated
+      homepage
+      route
+    }
+
     users {
       _id
       username
+      dateCreated
+      email
+      name {
+        first
+        last
+      }
+      usergroup {
+        _id
+        title
+        slug
+        dateCreated
+        ${permissions}
+      }
     }
+
+    usergroups {
+      _id
+      title
+      slug
+      dateCreated
+      ${permissions}
+    }
+
+    fields {
+      _id
+      type
+      title
+      slug
+      handle
+      required
+      options
+      dateCreated
+    }
+
     site {
+      siteName
+      siteUrl
       style
     }
   }`;
 
   const { data, errors } = await graphql(schema, query);
-
   if (errors) throw new Error(errors);
 
-  const formattedEntries = await formatEntryFields(data.entries);
+  const [formattedEntries, formattedPages] = await Promise.all([
+    formatEntryFields(data.entries),
+    formatEntryFields(data.pages),
+  ]);
+
   const sections = await sectionEntries(data.sections, formattedEntries);
   const flint = Object.assign({}, data, {
+    pages: formattedPages,
+    page(page) {
+      return this.pages.find(p => p.handle === page);
+    },
     sections,
     section(section) {
       return this.sections[section];
@@ -100,7 +183,7 @@ async function collectData(entry) {
 
   if (entry) {
     return {
-      entry: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
+      this: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
       flint,
     };
   }

@@ -2,7 +2,6 @@ const { GraphQLList, GraphQLString } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Entries');
 const getProjection = require('../../get-projection');
-const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Entry = mongoose.model('Entry');
 const Section = mongoose.model('Section');
@@ -26,9 +25,8 @@ module.exports = {
     const fargs = {};
 
     if (args.status) {
-      if (isAUser) {
-        const perms = await getUserPermissions(ctx.user._id);
-        fargs.status = !perms.entries.canSeeDrafts ? 'live' : args.status;
+      if (isAUser && root.perms) {
+        fargs.status = !root.perms.entries.canSeeDrafts ? 'live' : args.status;
       } else {
         fargs.status = args.status;
       }

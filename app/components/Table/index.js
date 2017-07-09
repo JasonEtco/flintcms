@@ -77,7 +77,7 @@ export default class Table extends Component {
     let flag = false;
     Object.keys(row).forEach((key) => {
       const v = row[key];
-      if (typeof v === 'object' && v.sortBy !== false && v.value !== undefined && v.value.toString().search(re) !== -1) flag = true;
+      if (v !== null && typeof v === 'object' && v.sortBy !== false && v.value !== undefined && v.value.toString().search(re) !== -1) flag = true;
       if (v.toString().search(re) !== -1) flag = true;
     });
     return flag;
@@ -99,8 +99,10 @@ export default class Table extends Component {
 
     const columns = filtered
       .reduce((prev, curr) => [...prev, ...Object.keys(curr)], [])
-      .filter((el, i, self) => i === self.indexOf(el))
-      .filter(el => el !== 'key');
+      .filter((el, i, self) =>
+        i === self.indexOf(el) &&
+        el !== 'key' &&
+        data.find(c => Object.hasOwnProperty.call(c, el))[el]);
 
     const sorted = sortArrayOfObjByString(filtered, sortBy, direction);
     const classes = classnames(
@@ -125,7 +127,7 @@ export default class Table extends Component {
             <tr className="table__row">
               {columns.map((column) => {
                 const first = data.find(c => c[column]);
-                const has = typeof first[column].sortBy === 'boolean' && first[column].sortBy === false;
+                const has = first[column] && typeof first[column].sortBy === 'boolean' && first[column].sortBy === false;
 
                 return (
                   <THead
@@ -142,10 +144,11 @@ export default class Table extends Component {
             </tr>
           </thead>
           <tbody>
-            {sorted.map(tr =>
+            {sorted.map(tr => (
               <tr className="table__row" key={tr.key} onClick={() => this.handleRowClick(tr.key)}>{columns.map(column =>
                 <Cell key={column} column={column}>{tr[column]}</Cell>)}
-              </tr>)}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

@@ -1,6 +1,12 @@
 node_modules
+/admin
+/templates
+/public
+/scss
 .env
 admin
 flint
 __coverage__
 public
+.DS_Store
+/logs

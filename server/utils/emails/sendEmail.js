@@ -1,29 +1,9 @@
-const nodemailer = require('nodemailer');
+const { transporter } = require('.');
 const htmlToText = require('html-to-text');
 const path = require('path');
 const compile = require('./compile');
-const config = require('../../../config');
 
 const pathToFlintLogo = path.join(__dirname, 'flintlogo.png');
-
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST || 'smtp.gmail.com',
-  port: process.env.MAIL_PORT || 465,
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-  secure: process.env.MAIL_SECURE || true,
-});
-
-// Verify Nodemail setup and connection
-transporter.verify((error) => {
-  if (error) {
-    console.log(error); // eslint-disable-line no-console
-  } else {
-    console.log('[Email Service] Server can send emails!'); // eslint-disable-line no-console
-  }
-});
 
 /**
  * Send an email
@@ -32,11 +12,11 @@ transporter.verify((error) => {
  * @param {Object} data - Data object
  */
 async function sendEmail(to, template, data) {
-  const html = await compile(template, Object.assign(data, config));
+  const html = await compile(template, data);
   const text = htmlToText.fromString(html);
 
   transporter.sendMail({
-    from: 'FlintCMS - Do not reply <info@flint.com>',
+    from: 'FlintCMS - Do not reply <info@flintcms.co>',
     to,
     subject: data.subject,
     html,

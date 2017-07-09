@@ -7,18 +7,13 @@ import FieldLayout from 'containers/FieldLayout';
 import Input from 'components/Input';
 import TitleBar from 'components/TitleBar';
 import Button from 'components/Button';
-import { slugify } from 'utils/helpers';
+import camelcase from 'utils/camelcase';
 import t from 'utils/types';
 
 export default class NewSection extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    fields: t.fields,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    fields: null,
+    dispatch: PropTypes.func.isRequired,
+    fields: t.fields.isRequired,
   }
 
   constructor(props) {
@@ -65,20 +60,20 @@ export default class NewSection extends Component {
             />
 
             <Input
-              name="slug"
-              label="Section Slug"
-              instructions="You can use this slug to reference this specific entry in a template."
+              name="handle"
+              label="Section Handle"
+              instructions="You can use this handle to reference this specific section in a template."
               required
               full
               code
               disabled
-              value={slugify(this.state.title)}
+              value={camelcase(this.state.title)}
             />
 
             <Input
               name="template"
               label="Template"
-              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.hbs`."
+              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`."
               ref={(r) => { this.template = r; }}
               required
               full

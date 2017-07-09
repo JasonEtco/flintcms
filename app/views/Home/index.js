@@ -23,7 +23,12 @@ export default class Home extends Component {
 
           <div className="content">
             <div className="page__inner">
-              <h1>No content :(</h1>
+              <div className="home--empty">
+                <h1>Welcome to FlintCMS!</h1>
+                <p>
+                  You can get started by <Link to="/settings/fields/new">creating some fields</Link> to use in sections or pages. Then, <Link to="/settings/pages/new">create your website&apos;s homepage!</Link>
+                </p>
+              </div>
             </div>
           </div>
         </Page>
@@ -41,7 +46,7 @@ export default class Home extends Component {
             <div className="home__column">
               <h3 className="subtitle">Recent Entries</h3>
               <ul className="home__list">
-                {newEntries.map(e =>
+                {newEntries.map(e => (
                   <li key={e._id} className="home__list-item">
                     <Link to={`/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>
                       <h4>{e.title}</h4>
@@ -50,7 +55,7 @@ export default class Home extends Component {
                         <span className="home__list-item__date">{formatDate(e.dateCreated)}</span>
                       </div>
                     </Link>
-                  </li>)}
+                  </li>))}
               </ul>
             </div>
           </div>

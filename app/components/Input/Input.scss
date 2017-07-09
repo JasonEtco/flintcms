@@ -93,4 +93,16 @@
             }
         }
     }
+
+    &-group {
+        display: flex;
+        align-items: center;
+
+        .input-wrapper {
+            width: calc(50% - 0.5em);
+            margin-top: 0;
+
+            &:first-of-type { margin-right: 1em; }
+        }
+    }
 }

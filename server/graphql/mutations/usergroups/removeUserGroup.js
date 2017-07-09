@@ -2,9 +2,6 @@ const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/UserGroups');
 const getProjection = require('../../get-projection');
-const emitSocketEvent = require('../../../utils/emitSocketEvent');
-const getUserPermissions = require('../../../utils/getUserPermissions');
-const events = require('../../../utils/events');
 
 const UserGroup = mongoose.model('UserGroup');
 
@@ -17,21 +14,22 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, args, ctx, ast) {
-    const perms = await getUserPermissions(ctx.user._id);
+  async resolve({ events, perms, socketEvent }, { _id }, ctx, ast) {
     if (!perms.usergroups.canDeleteUserGroups) throw new Error('You do not have permission to delete User Groups.');
 
     const projection = getProjection(ast);
 
-    events.emit('pre-delete-usergroup', args._id);
+    const foundUserGroup = await UserGroup.findById(_id);
+    events.emit('pre-delete-usergroup', foundUserGroup);
+
     const removedUserGroup = await UserGroup
-      .findByIdAndRemove(args._id, { select: projection })
+      .findByIdAndRemove(_id, { select: projection })
       .exec();
 
     if (!removedUserGroup) throw new Error('Error removing user group');
 
     events.emit('post-delete-usergroup', removedUserGroup);
-    emitSocketEvent(root, 'delete-usergroup', removedUserGroup);
+    socketEvent('delete-usergroup', removedUserGroup);
     return removedUserGroup;
   },
 };

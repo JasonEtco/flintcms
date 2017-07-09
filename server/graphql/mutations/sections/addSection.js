@@ -4,9 +4,6 @@ const {
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Sections');
 const h = require('../../../utils/helpers');
-const emitSocketEvent = require('../../../utils/emitSocketEvent');
-const getUserPermissions = require('../../../utils/getUserPermissions');
-const events = require('../../../utils/events');
 
 const Section = mongoose.model('Section');
 
@@ -18,8 +15,7 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, args, ctx) {
-    const perms = await getUserPermissions(ctx.user._id);
+  async resolve({ events, perms, socketEvent }, args) {
     if (!perms.sections.canAddSections) throw new Error('You do not have permission to create a new Section.');
 
     const { fields, title } = args.data;
@@ -37,7 +33,7 @@ module.exports = {
     const savedSection = await newSection.save();
     if (!savedSection) throw new Error('Could not save the section.');
 
-    emitSocketEvent(root, 'new-section', savedSection);
+    socketEvent('new-section', savedSection);
     events.emit('post-new-section', savedSection);
     return savedSection;
   },

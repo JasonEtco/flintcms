@@ -22,6 +22,11 @@ import Section from 'views/Sections/Section';
 import Sections from 'views/Sections/Sections';
 import NewSection from 'views/Sections/NewSection';
 
+import Page from 'views/Pages/Page';
+import SettingsPage from 'views/Pages/SettingsPage';
+import Pages from 'views/Pages/Pages';
+import NewPage from 'views/Pages/NewPage';
+
 import UserGroup from 'views/UserGroups/UserGroup';
 import UserGroups from 'views/UserGroups/UserGroups';
 import NewUserGroup from 'views/UserGroups/NewUserGroup';
@@ -38,6 +43,7 @@ import Settings from 'views/Settings';
 import Site from 'views/Settings/Site';
 import Styles from 'views/Settings/Styles';
 import Plugins from 'views/Settings/Plugins';
+import Logs from 'views/Settings/Logs';
 
 import FourOhFour from 'views/404';
 
@@ -46,17 +52,12 @@ import MainNav from '../MainNav';
 
 export default class Main extends Component {
   static propTypes = {
-    site: t.site,
+    site: t.site.isRequired,
     socket: PropTypes.object.isRequired,
     ui: PropTypes.object.isRequired,
-    user: t.user,
+    user: t.user.isRequired,
     location: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    site: null,
-    user: null,
   }
 
   state = { navIsOpen: false }
@@ -87,7 +88,7 @@ export default class Main extends Component {
 
     return (
       <main className="main">
-        <button className="nav__toggle" type="button" onClick={() => this.setState({ navIsOpen: !navIsOpen })}><Icon icon="gear" /></button>
+        <button className="nav__toggle" type="button" onClick={() => this.setState({ navIsOpen: !navIsOpen })}><Icon icon="hamburger" /></button>
         <MainNav siteName={site.siteName} user={user} open={navIsOpen} closeNav={this.closeNav} />
 
         <Switch>
@@ -105,6 +106,12 @@ export default class Main extends Component {
           <Route exact path="/settings/sections/new" render={props => <NewSection {...props} {...this.props} />} />
           <Route path="/settings/sections/:slug" render={props => <Section {...props} {...this.props} />} />
 
+          <Route exact path="/pages/:id" render={props => <Page {...props} {...this.props} />} />
+          <Route exact path="/pages" render={props => <Pages settings={false} {...props} {...this.props} />} />
+          <Route exact path="/settings/pages" render={props => <Pages {...props} {...this.props} />} />
+          <Route exact path="/settings/pages/new" render={props => <NewPage {...props} {...this.props} />} />
+          <Route path="/settings/pages/:slug" render={props => <SettingsPage {...props} {...this.props} />} />
+
           <Route exact path="/settings/usergroups" render={props => <UserGroups {...props} {...this.props} />} />
           <Route exact path="/settings/usergroups/new" render={props => <NewUserGroup {...props} {...this.props} />} />
           <Route path="/settings/usergroups/:slug" render={props => <UserGroup {...props} {...this.props} />} />
@@ -120,6 +127,7 @@ export default class Main extends Component {
           <Route path="/settings/general" render={props => <Site {...props} {...this.props} />} />
           <Route path="/settings/styles" render={props => <Styles {...props} {...this.props} />} />
           <Route path="/settings/plugins" render={props => <Plugins {...props} {...this.props} />} />
+          <Route path="/settings/logs" render={props => <Logs {...props} {...this.props} />} />
 
           <Route path="*" component={FourOhFour} />
         </Switch>

@@ -8,7 +8,7 @@ const schema = require('../graphql');
  * @param {Object} entry
  * @param {String} entry.slug
  * @param {String} entry.section
- * @returns {Object} Entry object
+ * @returns {Object|Boolean} Entry object or `false` if there is no Entry
  */
 async function getEntryData({ slug, section }) {
   const query = `{
@@ -35,11 +35,9 @@ async function getEntryData({ slug, section }) {
     }
   }`;
 
-  const { data, errors } = await graphql(schema, query);
-
-  if (errors !== undefined && (data.entry === undefined || data.entry === null)) {
-    console.error(data, errors);
-    throw new Error(404);
+  const { data } = await graphql(schema, query);
+  if (data.entry === undefined || data.entry === null) {
+    return false;
   }
 
   return data.entry;

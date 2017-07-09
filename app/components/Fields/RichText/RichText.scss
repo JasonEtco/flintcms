@@ -7,6 +7,7 @@
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
         border: 1px solid $grey-light;
+        background-color: white;
 
         &__btn {
             padding: 0.2em;
@@ -37,6 +38,7 @@
             background-color: white;
             font-size: 0.8rem;
             max-height: 200px;
+
             @include scrollbar($grey, $grey-light, 8px);
 
             > li {
@@ -75,6 +77,8 @@
         border-bottom-right-radius: 3px;
         border: 1px solid $grey-light;
         border-top: none;
+        background-color: white;
+
         @include scrollbar($grey-light, white, 8px);
     }
 

@@ -5,14 +5,17 @@ import Page from 'containers/Page';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import TitleBar from 'components/TitleBar';
+import Dropdown from 'components/Fields/Dropdown';
 import Aside from 'containers/Aside';
 import t from 'utils/types';
+import { arrayMove } from 'utils/helpers';
 import { withRouter } from 'react-router';
 
 export default withRouter(class User extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    users: t.users,
+    dispatch: PropTypes.func.isRequired,
+    users: t.users.isRequired,
+    usergroups: t.usergroups.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -20,14 +23,10 @@ export default withRouter(class User extends Component {
     }).isRequired,
   }
 
-  static defaultProps = {
-    dispatch: null,
-    users: null,
-  }
-
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.sendPasswordReset = this.sendPasswordReset.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +38,7 @@ export default withRouter(class User extends Component {
   }
 
   onSubmit() {
-    const { username, first, last, email, props } = this;
+    const { username, first, last, email, props, usergroup } = this;
     this.props.dispatch(updateUser(props.match.params.id, {
       username: username.value,
       email: email.value,
@@ -47,6 +46,7 @@ export default withRouter(class User extends Component {
         first: first.value,
         last: last.value,
       },
+      usergroup: usergroup.value,
     }));
   }
 
@@ -57,16 +57,21 @@ export default withRouter(class User extends Component {
 
   render() {
     const { users, match } = this.props;
+    const { usergroups } = this.props.usergroups;
     const user = users.users.find(u => u._id === match.params.id);
 
     if (user.full === undefined) return null;
 
-    const userTitle = user.name.first ? `${user.name.first} ${user.name.last}` : user.email;
+    const userTitle = user.name && user.name.first ? `${user.name.first} ${user.name.last}` : user.email;
 
     const links = [
       { label: 'Users', path: '/users' },
       { label: userTitle, path: `/users/${match.params.id}` },
     ];
+
+    const adminIndex = usergroups.findIndex(u => u.slug === 'admin');
+    const orderedUsergroups = arrayMove(usergroups, adminIndex, 0);
+    const formattedUsergroups = orderedUsergroups.map(u => ({ label: u.title, value: u._id }));
 
     return (
       <Page name="user" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
@@ -101,7 +106,7 @@ export default withRouter(class User extends Component {
               label="First Name"
               ref={(r) => { this.first = r; }}
               full
-              defaultValue={user.name.first}
+              defaultValue={user.name ? user.name.first : undefined}
             />
 
             <Input
@@ -109,11 +114,18 @@ export default withRouter(class User extends Component {
               label="Last Name"
               ref={(r) => { this.last = r; }}
               full
-              defaultValue={user.name.last}
+              defaultValue={user.name ? user.name.last : undefined}
             />
           </div>
 
           <Aside noStatus dateCreated={user.dateCreated}>
+            <Dropdown
+              label="Usergroup"
+              name="usergroup"
+              full
+              ref={(r) => { this.usergroup = r; }}
+              options={formattedUsergroups}
+            />
             <Button small formElement onClick={this.sendPasswordReset}>Reset Password</Button>
           </Aside>
         </div>

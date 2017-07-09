@@ -70,14 +70,14 @@ class FieldLayout extends Component {
           />
 
           <div className="field-layout__fields">
-            {fields.map((field, i) =>
+            {fields.map((field, i) => (
               <FieldSource
                 key={field._id}
                 index={i}
                 field={field}
                 disabled={this.state.fields.findIndex(obj => obj._id === field._id) !== -1}
                 isNew
-              />)}
+              />))}
           </div>
         </div>
       </section>

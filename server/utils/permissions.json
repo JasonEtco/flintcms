@@ -5,6 +5,12 @@
     { "name": "canEditSections", "defaultValue": false, "label": "Can Edit Sections" }
   ],
 
+  "pages": [
+    { "name": "canAddPages", "defaultValue": false, "label": "Can Add Pages" },
+    { "name": "canDeletePages", "defaultValue": false, "label": "Can Delete Pages" },
+    { "name": "canEditPages", "defaultValue": false, "label": "Can Edit Pages" }
+  ],
+
   "fields": [
     { "name": "canAddFields", "defaultValue": false, "label": "Can Add Fields" },
     { "name": "canDeleteFields", "defaultValue": false, "label": "Can Delete Fields" },
@@ -24,7 +30,9 @@
   "users": [
     { "name": "canAddUsers", "defaultValue": false, "label": "Can Add Users" },
     { "name": "canEditUsers", "defaultValue": false, "label": "Can Edit Users" },
-    { "name": "canDeleteUsers", "defaultValue": false, "label": "Can Delete Users" }
+    { "name": "canDeleteUsers", "defaultValue": false, "label": "Can Delete Users" },
+    { "name": "canResetUserPasswords", "defaultValue": false, "label": "Can Send `Password Reset` emails to Users" },
+    { "name": "canChangeUsersUsergroup", "defaultValue": false, "label": "Can Change a User's Usergroup" }
   ],
 
   "usergroups": [
@@ -37,12 +45,17 @@
   "assets": [
     { "name": "canAddAssets", "defaultValue": false, "label": "Can Upload New Assets" },
     { "name": "canEditAssets", "defaultValue": false, "label": "Can Edit Assets" },
-    { "name": "canDeleteAssets", "defaultValue": false, "label": "Can Delete Assets" }
+    { "name": "canDeleteAssets", "defaultValue": false, "label": "Can Delete Assets" },
+    { "name": "canIndexAssets", "defaultValue": false, "label": "Can Re-Index Assets" }
   ],
 
   "site": [
     { "name": "canManageSite", "defaultValue": false, "label": "Can Manage Site Configuration" },
     { "name": "canCustomStyles", "defaultValue": false, "label": "Can Write Custom Styles" },
+    { "name": "canManagePlugins", "defaultValue": false, "label": "Can Manage Plugins" }
+  ],
+
+  "plugins": [
     { "name": "canManagePlugins", "defaultValue": false, "label": "Can Manage Plugins" }
   ]
 }

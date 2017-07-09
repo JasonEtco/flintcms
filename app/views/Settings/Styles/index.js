@@ -13,13 +13,8 @@ export default class Styles extends Component {
   static propTypes = {
     site: PropTypes.shape({
       style: PropTypes.string,
-    }),
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    site: null,
-    dispatch: null,
+    }).isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {

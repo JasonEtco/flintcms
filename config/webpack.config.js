@@ -109,29 +109,9 @@ module.exports = {
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
       use: [
-        {
-          loader: 'file-loader',
-          options: {
-            hash: 'sha512',
-            digest: 'hex',
-            name: '[hash].[ext]',
-          },
-        },
-        {
-          loader: 'image-webpack-loader',
-          options: {
-            bypassOnDebug: true,
-          },
-        },
+        'url-loader?limit=10000',
+        'img-loader',
       ],
-    }, {
-      test: /\.(eot|svg|ttf|woff?)$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          name: 'assets/fonts/[name].[ext]',
-        },
-      },
     }],
   },
 };

@@ -8,7 +8,7 @@
     justify-content: center;
 
     .flint-logo-wrapper {
-        margin: 3em 0 2em;
+        margin-bottom: 2em;
 
         .flint-logo { fill: $grey; }
     }
@@ -50,6 +50,11 @@
 
         &:hover {
             color: $grey-dark;
+        }
+
+        + .flint-logo-wrapper {
+            margin-top: 2em;
+            margin-bottom: 0;
         }
     }
 }

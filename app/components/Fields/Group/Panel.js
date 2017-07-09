@@ -27,12 +27,11 @@ class Panel extends Component {
       })),
     })),
     name: PropTypes.string.isRequired,
-    dispatch: PropTypes.func,
+    dispatch: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     blocks: {},
-    dispatch: null,
   }
 
   constructor(props) {
@@ -198,15 +197,14 @@ class Panel extends Component {
         <div className="panel__col">
           <h3 className="panel__col__title">Block Types</h3>
           <div className="panel__col__inner">
-            {Object.keys(blocks).length > 0 && Object.keys(blocks).map(blockKey =>
+            {Object.keys(blocks).length > 0 && Object.keys(blocks).map(blockKey => (
               <GroupTile
                 key={blockKey}
                 isActive={currentBlock === blockKey}
                 onClick={() => this.changeBlockType(blockKey)}
                 label={blockKey}
                 onDelete={this.deleteBlock}
-                dispatch={this.props.dispatch}
-              />)}
+              />))}
             <Button small onClick={this.newBlockType}>New Block Type</Button>
           </div>
         </div>
@@ -216,14 +214,14 @@ class Panel extends Component {
           <div className="panel__col__inner">
             {currentBlock !== null &&
               <div>
-                {block.fields.map((f, i) =>
+                {block.fields.map((f, i) => (
                   <GroupTile
                     key={f.handle}
                     isActive={currentField === i}
                     onClick={() => this.changeField(i)}
                     label={f.label}
                     handle={f.handle}
-                  />)}
+                  />))}
                 <Button small onClick={this.newField}>New Field</Button>
               </div>
             }

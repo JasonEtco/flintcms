@@ -10,7 +10,7 @@ export default class ToolBar extends Component {
     removeLink: PropTypes.func.isRequired,
     editorState: PropTypes.object.isRequired,
     urlInput: PropTypes.element,
-  };
+  }
 
   static defaultProps = {
     urlInput: null,
@@ -91,19 +91,19 @@ export default class ToolBar extends Component {
             display: this.state.formatsIsVisible ? 'block' : 'none',
           }}
         >
-          {BLOCK_BTNS.map(btn =>
+          {BLOCK_BTNS.map(btn => (
             <li key={btn.title}>
               <button
                 type="button"
                 title={btn.title}
                 onClick={e => this.toggleFormats(e, btn.style)}
               >{btn.child}</button>
-            </li>)}
+            </li>))}
         </ul>
 
         <div className="rich-text__tools__sep" />
 
-        {INLINE_BTNS.map(btn =>
+        {INLINE_BTNS.map(btn => (
           <ToolBarButton
             key={btn.title}
             active={currentStyle.has(btn.style)}
@@ -111,18 +111,18 @@ export default class ToolBar extends Component {
             icon={btn.icon}
             style={btn.style}
             onClick={() => toggleInlineStyle(btn.style)}
-          />)}
+          />))}
 
         <div className="rich-text__tools__sep" />
 
-        {LINK_BTNS.map(btn =>
+        {LINK_BTNS.map(btn => (
           <ToolBarButton
             key={btn.title}
             active={btn.style === blockType}
             title={btn.title}
             icon={btn.icon}
             onClick={btn.onClick}
-          />)}
+          />))}
 
         {urlInput}
       </div>

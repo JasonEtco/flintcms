@@ -4,6 +4,7 @@ import {
   RECEIVE_USERS,
   NEW_USER,
   UPDATE_USER,
+  DELETE_USER,
 } from 'actions/userActions';
 
 export default function users(state = {}, action) {
@@ -33,6 +34,18 @@ export default function users(state = {}, action) {
         users: [
           ...state.users,
           action.addUser,
+        ],
+      };
+    }
+
+    case DELETE_USER: {
+      const { _id } = action;
+      const index = state.users.findIndex(u => u._id === _id);
+      return {
+        ...state,
+        users: [
+          ...state.users.slice(0, index),
+          ...state.users.slice(index + 1),
         ],
       };
     }

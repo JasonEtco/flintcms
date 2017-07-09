@@ -2,6 +2,7 @@
 
 const express = require('express');
 const path = require('path');
+const chalk = require('chalk');
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -9,12 +10,10 @@ const config = require('../../config/webpack.config');
 
 const admin = express();
 
-const isDeveloping = process.env.NODE_ENV !== 'production';
-
 admin.use(require('./routes/auth'));
 admin.use('/api', require('./api'));
 
-if (isDeveloping) {
+if (process.env.BUILD_DASHBOARD) {
   const compiler = webpack(config);
   const middleware = webpackMiddleware(compiler, {
     publicPath: '/',
@@ -36,7 +35,7 @@ if (isDeveloping) {
     res.end();
   });
 
-  console.log('[App: Admin] initialized in Dev mode.');
+  console.log(`${chalk.cyan('[App: Admin]')} initialized in Dev mode.`);
 } else {
   const STATIC_PATH = path.join(__dirname, '..', '..', 'admin');
   const STATIC_OPTS = {
@@ -48,7 +47,7 @@ if (isDeveloping) {
   admin.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'));
   });
-  console.log('[App: Admin] initialized.');
+  console.log(`${chalk.gray('[App: Admin]')} initialized.`);
 }
 
 module.exports = admin;

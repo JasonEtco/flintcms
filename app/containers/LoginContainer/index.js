@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom';
 import { get } from 'axios';
 import FlintLogo from 'components/FlintLogo';
 import './LoginContainer.scss';
-import { siteName } from '../../../config';
 
 export default class LoginContainer extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
+    forgot: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    forgot: true,
   }
 
   state = { siteLogo: null, isFetching: true }
@@ -25,15 +29,15 @@ export default class LoginContainer extends Component {
 
   render() {
     const { siteLogo, isFetching } = this.state;
-    const { children } = this.props;
+    const { children, forgot } = this.props;
 
     if (isFetching) return null;
 
     return (
       <div className="login">
-        {siteLogo ? <img className="login__img" src={`/public/assets/${siteLogo.filename}`} alt={siteName} /> : <FlintLogo width={140} height={80} />}
+        {siteLogo ? <img className="login__img" src={`/public/assets/${siteLogo.filename}`} alt={siteLogo.filename} /> : <FlintLogo width={140} height={40} />}
         {children}
-        <Link to="/admin/fp" className="login__forgot">Forgot your password?</Link>
+        {forgot && <Link to="/fp" className="login__forgot">Forgot your password?</Link>}
         {siteLogo && <FlintLogo poweredBy width={100} height={25} />}
       </div>
     );

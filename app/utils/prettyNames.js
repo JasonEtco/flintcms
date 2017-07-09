@@ -8,6 +8,8 @@ const names = {
   size: 'File Size',
   username: 'Username',
   name: 'Name',
+  type: 'Type',
+  handle: 'Handle',
 };
 
 export default names;

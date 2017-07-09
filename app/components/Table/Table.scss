@@ -63,7 +63,14 @@
             &:hover { text-decoration: underline; }
         }
 
-        &--delete, &--status { width: 1em; }
+        code {
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            border: 1px solid $grey-light;
+            background-color: darken($grey-lighter, 5%);
+        }
+
+        &--delete, &--status, &--homepage { width: 1em; }
 
         &--image {
             width: 3em;

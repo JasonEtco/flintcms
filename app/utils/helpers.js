@@ -1,4 +1,5 @@
 import moment from 'moment';
+import store from './store';
 
 /**
  * Sorts an array of objects by the given string
@@ -167,6 +168,22 @@ export function getUrlParameter(name, str = location.search) {
 }
 
 /**
+ * Sets the document's `<title>` attribute, has fallback
+ * to reset it if the `str` param is undefined.
+ * @param {String} [str] - String to add before the site's name, formatted like `str` - `siteName`
+ */
+export function setTitle(str) {
+  const { siteName } = store.getState().site;
+  if (str) {
+    document.title = `${str} - ${siteName}`;
+  } else if (siteName) {
+    document.title = `${siteName} · FlintCMS Dashboard`;
+  } else {
+    document.title = 'FlintCMS Dashboard';
+  }
+}
+
+/**
  * Replaces ` with <code> tags
  * @param {String} str
  * @returns {String}
@@ -205,6 +222,21 @@ export function arrayMove(arr, oldIndex, newIndex) {
 
 export function checkFor(arr, f, w) {
   return arr.some(v => v.f === w);
+}
+
+/**
+ * Removes properties with null or undefined values
+ * @param {object} obj
+ */
+export function cleanObject(obj) {
+  const keys = Object.keys(obj);
+  return keys.reduce((prev, curr) => {
+    if (obj[curr] !== null && obj[curr] !== undefined) {
+      return { ...prev, [curr]: obj[curr] };
+    }
+
+    return prev;
+  }, {});
 }
 
 /**

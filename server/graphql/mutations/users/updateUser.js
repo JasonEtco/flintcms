@@ -1,9 +1,6 @@
 const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Users');
-const emitSocketEvent = require('../../../utils/emitSocketEvent');
-const getUserPermissions = require('../../../utils/getUserPermissions');
-const events = require('../../../utils/events');
 
 const User = mongoose.model('User');
 
@@ -19,9 +16,9 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, { _id, data }, ctx) {
-    const perms = await getUserPermissions(ctx.user._id);
-    if (!perms.users.canManageUsers && _id !== ctx.user._id) throw new Error('You do not have permission to manage users.');
+  async resolve({ events, perms, socketEvent }, { _id, data }, ctx) {
+    if (!perms.users.canEditUsers && _id !== ctx.user._id) throw new Error('You do not have permission to edit users.');
+    if (!perms.users.canChangeUsersUsergroup && _id !== ctx.user._id) throw new Error('You do not have permission to change a user\'s usergroup.');
 
     const foundUser = await User.findById(_id).lean().exec();
     if (!foundUser) throw new Error('There is no User with this ID');
@@ -33,7 +30,7 @@ module.exports = {
 
     await User.populate(updatedUser, { path: 'usergroup' });
 
-    emitSocketEvent(root, 'update-user', updatedUser);
+    socketEvent('update-user', updatedUser);
     events.emit('post-update-user', updatedUser);
     return updatedUser;
   },

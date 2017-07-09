@@ -89,14 +89,14 @@ export default class Group extends Component {
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
         <div className="group__fields form-element">
-          {this.state.blocks.map((blk, i) =>
+          {this.state.blocks.map((blk, i) => (
             <div key={i} className="group__block form-element">
               <div className="group__block__btns">
                 <DeleteIcon onClick={() => this.deleteBlock(i)} small />
               </div>
               {blk.fields.map(field => renderOption(field, field.defaultValue || null, { name: `${name}[${i}][${field.handle}]` }))}
               <input type="text" name={`${name}[${i}][type]`} value={blk.type} hidden readOnly />
-            </div>)}
+            </div>))}
         </div>
         <div className={`group__buttons ${this.state.blocks.length > 0 ? 'form-element' : ''}`}>
           {Object.keys(blocks).map(blk => <button key={blk} type="button" className="group__buttons__btn" onClick={() => this.addBlock(blk)}>{blk}</button>)}

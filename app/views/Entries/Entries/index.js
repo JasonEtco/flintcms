@@ -13,6 +13,7 @@ import Table from 'components/Table';
 import StatusDot from 'components/StatusDot';
 import DropdownButton from 'components/DropdownButton';
 import getUserPermissions from 'utils/getUserPermissions';
+import Empty from 'containers/Empty';
 
 const localStorageKey = 'flint:lastSection';
 
@@ -58,7 +59,9 @@ export default withRouter(class Entries extends Component {
 
           <div className="content">
             <div className="page__inner">
-              <h1>Make a section first!</h1>
+              <Empty>
+                <p>You will need to make a <Link to="/settings/sections/new">section</Link> before making any entries.</p>
+              </Empty>
             </div>
           </div>
         </Page>
@@ -114,7 +117,11 @@ export default withRouter(class Entries extends Component {
           </SecondaryNav>
 
           <div className="page__inner">
-            {filtered.length > 0 ? <Table data={reduced} sortBy="dateCreated" /> : <h3>No entries!</h3>}
+            {filtered.length > 0 ? <Table data={reduced} sortBy="dateCreated" /> : (
+              <Empty>
+                There are no Entries! {section && <span>Go ahead and <Link to={`/entries/${section}/new`}>make one.</Link></span>}
+              </Empty>
+            )}
           </div>
         </div>
       </Page>

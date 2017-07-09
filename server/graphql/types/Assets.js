@@ -33,30 +33,38 @@ exports.outputType = new GraphQLObjectType({
   fields: {
     _id: {
       type: new GraphQLNonNull(GraphQLID),
+      description: 'Mongo ID string.',
     },
     title: {
       type: new GraphQLNonNull(GraphQLString),
+      description: 'Title of the asset.',
     },
     extension: {
       type: new GraphQLNonNull(GraphQLString),
+      description: 'File extension of the asset.',
     },
     filename: {
       type: new GraphQLNonNull(GraphQLString),
+      description: 'The original filename of the asset (in the local file system).',
     },
     dateCreated: {
       type: new GraphQLNonNull(DateTime),
     },
     width: {
       type: new GraphQLNonNull(GraphQLInt),
+      description: 'The width, in pixels, of the asset.',
     },
     height: {
       type: new GraphQLNonNull(GraphQLInt),
+      description: 'The height, in pixels, of the asset.',
     },
     size: {
       type: new GraphQLNonNull(GraphQLInt),
+      description: 'The file size, in bytes, of the asset.',
     },
     mimetype: {
       type: new GraphQLNonNull(GraphQLString),
+      description: 'The mimetype of the asset.',
     },
   },
 });
@@ -66,21 +74,27 @@ exports.inputType = new GraphQLInputObjectType({
   fields: {
     title: {
       type: GraphQLString,
+      description: 'Title of the asset.',
     },
     filename: {
       type: GraphQLString,
+      description: 'The original filename of the asset (in the local file system).',
     },
     mimetype: {
       type: GraphQLString,
+      description: 'The mimetype of the asset.',
     },
     size: {
       type: GraphQLInt,
+      description: 'The file size, in bytes, of the asset.',
     },
     width: {
       type: GraphQLInt,
+      description: 'The width, in pixels, of the asset.',
     },
     height: {
       type: GraphQLInt,
+      description: 'The height, in pixels, of the asset.',
     },
   },
 });

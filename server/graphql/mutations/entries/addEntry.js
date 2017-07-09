@@ -2,9 +2,6 @@ const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Entries');
 const h = require('../../../utils/helpers');
-const events = require('../../../utils/events');
-const emitSocketEvent = require('../../../utils/emitSocketEvent');
-const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Entry = mongoose.model('Entry');
 const Section = mongoose.model('Section');
@@ -17,9 +14,7 @@ module.exports = {
       type: new GraphQLNonNull(inputType),
     },
   },
-  async resolve(root, args, ctx) {
-    const perms = await getUserPermissions(ctx.user._id);
-
+  async resolve({ events, perms, socketEvent }, args) {
     // Ensure that the user can add new entries
     if (!perms.entries.canAddEntries) throw new Error('You do not have permission to create new Entries');
 
@@ -52,7 +47,7 @@ module.exports = {
     if (!savedEntry) throw new Error('Error adding new entry');
 
     events.emit('post-new-entry', savedEntry);
-    emitSocketEvent(root, 'new-entry', savedEntry);
+    socketEvent('new-entry', savedEntry);
     return savedEntry;
   },
 };

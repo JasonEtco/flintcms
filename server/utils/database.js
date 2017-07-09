@@ -1,7 +1,7 @@
 /* eslint no-console: 0 */
 
-require('dotenv').config();
 const mongoose = require('mongoose');
+const chalk = require('chalk');
 
 mongoose.Promise = global.Promise;
 
@@ -11,9 +11,34 @@ const mongoCredentials = {
   pass: process.env.DB_PASS,
 };
 
-mongoose.connect(mongoUri, mongoCredentials);
+module.exports = function connectToDatabase() {
+  mongoose.connect(mongoUri, mongoCredentials);
+  return new Promise((resolve, reject) => {
+    mongoose.connection.on('open', () => {
+      /* eslint-disable global-require */
+      require('../models/PluginModel');
+      require('./registerPlugins')();
 
-mongoose.connection.on('error', console.error.bind(console, 'Connection error:'));
+      require('../models/UserGroupModel');
+      require('./createAdminUserGroup')();
+
+      require('../models/UserModel');
+      require('../models/SectionModel');
+      require('../models/EntryModel');
+      require('../models/FieldModel');
+      require('../models/AssetModel');
+      require('../models/PageModel');
+
+      require('../models/SiteModel');
+      require('./updateSiteConfig')();
+      /* eslint-enable global-require */
+
+      resolve(`${chalk.green('[Mongoose]')} connection has been successfully established.`);
+    });
+    mongoose.connection.on('error', e =>
+      reject(`${chalk.red('[Mongoose]')} Connection error: ${e}`));
+  });
+};
 
 // Close the Mongoose connected on Ctrl+C
 process.on('SIGINT', () => {
@@ -22,18 +47,3 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
-
-
-require('../models/PluginModel');
-require('./registerPlugins')();
-
-require('../models/UserGroupModel');
-require('./createAdminUserGroup')();
-
-require('../models/UserModel');
-require('../models/SectionModel');
-require('../models/EntryModel');
-require('../models/FieldModel');
-require('../models/AssetModel');
-require('../models/SiteModel');
-

@@ -9,11 +9,7 @@ import Button from 'components/Button';
 
 export default class NewAsset extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
+    dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {

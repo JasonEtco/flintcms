@@ -3,8 +3,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DeleteIcon from 'components/DeleteIcon';
+import store from 'utils/store';
 
-export default function GroupTile({ onClick, label, handle, dispatch, isActive, onDelete }) {
+export default function GroupTile({ onClick, label, handle, isActive, onDelete }) {
+  const { dispatch } = store;
   return (
     <a
       onClick={onClick}
@@ -23,11 +25,9 @@ GroupTile.propTypes = {
   handle: PropTypes.string,
   isActive: PropTypes.bool.isRequired,
   onDelete: PropTypes.func,
-  dispatch: PropTypes.func,
 };
 
 GroupTile.defaultProps = {
   onDelete: null,
   handle: null,
-  dispatch: null,
 };

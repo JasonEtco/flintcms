@@ -2,9 +2,6 @@ const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Fields');
 const getProjection = require('../../get-projection');
-const emitSocketEvent = require('../../../utils/emitSocketEvent');
-const events = require('../../../utils/events');
-const getUserPermissions = require('../../../utils/getUserPermissions');
 
 const Field = mongoose.model('Field');
 const Section = mongoose.model('Section');
@@ -18,11 +15,14 @@ module.exports = {
       type: new GraphQLNonNull(GraphQLID),
     },
   },
-  async resolve(root, { _id }, ctx, ast) {
-    const perms = await getUserPermissions(ctx.user._id);
+  async resolve({ io, events, perms, socketEvent }, { _id }, ctx, ast) {
     if (!perms.fields.canAddFields) throw new Error('You do not have permission to create a new Field.');
 
-    events.emit('pre-delete-field', _id);
+    const foundField = await Field.findById(_id).exec();
+    if (!foundField) throw new Error('The field could not be found.')
+;
+    events.emit('pre-delete-field', foundField);
+
     const projection = getProjection(ast);
     const removedField = await Field
       .findByIdAndRemove(_id, { select: projection })
@@ -32,12 +32,12 @@ module.exports = {
       .then(sections => sections
       .forEach(sec => Section
       .findByIdAndUpdate(sec._id, { $pull: { fields: _id } }, { new: true })
-      .then(updateSection => root.io.emit('update-section', updateSection))));
+      .then(updateSection => io.emit('update-section', updateSection))));
 
     if (!removedField) throw new Error('Error removing field');
 
     events.emit('post-delete-field', removedField);
-    emitSocketEvent(root, 'delete-field', removedField);
+    socketEvent('delete-field', removedField);
     return removedField;
   },
 };

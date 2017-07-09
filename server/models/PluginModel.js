@@ -8,7 +8,7 @@ const PluginSchema = new Schema({
     required: true,
     unique: true,
   },
-  directoryName: {
+  uid: {
     type: String,
     required: true,
     unique: true,

@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const SiteSchema = new Schema({
   defaultUserGroup: {
-    type: String,
-    default: 'admin',
+    type: Schema.Types.ObjectId,
+    ref: 'UserGroup',
   },
   siteName: {
     type: String,
@@ -23,7 +23,16 @@ const SiteSchema = new Schema({
     type: Boolean,
     default: false,
   },
-});
+  templatePath: String,
+  scssPath: String,
+  publicPath: String,
+  configPath: String,
+  pluginPath: String,
+  scssEntryPoint: {
+    type: String,
+    default: 'main.scss',
+  },
+}, { strict: false });
 
 SiteSchema.name = 'Site';
 

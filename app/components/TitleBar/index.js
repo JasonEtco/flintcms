@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { truncate } from 'utils/helpers';
+import { truncate, setTitle } from 'utils/helpers';
 import './TitleBar.scss';
 
 export default class TitleBar extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
+    setTitle: PropTypes.bool,
     children: PropTypes.any,
   }
 
   static defaultProps = {
     children: null,
+    setTitle: true,
+  }
+
+  componentDidMount() {
+    if (this.props.setTitle) setTitle(this.props.title);
+  }
+  componentWillUnmount() {
+    if (this.props.setTitle) setTitle();
   }
 
   render() {

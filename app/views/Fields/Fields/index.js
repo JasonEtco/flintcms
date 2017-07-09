@@ -8,16 +8,12 @@ import DeleteIcon from 'components/DeleteIcon';
 import TitleBar from 'components/TitleBar';
 import t from 'utils/types';
 import { deleteField } from 'actions/fieldActions';
+import Empty from 'containers/Empty';
 
 export default class Fields extends Component {
   static propTypes = {
-    fields: t.fields,
-    dispatch: PropTypes.func,
-  }
-
-  static defaultProps = {
-    dispatch: null,
-    fields: null,
+    fields: t.fields.isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   render() {
@@ -29,7 +25,11 @@ export default class Fields extends Component {
         value: props.title,
         component: <Link to={`/settings/fields/${props._id}`}>{props.title}</Link>,
       },
-      slug: props.slug,
+      handle: {
+        value: props.handle,
+        component: <code>{props.handle}</code>,
+      },
+      type: props.type,
       dateCreated: {
         value: new Date(props.dateCreated).getTime(),
         component: formatDate(props.dateCreated),
@@ -52,7 +52,11 @@ export default class Fields extends Component {
 
         <div className="content">
           <div className="page__inner">
-            {reduced.length > 0 ? <Table data={reduced} /> : <h3>No fields!</h3>}
+            {reduced.length > 0 ? <Table data={reduced} /> : (
+              <Empty>
+                There are no Fields! Go ahead and <Link to="/settings/fields/new">make one.</Link>
+              </Empty>
+            )}
           </div>
         </div>
       </Page>

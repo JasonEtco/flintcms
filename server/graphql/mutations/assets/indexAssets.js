@@ -66,8 +66,10 @@ module.exports = {
     },
   }),
   args: {},
-  async resolve() {
-    const pathToAssets = path.join(__dirname, '..', '..', '..', '..', 'public', 'assets');
+  async resolve({ perms }) {
+    if (!perms.assets.canIndexAssets) throw new Error('You do not have permission to re-index assets.');
+
+    const pathToAssets = path.join(global.FLINT.publicPath, 'assets');
     const dbFiles = await Asset.find().exec();
 
     const [savedFiles, removedFiles] = await Promise.all([
