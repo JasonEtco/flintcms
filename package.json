@@ -36,6 +36,7 @@
     ],
     "rules": {
       "color-named": "always-where-possible",
+      "no-descending-specificity": null,
       "declaration-block-semicolon-newline-after": "always-multi-line",
       "declaration-block-single-line-max-declarations": 3,
       "at-rule-empty-line-before": [

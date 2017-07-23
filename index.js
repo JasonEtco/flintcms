@@ -39,7 +39,14 @@ module.exports = class Flint {
    */
   constructor(settings, debugMode) {
     const appDir = path.dirname(require.main.filename);
-    const { templatePath, scssPath, publicPath, plugins, scssEntryPoint, scssIncludePaths } = settings;
+    const {
+      templatePath,
+      scssPath,
+      publicPath,
+      plugins,
+      scssEntryPoint,
+      scssIncludePaths,
+    } = settings;
 
     const FLINT = Object.assign({}, settings, {
       logsPath: path.join(appDir, 'logs'),
