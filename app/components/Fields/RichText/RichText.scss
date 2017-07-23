@@ -81,6 +81,11 @@
         line-height: 1.5;
 
         @include scrollbar($grey-light, white, 8px);
+
+        .public-DraftEditorPlaceholder-root {
+            position: absolute;
+            color: $grey;
+        }
     }
 
     &__url {

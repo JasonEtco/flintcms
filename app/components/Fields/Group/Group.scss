@@ -6,6 +6,7 @@
         &__btn {
             padding: 0.6em;
             border: 1px solid $grey-light;
+            border-right-width: 0;
             background: white;
             font-family: inherit;
             cursor: pointer;
@@ -24,6 +25,7 @@
             }
 
             &:last-of-type {
+                border-right-width: 1px;
                 border-top-right-radius: 3px;
                 border-bottom-right-radius: 3px;
             }
