@@ -23,6 +23,7 @@ async function compile() {
   const opts = {
     file: path.join(global.FLINT.scssPath, global.FLINT.scssEntryPoint),
     outputStyle: process.env.NODE_ENV === 'production' ? 'compressed' : 'nested',
+    includePaths: global.FLINT.scssIncludePaths,
   };
 
   try {
