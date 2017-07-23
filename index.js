@@ -17,6 +17,7 @@ const connectToDatabase = require('./server/utils/database');
  * @property {String} publicPath - Path to your public directory
  * @property {String} logsPath - Path to your logs directory
  * @property {String} scssEntryPoint - The entry point to your SCSS styles (within the scssPath)
+ * @property {String[]} scssIncludePaths - Array of paths to include in SCSS compiling
  * @property {String} siteName - The title of your site
  * @property {String} siteUrl - The URL to your site
  * @property {Function[]} plugins - Array of required Class modules
