@@ -7,7 +7,7 @@ const stream = fs.createWriteStream(pathToLog, { flags: 'a' });
 /**
  * Logs a string to the console and adds it to the Flint log file.
  * @param {String} str - String to log to the console and the flint log file.
- * @param {Boolean} [prependTimestamp=true] - Prepend a timestamp string to the string in the log file.
+ * @param {Boolean} [prependTimestamp=true] - Prepend a timestamp to the string in the log file.
  * @returns {String} - Returns the string that was logged.
  */
 function log(str, prependTimestamp = true) {
