@@ -175,9 +175,8 @@ async function collectData(entry) {
     page(page) {
       return this.pages.find(p => p.handle === page);
     },
-    sections,
     section(section) {
-      return this.sections[section];
+      return sections[section];
     },
   });
 
