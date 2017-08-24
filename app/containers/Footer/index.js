@@ -22,7 +22,7 @@ export default class Footer extends Component {
         <span className="footer__made-with">Made with {btn} on 🌏 by <a href="https://github.com/JasonEtco">Jason Etcovitch</a>
         </span>
         <FlintLogo />
-        <span className="footer__made-with">Version {version}</span>
+        <a className="footer__made-with" href="https://github.com/JasonEtco/flintcms" target="_blank" rel="noopener noreferrer">Version {version}</a>
       </footer>
     );
   }

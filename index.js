@@ -17,6 +17,7 @@ const connectToDatabase = require('./server/utils/database');
  * @property {String} publicPath - Path to your public directory
  * @property {String} logsPath - Path to your logs directory
  * @property {String} scssEntryPoint - The entry point to your SCSS styles (within the scssPath)
+ * @property {String[]} scssIncludePaths - Array of paths to include in SCSS compiling
  * @property {String} siteName - The title of your site
  * @property {String} siteUrl - The URL to your site
  * @property {Function[]} plugins - Array of required Class modules
@@ -38,7 +39,14 @@ module.exports = class Flint {
    */
   constructor(settings, debugMode) {
     const appDir = path.dirname(require.main.filename);
-    const { templatePath, scssPath, publicPath, plugins, scssEntryPoint } = settings;
+    const {
+      templatePath,
+      scssPath,
+      publicPath,
+      plugins,
+      scssEntryPoint,
+      scssIncludePaths,
+    } = settings;
 
     const FLINT = Object.assign({}, settings, {
       logsPath: path.join(appDir, 'logs'),
@@ -47,6 +55,7 @@ module.exports = class Flint {
       publicPath: path.join(appDir, publicPath || 'public'),
       plugins: plugins || [],
       scssEntryPoint: scssEntryPoint !== undefined ? scssEntryPoint : 'main.scss',
+      scssIncludePaths: scssIncludePaths || [],
       debugMode,
       appDir,
     });

@@ -94,7 +94,7 @@ export default class Group extends Component {
               <div className="group__block__btns">
                 <DeleteIcon onClick={() => this.deleteBlock(i)} small />
               </div>
-              {blk.fields.map(field => renderOption(field, field.defaultValue || null, { name: `${name}[${i}][${field.handle}]` }))}
+              {blk.fields.map(field => renderOption(field, field.defaultValue || null, { name: `${name}[${i}][${field.handle}]`, key: `${name}[${i}][${field.handle}]` }))}
               <input type="text" name={`${name}[${i}][type]`} value={blk.type} hidden readOnly />
             </div>))}
         </div>
