@@ -1,4 +1,4 @@
-/* eslint no-console: 0 */
+/* eslint-disable no-console, global-require */
 
 const express = require('express');
 const chalk = require('chalk');
@@ -10,46 +10,50 @@ const path = require('path');
 const compression = require('compression');
 const passport = require('passport');
 const fs = require('fs');
+const { Server } = require('http');
+const io = require('socket.io');
+const shutter = require('http-shutdown');
 
-require('./utils/passport')(passport);
+module.exports = (port) => {
+  require('./utils/passport')(passport);
 
-const app = express();
-exports.app = app;
+  const app = express();
+  const server = shutter(Server(app));
+  app.set('io', io(server));
 
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+  const accessLogStream = fs.createWriteStream(path.join(global.FLINT.logsPath, 'http-requests.log'), { flags: 'a' });
+  app.use(morgan('combined', { stream: accessLogStream }));
 
-app.set('io', io);
+  app.use(cookieParser());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  app.use(session({ secret: process.env.SESSION_SECRET }));
 
-const accessLogStream = fs.createWriteStream(path.join(global.FLINT.logsPath, 'http-requests.log'), { flags: 'a' });
-app.use(morgan('combined', { stream: accessLogStream }));
+  app.use(passport.initialize());
+  app.use(passport.session());
 
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(session({ secret: process.env.SESSION_SECRET }));
+  app.use(compression());
 
-app.use(passport.initialize());
-app.use(passport.session());
+  // `/ping` endpoint for testing and uptime monitoring
+  app.get('/ping', (req, res) => res.end('PONG'));
 
-app.use(compression());
+  app.use('/public', express.static(global.FLINT.publicPath));
+  app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
+  app.use('/admin', require('./apps/admin')(app));
+  app.use('/graphql', require('./apps/graphql')(app));
+  app.use(require('./utils/publicRegistration'));
 
-app.use('/public', express.static(global.FLINT.publicPath));
-app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
-app.use('/admin', require('./apps/admin'));
-app.use('/graphql', require('./apps/graphql'));
-app.use(require('./utils/publicRegistration'));
+  // ===== Template Routes
 
-// ===== Template Routes
+  app.use(require('./utils/templateRoutes'));
 
-app.use(require('./utils/templateRoutes'));
+  /**
+   * Starts the Flint server.
+   * @param {Number} port - Port to listen on for the main server
+   */
+  server.listen(port, () => {
+    if (process.env.NODE_ENV !== 'test') console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`);
+  });
 
-/**
- * Starts the Flint server.
- * @param {Number} port - Port to listen on for the main server
- */
-function startServer(port) {
-  http.listen(port, () => console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`));
-}
-
-exports.startServer = startServer;
+  return server;
+};

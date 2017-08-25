@@ -1,13 +1,19 @@
+/* eslint-disable global-require */
+
 const express = require('express');
 const chalk = require('chalk');
 
-const api = express();
+module.exports = (app) => {
+  const api = express();
 
-api.use(require('./routes/templates'));
-api.use(require('./routes/assets'));
-api.use(require('./routes/site'));
-api.use(require('./routes/logs'));
+  api.use(require('./routes/templates'));
+  api.use(require('./routes/assets')(app));
+  api.use(require('./routes/site'));
+  api.use(require('./routes/logs'));
 
-// eslint-disable-next-line no-console
-console.log(`${chalk.gray('[App: API]')} initialized.`);
-module.exports = api;
+  const testing = process.env.NODE_ENV === 'test';
+
+  // eslint-disable-next-line no-console
+  if (!testing) console.log(`${chalk.gray('[App: API]')} initialized.`);
+  return api;
+};

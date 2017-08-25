@@ -40,8 +40,8 @@ MAIL_PASS=
  * strings, or false if it did not need to make one and can continue running the server.
  * @returns {Boolean}
  */
-async function generateEnvFile() {
-  const pathToEnvFile = path.join(global.FLINT.appDir, '.env');
+async function generateEnvFile(p) {
+  const pathToEnvFile = p || path.join(global.FLINT.appDir, '.env');
 
   // Checks if there is already a DB_HOST env variable
   // or if the .env file already exists. This double-check is to

@@ -9,6 +9,9 @@ const { verifyNodemailer } = require('./server/utils/emails');
 const compileSass = require('./server/utils/compileSass');
 const FlintPlugin = require('./server/utils/FlintPlugin');
 const connectToDatabase = require('./server/utils/database');
+const createServer = require('./server');
+
+const testing = process.env.NODE_ENV === 'test';
 
 /**
  * @typedef {Object} FLINT
@@ -37,7 +40,7 @@ module.exports = class Flint {
    * @param {FLINT} settings
    * @param {boolean} debugMode
    */
-  constructor(settings, debugMode) {
+  constructor(settings = {}, debugMode) {
     const appDir = path.dirname(require.main.filename);
     const {
       templatePath,
@@ -79,28 +82,31 @@ module.exports = class Flint {
     /* eslint-disable no-console */
     const missingEnvVariables = validateEnvVariables();
     const didGenerateEnv = await generateEnvFile();
-    if (didGenerateEnv) return process.exit();
+    if (didGenerateEnv && !testing) return process.exit();
 
     const shouldContinue = missingEnvVariables.length === 0;
     if (!shouldContinue) {
-      console.error(chalk.red('Could not start the server.'));
+      if (!testing) console.error(chalk.red('Could not start the server.'));
       return process.exit(1);
     }
 
     const connectedToDatabase = await connectToDatabase();
-    console.log(connectedToDatabase);
+    if (!testing) console.log(connectedToDatabase);
 
     const canSendEmails = await verifyNodemailer().catch(console.error);
-    if (canSendEmails) {
+    if (canSendEmails && !testing) {
       console.log(canSendEmails);
     }
 
     const canCompileSass = await compileSass();
-    console.log(canCompileSass);
+    if (!testing) console.log(canCompileSass);
     /* eslint-enable no-console */
 
-    // eslint-disable-next-line global-require
-    const { startServer } = require('./server');
-    return startServer(port);
+    this.server = createServer(port);
+    return this.server;
+  }
+
+  closeServer(cb) {
+    return this.server.shutdown(cb);
   }
 };
