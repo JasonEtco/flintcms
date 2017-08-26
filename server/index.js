@@ -47,13 +47,5 @@ module.exports = (port) => {
 
   app.use(require('./utils/templateRoutes'));
 
-  /**
-   * Starts the Flint server.
-   * @param {Number} port - Port to listen on for the main server
-   */
-  server.listen(port, () => {
-    if (process.env.NODE_ENV !== 'test') console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`);
-  });
-
   return server;
 };

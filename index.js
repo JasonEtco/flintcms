@@ -103,6 +103,11 @@ module.exports = class Flint {
     /* eslint-enable no-console */
 
     this.server = createServer(port);
+    this.server.listen(port, () => {
+      // eslint-disable-next-line no-console
+      if (!testing) console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`);
+    });
+
     return this.server;
   }
 
