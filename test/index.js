@@ -2,7 +2,6 @@
 
 const Flint = require('../index.js');
 const request = require('supertest');
-const mongoose = require('mongoose');
 const expect = require('expect');
 
 const flintServer = new Flint();
@@ -26,18 +25,6 @@ describe('server', function () {
       request(server).get('/ping').expect(200, 'PONG', done);
     });
   });
-
-  // describe('Closing sequences', function () {
-  //   it('closes', () => {
-  //     const spy = expect.createSpy();
-  //     return server.close(function () {
-  //       spy();
-  //       return expect(spy).toHaveBeenCalled();
-  //     });
-  //   });
-
-  //   it('is not listening', () => expect(server.listening).toBeFalsy());
-  // });
 
   after('Closes the server', function (done) {
     flintServer.closeServer(done);
