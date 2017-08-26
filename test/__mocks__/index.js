@@ -62,7 +62,7 @@ exports.users = [
   },
 ];
 
-exports.usergroups = {
+exports.usergroups = [{
   _id: '59357fdf76fb4f43905c8138',
   title: 'Admin',
   slug: 'admin',
@@ -112,7 +112,7 @@ exports.usergroups = {
     },
   },
   dateCreated: '2017-06-05T15:59:27.303Z',
-};
+}];
 
 exports.user = {
   email: 'user@user.com',
