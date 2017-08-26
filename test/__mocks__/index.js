@@ -42,9 +42,18 @@ exports.users = [
       first: 'Example',
       last: 'Userstein',
     },
-    username: 'exampleusername',
     email: 'example@userstein.com',
     image: 'default_user.png',
     usergroup: '592a74034a0a9b372c3bff9c',
   },
 ];
+
+exports.user = {
+  email: 'user@user.com',
+  username: 'testeroni',
+  name: {
+    first: 'Tester',
+    last: 'McGee',
+  },
+  password: 'pass11',
+};

@@ -1,7 +1,6 @@
 /* eslint-disable no-console, global-require */
 
 const express = require('express');
-const chalk = require('chalk');
 const session = require('cookie-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -14,7 +13,7 @@ const { Server } = require('http');
 const io = require('socket.io');
 const shutter = require('http-shutdown');
 
-module.exports = (port) => {
+module.exports = () => {
   require('./utils/passport')(passport);
 
   const app = express();

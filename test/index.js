@@ -3,13 +3,14 @@
 const Flint = require('../index.js');
 const request = require('supertest');
 const expect = require('expect');
+const mongoose = require('mongoose');
 
-const flintServer = new Flint();
 
 describe('server', function () {
   let server;
 
   before('Creates a server', async function () {
+    const flintServer = new Flint();
     server = await flintServer.startServer();
     return server;
   });
@@ -27,6 +28,7 @@ describe('server', function () {
   });
 
   after('Closes the server', function (done) {
-    flintServer.closeServer(done);
+    mongoose.disconnect();
+    server.shutdown(done);
   });
 });

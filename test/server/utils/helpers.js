@@ -2,9 +2,9 @@
 
 const expect = require('expect');
 const { slugify, reduceToObj, capitalizeFirstChar } = require('../../../server/utils/helpers');
-const { entries } = require('../../__mocks__/mockData');
+const { entries } = require('../../__mocks__');
 
-describe('helpers', function() {
+describe('helpers', function () {
   describe('slugify', function () {
     it('should convert a string to kebab-case', function () {
       expect(slugify('This is a test!')).toBe('this-is-a-test');

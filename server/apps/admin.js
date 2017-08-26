@@ -16,7 +16,7 @@ module.exports = (app) => {
 
   const testing = process.env.NODE_ENV === 'test';
 
-  if (process.env.BUILD_DASHBOARD && !testing) {
+  if (process.env.BUILD_DASHBOARD) {
     const compiler = webpack(config);
     const middleware = webpackMiddleware(compiler, {
       publicPath: '/',

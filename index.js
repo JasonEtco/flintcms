@@ -1,4 +1,5 @@
-require('dotenv').config();
+const testing = process.env.NODE_ENV === 'test';
+require('dotenv').config({ path: testing ? '.env.dev' : '.env' });
 
 const path = require('path');
 const chalk = require('chalk');
@@ -11,8 +12,6 @@ const FlintPlugin = require('./server/utils/FlintPlugin');
 const connectToDatabase = require('./server/utils/database');
 const createServer = require('./server');
 
-const testing = process.env.NODE_ENV === 'test';
-
 /**
  * @typedef {Object} FLINT
  * @property {String} templatePath - Path to your templates directory
@@ -23,6 +22,7 @@ const testing = process.env.NODE_ENV === 'test';
  * @property {String[]} scssIncludePaths - Array of paths to include in SCSS compiling
  * @property {String} siteName - The title of your site
  * @property {String} siteUrl - The URL to your site
+ * @property {Boolean} [listen] - Should the server listen; used for testing
  * @property {Function[]} plugins - Array of required Class modules
  */
 
@@ -103,10 +103,13 @@ module.exports = class Flint {
     /* eslint-enable no-console */
 
     this.server = createServer(port);
-    this.server.listen(port, () => {
-      // eslint-disable-next-line no-console
-      if (!testing) console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`);
-    });
+
+    if (global.FLINT.listen !== false) {
+      this.server.listen(port, () => {
+        // eslint-disable-next-line no-console
+        if (!testing) console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`);
+      });
+    }
 
     return this.server;
   }
