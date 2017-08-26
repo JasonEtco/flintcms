@@ -147,6 +147,57 @@ describe('GraphQL API', function () {
           return done();
         });
     });
+
+    it('can save a user to the database', function (done) {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          mutation ($user: UserInput!) {
+            addUser (user: $user) {
+              usergroup {
+                _id
+              }
+              name {
+                first
+                last
+              }
+              username
+              email
+            }
+          }`,
+          variables: {
+            user: {
+              username: mocks.users[1].username,
+              email: mocks.users[1].email,
+              usergroup: mocks.usergroups[0]._id,
+              name: {
+                first: mocks.users[1].name.first,
+                last: mocks.users[1].name.last,
+              },
+            },
+          },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(JSON.parse(res.text)).toEqual({
+            data: {
+              addUser: {
+                username: mocks.users[1].username,
+                usergroup: {
+                  _id: mocks.users[1].usergroup,
+                },
+                email: mocks.users[1].email,
+                name: {
+                  first: mocks.users[1].name.first,
+                  last: mocks.users[1].name.last,
+                },
+              },
+            },
+          });
+          return done();
+        });
+    });
   });
 
   describe('Entries', function () {
