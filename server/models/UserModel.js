@@ -41,8 +41,10 @@ UserSchema.name = 'User';
 UserSchema.pre('validate', async function (next) {
   if (this.usergroup) next();
 
-  const { _id } = await UserGroup.findOne({ slug: 'admin' }).select('_id').exec();
-  this.usergroup = _id;
+  const admin = await UserGroup.findOne({ slug: 'admin' }).select('_id').exec();
+  if (!admin) next(new Error('There is no admin usergroup'));
+  this.usergroup = admin._id;
+
   next();
 });
 
