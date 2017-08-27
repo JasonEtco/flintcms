@@ -19,15 +19,12 @@ describe('GraphQL API', function () {
     User = mongoose.model('User');
     agent = supertest.agent(server);
 
-    return populateDB();
-  });
+    await populateDB();
 
-  it('logs in a user', function (done) {
-    agent
+    return agent
       .post('/admin/login')
       .send({ email: mocks.users[0].email, password: 'password' })
-      .expect(200)
-      .end(done);
+      .expect(200);
   });
 
   describe('Users', function () {
@@ -75,6 +72,9 @@ describe('GraphQL API', function () {
             user (_id: $_id) {
               _id
               image
+              usergroup {
+                _id
+              }
               name {
                 first
                 last
@@ -96,6 +96,9 @@ describe('GraphQL API', function () {
                 dateCreated: mocks.users[1].dateCreated,
                 username: mocks.users[1].username,
                 email: mocks.users[1].email,
+                usergroup: {
+                  _id: mocks.users[1].usergroup,
+                },
                 name: {
                   first: mocks.users[1].name.first,
                   last: mocks.users[1].name.last,
@@ -226,6 +229,87 @@ describe('GraphQL API', function () {
           return done();
         });
     });
+    it('can query for a specific entry by _id', function (done) {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          query ($_id: ID!) {
+            entry (_id: $_id) {
+              _id
+            }
+          }`,
+          variables: { _id: mocks.entries[1]._id },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(JSON.parse(res.text)).toEqual({
+            data: {
+              entry: { _id: mocks.entries[1]._id },
+            },
+          });
+          return done();
+        });
+    });
+
+    it('can delete an entry from the database', function (done) {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          mutation ($_id: ID!) {
+            removeEntry (_id: $_id) {
+              _id
+            }
+          }`,
+          variables: { _id: mocks.entries[1]._id },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(JSON.parse(res.text)).toEqual({
+            data: {
+              removeEntry: { _id: mocks.entries[1]._id },
+            },
+          });
+          return done();
+        });
+    });
+
+    it('can save an entry to the database', function (done) {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          mutation ($data: EntriesInput!) {
+            addEntry (data: $data) {
+              title
+            }
+          }`,
+          variables: {
+            data: {
+              title: mocks.entries[1].title,
+              author: mocks.users[0]._id,
+              section: mocks.sections[0]._id,
+              fields: [{
+                fieldId: mocks.fields[0]._id,
+                handle: mocks.fields[0].handle,
+                value: 'Hello!',
+              }],
+            },
+          },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(JSON.parse(res.text)).toEqual({
+            data: {
+              addEntry: {
+                title: mocks.entries[1].title,
+              },
+            },
+          });
+          return done();
+        });
+    });
   });
 
   describe('Sections', function () {
@@ -249,6 +333,83 @@ describe('GraphQL API', function () {
           expect(JSON.parse(res.text)).toEqual({
             data: {
               sections: mocks.sections,
+            },
+          });
+          return done();
+        });
+    });
+
+    it('can query for a specific section by _id', function (done) {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          query ($_id: ID!) {
+            section (_id: $_id) {
+              _id
+            }
+          }`,
+          variables: { _id: mocks.sections[0]._id },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(JSON.parse(res.text)).toEqual({
+            data: {
+              section: { _id: mocks.sections[0]._id },
+            },
+          });
+          return done();
+        });
+    });
+
+    it('can delete a section from the database', function (done) {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          mutation ($_id: ID!) {
+            removeSection (_id: $_id) {
+              _id
+            }
+          }`,
+          variables: { _id: mocks.sections[0]._id },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(JSON.parse(res.text)).toEqual({
+            data: {
+              removeSection: { _id: mocks.sections[0]._id },
+            },
+          });
+          return done();
+        });
+    });
+
+    it('can save a section to the database', function (done) {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          mutation ($data: SectionsInput!) {
+            addSection (data: $data) {
+              title
+            }
+          }`,
+          variables: {
+            data: {
+              title: mocks.sections[0].title,
+              template: mocks.sections[0].template,
+              fields: [mocks.fields[0]._id],
+            },
+          },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(JSON.parse(res.text)).toEqual({
+            data: {
+              addSection: {
+                title: mocks.sections[0].title,
+              },
             },
           });
           return done();

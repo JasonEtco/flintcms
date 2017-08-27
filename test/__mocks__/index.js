@@ -123,3 +123,18 @@ exports.user = {
   },
   password: 'pass11',
 };
+
+exports.fields = [
+  {
+    _id: '59376a4feef58d4a74e2fdcd',
+    handle: 'simpleText',
+    slug: 'simple-text',
+    title: 'Simple Text',
+    required: false,
+    type: 'Text',
+    options: {
+      placeholder: 'Example!',
+    },
+    dateCreated: '2017-06-07T02:51:59.903Z',
+  },
+];

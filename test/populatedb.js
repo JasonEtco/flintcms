@@ -10,6 +10,7 @@ module.exports = async () => {
   const Entry = mongoose.model('Entry');
   const Section = mongoose.model('Section');
   const UserGroup = mongoose.model('UserGroup');
+  const Field = mongoose.model('Field');
 
   const deleteSections = async () => {
     const done = await Section.remove();
@@ -26,9 +27,19 @@ module.exports = async () => {
     return done;
   };
 
+  const deleteFields = async () => {
+    const done = await Field.remove();
+    return done;
+  };
+
 
   const addUsers = async () => {
     const done = await User.create(mocks.users);
+    return done;
+  };
+
+  const addFields = async () => {
+    const done = await Field.create(mocks.fields);
     return done;
   };
 
@@ -52,7 +63,9 @@ module.exports = async () => {
       await deleteUserGroups(),
       await deleteSections(),
       await deleteEntries(),
+      await deleteFields(),
     ]),
+    await addFields(),
     await addUserGroups(),
     await addUsers(),
     await addSections(),
