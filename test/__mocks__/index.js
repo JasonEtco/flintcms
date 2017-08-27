@@ -67,6 +67,11 @@ exports.usergroups = [{
   title: 'Admin',
   slug: 'admin',
   permissions: {
+    pages: {
+      canAddPages: true,
+      canDeletePages: true,
+      canEditPages: true,
+    },
     site: {
       canManagePlugins: true,
       canCustomStyles: true,
@@ -138,3 +143,16 @@ exports.fields = [
     dateCreated: '2017-06-07T02:51:59.903Z',
   },
 ];
+
+exports.pages = [{
+  _id: '5946e863bd887652381ecfe9',
+  handle: 'homepage',
+  slug: 'homepage',
+  route: '/',
+  title: 'Homepage',
+  template: 'index',
+  homepage: true,
+  fields: [],
+  fieldLayout: ['5946e850bd887652381ecfe8'],
+  dateCreated: 1497819235747,
+}];

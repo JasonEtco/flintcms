@@ -17,9 +17,11 @@ module.exports = {
   },
   async resolve({ perms, socketEvent, events, log, user }, args) {
     if (!perms.pages.canAddPages) throw new Error('You do not have permission to create a new Page.');
-    if (!args.data.homepage && args.data.route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
 
-    const { fieldLayout, title } = args.data;
+    const { fieldLayout, title, homepage, route } = args.data;
+
+    if (!homepage && route && !route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
+
     if (fieldLayout === undefined || fieldLayout.length === 0) throw new Error('You must include at least one field.');
     if (!title) throw new Error('You must include a title.');
 
@@ -28,7 +30,7 @@ module.exports = {
 
     const newPage = new Page(args.data);
 
-    if (args.data.homepage) {
+    if (homepage || !route) {
       newPage.route = '/';
 
       const HomePage = await Page.findOne({ homepage: true });
