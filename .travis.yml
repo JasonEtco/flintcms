@@ -11,3 +11,9 @@ cache:
 branches:
   only: 
     - master
+
+services:
+  - mongodb
+
+before_script:
+  - mongo test --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
