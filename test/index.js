@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 
 describe('server', function () {
+  this.timeout(4000);
   let server;
 
   before('Creates a server', async function () {

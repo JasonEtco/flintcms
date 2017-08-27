@@ -51,12 +51,24 @@ describe('GraphQL API', function () {
           if (err) { return done(err); }
           expect(JSON.parse(res.text)).toEqual({
             data: {
-              users: mocks.users.map((o) => {
-                const obj = Object.assign({}, o);
-                delete obj.password;
-                delete obj.usergroup;
-                return obj;
-              }),
+              users: [
+                {
+                  _id: mocks.users[0]._id,
+                  image: mocks.users[0].image,
+                  dateCreated: mocks.users[0].dateCreated,
+                  username: mocks.users[0].username,
+                  email: mocks.users[0].email,
+                  name: mocks.users[0].name,
+                },
+                {
+                  _id: mocks.users[1]._id,
+                  image: mocks.users[1].image,
+                  dateCreated: mocks.users[1].dateCreated,
+                  username: mocks.users[1].username,
+                  email: mocks.users[1].email,
+                  name: mocks.users[1].name,
+                },
+              ],
             },
           });
           return done();
