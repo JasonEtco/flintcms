@@ -8,36 +8,32 @@ const mongoose = require('mongoose');
 describe('First time install', function () {
   let server;
   let agent;
-  let User;
 
   before('Start a server', async function () {
     const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
-    User = mongoose.model('User');
+    await mongoose.model('User').remove();
     agent = supertest.agent(server);
     return server;
   });
 
-  describe('Setup', function () {
-    it('creates a first new user', function (done) {
-      agent
-        .post('/admin/firstuser')
-        .send(mocks.user)
-        .expect(200)
-        .end(done);
-    });
+  it('creates a first new user', function (done) {
+    agent
+      .post('/admin/firstuser')
+      .send(mocks.user)
+      .expect(200)
+      .end(done);
+  });
 
-    it('logs in a user', function (done) {
-      agent
-        .post('/admin/login')
-        .send({ email: mocks.user.email, password: mocks.user.password })
-        .expect(200)
-        .end(done);
-    });
+  it('logs in a user', function (done) {
+    agent
+      .post('/admin/login')
+      .send({ email: mocks.user.email, password: mocks.user.password })
+      .expect(200)
+      .end(done);
   });
 
   after((done) => {
-    User.remove().exec();
     mongoose.disconnect();
     done();
   });

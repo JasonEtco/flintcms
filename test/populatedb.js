@@ -17,6 +17,11 @@ module.exports = async () => {
     return done;
   };
 
+  const deleteUsers = async () => {
+    const done = await User.remove();
+    return done;
+  };
+
   const deleteEntries = async () => {
     const done = await Entry.remove();
     return done;
@@ -60,6 +65,7 @@ module.exports = async () => {
 
   return processArray([
     Promise.all([
+      await deleteUsers(),
       await deleteUserGroups(),
       await deleteSections(),
       await deleteEntries(),
