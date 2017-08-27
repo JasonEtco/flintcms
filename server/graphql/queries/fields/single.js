@@ -1,7 +1,4 @@
-const {
-  GraphQLID,
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLID, GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 
 const { outputType } = require('../../types/Fields');
