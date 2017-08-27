@@ -140,7 +140,7 @@ exports.fields = [
     options: {
       placeholder: 'Example!',
     },
-    dateCreated: '2017-06-07T02:51:59.903Z',
+    dateCreated: 1496803919903,
   },
 ];
 
