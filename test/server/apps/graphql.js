@@ -1,5 +1,3 @@
-/* eslint-disable func-names, prefer-arrow-callback */
-
 const mongoose = require('mongoose');
 const common = require('./common');
 

@@ -1,5 +1,4 @@
 const mocks = require('../../../__mocks__');
-const mongoose = require('mongoose');
 const expect = require('expect');
 
 it('returns a list of users', (done) => {

@@ -1,5 +1,3 @@
-/* eslint-disable func-names, prefer-arrow-callback */
-
 const supertest = require('supertest');
 const mocks = require('../../__mocks__');
 const Flint = require('../../../index.js');

@@ -5,6 +5,7 @@ const supertest = require('supertest');
 
 exports.importTest = function importTest(name, path) {
   describe(name, function () {
+    // eslint-disable-next-line global-require, import/no-dynamic-require
     require(path);
   });
 };
