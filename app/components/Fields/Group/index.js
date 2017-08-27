@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import renderOption from 'utils/renderOption';
 import DeleteIcon from 'components/DeleteIcon';
+import Icon from 'utils/icons';
 import './Group.scss';
 
 export default class Group extends Component {
@@ -48,6 +49,7 @@ export default class Group extends Component {
 
     this.addBlock = this.addBlock.bind(this);
     this.deleteBlock = this.deleteBlock.bind(this);
+    this.move = this.move.bind(this);
 
     this.state = { blocks: formattedFields };
   }
@@ -74,6 +76,24 @@ export default class Group extends Component {
     });
   }
 
+  move(index, direction) {
+    const { blocks } = this.state;
+    const block = blocks[index];
+
+    const without = [
+      ...blocks.slice(0, index),
+      ...blocks.slice(index + 1),
+    ];
+
+    this.setState({
+      blocks: [
+        ...without.slice(0, index + direction),
+        block,
+        ...without.slice(index + direction),
+      ],
+    });
+  }
+
   render() {
     const { required, name, instructions, label, blocks } = this.props;
 
@@ -89,10 +109,12 @@ export default class Group extends Component {
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
         <div className="group__fields form-element">
-          {this.state.blocks.map((blk, i) => (
+          {this.state.blocks.map((blk, i, arr) => (
             <div key={i} className="group__block form-element">
               <div className="group__block__btns">
                 <DeleteIcon onClick={() => this.deleteBlock(i)} small />
+                {i !== 0 && <button className="group__block__btn" type="button" onClick={() => this.move(i, -1)}><Icon icon="arrowLeft" /></button>}
+                {i !== arr.length - 1 && <button className="group__block__btn" type="button" onClick={() => this.move(i, 1)}><Icon icon="arrowRight" /></button>}
               </div>
               {blk.fields.map(field => renderOption(field, field.defaultValue || null, { name: `${name}[${i}][${field.handle}]`, key: `${name}[${i}][${field.handle}]` }))}
               <input type="text" name={`${name}[${i}][type]`} value={blk.type} hidden readOnly />

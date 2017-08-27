@@ -44,6 +44,27 @@
             z-index: 2;
             top: 1em;
             right: 1em;
+            display: flex;
+        }
+
+        &__btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 0.9em;
+            height: 0.9em;
+            padding: 0;
+            border: none;
+            margin: 0.1em;
+            background: $grey;
+            border-radius: 50%;
+
+            svg {
+                width: 0.5em;
+                height: 0.5em;
+                fill: white;
+                transform: rotate(90deg);
+            }
         }
     }
 }
