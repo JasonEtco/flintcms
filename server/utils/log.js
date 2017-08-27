@@ -11,6 +11,7 @@ const stream = fs.createWriteStream(pathToLog, { flags: 'a' });
  * @returns {String} - Returns the string that was logged.
  */
 function log(str, prependTimestamp = true) {
+  if (process.env.NODE_ENV === 'test') return str;
   console.log(str); // eslint-disable-line no-console
   let string = str;
 
