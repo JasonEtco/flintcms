@@ -5,7 +5,6 @@ const request = require('supertest');
 const expect = require('expect');
 const mongoose = require('mongoose');
 
-
 describe('server', function () {
   this.timeout(4000);
   let server;
