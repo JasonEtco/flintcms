@@ -11,7 +11,7 @@ Every content management system falls into one of two categories: can be customi
 ## Getting Started
 
 ```bash
-npm install flintcms
+npm install flintcms --save
 ```
 
 Then the entry point to your app:
@@ -28,3 +28,17 @@ flintServer.startServer();
 ```
 
 That's the basics! There's more to it than that, you can [take a look at the docs](https://flintcms.co/docs) to learn more.
+
+## Requirements
+
+FlintCMS relies on the `async/await` keywords, which means the minimum required version of Node.js is `7.6.0`. That being said, version `^8.0.0` is recommended as it is considered more stable and standard.
+
+You'll need a MongoDB database of some kind, and you'll likely want a way to send emails through your site; you can read more about all of this [on the FlintCMS docs](https://flintcms.co/docs/).
+
+## Building with Flint?
+
+If you're using FlintCMS in a project, thats awesome and I want to know! Feel free to [open up an issue](https://github.com/JasonEtco/flintcms/issues/new) to let me know, and I'd be happy to list your project in this README.
+
+## Contributing
+
+Thanks for your intesting in contributing to FlintCMS :sparkling_heart: There are some things you need to know about how to contribute well, you can read about it in the [CONTRIBUTING](https://github.com/JasonEtco/flintcms/blob/master/.github/CONTRIBUTING.md) file.
