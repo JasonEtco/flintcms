@@ -29,7 +29,7 @@
     "test": "NODE_ENV=test mocha",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
-    "prepare": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "stylelint": {
     "extends": [
