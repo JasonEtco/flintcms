@@ -348,6 +348,27 @@ it('throws when updating a non-existing user', function (done) {
     });
 });
 
+it('can reset a user\'s password', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `mutation ($_id: ID!) {
+        resetPassword (_id: $_id) {
+          token
+        }
+      }`,
+      variables: { _id: mocks.users[0]._id },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text)).toIncludeKey('data');
+      expect(JSON.parse(res.text).data).toIncludeKey('resetPassword');
+      expect(JSON.parse(res.text).data.resetPassword).toIncludeKey('token');
+      expect(JSON.parse(res.text).data.resetPassword.token).toBeA('string');
+      return done();
+    });
+});
+
 describe('Permissions', function () {
   before('Set to non-admin', common.setNonAdmin);
 
@@ -409,6 +430,58 @@ describe('Permissions', function () {
         if (err) { return done(err); }
         expect(JSON.parse(res.text)).toEqual({
           data: { updateUser: { name: { first: 'Jason' } } },
+        });
+        return done();
+      });
+  });
+
+  it('returns an error when changing a user\'s usergroup', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `mutation ($_id: ID!, $data: UserInput!) {
+          updateUser (_id: $_id, data: $data) {
+            name {
+              first
+            }
+          }
+        }`,
+        variables: {
+          _id: mocks.users[0]._id,
+          data: {
+            email: mocks.users[0].email,
+            username: mocks.users[0].username,
+            usergroup: mocks.usergroups[0]._id,
+            name: {
+              first: 'Jason',
+            },
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text).errors[0]).toInclude({
+          message: 'You do not have permission to change a user\'s usergroup.',
+        });
+        return done();
+      });
+  });
+
+  it('returns an error when resetting a user\'s password', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `mutation ($_id: ID!) {
+          resetPassword (_id: $_id) {
+            token
+          }
+        }`,
+        variables: { _id: mocks.users[0]._id },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text).errors[0]).toInclude({
+          message: 'You do not have permission to manage users.',
         });
         return done();
       });

@@ -27,6 +27,10 @@ exports.outputType = new GraphQLObjectType({
     dateCreated: {
       type: new GraphQLNonNull(DateTime),
     },
+    token: {
+      type: GraphQLString,
+      description: 'A temporary token used for account activation and password resets',
+    },
     image: {
       type: GraphQLString,
       description: 'User\'s avatar.',
