@@ -303,5 +303,24 @@ describe('Permissions', function () {
       });
   });
 
+  it('throws when deleting an entry', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `mutation removeEntry ($_id: ID!) {
+          removeEntry (_id: $_id) {
+            _id
+          }
+        }`,
+        variables: { _id: mocks.entries[0]._id },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        const data = JSON.parse(res.text);
+        expect(data.errors[0]).toInclude({ message: 'You do not have permission to delete Entries' });
+        return done();
+      });
+  });
+
   after('Set to admin', common.setAdmin);
 });
