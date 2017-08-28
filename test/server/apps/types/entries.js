@@ -22,6 +22,7 @@ it('returns a list of entries', (done) => {
             { _id: mocks.entries[0]._id, title: mocks.entries[0].title },
             { _id: mocks.entries[1]._id, title: mocks.entries[1].title },
             { _id: mocks.entries[2]._id, title: mocks.entries[2].title },
+            { _id: mocks.entries[3]._id, title: mocks.entries[3].title },
           ],
         },
       });
@@ -183,7 +184,7 @@ describe('Permissions', function () {
       });
   });
 
-  it('throws when user is not allowed to update an entry', function (done) {
+  it('throws when user is not allowed to update an entry\'s status', function (done) {
     global.agent
       .post('/graphql')
       .send({
@@ -195,9 +196,10 @@ describe('Permissions', function () {
         variables: {
           _id: mocks.entries[0]._id,
           data: {
-            title: 'New title!',
+            title: mocks.entries[0].title,
             author: mocks.users[0]._id,
             section: mocks.sections[0]._id,
+            status: mocks.entries[0].status,
             fields: [{
               fieldId: mocks.fields[0]._id,
               handle: mocks.fields[0].handle,
@@ -210,6 +212,72 @@ describe('Permissions', function () {
         if (err) { return done(err); }
         expect(JSON.parse(res.text).errors[0]).toInclude({
           message: 'You are not allowed to change the status of entries. Sorry!',
+        });
+        return done();
+      });
+  });
+
+  it('throws when user edits an entry not their own', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `mutation ($_id: ID!, $data: EntriesInput!) {
+          updateEntry (_id: $_id, data: $data) {
+            title
+          }
+        }`,
+        variables: {
+          _id: mocks.entries[2]._id,
+          data: {
+            title: mocks.entries[2].title,
+            author: mocks.users[1]._id,
+            section: mocks.entries[2].section,
+            status: 'live',
+            fields: [{
+              fieldId: mocks.fields[0]._id,
+              handle: mocks.fields[0].handle,
+              value: 'Hello!',
+            }],
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text).errors[0]).toInclude({
+          message: 'You are not allowed to edit this entry. Sorry!',
+        });
+        return done();
+      });
+  });
+
+  it('throws when user edits a live entry', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `mutation ($_id: ID!, $data: EntriesInput!) {
+          updateEntry (_id: $_id, data: $data) {
+            title
+          }
+        }`,
+        variables: {
+          _id: mocks.entries[3]._id,
+          data: {
+            title: 'A title!',
+            author: mocks.users[0]._id,
+            section: mocks.entries[3].section,
+            status: mocks.entries[3].status,
+            fields: [{
+              fieldId: mocks.fields[0]._id,
+              handle: mocks.fields[0].handle,
+              value: 'Hello!',
+            }],
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text).errors[0]).toInclude({
+          message: 'You are not allowed to edit a live entry. Sorry!',
         });
         return done();
       });

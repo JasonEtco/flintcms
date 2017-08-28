@@ -1,6 +1,6 @@
 exports.entries = [
   {
-    _id: '58be1b901210931d043d9fc2',
+    _id: '56be1b901210931d043d9fc2',
     slug: 'test-entry',
     title: 'Test Entry',
     section: '58b787fd28044618a8f7a737',
@@ -9,7 +9,7 @@ exports.entries = [
     fields: [],
   },
   {
-    _id: '58be1b901810931d043d9fc6',
+    _id: '57be1b901810931d043d9fc6',
     title: 'Test Entry Two',
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
@@ -24,6 +24,15 @@ exports.entries = [
     author: '589a12b5a08e0c2f24ece4e8',
     dateCreated: '2017-04-07T02:31:44.010Z',
     status: 'draft',
+    fields: [],
+  },
+  {
+    _id: '59be1b901810931d043d9fc1',
+    title: 'I\'m always live!',
+    section: '58b787fd28044618a8f7a737',
+    author: '59383c903e13393788eb01b2',
+    dateCreated: '2017-04-07T02:31:44.010Z',
+    status: 'live',
     fields: [],
   },
 ];
@@ -131,7 +140,7 @@ exports.usergroups = [{
   },
   dateCreated: 1486492341619,
 }, {
-  _id: '59357fdf76fb4f43905c8149',
+  _id: '597530faa5535235e9137f53',
   title: 'Placeholder',
   slug: 'placeholder',
   permissions: {
