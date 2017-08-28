@@ -13,6 +13,7 @@ module.exports = async () => {
     { model: 'Entry', mocks: mocks.entries },
     { model: 'Field', mocks: mocks.fields },
     { model: 'Page', mocks: mocks.pages },
+    { model: 'Site', mocks: mocks.site },
   ];
 
   const addModel = async (modelName) => {
@@ -29,6 +30,7 @@ module.exports = async () => {
       return done;
     })),
     await Promise.all([
+      await addModel('Site'),
       await addModel('Field'),
       await addModel('UserGroup'),
       await addModel('Section'),

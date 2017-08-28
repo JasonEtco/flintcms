@@ -217,3 +217,22 @@ exports.pages = [{
   fieldLayout: ['5946e850bd887652381ecfe8'],
   dateCreated: 1497819235747,
 }];
+
+exports.site = {
+  logsPath: '/app/logs',
+  templatePath: '/app/templates',
+  scssPath: '/app/scss',
+  publicPath: '/app/public',
+  plugins: [],
+  debugMode: true,
+  appDir: '/app',
+  scssEntryPoint: 'main.scss',
+  allowPublicRegistration: false,
+  siteUrl: 'https://example.com',
+  siteName: 'Jason\'s Blog',
+  scssIncludePaths: [
+    'node_modules',
+  ],
+  style: '',
+  defaultUserGroup: '59357fdf76fb4f43905c8138',
+};
