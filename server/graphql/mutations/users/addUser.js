@@ -6,6 +6,7 @@ const { inputType, outputType } = require('../../types/Users');
 const sendEmail = require('../../../utils/emails/sendEmail');
 
 const User = mongoose.model('User');
+const UserGroup = mongoose.model('UserGroup');
 const Site = mongoose.model('Site');
 
 module.exports = {
@@ -17,11 +18,13 @@ module.exports = {
     },
   },
   async resolve({ events, perms, socketEvent }, args) {
-    const { username } = args.user;
+    const { username, email } = args.user;
 
     if (perms && !perms.users.canAddUsers) throw new Error('You do not have permission to manage users.');
     if (!username) throw new Error('You must include a username.');
     if (await User.findOne({ username })) throw new Error('There is already a user with that username.');
+    if (await User.findOne({ email })) throw new Error('There is already a user with that email.');
+    if (!await UserGroup.findById(args.user.usergroup)) throw new Error('That UserGroup does not exist.');
 
     const newUser = new User(args.user);
 

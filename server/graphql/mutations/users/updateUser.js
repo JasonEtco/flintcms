@@ -21,7 +21,7 @@ module.exports = {
     if (!perms.users.canChangeUsersUsergroup && _id !== ctx.user._id) throw new Error('You do not have permission to change a user\'s usergroup.');
 
     const foundUser = await User.findById(_id).lean().exec();
-    if (!foundUser) throw new Error('There is no User with this ID');
+    if (!foundUser) throw new Error('There is no User with this ID.');
 
     events.emit('pre-update-user', { _id, data });
 
