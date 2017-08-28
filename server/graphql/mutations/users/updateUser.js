@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Users');
 
 const User = mongoose.model('User');
+const UserGroup = mongoose.model('UserGroup');
 
 module.exports = {
   type: new GraphQLNonNull(outputType),
@@ -17,11 +18,15 @@ module.exports = {
     },
   },
   async resolve({ events, perms, socketEvent }, { _id, data }, ctx) {
-    if (!perms.users.canEditUsers && _id !== ctx.user._id) throw new Error('You do not have permission to edit users.');
-    if (!perms.users.canChangeUsersUsergroup && _id !== ctx.user._id) throw new Error('You do not have permission to change a user\'s usergroup.');
+    const isSameUser = JSON.stringify(_id) === JSON.stringify(ctx.user._id);
+    if (!perms.users.canEditUsers && !isSameUser) throw new Error('You do not have permission to edit users.');
 
     const foundUser = await User.findById(_id).lean().exec();
     if (!foundUser) throw new Error('There is no User with this ID.');
+
+    const isSameUserGroup = JSON.stringify(foundUser.usergroup) === JSON.stringify(data.usergroup)
+    if (!perms.users.canChangeUsersUsergroup && !isSameUserGroup) throw new Error('You do not have permission to change a user\'s usergroup.');
+    if (!await UserGroup.findById(data.usergroup).lean().exec()) throw new Error('That usergroup does not exist');
 
     events.emit('pre-update-user', { _id, data });
 

@@ -1,5 +1,6 @@
 const mocks = require('../../../mocks');
 const expect = require('expect');
+const common = require('../common');
 
 it('returns a list of users', (done) => {
   global.agent
@@ -290,6 +291,7 @@ it('can update an existing user', function (done) {
         _id: mocks.users[0]._id,
         data: {
           email: mocks.users[0].email,
+          usergroup: mocks.usergroups[0]._id,
           username: mocks.users[0].username,
           name: {
             first: 'Jason',
@@ -330,6 +332,7 @@ it('throws when updating a non-existing user', function (done) {
         data: {
           email: mocks.users[0].email,
           username: mocks.users[0].username,
+          usergroup: mocks.usergroups[0]._id,
           name: {
             first: 'Jason',
           },
@@ -338,7 +341,6 @@ it('throws when updating a non-existing user', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      // expect(res.status).toEqual(200);
       expect(JSON.parse(res.text).errors[0]).toContain({
         message: 'There is no User with this ID.',
       });
@@ -346,35 +348,71 @@ it('throws when updating a non-existing user', function (done) {
     });
 });
 
-it('throws when updating a non-existing user', function (done) {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($_id: ID!, $data: UserInput!) {
-        updateUser (_id: $_id, data: $data) {
-          name {
-            first
+describe('Permissions', function () {
+  before('Set to non-admin', common.setNonAdmin);
+
+  it('throws when user is not allowed to edit other users', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `mutation ($_id: ID!, $data: UserInput!) {
+          updateUser (_id: $_id, data: $data) {
+            name {
+              first
+            }
           }
-        }
-      }`,
-      variables: {
-        _id: '5946e850bd887652381ecfe8',
-        data: {
-          email: mocks.users[0].email,
-          username: mocks.users[0].username,
-          name: {
-            first: 'Jason',
+        }`,
+        variables: {
+          _id: mocks.users[1]._id,
+          data: {
+            email: mocks.users[1].email,
+            username: mocks.users[1].username,
+            name: {
+              first: 'Jason',
+            },
           },
         },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      // expect(res.status).toEqual(200);
-      expect(JSON.parse(res.text).errors[0]).toContain({
-        message: 'There is no User with this ID.',
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text).errors[0]).toInclude({
+          message: 'You do not have permission to edit users.',
+        });
+        return done();
       });
-      return done();
-    });
+  });
+
+  it('allows a user to edit themselves', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `mutation ($_id: ID!, $data: UserInput!) {
+          updateUser (_id: $_id, data: $data) {
+            name {
+              first
+            }
+          }
+        }`,
+        variables: {
+          _id: mocks.users[0]._id,
+          data: {
+            email: mocks.users[0].email,
+            username: mocks.users[0].username,
+            usergroup: mocks.usergroups[2]._id,
+            name: {
+              first: 'Jason',
+            },
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text)).toEqual({
+          data: { updateUser: { name: { first: 'Jason' } } },
+        });
+        return done();
+      });
+  });
+
+  after('Set to admin', common.setAdmin);
 });
