@@ -2,7 +2,7 @@
 
 const expect = require('expect');
 const { slugify, reduceToObj, capitalizeFirstChar } = require('../../../server/utils/helpers');
-const { entries } = require('../../__mocks__');
+const { entries } = require('../../mocks');
 
 describe('helpers', function () {
   describe('slugify', function () {

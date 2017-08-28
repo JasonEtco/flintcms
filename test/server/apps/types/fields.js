@@ -1,4 +1,4 @@
-const mocks = require('../../../__mocks__');
+const mocks = require('../../../mocks');
 const expect = require('expect');
 
 it('returns a list of fields', (done) => {

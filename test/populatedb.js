@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mocks = require('./__mocks__');
+const mocks = require('./mocks');
 
 function processArray(array) {
   return array.reduce(p => p, Promise.resolve());

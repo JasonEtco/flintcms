@@ -1,5 +1,5 @@
 const supertest = require('supertest');
-const mocks = require('../../__mocks__');
+const mocks = require('../../mocks');
 const Flint = require('../../../index.js');
 const mongoose = require('mongoose');
 

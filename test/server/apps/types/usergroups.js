@@ -1,4 +1,4 @@
-const mocks = require('../../../__mocks__');
+const mocks = require('../../../mocks');
 const expect = require('expect');
 const permissions = require('../../../../server/utils/permissions.json');
 
