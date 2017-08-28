@@ -24,7 +24,7 @@ module.exports = {
     const foundUser = await User.findById(_id).lean().exec();
     if (!foundUser) throw new Error('There is no User with this ID.');
 
-    const isSameUserGroup = JSON.stringify(foundUser.usergroup) === JSON.stringify(data.usergroup)
+    const isSameUserGroup = JSON.stringify(foundUser.usergroup) === JSON.stringify(data.usergroup);
     if (!perms.users.canChangeUsersUsergroup && !isSameUserGroup) throw new Error('You do not have permission to change a user\'s usergroup.');
     if (!await UserGroup.findById(data.usergroup).lean().exec()) throw new Error('That usergroup does not exist');
 
