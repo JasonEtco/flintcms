@@ -110,13 +110,74 @@ exports.usergroups = [{
       canDeleteFields: true,
       canAddFields: true,
     },
+    plugins: {
+      canManagePlugins: true,
+    },
     sections: {
       canEditSections: true,
       canDeleteSections: true,
       canAddSections: true,
     },
   },
-  dateCreated: '2017-06-05T15:59:27.303Z',
+  dateCreated: 1486492341619,
+}, {
+  _id: '59357fdf76fb4f43905c8149',
+  title: 'Can do nothing',
+  slug: 'can-do-nothing',
+  permissions: {
+    pages: {
+      canAddPages: false,
+      canDeletePages: false,
+      canEditPages: false,
+    },
+    plugins: {
+      canManagePlugins: false,
+    },
+    site: {
+      canManagePlugins: false,
+      canCustomStyles: false,
+      canManageSite: false,
+    },
+    assets: {
+      canIndexAssets: false,
+      canDeleteAssets: false,
+      canEditAssets: false,
+      canAddAssets: false,
+    },
+    usergroups: {
+      canViewUserGroups: false,
+      canDeleteUserGroups: false,
+      canEditUserGroups: false,
+      canAddUserGroups: false,
+    },
+    users: {
+      canChangeUsersUsergroup: false,
+      canResetUserPasswords: false,
+      canDeleteUsers: false,
+      canEditUsers: false,
+      canAddUsers: false,
+    },
+    entries: {
+      canChangeEntryStatus: false,
+      canEditDrafts: false,
+      canSeeDrafts: false,
+      canEditLive: false,
+      canEditOthersEntries: false,
+      canDeleteEntries: false,
+      canAddEntries: false,
+    },
+    fields: {
+      canEditFields: false,
+      canDeleteFields: false,
+      canAddFields: false,
+    },
+    sections: {
+      canEditSections: false,
+      canDeleteSections: false,
+      canAddSections: false,
+    },
+  },
+  dateCreated: 1486492341619,
 }];
 
 exports.user = {

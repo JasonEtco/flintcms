@@ -9,6 +9,7 @@ describe('GraphQL API', function () {
   common.importTest('Sections', './types/sections');
   common.importTest('Pages', './types/pages');
   common.importTest('Fields', './types/fields');
+  common.importTest('UserGroups', './types/usergroups');
 
   after((done) => {
     mongoose.disconnect();
