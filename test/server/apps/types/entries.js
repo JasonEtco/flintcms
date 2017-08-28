@@ -21,6 +21,7 @@ it('returns a list of entries', (done) => {
           entries: [
             { _id: mocks.entries[0]._id, title: mocks.entries[0].title },
             { _id: mocks.entries[1]._id, title: mocks.entries[1].title },
+            { _id: mocks.entries[2]._id, title: mocks.entries[2].title },
           ],
         },
       });
@@ -87,6 +88,7 @@ it('can save an entry to the database', function (done) {
       variables: {
         data: {
           title: mocks.entries[1].title,
+          status: mocks.entries[1].status,
           author: mocks.users[0]._id,
           section: mocks.sections[0]._id,
           fields: [{
@@ -209,6 +211,26 @@ describe('Permissions', function () {
         expect(JSON.parse(res.text).errors[0]).toInclude({
           message: 'You are not allowed to change the status of entries. Sorry!',
         });
+        return done();
+      });
+  });
+
+  it('does not return a draft entry', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `{
+          entries {
+            status
+          }
+        }`,
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        const data = JSON.parse(res.text).data.entries;
+        expect(data).toExclude({ status: 'draft' });
+        expect(data).toExclude({ status: 'disabled' });
+        expect(data).toInclude({ status: 'live' });
         return done();
       });
   });

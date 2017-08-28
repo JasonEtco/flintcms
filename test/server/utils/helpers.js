@@ -2,7 +2,6 @@
 
 const expect = require('expect');
 const { slugify, reduceToObj, capitalizeFirstChar } = require('../../../server/utils/helpers');
-const { entries } = require('../../mocks');
 
 describe('helpers', function () {
   describe('slugify', function () {
@@ -12,10 +11,14 @@ describe('helpers', function () {
   });
 
   describe('reduceToObj', () => {
+    const obj = [
+      { foo: 'one', bar: 'two' },
+      { foo: 'three', bar: 'four' },
+    ];
     it('should create and an object of the keys in an array of objects', function () {
-      expect(reduceToObj(entries, '_id', 'title')).toEqual({
-        '58be1b901810931d043d9fc2': 'Test Entry',
-        '58be1b901810931d043d9fc6': 'Test Entry Two',
+      expect(reduceToObj(obj, 'foo', 'bar')).toEqual({
+        one: 'two',
+        three: 'four',
       });
     });
   });

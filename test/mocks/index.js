@@ -1,6 +1,6 @@
 exports.entries = [
   {
-    _id: '58be1b901810931d043d9fc2',
+    _id: '58be1b901210931d043d9fc2',
     slug: 'test-entry',
     title: 'Test Entry',
     section: '58b787fd28044618a8f7a737',
@@ -14,6 +14,16 @@ exports.entries = [
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
     dateCreated: '2017-04-07T02:31:44.010Z',
+    status: 'live',
+    fields: [],
+  },
+  {
+    _id: '58be1b901810931d043d9fc1',
+    title: 'I\'m a draft!',
+    section: '58b787fd28044618a8f7a737',
+    author: '589a12b5a08e0c2f24ece4e8',
+    dateCreated: '2017-04-07T02:31:44.010Z',
+    status: 'draft',
     fields: [],
   },
 ];
