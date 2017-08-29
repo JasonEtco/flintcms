@@ -1,5 +1,6 @@
 const mocks = require('../../../mocks');
 const expect = require('expect');
+const common = require('../common');
 
 it('returns a list of fields', (done) => {
   global.agent
@@ -47,6 +48,42 @@ it('can query for a specific field', function (done) {
       expect(JSON.parse(res.text)).toEqual({
         data: {
           field: { _id: mocks.fields[0]._id },
+        },
+      });
+      return done();
+    });
+});
+
+
+it('can update a field in the database', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($_id: ID!, $data: FieldInput!) {
+        updateField (_id: $_id, data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        _id: mocks.fields[0]._id,
+        data: {
+          title: 'New title!',
+          required: false,
+          type: 'Text',
+          options: {
+            placeholder: 'Example!',
+          },
+        },
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text)).toEqual({
+        data: {
+          updateField: {
+            title: 'New title!',
+          },
         },
       });
       return done();
@@ -116,4 +153,62 @@ it('can save a field to the database', function (done) {
       });
       return done();
     });
+});
+
+
+describe('Permissions', function () {
+  before('Set to non-admin', common.setNonAdmin);
+
+  it('cannot delete a field from the database', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($_id: ID!) {
+          removeField (_id: $_id) {
+            _id
+          }
+        }`,
+        variables: { _id: mocks.fields[0]._id },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text).errors[0]).toInclude({
+          message: 'You do not have permission to delete Fields.',
+        });
+        return done();
+      });
+  });
+
+  it('cannot save a field to the database', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($data: FieldInput!) {
+          addField (data: $data) {
+            title
+          }
+        }`,
+        variables: {
+          data: {
+            title: 'Some text',
+            required: false,
+            type: 'Text',
+            options: {
+              placeholder: 'Text!',
+            },
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text).errors[0]).toInclude({
+          message: 'You do not have permission to create a new Field.',
+        });
+        return done();
+      });
+  });
+
+  after('Set to admin', common.setAdmin);
 });

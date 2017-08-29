@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   async resolve({ io, events, perms, socketEvent }, { _id }, ctx, ast) {
-    if (!perms.fields.canAddFields) throw new Error('You do not have permission to create a new Field.');
+    if (!perms.fields.canAddFields) throw new Error('You do not have permission to delete Fields.');
 
     const foundField = await Field.findById(_id).exec();
     if (!foundField) throw new Error('The field could not be found.')
