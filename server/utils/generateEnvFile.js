@@ -41,7 +41,7 @@ MAIL_PASS=
  * @returns {Boolean}
  */
 async function generateEnvFile(p) {
-  const pathToEnvFile = p || path.join(global.FLINT.appDir, '.env');
+  const pathToEnvFile = p || path.resolve('.env');
 
   // Checks if there is already a DB_HOST env variable
   // or if the .env file already exists. This double-check is to

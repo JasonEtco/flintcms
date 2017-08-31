@@ -1,19 +1,21 @@
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 
-const nun = nunjucks.configure(global.FLINT.templatePath, {
-  noCache: process.env.NODE_ENV !== 'production',
-});
+module.exports = (pathToTemplates) => {
+  const nun = nunjucks.configure(pathToTemplates, {
+    noCache: process.env.NODE_ENV !== 'production',
+  });
 
-Object.keys(global.FLINT).forEach((key) => {
-  nun.addGlobal(key, global.FLINT[key]);
-});
+  Object.keys(global.FLINT).forEach((key) => {
+    nun.addGlobal(key, global.FLINT[key]);
+  });
 
-nun.addGlobal('getContext', () => this.ctx);
+  nun.addGlobal('getContext', () => this.ctx);
 
-nun.addFilter('json', obj => `<pre><code>${JSON.stringify(obj, null, 2)}</code></pre>`);
-nun.addFilter('date', dateFilter);
+  nun.addFilter('json', obj => `<pre><code>${JSON.stringify(obj, null, 2)}</code></pre>`);
+  nun.addFilter('date', dateFilter);
 
-nunjucks.precompile(global.FLINT.templatePath, { env: nun });
+  nunjucks.precompile(pathToTemplates, { env: nun });
 
-exports.nun = nun;
+  return nun;
+};

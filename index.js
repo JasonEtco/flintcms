@@ -4,6 +4,7 @@ require('dotenv').config({ path: testing ? '.env.dev' : '.env' });
 const path = require('path');
 const chalk = require('chalk');
 const generateEnvFile = require('./server/utils/generateEnvFile');
+const nunjuckEnv = require('./server/utils/nunjucks');
 const validateEnvVariables = require('./server/utils/validateEnvVariables');
 const scaffold = require('./server/utils/scaffold');
 const { verifyNodemailer } = require('./server/utils/emails');
@@ -41,7 +42,6 @@ module.exports = class Flint {
    * @param {boolean} debugMode
    */
   constructor(settings = {}, debugMode) {
-    const appDir = path.dirname(require.main.filename);
     const {
       templatePath,
       scssPath,
@@ -52,18 +52,18 @@ module.exports = class Flint {
     } = settings;
 
     const FLINT = Object.assign({}, settings, {
-      logsPath: path.join(appDir, 'logs'),
-      templatePath: path.join(appDir, templatePath || 'templates'),
-      scssPath: path.join(appDir, scssPath || 'scss'),
-      publicPath: path.join(appDir, publicPath || 'public'),
+      logsPath: path.resolve('logs'),
+      templatePath: path.resolve(templatePath || 'templates'),
+      scssPath: path.resolve(scssPath || 'scss'),
+      publicPath: path.resolve(publicPath || 'public'),
       plugins: plugins || [],
       scssEntryPoint: scssEntryPoint !== undefined ? scssEntryPoint : 'main.scss',
       scssIncludePaths: scssIncludePaths || [],
       debugMode,
-      appDir,
     });
 
     global.FLINT = FLINT;
+    global.FLINT.nun = nunjuckEnv(global.FLINT.templatePath);
 
     scaffold(FLINT.logsPath);
     scaffold(FLINT.templatePath);

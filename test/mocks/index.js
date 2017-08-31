@@ -1,6 +1,6 @@
 exports.entries = [
   {
-    _id: '56be1b901210931d043d9fc2',
+    _id: '591e63abe9e41f00113de131',
     slug: 'test-entry',
     title: 'Test Entry',
     section: '58b787fd28044618a8f7a737',
@@ -63,7 +63,7 @@ exports.users = [
     },
     email: 'anothaone@anothaone.com',
     image: 'default_user.png',
-    usergroup: '59357fdf76fb4f43905c8138',
+    usergroup: '592a74034a0a9b372c3bff9c',
   },
   {
     _id: '589a12b5a08e0c2f24ece4e8',
@@ -77,12 +77,12 @@ exports.users = [
     },
     email: 'example@userstein.com',
     image: 'default_user.png',
-    usergroup: '59357fdf76fb4f43905c8138',
+    usergroup: '592a74034a0a9b372c3bff9c',
   },
 ];
 
 exports.usergroups = [{
-  _id: '59357fdf76fb4f43905c8138',
+  _id: '592a74034a0a9b372c3bff9c',
   title: 'Admin',
   slug: 'admin',
   permissions: {
@@ -311,5 +311,5 @@ exports.site = {
     'node_modules',
   ],
   style: '',
-  defaultUserGroup: '59357fdf76fb4f43905c8138',
+  defaultUserGroup: '592a74034a0a9b372c3bff9c',
 };
