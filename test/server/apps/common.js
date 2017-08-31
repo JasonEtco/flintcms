@@ -14,7 +14,7 @@ exports.importTest = function importTest(name, path) {
 
 exports.before = async function before() {
   this.timeout(15000);
-  const flintServer = new Flint({ listen: false });
+  const flintServer = new Flint({ listen: false, templatePath: 'test/fixtures' });
   const server = await flintServer.startServer();
   global.agent = supertest.agent(server);
 

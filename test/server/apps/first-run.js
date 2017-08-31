@@ -8,7 +8,7 @@ describe('First time install', function () {
   let agent;
 
   before('Start a server', async function () {
-    const flintServer = new Flint({ listen: false });
+    const flintServer = new Flint({ listen: false, templatePath: 'test/fixtures' });
     server = await flintServer.startServer();
     await mongoose.model('User').remove();
     agent = supertest.agent(server);
