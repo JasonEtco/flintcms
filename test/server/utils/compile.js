@@ -26,7 +26,28 @@ describe('Compile templates', function () {
     const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'index.txt');
     const file = await readFile(pathToFile, 'utf-8');
     expect(res.text).toNotBe('no-template');
-    console.log(res.text);
+    expect(res.text).toBe(file);
+  });
+
+  it('returns the `no-template` when the requested template does not exist', async function () {
+    const res = await request(server).get('/no-template');
+    expect(res.status).toBe(302);
+    expect(res.text).toBe('Found. Redirecting to /admin/error?r=no-template&p=/no-template&t=template-no-exist');
+  });
+
+  it('returns 404 when a page does not exist', async function () {
+    const res = await request(server).get('/pizza');
+    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', '404.txt');
+    const file = await readFile(pathToFile, 'utf-8');
+    expect(res.status).toBe(404);
+    expect(res.text).toBe(file);
+  });
+
+  it('returns a page with variables', async function () {
+    const res = await request(server).get('/page-with-vars');
+    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'page-with-vars.txt');
+    const file = await readFile(pathToFile, 'utf-8');
+    expect(res.status).toBe(200);
     expect(res.text).toBe(file);
   });
 

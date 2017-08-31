@@ -159,14 +159,9 @@ it('overwrites the last homepage when a new homepage is saved', function (done) 
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
-        data: {
-          pages: [
-            { homepage: false },
-            { homepage: true },
-          ],
-        },
-      });
+      const { data } = JSON.parse(res.text);
+      expect(data.pages).toInclude({ homepage: true });
+      expect(data.pages.filter(p => p.homepage).length).toEqual(1);
       return done();
     });
 });

@@ -293,6 +293,28 @@ exports.pages = [{
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
   dateCreated: 1497819235747,
+}, {
+  _id: '5946e863bd887652381edfe9',
+  handle: 'noTemplate',
+  slug: 'no-template',
+  route: '/no-template',
+  title: 'No Template',
+  template: 'template-no-exist',
+  homepage: false,
+  fields: [],
+  fieldLayout: ['5946e850bd887652381ecfe8'],
+  dateCreated: 1497819236747,
+}, {
+  _id: '5946e863bd887652382edfe9',
+  slug: 'page-with-vars',
+  handle: 'pageWithVars',
+  route: '/page-with-vars',
+  title: 'Page with vars',
+  template: 'page-with-vars',
+  homepage: false,
+  fields: [],
+  fieldLayout: ['5946e850bd887652381ecfe8'],
+  dateCreated: 1497819236747,
 }];
 
 exports.site = {
@@ -306,7 +328,7 @@ exports.site = {
   scssEntryPoint: 'main.scss',
   allowPublicRegistration: false,
   siteUrl: 'https://example.com',
-  siteName: 'Jason\'s Blog',
+  siteName: 'Example site title',
   scssIncludePaths: [
     'node_modules',
   ],
