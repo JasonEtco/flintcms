@@ -31,7 +31,7 @@ That's the basics! There's more to it than that, you can [take a look at the doc
 
 ## Requirements
 
-FlintCMS relies on the `async/await` keywords, which means the minimum required version of Node.js is `7.6.0`. That being said, version `^8.0.0` is recommended as it is considered more stable and standard.
+FlintCMS employs new Node.js standards and functionality, so `^8.0.0` is the supported version.
 
 You'll need a MongoDB database of some kind, and you'll likely want a way to send emails through your site; you can read more about all of this [on the FlintCMS docs](https://flintcms.co/docs/).
 
