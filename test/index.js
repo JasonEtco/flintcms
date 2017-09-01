@@ -10,7 +10,7 @@ describe('server', function () {
   let server;
 
   before('Creates a server', async function () {
-    const flintServer = new Flint({ templatePath: 'test/fixtures' });
+    const flintServer = new Flint();
     server = await flintServer.startServer();
     return server;
   });

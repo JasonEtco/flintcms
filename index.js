@@ -63,12 +63,13 @@ module.exports = class Flint {
     });
 
     global.FLINT = FLINT;
-    global.FLINT.nun = nunjuckEnv(global.FLINT.templatePath);
 
-    scaffold(FLINT.logsPath);
     scaffold(FLINT.templatePath);
-    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
     scaffold(FLINT.publicPath);
+    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
+    scaffold(FLINT.logsPath);
+
+    global.FLINT.nun = nunjuckEnv(global.FLINT.templatePath);
 
     this.port = process.env.PORT || 4000;
   }
