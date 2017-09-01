@@ -1,6 +1,6 @@
 const { GraphQLNonNull, GraphQLID } = require('graphql');
 const mongoose = require('mongoose');
-const { outputType } = require('../../types/Entries');
+const { outputType } = require('../../types/Users');
 const getProjection = require('../../get-projection');
 
 const User = mongoose.model('User');

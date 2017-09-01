@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, global-require */
 
 const express = require('express');
 const path = require('path');
@@ -8,46 +8,50 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../../config/webpack.config');
 
-const admin = express();
+module.exports = (app) => {
+  const admin = express();
 
-admin.use(require('./routes/auth'));
-admin.use('/api', require('./api'));
+  admin.use(require('./routes/auth'));
+  admin.use('/api', require('./api')(app));
 
-if (process.env.BUILD_DASHBOARD) {
-  const compiler = webpack(config);
-  const middleware = webpackMiddleware(compiler, {
-    publicPath: '/',
-    stats: {
-      colors: true,
-      hash: false,
-      timings: true,
-      chunks: false,
-      chunkModules: false,
-      modules: false,
-    },
-  });
+  const testing = process.env.NODE_ENV === 'test';
 
-  admin.use(middleware);
-  admin.use(webpackHotMiddleware(compiler));
+  if (process.env.BUILD_DASHBOARD) {
+    const compiler = webpack(config);
+    const middleware = webpackMiddleware(compiler, {
+      publicPath: '/',
+      stats: {
+        colors: true,
+        hash: false,
+        timings: true,
+        chunks: false,
+        chunkModules: false,
+        modules: false,
+      },
+    });
 
-  admin.get('*', (req, res) => {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', '..', 'admin', 'index.html')));
-    res.end();
-  });
+    admin.use(middleware);
+    admin.use(webpackHotMiddleware(compiler));
 
-  console.log(`${chalk.cyan('[App: Admin]')} initialized in Dev mode.`);
-} else {
-  const STATIC_PATH = path.join(__dirname, '..', '..', 'admin');
-  const STATIC_OPTS = {
-    maxAge: 31536000000, // One year
-  };
+    admin.get('*', (req, res) => {
+      res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', '..', 'admin', 'index.html')));
+      res.end();
+    });
 
-  admin.use(express.static(STATIC_PATH, STATIC_OPTS));
+    console.log(`${chalk.cyan('[App: Admin]')} initialized in Dev mode.`);
+  } else {
+    const STATIC_PATH = path.join(__dirname, '..', '..', 'admin');
+    const STATIC_OPTS = {
+      maxAge: 31536000000, // One year
+    };
 
-  admin.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'));
-  });
-  console.log(`${chalk.gray('[App: Admin]')} initialized.`);
-}
+    admin.use(express.static(STATIC_PATH, STATIC_OPTS));
 
-module.exports = admin;
+    admin.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'));
+    });
+    if (!testing) console.log(`${chalk.gray('[App: Admin]')} initialized.`);
+  }
+
+  return admin;
+};

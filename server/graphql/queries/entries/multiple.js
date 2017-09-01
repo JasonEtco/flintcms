@@ -24,12 +24,10 @@ module.exports = {
 
     const fargs = {};
 
-    if (args.status) {
-      if (isAUser && root.perms) {
-        fargs.status = !root.perms.entries.canSeeDrafts ? 'live' : args.status;
-      } else {
-        fargs.status = args.status;
-      }
+    if (isAUser && root.perms && !root.perms.entries.canSeeDrafts) {
+      fargs.status = 'live';
+    } else if (args.status) {
+      fargs.status = args.status;
     }
 
     if (args.sectionSlug) {

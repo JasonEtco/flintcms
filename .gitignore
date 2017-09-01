@@ -4,5 +4,9 @@ node_modules
 /public
 /scss
 .env
+admin
+flint
+__coverage__
+public
 .DS_Store
 /logs

@@ -1,7 +1,4 @@
-const {
-  GraphQLID,
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLID, GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 
 const { outputType } = require('../../types/Fields');
@@ -21,7 +18,7 @@ module.exports = {
     const projection = getProjection(ast);
 
     return Field
-      .findById(args.id)
+      .findById(args._id)
       .select(projection)
       .exec();
   },

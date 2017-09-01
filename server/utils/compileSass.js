@@ -38,11 +38,13 @@ async function compile() {
     await writeFileAsync(pathToFile, scss.css);
     return `${chalk.grey('[SCSS]')} Your SCSS has been compiled to ${pathToFile}`;
   } catch (e) {
-    /* eslint-disable no-console */
-    console.log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`);
-    console.log(`  ${chalk.grey('Line:')} ${chalk.red(e.line)}`);
-    console.log(`  ${chalk.grey('File:')} ${chalk.red(e.file)}`);
-    /* eslint-enable no-console */
+    if (process.env.NODE_ENV !== 'test') {
+      /* eslint-disable no-console */
+      console.log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`);
+      console.log(`  ${chalk.grey('Line:')} ${chalk.red(e.line)}`);
+      console.log(`  ${chalk.grey('File:')} ${chalk.red(e.file)}`);
+      /* eslint-enable no-console */
+    }
 
     return `${chalk.red('[SCSS]')} There was an error compiling your SCSS.`;
   }

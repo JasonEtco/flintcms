@@ -1,11 +1,18 @@
 language: node_js
 node_js:
-  - "7"
   - "8"
-script: npm run lint
+script: 
+  - npm test
+  - npm run lint
 cache:
   directories:
     - node_modules
 branches:
   only: 
     - master
+
+services:
+  - mongodb
+
+before_script:
+  - mongo test --eval 'db.addUser({user:"admin",pwd:"admin",roles:["readWrite"]});'

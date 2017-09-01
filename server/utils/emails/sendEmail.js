@@ -12,6 +12,7 @@ const pathToFlintLogo = path.join(__dirname, 'flintlogo.png');
  * @param {Object} data - Data object
  */
 async function sendEmail(to, template, data) {
+  if (process.env.NODE_ENV === 'test') return;
   const html = await compile(template, data);
   const text = htmlToText.fromString(html);
 

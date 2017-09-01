@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const collectData = require('./collectData');
-const { nun } = require('./nunjucks');
 
 /**
  * Compiles template/data with Nunjucks into an HTML string
@@ -20,7 +19,7 @@ async function compile(template, data) {
   // Collect site's data (entries, pages, sections, users, etc)
   const compiledData = await collectData(data).catch(console.log); // eslint-disable-line no-console
 
-  let html = await nun.render(templatePath, compiledData);
+  let html = await global.FLINT.nun.render(templatePath, compiledData);
   if (!html) return 'no-html';
 
   if (global.FLINT.debugMode) {

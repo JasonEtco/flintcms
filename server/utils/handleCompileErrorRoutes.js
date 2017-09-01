@@ -5,7 +5,7 @@ const fourOhFourHandler = require('./fourOhFourHandler');
  * like when a template or page does not exist
  * @param {object} req - Request object
  * @param {object} res - Response object
- * @param {String} type - Type of error
+ * @param {String} type - Type of error or a compiled HTML string
  * @param {String} [template] - Template that the error happened with
  */
 function handleCompileErrorRoutes(req, res, type, template) {

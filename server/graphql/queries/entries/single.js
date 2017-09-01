@@ -27,10 +27,10 @@ module.exports = {
     },
   },
   async resolve(root, args, ctx, ast) {
-    const isAUser = ctx !== undefined && ctx.user !== undefined;
+    const isAUser = !!ctx && ctx.user !== undefined;
     const projection = getProjection(ast);
 
-    const fargs = args;
+    const fargs = Object.assign({}, args);
 
     if (args.status) {
       if (isAUser && root.perms) {
@@ -39,8 +39,9 @@ module.exports = {
     }
 
     if (args.sectionSlug) {
-      const { _id } = await Section.findOne({ slug: args.sectionSlug }).select('_id').lean().exec();
-      fargs.section = _id;
+      const section = await Section.findOne({ slug: args.sectionSlug }).select('_id').lean().exec();
+      if (!section) throw new Error('That section does not exist.');
+      fargs.section = section._id;
       delete fargs.sectionSlug;
     }
 
