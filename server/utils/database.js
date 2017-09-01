@@ -5,14 +5,15 @@ const chalk = require('chalk');
 
 mongoose.Promise = global.Promise;
 
-const mongoUri = process.env.DB_HOST;
-const mongoCredentials = {
+const mongoUri = `mongodb://${process.env.DB_HOST}`;
+const mongoOptions = {
   user: process.env.DB_USER,
   pass: process.env.DB_PASS,
+  useMongoClient: true,
 };
 
 module.exports = function connectToDatabase() {
-  mongoose.connect(mongoUri, mongoCredentials);
+  mongoose.connect(mongoUri, mongoOptions);
   return new Promise((resolve, reject) => {
     mongoose.connection.on('open', () => {
       /* eslint-disable global-require */
