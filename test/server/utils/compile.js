@@ -5,6 +5,7 @@ const request = require('supertest');
 const expect = require('expect');
 const populateDB = require('../../populatedb');
 const mongoose = require('mongoose');
+const mocks = require('../../mocks');
 const fs = require('fs');
 const { promisify } = require('util');
 const path = require('path');
@@ -12,7 +13,6 @@ const path = require('path');
 const readFile = promisify(fs.readFile);
 
 describe('Compile templates', function () {
-  this.timeout(4000);
   let server;
 
   before('Creates a server and populates the db', async function () {
@@ -47,6 +47,16 @@ describe('Compile templates', function () {
     const res = await request(server).get('/page-with-vars');
     const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'page-with-vars.txt');
     const file = await readFile(pathToFile, 'utf-8');
+    expect(res.status).toBe(200);
+    expect(res.text).toBe(file);
+  });
+
+  it('returns an entry in a section', async function () {
+    const url = `/${mocks.sections[0].slug}/${mocks.entries[3].slug}`;
+    const res = await request(server).get(url);
+    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'entry.txt');
+    let file = await readFile(pathToFile, 'utf-8');
+    file = file.replace(new RegExp('{{ this.title }}', 'g'), mocks.entries[3].title);
     expect(res.status).toBe(200);
     expect(res.text).toBe(file);
   });

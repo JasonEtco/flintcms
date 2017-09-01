@@ -11,8 +11,8 @@ const schema = require('../graphql');
  * @returns {Object|Boolean} Entry object or `false` if there is no Entry
  */
 async function getEntryData({ slug, section }) {
-  const query = `{
-    entry (slug: "${slug}", status: "live", sectionSlug: "${section}") {
+  const query = `query ($slug: String!, $status: String!, $sectionSlug: String!) {
+    entry (slug: $slug, status: $status, sectionSlug: $sectionSlug) {
       _id
       title
       slug
@@ -35,7 +35,14 @@ async function getEntryData({ slug, section }) {
     }
   }`;
 
-  const { data } = await graphql(schema, query);
+  const variables = {
+    slug,
+    status: 'live',
+    sectionSlug: section,
+  };
+
+  const { data } = await graphql(schema, query, null, null, variables);
+  console.log(data);
   if (data.entry === undefined || data.entry === null) {
     return false;
   }

@@ -28,7 +28,8 @@ exports.entries = [
   },
   {
     _id: '59be1b901810931d043d9fc1',
-    title: 'I\'m always live!',
+    title: 'I am always live!',
+    slug: 'i-am-always-live',
     section: '58b787fd28044618a8f7a737',
     author: '59383c903e13393788eb01b2',
     dateCreated: '2017-04-07T02:31:44.010Z',
@@ -41,7 +42,9 @@ exports.sections = [
   {
     _id: '58b787fd28044618a8f7a737',
     title: 'Test Section',
-    template: 'index',
+    slug: 'test-section',
+    handle: 'testSection',
+    template: 'entry',
     fields: [
       '58a232588397e21c8c8c8828',
       '58a37f8feae5082628cd21e0',

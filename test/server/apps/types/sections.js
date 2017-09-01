@@ -10,6 +10,8 @@ it('returns a list of sections', (done) => {
         sections {
           _id
           title
+          handle
+          slug
           template
           dateCreated
           fields
