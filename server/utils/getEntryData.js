@@ -42,7 +42,7 @@ async function getEntryData({ slug, section }) {
   };
 
   const { data } = await graphql(schema, query, null, null, variables);
-  console.log(data);
+
   if (data.entry === undefined || data.entry === null) {
     return false;
   }
