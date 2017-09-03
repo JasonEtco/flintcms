@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "start": "nodemon --ignore app dev.js",
-    "test": "NODE_ENV=test mocha",
+    "test": "cross-env NODE_ENV=test mocha",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
     "prepublishOnly": "npm run build"
