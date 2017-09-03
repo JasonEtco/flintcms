@@ -23,6 +23,7 @@ module.exports = {
 
     return UserGroup
       .find(args)
+      .sort({ dateCreated: 1 })
       .select(projection)
       .exec();
   },

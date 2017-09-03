@@ -17,6 +17,7 @@ module.exports = {
 
     return Page
       .find()
+      .sort({ dateCreated: 1 })
       .select(projection)
       .exec();
   },

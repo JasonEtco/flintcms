@@ -37,6 +37,7 @@ module.exports = {
 
     return Entry
       .find(fargs)
+      .sort({ dateCreated: 1 })
       .populate('author')
       .select(projection)
       .exec();
