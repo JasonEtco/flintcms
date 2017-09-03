@@ -17,6 +17,7 @@ module.exports = {
 
     return User
       .find()
+      .sort({ dateCreated: 1 })
       .populate('usergroup')
       .select(projection)
       .lean()
