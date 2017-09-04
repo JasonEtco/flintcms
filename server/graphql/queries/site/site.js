@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const { outputType } = require('../../types/Site');
 const getProjection = require('../../get-projection');
 

@@ -1,13 +1,9 @@
-const {
-  GraphQLList,
-} = require('graphql');
-
+const { GraphQLList } = require('graphql');
 const mongoose = require('mongoose');
-
-const Section = mongoose.model('Section');
-
 const { outputType } = require('../../types/Sections');
 const getProjection = require('../../get-projection');
+
+const Section = mongoose.model('Section');
 
 module.exports = {
   type: new GraphQLList(outputType),

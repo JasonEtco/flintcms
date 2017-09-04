@@ -1,13 +1,9 @@
-const {
-  GraphQLList,
-} = require('graphql');
-
+const { GraphQLList } = require('graphql');
 const mongoose = require('mongoose');
-
-const Page = mongoose.model('Page');
-
 const { outputType } = require('../../types/Pages');
 const getProjection = require('../../get-projection');
+
+const Page = mongoose.model('Page');
 
 module.exports = {
   type: new GraphQLList(outputType),
