@@ -1,7 +1,4 @@
-const {
-  GraphQLList,
-  GraphQLString,
-} = require('graphql');
+const { GraphQLList, GraphQLString } = require('graphql');
 
 const mongoose = require('mongoose');
 
