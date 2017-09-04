@@ -1,11 +1,9 @@
 const { GraphQLList, GraphQLString } = require('graphql');
-
 const mongoose = require('mongoose');
-
-const UserGroup = mongoose.model('UserGroup');
-
 const { outputType } = require('../../types/UserGroups');
 const getProjection = require('../../get-projection');
+
+const UserGroup = mongoose.model('UserGroup');
 
 module.exports = {
   type: new GraphQLList(outputType),
