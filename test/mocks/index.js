@@ -5,7 +5,7 @@ exports.entries = [
     title: 'Test Entry',
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
-    dateCreated: '2017-03-07T02:31:44.010Z',
+    dateCreated: 1488853901010,
     fields: [],
   },
   {
@@ -13,7 +13,7 @@ exports.entries = [
     title: 'Test Entry Two',
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
-    dateCreated: '2017-04-07T02:31:44.010Z',
+    dateCreated: 1488853902010,
     status: 'live',
     fields: [],
   },
@@ -22,7 +22,7 @@ exports.entries = [
     title: 'I\'m a draft!',
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
-    dateCreated: '2017-04-07T02:31:44.010Z',
+    dateCreated: 1488853903010,
     status: 'draft',
     fields: [],
   },
@@ -32,7 +32,7 @@ exports.entries = [
     slug: 'i-am-always-live',
     section: '58b787fd28044618a8f7a737',
     author: '59383c903e13393788eb01b2',
-    dateCreated: '2017-04-07T02:31:44.010Z',
+    dateCreated: 1488853904010,
     status: 'live',
     fields: [],
   },
@@ -57,7 +57,7 @@ exports.users = [
   {
     _id: '59383c903e13393788eb01b2',
     username: 'anothaone',
-    dateCreated: 1486492341619,
+    dateCreated: 1486492331619,
     // password: 'password',
     password: '$2a$06$J.cW7gg/AuEl0W2qAF81hexOyPEmqorQVY1A7p8OQ8k8Fuqo2AysK',
     name: {
@@ -141,7 +141,7 @@ exports.usergroups = [{
       canAddSections: true,
     },
   },
-  dateCreated: 1486492341619,
+  dateCreated: 1486492351619,
 }, {
   _id: '597530faa5535235e9137f53',
   title: 'Placeholder',
@@ -199,7 +199,7 @@ exports.usergroups = [{
       canAddSections: false,
     },
   },
-  dateCreated: 1486492341619,
+  dateCreated: 1486492351719,
 }, {
   _id: '59357fdf76fb4f43905c7149',
   title: 'Can do nothing',
@@ -257,7 +257,7 @@ exports.usergroups = [{
       canAddSections: false,
     },
   },
-  dateCreated: 1486492341619,
+  dateCreated: 1486492351819,
 }];
 
 exports.user = {
@@ -306,7 +306,7 @@ exports.pages = [{
   homepage: false,
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
-  dateCreated: 1497819236747,
+  dateCreated: 1497819235847,
 }, {
   _id: '5946e863bd887652382edfe9',
   slug: 'page-with-vars',
@@ -317,7 +317,7 @@ exports.pages = [{
   homepage: false,
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
-  dateCreated: 1497819236747,
+  dateCreated: 1497819235947,
 }];
 
 exports.site = {
