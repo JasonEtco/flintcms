@@ -33,7 +33,6 @@ async function compile() {
     const p = await scaffold(cssPath);
     const filename = global.FLINT.scssEntryPoint.replace('.scss', '.css');
     const pathToFile = path.join(p, filename);
-    if (!fs.existsSync(pathToFile)) return `${chalk.red('[SCSS]')} The scssEntryPoint does not exist.`;
 
     await writeFileAsync(pathToFile, scss.css);
     return `${chalk.grey('[SCSS]')} Your SCSS has been compiled to ${pathToFile}`;
