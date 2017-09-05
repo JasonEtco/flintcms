@@ -27,6 +27,9 @@
   "scripts": {
     "start": "nodemon --ignore app dev.js",
     "test": "cross-env NODE_ENV=test mocha",
+    "test:api": "cross-env NODE_ENV=test mocha --grep \"GraphQL API\"",
+    "test:server": "cross-env NODE_ENV=test mocha --grep \"server\"",
+    "test:compiler": "cross-env NODE_ENV=test mocha --grep \"Compile templates\"",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
     "prepublishOnly": "npm run build"
