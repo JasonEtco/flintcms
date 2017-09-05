@@ -61,6 +61,20 @@ describe('Compile templates', function () {
     expect(res.text).toBe(file);
   });
 
+  describe('Custom Filters', function () {
+    describe('field filter', function () {
+      it('returns the correct value', async function () {
+        // const url = `/${mocks.sections[1].slug}/${mocks.entries[4].slug}`;
+        const url = `/field-filter/field-filter`;
+        const res = await request(server).get(url);
+        const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'fieldFilter.txt');
+        const file = await readFile(pathToFile, 'utf-8');
+        expect(res.status).toBe(200);
+        expect(res.text).toBe(file);
+      });
+    });
+  });
+
   after((done) => {
     mongoose.disconnect();
     done();

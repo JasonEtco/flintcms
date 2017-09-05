@@ -18,12 +18,10 @@ it('returns a list of entries', (done) => {
       if (err) { return done(err); }
       expect(JSON.parse(res.text)).toEqual({
         data: {
-          entries: [
-            { _id: mocks.entries[0]._id, title: mocks.entries[0].title },
-            { _id: mocks.entries[1]._id, title: mocks.entries[1].title },
-            { _id: mocks.entries[2]._id, title: mocks.entries[2].title },
-            { _id: mocks.entries[3]._id, title: mocks.entries[3].title },
-          ],
+          entries: mocks.entries.map(entry => ({
+            _id: entry._id,
+            title: entry.title,
+          })),
         },
       });
       return done();
