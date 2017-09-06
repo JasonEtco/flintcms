@@ -177,9 +177,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You do not have permission to create new Entries',
-        });
+        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You do not have permission to create new Entries');
         return done();
       });
   });
@@ -210,9 +208,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You are not allowed to change the status of entries. Sorry!',
-        });
+        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You are not allowed to change the status of entries. Sorry!');
         return done();
       });
   });
@@ -243,9 +239,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You are not allowed to edit this entry. Sorry!',
-        });
+        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You are not allowed to edit this entry. Sorry!');
         return done();
       });
   });
@@ -276,9 +270,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You are not allowed to edit a live entry. Sorry!',
-        });
+        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You are not allowed to edit a live entry. Sorry!');
         return done();
       });
   });
@@ -317,7 +309,28 @@ describe('Permissions', function () {
       .end((err, res) => {
         if (err) { return done(err); }
         const data = JSON.parse(res.text);
-        expect(data.errors[0]).to.include({ message: 'You do not have permission to delete Entries' });
+        expect(data.errors).to.include.an.item.with.property('message', 'You do not have permission to delete Entries');
+        return done();
+      });
+  });
+
+  it('returns an error when querying for a specific entry by _id', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `
+        query ($_id: ID!) {
+          entry (_id: $_id) {
+            _id
+          }
+        }`,
+        variables: { _id: mocks.entries[1]._id },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+
+        // eslint-disable-next-line no-unused-expressions
+        expect(JSON.parse(res.text).data.entry).to.be.null;
         return done();
       });
   });

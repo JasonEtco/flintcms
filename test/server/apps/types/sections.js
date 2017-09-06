@@ -106,6 +106,56 @@ it('can save a section to the database', function (done) {
     });
 });
 
+it('returns an error when saving a section without any fields', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($data: SectionsInput!) {
+        addSection (data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        data: {
+          title: 'Hello!',
+          template: mocks.sections[0].template,
+          fields: [],
+        },
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You must include at least one field.');
+      return done();
+    });
+});
+
+it('returns an error when saving a section without a title', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($data: SectionsInput!) {
+        addSection (data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        data: {
+          title: '',
+          template: mocks.sections[0].template,
+          fields: [mocks.fields[0]._id],
+        },
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You must include a title.');
+      return done();
+    });
+});
+
 it('can update a section in the database', function (done) {
   global.agent
     .post('/graphql')

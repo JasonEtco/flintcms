@@ -162,9 +162,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You do not have permission to delete User Groups.',
-        });
+        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You do not have permission to delete User Groups.');
         return done();
       });
   });
@@ -189,9 +187,33 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You do not have permission to add User Groups.',
-        });
+        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You do not have permission to add User Groups.');
+        return done();
+      });
+  });
+
+  it('cannot update a usergroup in the database', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($_id: ID!, $data: UserGroupInput!) {
+          updateUserGroup (_id: $_id, data: $data) {
+            title
+            ${permissionsQuery}
+          }
+        }`,
+        variables: {
+          _id: mocks.usergroups[1]._id,
+          data: {
+            title: 'Pizza Group',
+            permissions: mocks.usergroups[1].permissions,
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You do not have permission to edit User Groups.');
         return done();
       });
   });
