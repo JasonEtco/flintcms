@@ -105,3 +105,35 @@ it('can save a section to the database', function (done) {
       return done();
     });
 });
+
+it('can update a section in the database', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($_id: ID!, $data: SectionsInput!) {
+        updateSection (_id: $_id, data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        _id: mocks.sections[1]._id,
+        data: {
+          title: 'New title',
+          template: mocks.sections[1].template,
+          fields: [mocks.fields[0]._id],
+        },
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text)).to.deep.equal({
+        data: {
+          updateSection: {
+            title: 'New title',
+          },
+        },
+      });
+      return done();
+    });
+});
