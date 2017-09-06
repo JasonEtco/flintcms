@@ -47,8 +47,7 @@ it('can query for a specific user', function (done) {
   global.agent
     .post('/graphql')
     .send({
-      query: `
-      query ($_id: ID!) {
+      query: `query ($_id: ID!) {
         user (_id: $_id) {
           _id
           image
@@ -82,6 +81,51 @@ it('can query for a specific user', function (done) {
             name: {
               first: mocks.users[1].name.first,
               last: mocks.users[1].name.last,
+            },
+          },
+        },
+      });
+      return done();
+    });
+});
+
+it('can return a user\'s own details', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `{
+        user {
+          _id
+          image
+          usergroup {
+            _id
+          }
+          name {
+            first
+            last
+          }
+          dateCreated
+          username
+          email
+        }
+      }`,
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text)).to.deep.equal({
+        data: {
+          user: {
+            _id: mocks.users[0]._id,
+            image: mocks.users[0].image,
+            dateCreated: mocks.users[0].dateCreated,
+            username: mocks.users[0].username,
+            email: mocks.users[0].email,
+            usergroup: {
+              _id: mocks.users[0].usergroup,
+            },
+            name: {
+              first: mocks.users[0].name.first,
+              last: mocks.users[0].name.last,
             },
           },
         },

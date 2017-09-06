@@ -22,17 +22,17 @@ module.exports = {
     const isAUser = ctx !== undefined && ctx.user !== undefined;
     const projection = getProjection(ast);
 
-    const fargs = {};
+    const fargs = Object.assign({}, args);
 
     if (isAUser && root.perms && !root.perms.entries.canSeeDrafts) {
       fargs.status = 'live';
-    } else if (args.status) {
-      fargs.status = args.status;
     }
 
     if (args.sectionSlug) {
-      const { _id } = await Section.findOne({ slug: args.sectionSlug }).select('_id').lean().exec();
-      fargs.section = _id;
+      const section = await Section.findOne({ slug: args.sectionSlug }).select('_id').lean().exec();
+      if (!section) throw new Error('There is no section with that slug.');
+      delete fargs.sectionSlug;
+      fargs.section = section._id;
     }
 
     return Entry

@@ -11,6 +11,7 @@ exports.entries = [
   {
     _id: '57be1b901810931d043d9fc6',
     title: 'Test Entry Two',
+    slug: 'test-entry-two',
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
     dateCreated: 1488853902010,

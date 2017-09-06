@@ -18,14 +18,61 @@ it('returns a list of entries', (done) => {
       if (err) { return done(err); }
       expect(JSON.parse(res.text)).to.deep.equal({
         data: {
-          entries: [
-            { _id: mocks.entries[0]._id, title: mocks.entries[0].title },
-            { _id: mocks.entries[1]._id, title: mocks.entries[1].title },
-            { _id: mocks.entries[2]._id, title: mocks.entries[2].title },
-            { _id: mocks.entries[3]._id, title: mocks.entries[3].title },
-          ],
+          entries: mocks.entries.map(e => ({
+            _id: e._id,
+            title: e.title,
+          })),
         },
       });
+      return done();
+    });
+});
+
+it('can query for all entries in a section by sectionSlug', function (done) {
+  const section = mocks.sections[0];
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($sectionSlug: String!) {
+        entries (sectionSlug: $sectionSlug) {
+          _id
+          title
+        }
+      }`,
+      variables: {
+        sectionSlug: section.slug,
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text)).to.deep.equal({
+        data: {
+          entries: mocks.entries.filter(e => e.section === section._id).map(e => ({
+            _id: e._id,
+            title: e.title,
+          })),
+        },
+      });
+      return done();
+    });
+});
+
+it('returns an error when querying for entries by a sectionSlug that does not exist', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($sectionSlug: String!) {
+        entries (sectionSlug: $sectionSlug) {
+          _id
+        }
+      }`,
+      variables: {
+        sectionSlug: 'non-existant-section',
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'There is no section with that slug.');
       return done();
     });
 });
@@ -49,6 +96,70 @@ it('can query for a specific entry by _id', function (done) {
           entry: { _id: mocks.entries[1]._id },
         },
       });
+      return done();
+    });
+});
+
+it('can query for a specific entry by slug and sectionSlug', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($slug: String!, $sectionSlug: String!) {
+        entry (slug: $slug, sectionSlug: $sectionSlug) {
+          _id
+        }
+      }`,
+      variables: {
+        slug: mocks.entries[1].slug,
+        sectionSlug: mocks.sections.find(s => s._id === mocks.entries[1].section).slug,
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text)).to.deep.equal({
+        data: {
+          entry: { _id: mocks.entries[1]._id },
+        },
+      });
+      return done();
+    });
+});
+
+it('returns an error when querying an entry by slug without a sectionSlug', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($slug: String!) {
+        entry (slug: $slug) {
+          _id
+        }
+      }`,
+      variables: { slug: mocks.entries[1].slug },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'When querying for an entry by slug, you must also query by sectionSlug.');
+      return done();
+    });
+});
+
+it('returns an error when querying an entry by slug with a sectionSlug that does not exist', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($slug: String!, $sectionSlug: String!) {
+        entry (slug: $slug, sectionSlug: $sectionSlug) {
+          _id
+        }
+      }`,
+      variables: {
+        slug: mocks.entries[1].slug,
+        sectionSlug: 'non-existant-section',
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'That section does not exist.');
       return done();
     });
 });
