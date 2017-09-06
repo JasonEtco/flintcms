@@ -17,7 +17,7 @@ describe('server', function () {
 
   describe('Monitoring', function () {
     it('is listening', function () {
-      expect(server.listening).to.be.true;
+      return expect(server.listening).to.be.true;
     });
   });
 
