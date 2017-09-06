@@ -27,6 +27,7 @@
   "scripts": {
     "start": "nodemon --ignore app dev.js",
     "test": "cross-env NODE_ENV=test mocha",
+    "test:coverage": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha",
     "test:api": "cross-env NODE_ENV=test mocha --grep \"GraphQL API\"",
     "test:server": "cross-env NODE_ENV=test mocha --grep \"server\"",
     "test:compiler": "cross-env NODE_ENV=test mocha --grep \"Compile templates\"",
@@ -144,6 +145,7 @@
     "babel-eslint": "^7.1.1",
     "chai": "^4.1.2",
     "chai-things": "^0.2.0",
+    "coveralls": "^2.13.1",
     "eslint": "^3.14.1",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-import-resolver-webpack": "^0.8.3",
@@ -151,6 +153,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.3.0",
     "mocha": "^3.5.0",
+    "nyc": "^11.2.1",
     "rewire": "^2.5.2",
     "stylelint": "^8.0.0",
     "stylelint-config-devshelf": "^1.3.0",
