@@ -16,7 +16,7 @@ describe('Compile templates', function () {
   let server;
 
   before('Creates a server and populates the db', async function () {
-    const flintServer = new Flint({ templatePath: 'test/fixtures' });
+    const flintServer = new Flint({ listen: false, templatePath: 'test/fixtures' });
     server = await flintServer.startServer();
     return populateDB();
   });
