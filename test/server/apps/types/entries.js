@@ -1,5 +1,5 @@
 const mocks = require('../../../mocks');
-const expect = require('expect');
+const expect = require('chai').expect;
 const common = require('../common');
 
 it('returns a list of entries', (done) => {
@@ -16,7 +16,7 @@ it('returns a list of entries', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           entries: [
             { _id: mocks.entries[0]._id, title: mocks.entries[0].title },
@@ -44,7 +44,7 @@ it('can query for a specific entry by _id', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           entry: { _id: mocks.entries[1]._id },
         },
@@ -67,7 +67,7 @@ it('can delete an entry from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           removeEntry: { _id: mocks.entries[1]._id },
         },
@@ -102,7 +102,7 @@ it('can save an entry to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           addEntry: {
             title: mocks.entries[1].title,
@@ -139,7 +139,7 @@ it('can update an entry in the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           updateEntry: {
             title: 'New title!',
@@ -177,7 +177,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You do not have permission to create new Entries',
         });
         return done();
@@ -210,7 +210,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You are not allowed to change the status of entries. Sorry!',
         });
         return done();
@@ -243,7 +243,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You are not allowed to edit this entry. Sorry!',
         });
         return done();
@@ -276,7 +276,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You are not allowed to edit a live entry. Sorry!',
         });
         return done();
@@ -296,9 +296,9 @@ describe('Permissions', function () {
       .end((err, res) => {
         if (err) { return done(err); }
         const data = JSON.parse(res.text).data.entries;
-        expect(data).toExclude({ status: 'draft' });
-        expect(data).toExclude({ status: 'disabled' });
-        expect(data).toInclude({ status: 'live' });
+        expect(data).to.not.deep.include({ status: 'draft' });
+        expect(data).to.not.deep.include({ status: 'disabled' });
+        expect(data).to.deep.include({ status: 'live' });
         return done();
       });
   });
@@ -317,7 +317,7 @@ describe('Permissions', function () {
       .end((err, res) => {
         if (err) { return done(err); }
         const data = JSON.parse(res.text);
-        expect(data.errors[0]).toInclude({ message: 'You do not have permission to delete Entries' });
+        expect(data.errors[0]).to.include({ message: 'You do not have permission to delete Entries' });
         return done();
       });
   });

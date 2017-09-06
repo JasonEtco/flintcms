@@ -1,5 +1,5 @@
 const mocks = require('../../../mocks');
-const expect = require('expect');
+const expect = require('chai').expect;
 const common = require('../common');
 
 it('returns a list of pages', (done) => {
@@ -28,7 +28,7 @@ it('returns a list of pages', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           pages: mocks.pages,
         },
@@ -51,7 +51,7 @@ it('can query for a specific page by _id', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           page: { _id: mocks.pages[0]._id },
         },
@@ -74,7 +74,7 @@ it('can delete a page from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           removePage: { _id: mocks.pages[0]._id },
         },
@@ -103,7 +103,7 @@ it('can save a page to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           addPage: {
             title: mocks.pages[0].title,
@@ -136,7 +136,7 @@ it('sets a new homepage\'s route to `/`', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           addPage: {
             route: '/',
@@ -160,8 +160,8 @@ it('overwrites the last homepage when a new homepage is saved', function (done) 
     .end((err, res) => {
       if (err) { return done(err); }
       const { data } = JSON.parse(res.text);
-      expect(data.pages).toInclude({ homepage: true });
-      expect(data.pages.filter(p => p.homepage).length).toEqual(1);
+      expect(data.pages).to.deep.include({ homepage: true });
+      expect(data.pages.filter(p => p.homepage).length).to.deep.equal(1);
       return done();
     });
 });
@@ -190,7 +190,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You do not have permission to create a new Page.',
         });
         return done();
@@ -219,7 +219,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You do not have permission to edit Pages.',
         });
         return done();
@@ -242,7 +242,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You do not have permission to delete Pages.',
         });
         return done();

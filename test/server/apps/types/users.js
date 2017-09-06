@@ -1,5 +1,5 @@
 const mocks = require('../../../mocks');
-const expect = require('expect');
+const expect = require('chai').expect;
 const common = require('../common');
 
 it('returns a list of users', (done) => {
@@ -23,7 +23,7 @@ it('returns a list of users', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           users: [
             {
@@ -74,7 +74,7 @@ it('can query for a specific user', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           user: {
             _id: mocks.users[1]._id,
@@ -118,7 +118,7 @@ it('can delete a user from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           deleteUser: {
             _id: mocks.users[1]._id,
@@ -169,7 +169,7 @@ it('can save a user to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           addUser: {
             username: mocks.users[1].username,
@@ -208,8 +208,8 @@ it('throws when using an existing user\'s username', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.status).toEqual(500);
-      expect(JSON.parse(res.text).errors[0]).toContain({
+      expect(res.status).to.deep.equal(500);
+      expect(JSON.parse(res.text).errors[0]).to.contain({
         message: 'There is already a user with that username.',
       });
       return done();
@@ -236,8 +236,8 @@ it('throws when using an existing user\'s email', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.status).toEqual(500);
-      expect(JSON.parse(res.text).errors[0]).toContain({
+      expect(res.status).to.deep.equal(500);
+      expect(JSON.parse(res.text).errors[0]).to.contain({
         message: 'There is already a user with that email.',
       });
       return done();
@@ -267,8 +267,8 @@ it('throws when a new user\'s usergroup does not exist', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.status).toEqual(500);
-      expect(JSON.parse(res.text).errors[0]).toContain({
+      expect(res.status).to.deep.equal(500);
+      expect(JSON.parse(res.text).errors[0]).to.contain({
         message: 'That UserGroup does not exist.',
       });
       return done();
@@ -301,8 +301,8 @@ it('can update an existing user', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      // expect(res.status).toEqual(200);
-      expect(JSON.parse(res.text)).toEqual({
+      // expect(res.status).to.deep.equal(200);
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           updateUser: {
             name: {
@@ -341,7 +341,7 @@ it('throws when updating a non-existing user', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text).errors[0]).toContain({
+      expect(JSON.parse(res.text).errors[0]).to.contain({
         message: 'There is no User with this ID.',
       });
       return done();
@@ -361,10 +361,10 @@ it('can reset a user\'s password', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toIncludeKey('data');
-      expect(JSON.parse(res.text).data).toIncludeKey('resetPassword');
-      expect(JSON.parse(res.text).data.resetPassword).toIncludeKey('token');
-      expect(JSON.parse(res.text).data.resetPassword.token).toBeA('string');
+      expect(JSON.parse(res.text)).to.have.property('data');
+      expect(JSON.parse(res.text).data).to.have.property('resetPassword');
+      expect(JSON.parse(res.text).data.resetPassword).to.have.property('token');
+      expect(JSON.parse(res.text).data.resetPassword.token).to.be.a('string');
       return done();
     });
 });
@@ -396,7 +396,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You do not have permission to edit users.',
         });
         return done();
@@ -428,7 +428,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text)).toEqual({
+        expect(JSON.parse(res.text)).to.deep.equal({
           data: { updateUser: { name: { first: 'Jason' } } },
         });
         return done();
@@ -460,7 +460,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You do not have permission to change a user\'s usergroup.',
         });
         return done();
@@ -480,7 +480,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(JSON.parse(res.text).errors[0]).to.include({
           message: 'You do not have permission to manage users.',
         });
         return done();

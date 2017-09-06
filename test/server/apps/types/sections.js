@@ -1,5 +1,5 @@
 const mocks = require('../../../mocks');
-const expect = require('expect');
+const expect = require('chai').expect;
 
 it('returns a list of sections', (done) => {
   global.agent
@@ -20,7 +20,7 @@ it('returns a list of sections', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           sections: mocks.sections,
         },
@@ -43,7 +43,7 @@ it('can query for a specific section by _id', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           section: { _id: mocks.sections[0]._id },
         },
@@ -66,7 +66,7 @@ it('can delete a section from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           removeSection: { _id: mocks.sections[0]._id },
         },
@@ -95,7 +95,7 @@ it('can save a section to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(JSON.parse(res.text)).to.deep.equal({
         data: {
           addSection: {
             title: mocks.sections[0].title,

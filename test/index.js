@@ -2,7 +2,7 @@
 
 const Flint = require('../index.js');
 const request = require('supertest');
-const expect = require('expect');
+const expect = require('chai').expect;
 const mongoose = require('mongoose');
 
 describe('server', function () {
@@ -17,7 +17,7 @@ describe('server', function () {
 
   describe('Monitoring', function () {
     it('is listening', function () {
-      expect(server.listening).toBeTruthy();
+      expect(server.listening).to.be.true;
     });
   });
 
