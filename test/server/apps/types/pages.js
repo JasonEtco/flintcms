@@ -114,6 +114,38 @@ it('can save a page to the database', function (done) {
     });
 });
 
+it('can update a page in the database', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($_id: ID!, $data: PagesInput!) {
+        updatePage (_id: $_id, data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        _id: mocks.pages[1]._id,
+        data: {
+          title: 'New title',
+          template: mocks.pages[1].template,
+          route: mocks.pages[1].route,
+        },
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(JSON.parse(res.text)).to.deep.equal({
+        data: {
+          updatePage: {
+            title: 'New title',
+          },
+        },
+      });
+      return done();
+    });
+});
+
 it('sets a new homepage\'s route to `/`', function (done) {
   global.agent
     .post('/graphql')
