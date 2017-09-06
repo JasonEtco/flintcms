@@ -1,6 +1,10 @@
 const mocks = require('../../../mocks');
-const expect = require('chai').expect;
+const chai = require('chai');
 const common = require('../common');
+
+chai.use(require('chai-things'));
+
+const expect = chai.expect;
 
 it('returns a list of users', (done) => {
   global.agent
@@ -25,24 +29,14 @@ it('returns a list of users', (done) => {
       if (err) { return done(err); }
       expect(JSON.parse(res.text)).to.deep.equal({
         data: {
-          users: [
-            {
-              _id: mocks.users[0]._id,
-              image: mocks.users[0].image,
-              dateCreated: mocks.users[0].dateCreated,
-              username: mocks.users[0].username,
-              email: mocks.users[0].email,
-              name: mocks.users[0].name,
-            },
-            {
-              _id: mocks.users[1]._id,
-              image: mocks.users[1].image,
-              dateCreated: mocks.users[1].dateCreated,
-              username: mocks.users[1].username,
-              email: mocks.users[1].email,
-              name: mocks.users[1].name,
-            },
-          ],
+          users: mocks.users.map(user => ({
+            _id: user._id,
+            image: user.image,
+            dateCreated: user.dateCreated,
+            username: user.username,
+            email: user.email,
+            name: user.name,
+          })),
         },
       });
       return done();
@@ -209,9 +203,7 @@ it('throws when using an existing user\'s username', function (done) {
     .end((err, res) => {
       if (err) { return done(err); }
       expect(res.status).to.deep.equal(500);
-      expect(JSON.parse(res.text).errors[0]).to.contain({
-        message: 'There is already a user with that username.',
-      });
+      expect(JSON.parse(res.text).errors).to.contain.an.item.with.property('message', 'There is already a user with that username.');
       return done();
     });
 });
@@ -236,10 +228,8 @@ it('throws when using an existing user\'s email', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.status).to.deep.equal(500);
-      expect(JSON.parse(res.text).errors[0]).to.contain({
-        message: 'There is already a user with that email.',
-      });
+      expect(res.status).to.equal(500);
+      expect(JSON.parse(res.text).errors).to.contain.an.item.with.property('message', 'There is already a user with that email.');
       return done();
     });
 });
@@ -268,9 +258,7 @@ it('throws when a new user\'s usergroup does not exist', function (done) {
     .end((err, res) => {
       if (err) { return done(err); }
       expect(res.status).to.deep.equal(500);
-      expect(JSON.parse(res.text).errors[0]).to.contain({
-        message: 'That UserGroup does not exist.',
-      });
+      expect(JSON.parse(res.text).errors).to.contain.an.item.with.property('message', 'That UserGroup does not exist.');
       return done();
     });
 });
@@ -341,9 +329,7 @@ it('throws when updating a non-existing user', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text).errors[0]).to.contain({
-        message: 'There is no User with this ID.',
-      });
+      expect(JSON.parse(res.text).errors).to.contain.an.item.with.property('message', 'There is no User with this ID.');
       return done();
     });
 });
@@ -396,9 +382,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You do not have permission to edit users.',
-        });
+        expect(JSON.parse(res.text).errors).to.contain.an.item.with.property('message', 'You do not have permission to edit users.');
         return done();
       });
   });
@@ -460,9 +444,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You do not have permission to change a user\'s usergroup.',
-        });
+        expect(JSON.parse(res.text).errors).to.contain.an.item.with.property('message', 'You do not have permission to change a user\'s usergroup.');
         return done();
       });
   });
@@ -480,9 +462,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
-          message: 'You do not have permission to manage users.',
-        });
+        expect(JSON.parse(res.text).errors).to.contain.an.item.with.property('message', 'You do not have permission to manage users.');
         return done();
       });
   });
