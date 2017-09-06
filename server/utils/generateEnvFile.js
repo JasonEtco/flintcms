@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 
 const fs = require('fs');
-const { writeFileAsync } = require('./fsPromises');
 const path = require('path');
 const chalk = require('chalk');
+const { promisify } = require('util');
+
+const writeFileAsync = promisify(fs.writeFile);
 
 function generateSecret(length = 32) {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=';

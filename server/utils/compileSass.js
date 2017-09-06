@@ -4,7 +4,9 @@ const fs = require('fs');
 const chalk = require('chalk');
 const chokidar = require('chokidar');
 const scaffold = require('./scaffold');
-const { writeFileAsync } = require('./fsPromises');
+const { promisify } = require('util');
+
+const writeFileAsync = promisify(fs.writeFile);
 
 function sassAsync(opt) {
   return new Promise((resolve, reject) => {

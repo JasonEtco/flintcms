@@ -1,5 +1,8 @@
 const jimp = require('jimp');
-const { statAsync } = require('./fsPromises');
+const { promisify } = require('util');
+const fs = require('fs');
+
+const statAsync = promisify(fs.stat);
 
 /**
  * Gets the mimetype, width, height and file size of an asset.
