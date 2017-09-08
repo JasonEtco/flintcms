@@ -24,6 +24,12 @@ npm start
 
 Please discuss code changes before proposing a pull request by opening up an issue (especially if it's a new feature).
 
+## Testing
+
+There are (some) tests in place; please make sure that if you are adding functionality you are also writing tests. Travis CI has been setup to hopefully catch any significant bugs that new code introduces, but only if the relevant tests exist!
+
+Flint uses the [`test-selector`](https://github.com/JasonEtco/test-selector) module to make testing specific portions of the app a bit faster and easier to identify. Running `npm run tst` will run the locally installed version, but installing `test-selector` as a global node module is suggested.
+
 ### 🎉 Emojis 🍆
 
 Using emojis in commit messages is more than allowed, it's encouraged. They are fun and in many cases informative. That being said, there are some guidelines:
