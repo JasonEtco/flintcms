@@ -116,8 +116,4 @@ module.exports = class Flint {
 
     return this.server;
   }
-
-  closeServer(cb) {
-    return this.server.shutdown(cb);
-  }
 };
