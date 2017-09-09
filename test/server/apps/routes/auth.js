@@ -62,7 +62,7 @@ describe('auth endpoint', function () {
   });
 
   it('returns success:true when resetting a user\'s password', async function () {
-    const res = await request(server).post('/admin/forgotpassword').send({ email: mocks.users[1].email })
+    const res = await request(server).post('/admin/forgotpassword').send({ email: mocks.users[1].email });
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal({ success: true });
   });
