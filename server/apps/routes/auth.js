@@ -74,25 +74,29 @@ module.exports = () => {
       return;
     }
 
-    req.login(user, (err) => {
-      if (!err) {
-        res.status(200).json({ success: true });
-      } else {
-        throw new Error(err);
-      }
+    req.login(() => {
+      res.status(200).json({ success: true });
     });
   });
 
   router.post('/forgotpassword', async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
-    if (!user) throw new Error('There is no user with that id.');
+
+    if (!user) {
+      res.status(400).end('There is no user with that email.');
+      return;
+    }
 
     const token = await randtoken.generate(16);
     const data = { token, password: undefined };
 
     const updatedUser = await User.findByIdAndUpdate(user._id, data, { new: true });
-    if (!updatedUser) throw new Error('Error updating user');
+
+    if (!updatedUser) {
+      res.status(400).end('Error updating user');
+      return;
+    }
 
     const name = user.name.first || user.username;
 
@@ -103,7 +107,12 @@ module.exports = () => {
   router.get('/verify', async (req, res) => {
     const token = req.query.t;
     const user = await User.findOne({ token });
-    if (!user) res.redirect('/admin');
+
+    if (!user) {
+      res.redirect('/admin');
+      return;
+    }
+
     res.redirect(`/admin/sp/${token}`);
   });
 

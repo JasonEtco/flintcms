@@ -3,6 +3,7 @@
 const Flint = require('../../../../index.js');
 const request = require('supertest');
 const populateDB = require('../../../populatedb');
+const mocks = require('../../../mocks');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 
@@ -44,11 +45,33 @@ describe('auth endpoint', function () {
     expect(res.body).to.deep.equal({ message: 'You must include a password.' });
   });
 
-  it('can set a new password via /setpassword', async function () {
+  it('can set a new password via /admin/setpassword', async function () {
     const res = await request(server).post('/admin/setpassword').send({ token: 'TOKEN', password: 'password' });
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal({ success: true });
     expect(res.header['set-cookie']).to.be.an('array');
+  });
+
+  it('returns an error when resetting a password for a non-existent email', function (done) {
+    request(server)
+      .post('/admin/forgotpassword')
+      .send({ email: 'dontexist@example.com' })
+      .expect(400)
+      .expect('There is no user with that email.')
+      .end(done);
+  });
+
+  it('returns success:true when resetting a user\'s password', async function () {
+    const res = await request(server).post('/admin/forgotpassword').send({ email: mocks.users[1].email })
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal({ success: true });
+  });
+
+  it('redirects to / after logout', function (done) {
+    request(server).get('/admin/logout')
+      .expect(302)
+      .expect('Location', '/')
+      .end(done);
   });
 
   after('Closes the server', function (done) {
