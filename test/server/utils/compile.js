@@ -16,14 +16,14 @@ describe('Compile templates', function () {
   let server;
 
   before('Creates a server and populates the db', async function () {
-    const flintServer = new Flint({ templatePath: 'test/fixtures' });
+    const flintServer = new Flint({ templatePath: 'test/fixtures/templates' });
     server = await flintServer.startServer();
     return populateDB();
   });
 
   it('returns the index.njk template for the homepage', async function () {
     const res = await request(server).get('/');
-    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'index.txt');
+    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'templates', 'index.txt');
     const file = await readFile(pathToFile, 'utf-8');
     expect(res.text).to.not.equal('no-template');
     expect(res.text).to.equal(file);
@@ -37,7 +37,7 @@ describe('Compile templates', function () {
 
   it('returns 404 when a page does not exist', async function () {
     const res = await request(server).get('/pizza');
-    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', '404.txt');
+    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'templates', '404.txt');
     const file = await readFile(pathToFile, 'utf-8');
     expect(res.status).to.equal(404);
     expect(res.text).to.equal(file);
@@ -45,7 +45,7 @@ describe('Compile templates', function () {
 
   it('returns a page with variables', async function () {
     const res = await request(server).get('/page-with-vars');
-    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'page-with-vars.txt');
+    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'templates', 'page-with-vars.txt');
     const file = await readFile(pathToFile, 'utf-8');
     expect(res.status).to.equal(200);
     expect(res.text).to.equal(file);
@@ -54,7 +54,7 @@ describe('Compile templates', function () {
   it('returns an entry in a section', async function () {
     const url = `/${mocks.sections[0].slug}/${mocks.entries[3].slug}`;
     const res = await request(server).get(url);
-    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'entry.txt');
+    const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'templates', 'entry.txt');
     let file = await readFile(pathToFile, 'utf-8');
     file = file.replace(new RegExp('{{ this.title }}', 'g'), mocks.entries[3].title);
     expect(res.status).to.equal(200);
@@ -62,7 +62,6 @@ describe('Compile templates', function () {
   });
 
   after((done) => {
-    mongoose.disconnect();
-    done();
+    mongoose.disconnect(done);
   });
 });
