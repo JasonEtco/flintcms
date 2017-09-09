@@ -33,12 +33,8 @@ module.exports = () => {
     const savedUser = await newUser.save();
     if (!savedUser) throw new Error('Could not save the User');
 
-    req.login(savedUser, (err) => {
-      if (!err) {
-        res.status(200).json({ success: true });
-      } else {
-        throw new Error(err);
-      }
+    req.login(savedUser, () => {
+      res.status(200).json({ success: true });
     });
   });
 
