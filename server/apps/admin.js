@@ -15,6 +15,7 @@ module.exports = (app) => {
   admin.use(require('./routes/auth')());
   admin.use('/api', require('./api')(app));
 
+  /* istanbul ignore next */
   if (process.env.BUILD_DASHBOARD) {
     const compiler = webpack(config);
     const middleware = webpackMiddleware(compiler, {
