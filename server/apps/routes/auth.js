@@ -53,14 +53,26 @@ module.exports = () => {
 
   router.post('/setpassword', async (req, res) => {
     const { token, password } = req.body;
+
+    if (!password) {
+      res.status(400).json({ message: 'You must include a password.' });
+      return;
+    }
+
     const user = await User.findOne({ token }).exec();
-    if (!user) throw new Error('Cannot find user');
+    if (!user) {
+      res.status(400).json({ message: 'Cannot find user.' });
+      return;
+    }
 
     user.password = await user.generateHash(password);
     user.token = undefined;
 
     const savedUser = await user.save();
-    if (!savedUser) throw new Error('Could not save the User');
+    if (!savedUser) {
+      res.status(400).json({ message: 'Could not save the User.' });
+      return;
+    }
 
     req.login(user, (err) => {
       if (!err) {
