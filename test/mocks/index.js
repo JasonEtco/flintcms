@@ -94,6 +94,7 @@ exports.users = [
     email: 'example@userstein.com',
     image: 'default_user.png',
     usergroup: '592a74034a0a9b372c3bff9c',
+    token: 'TOKEN',
   },
 ];
 

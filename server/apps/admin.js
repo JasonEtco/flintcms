@@ -12,7 +12,7 @@ const log = require('debug')('flint');
 module.exports = (app) => {
   const admin = express();
 
-  admin.use(require('./routes/auth'));
+  admin.use(require('./routes/auth')());
   admin.use('/api', require('./api')(app));
 
   if (process.env.BUILD_DASHBOARD) {

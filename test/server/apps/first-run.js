@@ -16,16 +16,28 @@ describe('First time install', function () {
     return server;
   });
 
+  it('GET /admin/firstinstall returns true', async function () {
+    const res = await agent.get('/admin/firstinstall');
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal({ firstTimeInstall: true });
+  });
+
   it('creates a first new user', async function () {
     const res = await agent.post('/admin/firstuser').send(mocks.user);
     expect(res.status).to.equal(200);
-    expect(JSON.parse(res.text)).to.deep.equal({ success: true });
+    expect(res.body).to.deep.equal({ success: true });
+  });
+
+  it('GET /admin/firstinstall returns false', async function () {
+    const res = await agent.get('/admin/firstinstall');
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal({ firstTimeInstall: false });
   });
 
   it('returns a message when a user already exists', async function () {
     const res = await agent.post('/admin/firstuser').send(mocks.user);
     expect(res.status).to.equal(200);
-    expect(JSON.parse(res.text)).to.deep.equal({
+    expect(res.body).to.deep.equal({
       success: false,
       message: 'There is already a user in the database.',
     });

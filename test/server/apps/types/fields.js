@@ -22,7 +22,7 @@ it('returns a list of fields', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           fields: mocks.fields,
         },
@@ -45,7 +45,7 @@ it('can query for a specific field', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           field: { _id: mocks.fields[0]._id },
         },
@@ -79,7 +79,7 @@ it('can update a field in the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           updateField: {
             title: 'New title!',
@@ -104,7 +104,7 @@ it('can delete a field from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           removeField: { _id: mocks.fields[0]._id },
         },
@@ -139,7 +139,7 @@ it('can save a field to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           addField: {
             title: mocks.fields[0].title,
@@ -173,7 +173,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
+        expect(res.body.errors[0]).to.include({
           message: 'You do not have permission to delete Fields.',
         });
         return done();
@@ -203,7 +203,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).to.include({
+        expect(res.body.errors[0]).to.include({
           message: 'You do not have permission to create a new Field.',
         });
         return done();

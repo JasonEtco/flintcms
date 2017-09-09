@@ -16,7 +16,7 @@ it('returns a list of entries', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           entries: mocks.entries.map(e => ({
             _id: e._id,
@@ -45,7 +45,7 @@ it('can query for all entries in a section by sectionSlug', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           entries: mocks.entries.filter(e => e.section === section._id).map(e => ({
             _id: e._id,
@@ -72,7 +72,7 @@ it('returns an error when querying for entries by a sectionSlug that does not ex
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'There is no section with that slug.');
+      expect(res.body.errors).to.include.an.item.with.property('message', 'There is no section with that slug.');
       return done();
     });
 });
@@ -91,7 +91,7 @@ it('can query for a specific entry by _id', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           entry: { _id: mocks.entries[1]._id },
         },
@@ -116,7 +116,7 @@ it('can query for a specific entry by slug and sectionSlug', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           entry: { _id: mocks.entries[1]._id },
         },
@@ -138,7 +138,7 @@ it('returns an error when querying an entry by slug without a sectionSlug', func
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'When querying for an entry by slug, you must also query by sectionSlug.');
+      expect(res.body.errors).to.include.an.item.with.property('message', 'When querying for an entry by slug, you must also query by sectionSlug.');
       return done();
     });
 });
@@ -159,7 +159,7 @@ it('returns an error when querying an entry by slug with a sectionSlug that does
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'That section does not exist.');
+      expect(res.body.errors).to.include.an.item.with.property('message', 'That section does not exist.');
       return done();
     });
 });
@@ -178,7 +178,7 @@ it('can delete an entry from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           removeEntry: { _id: mocks.entries[1]._id },
         },
@@ -213,7 +213,7 @@ it('can save an entry to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           addEntry: {
             title: mocks.entries[1].title,
@@ -250,7 +250,7 @@ it('can update an entry in the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           updateEntry: {
             title: 'New title!',
@@ -288,7 +288,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You do not have permission to create new Entries');
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You do not have permission to create new Entries');
         return done();
       });
   });
@@ -319,7 +319,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You are not allowed to change the status of entries. Sorry!');
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You are not allowed to change the status of entries. Sorry!');
         return done();
       });
   });
@@ -350,7 +350,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You are not allowed to edit this entry. Sorry!');
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You are not allowed to edit this entry. Sorry!');
         return done();
       });
   });
@@ -381,7 +381,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You are not allowed to edit a live entry. Sorry!');
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You are not allowed to edit a live entry. Sorry!');
         return done();
       });
   });
@@ -398,7 +398,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        const data = JSON.parse(res.text).data.entries;
+        const data = res.body.data.entries;
         expect(data).to.not.deep.include({ status: 'draft' });
         expect(data).to.not.deep.include({ status: 'disabled' });
         expect(data).to.deep.include({ status: 'live' });
@@ -419,7 +419,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        const data = JSON.parse(res.text);
+        const data = res.body;
         expect(data.errors).to.include.an.item.with.property('message', 'You do not have permission to delete Entries');
         return done();
       });
@@ -441,7 +441,7 @@ describe('Permissions', function () {
         if (err) { return done(err); }
 
         // eslint-disable-next-line no-unused-expressions
-        expect(JSON.parse(res.text).data.entry).to.be.null;
+        expect(res.body.data.entry).to.be.null;
         return done();
       });
   });

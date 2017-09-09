@@ -27,7 +27,7 @@ it('returns a list of usergroups', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           usergroups: mocks.usergroups,
         },
@@ -50,7 +50,7 @@ it('can query for a specific usergroup', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           usergroup: { _id: mocks.usergroups[0]._id },
         },
@@ -79,7 +79,7 @@ it('can update a usergroup in the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           updateUserGroup: {
             title: 'New title!',
@@ -104,7 +104,7 @@ it('can delete a usergroup from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           removeUserGroup: { _id: mocks.usergroups[1]._id },
         },
@@ -133,7 +133,7 @@ it('can save a usergroup to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           addUserGroup: {
             title: mocks.usergroups[1].title,
@@ -162,7 +162,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You do not have permission to delete User Groups.');
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You do not have permission to delete User Groups.');
         return done();
       });
   });
@@ -187,7 +187,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You do not have permission to add User Groups.');
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You do not have permission to add User Groups.');
         return done();
       });
   });
@@ -213,7 +213,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You do not have permission to edit User Groups.');
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You do not have permission to edit User Groups.');
         return done();
       });
   });
