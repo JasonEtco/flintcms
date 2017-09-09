@@ -74,7 +74,7 @@ module.exports = () => {
       return;
     }
 
-    req.login(() => {
+    req.login(user, () => {
       res.status(200).json({ success: true });
     });
   });
