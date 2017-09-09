@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
-const { readFileAsync } = require('../../utils/fsPromises');
+const { promisify } = require('util');
+const fs = require('fs');
+
+const readFileAsync = promisify(fs.readFile);
 
 const router = express.Router();
 

@@ -11,6 +11,7 @@ exports.entries = [
   {
     _id: '57be1b901810931d043d9fc6',
     title: 'Test Entry Two',
+    slug: 'test-entry-two',
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
     dateCreated: 1488853902010,
@@ -44,6 +45,18 @@ exports.sections = [
     title: 'Test Section',
     slug: 'test-section',
     handle: 'testSection',
+    template: 'entry',
+    fields: [
+      '58a232588397e21c8c8c8828',
+      '58a37f8feae5082628cd21e0',
+    ],
+    dateCreated: 1488422908432,
+  },
+  {
+    _id: '58b787fd28044618a7f7a737',
+    title: 'Fixed Section',
+    slug: 'fixed-section',
+    handle: 'fixedSection',
     template: 'entry',
     fields: [
       '58a232588397e21c8c8c8828',

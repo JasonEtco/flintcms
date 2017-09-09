@@ -1,7 +1,7 @@
 // /* eslint-disable func-names, prefer-arrow-callback */
 
 // const rewire = require('rewire');
-// const expect = require('expect');
+// const expect = require('chai').expect;
 
 // const generateEnvFile = rewire('../../../server/utils/generateEnvFile.js');
 
@@ -11,7 +11,7 @@
 //     const generateSecret = generateEnvFile.__get__('generateSecret');
 //     it('should generate a secret', function () {
 //       const secret = generateSecret();
-//       expect(secret).toBeA('string');
+//       expect(secretto.equal.a('string');
 //     });
 //     it('should generate three different secrets', function () {
 //       const s1 = generateSecret();
@@ -26,11 +26,11 @@
 //   it('should not generate a new .env file without DB_HOST', async function () {
 //     const gen = generateEnvFile.__get__('generateEnvFile');
 //     const generatedFile = await gen();
-//     expect(generatedFile).toBe(false);
+//     expect(generatedFileto.equal(false);
 //   });
 //   it('should generate a new .env file', async function () {
 //     const gen = generateEnvFile.__get__('generateEnvFile');
 //     const generatedFile = await gen();
-//     expect(generatedFile).toBe(false);
+//     expect(generatedFileto.equal(false);
 //   });
 // });

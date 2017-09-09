@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const chalk = require('chalk');
-const { readFileAsync } = require('./fsPromises');
+const { promisify } = require('util');
+const fs = require('fs');
+
+const readFileAsync = promisify(fs.readFile);
 
 const Plugin = mongoose.model('Plugin');
 

@@ -1,6 +1,7 @@
 const fs = require('fs');
-const { mkdirAsync } = require('./fsPromises');
+const { promisify } = require('util');
 
+const mkdirAsync = promisify(fs.mkdir);
 /**
  * Creates a directory at the given path if it does not already exist.
  * @param {String} path - Path to the directory

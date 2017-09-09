@@ -4,7 +4,9 @@ const fs = require('fs');
 const getAssetDetails = require('../../../utils/getAssetDetails');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Assets');
-const { readdirAsync } = require('../../../utils/fsPromises');
+const { promisify } = require('util');
+
+const readdirAsync = promisify(fs.readdir);
 
 const Asset = mongoose.model('Asset');
 
