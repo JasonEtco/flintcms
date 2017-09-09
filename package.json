@@ -25,11 +25,14 @@
     "async/await"
   ],
   "scripts": {
-    "start": "nodemon --ignore app dev.js",
+    "start": "cross-env DEBUG=flint nodemon --ignore app dev.js",
     "tst": "tst",
     "test": "cross-env NODE_ENV=test mocha",
     "test:coverage": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha",
     "test:api": "cross-env NODE_ENV=test mocha --grep \"GraphQL API\"",
+    "test:logs": "cross-env NODE_ENV=test mocha --grep \"logs app\"",
+    "test:site": "cross-env NODE_ENV=test mocha --grep \"site endpoint\"",
+    "test:admin": "cross-env NODE_ENV=test mocha --grep \"admin\"",
     "test:server": "cross-env NODE_ENV=test mocha --grep \"server\"",
     "test:compiler": "cross-env NODE_ENV=test mocha --grep \"Compile templates\"",
     "test:firstrun": "cross-env NODE_ENV=test mocha --grep \"First time install\"",
@@ -83,6 +86,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.2",
+    "debug": "^3.0.1",
     "dotenv": "^4.0.0",
     "draft-js": "^0.10.1",
     "draft-js-export-html": "^0.5.4",

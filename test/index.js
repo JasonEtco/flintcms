@@ -27,6 +27,13 @@ describe('server', function () {
     });
   });
 
+  describe('Plugin object', function () {
+    it('returns the plugin object', function () {
+      const FlintPlugin = new Flint.FlintPlugin();
+      expect(FlintPlugin).to.be.an('object');
+    });
+  });
+
   after('Closes the server', function (done) {
     mongoose.disconnect();
     server.shutdown(done);
