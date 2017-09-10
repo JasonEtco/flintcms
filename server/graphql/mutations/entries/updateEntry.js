@@ -40,6 +40,8 @@ module.exports = {
     events.emit('pre-update-entry', { _id, data });
 
     const updatedEntry = await Entry.findByIdAndUpdate(_id, data, { new: true });
+
+    /* istanbul ignore if */
     if (!updatedEntry) throw new Error('Error updating entry');
 
     events.emit('post-update-entry', updatedEntry);

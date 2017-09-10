@@ -30,6 +30,7 @@ module.exports = {
       .findByIdAndRemove(_id, { select: projection })
       .exec();
 
+    /* istanbul ignore if */
     if (!removedUser) throw new Error('Error removing User');
 
     events.emit('post-delete-user', removedUser);

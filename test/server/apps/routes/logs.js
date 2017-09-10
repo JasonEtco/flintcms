@@ -25,8 +25,7 @@ describe('logs app', function () {
     expect(flint).to.be.an('array');
     expect(http).to.be.an('array');
 
-    expect(flint[0]).to.equal('This');
-    expect(http[0]).to.equal('This');
+    expect(flint.join(' ')).to.equal('This is a log');
   });
 
   after('Closes the server', function (done) {

@@ -43,6 +43,8 @@ module.exports = {
     events.emit('pre-new-user', newUser);
 
     const savedUser = await newUser.save();
+
+    /* istanbul ignore if */
     if (!savedUser) throw new Error('Could not save the User');
     await User.populate(savedUser, { path: 'usergroup' });
 

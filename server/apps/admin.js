@@ -15,7 +15,7 @@ module.exports = (app) => {
   admin.use(require('./routes/auth')());
   admin.use('/api', require('./api')(app));
 
-  /* istanbul ignore next */
+  /* istanbul ignore if */
   if (process.env.BUILD_DASHBOARD) {
     const compiler = webpack(config);
     const middleware = webpackMiddleware(compiler, {
@@ -41,9 +41,9 @@ module.exports = (app) => {
     log(`${chalk.cyan('[App: Admin]')} initialized in Dev mode.`);
   } else {
     const STATIC_PATH = path.join(__dirname, '..', '..', 'admin');
-    const STATIC_OPTS = {
-      maxAge: 31536000000, // One year
-    };
+
+    // Cache static for one year
+    const STATIC_OPTS = { maxAge: 31536000000 };
 
     admin.use(express.static(STATIC_PATH, STATIC_OPTS));
 
