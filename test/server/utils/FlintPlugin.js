@@ -6,8 +6,14 @@ describe('FlintPlugin', function () {
     static get uid() { return 'my-plugin'; }
   }
 
+  class MyBadPlugin extends FlintPlugin {}
+
   it('returns the correct uid', function () {
     return expect(MyPlugin.uid).to.equal('my-plugin');
+  });
+
+  it('returns false when a uid has not been set', function () {
+    return expect(MyBadPlugin.uid).to.be.false;
   });
 
   it('returns the correct title', function () {
