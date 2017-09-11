@@ -1,5 +1,3 @@
-/* eslint-disable func-names, prefer-arrow-callback */
-
 const expect = require('chai').expect;
 const { slugify, reduceToObj, capitalizeFirstChar } = require('../../../server/utils/helpers');
 

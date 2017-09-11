@@ -1,36 +1,47 @@
-// /* eslint-disable func-names, prefer-arrow-callback */
+/* eslint-disable no-underscore-dangle */
 
-// const rewire = require('rewire');
-// const expect = require('chai').expect;
+const path = require('path');
+const fs = require('fs');
+const expect = require('chai').expect;
+const { generateEnvFile, generateSecret } = require('../../../server/utils/generateEnvFile');
 
-// const generateEnvFile = rewire('../../../server/utils/generateEnvFile.js');
+describe('generateSecret', function () {
+  it('should generate a secret', function () {
+    const secret = generateSecret();
+    expect(secret).to.be.a('string');
+  });
 
-// describe('generateEnvFile', function () {
-//   describe('generateSecret', function () {
-//     // eslint-disable-next-line no-underscore-dangle
-//     const generateSecret = generateEnvFile.__get__('generateSecret');
-//     it('should generate a secret', function () {
-//       const secret = generateSecret();
-//       expect(secretto.equal.a('string');
-//     });
-//     it('should generate three different secrets', function () {
-//       const s1 = generateSecret();
-//       const s2 = generateSecret();
-//       const s3 = generateSecret();
-//       expect(s1).toNotEqual(s2);
-//       expect(s1).toNotEqual(s3);
-//       expect(s2).toNotEqual(s3);
-//     });
-//   });
+  it('should generate three different secrets', function () {
+    const s1 = generateSecret();
+    const s2 = generateSecret();
+    const s3 = generateSecret();
+    expect(s1).to.not.equal(s2);
+    expect(s1).to.not.equal(s3);
+    expect(s2).to.not.equal(s3);
+  });
+});
 
-//   it('should not generate a new .env file without DB_HOST', async function () {
-//     const gen = generateEnvFile.__get__('generateEnvFile');
-//     const generatedFile = await gen();
-//     expect(generatedFileto.equal(false);
-//   });
-//   it('should generate a new .env file', async function () {
-//     const gen = generateEnvFile.__get__('generateEnvFile');
-//     const generatedFile = await gen();
-//     expect(generatedFileto.equal(false);
-//   });
-// });
+describe('generateEnvFile', function () {
+  const oldHost = process.env.DB_HOST;
+
+  before('delete the testing .env', async function () {
+    const pathToEnv = path.join(__dirname, '..', '..', 'fixtures', '.env');
+    fs.unlink(pathToEnv, f => f);
+  });
+
+  it('should not generate a new .env file without DB_HOST', async function () {
+    process.env.DB_HOST = 'example';
+    const generatedFile = await generateEnvFile();
+    return expect(generatedFile).to.be.false;
+  });
+
+  it('should generate a new .env file', async function () {
+    delete process.env.DB_HOST;
+    const generatedFile = await generateEnvFile(path.join(__dirname, '..', '..', 'fixtures'));
+    return expect(generatedFile).to.be.true;
+  });
+
+  after('reset old DB_HOST', function () {
+    process.env.DB_HOST = oldHost;
+  });
+});

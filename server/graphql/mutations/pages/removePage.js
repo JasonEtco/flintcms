@@ -23,6 +23,7 @@ module.exports = {
       .findByIdAndRemove(args._id, { select: projection })
       .exec();
 
+    /* istanbul ignore if */
     if (!removedPage) throw new Error('Error removing page');
 
     socketEvent('delete-page', removedPage);

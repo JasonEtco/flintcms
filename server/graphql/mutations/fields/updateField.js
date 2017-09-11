@@ -26,6 +26,7 @@ module.exports = {
 
     const updatedField = await Field.findByIdAndUpdate(_id, data, { new: true });
 
+    /* istanbul ignore if */
     if (!updatedField) throw new Error('Error updating Field');
 
     socketEvent('update-field', updatedField);

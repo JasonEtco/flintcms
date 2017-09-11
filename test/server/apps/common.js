@@ -50,7 +50,7 @@ exports.setNonAdmin = function setNonAdmin(done) {
     .end((err, res) => {
       if (err) { return done(err); }
       // expect(res.status).to.equal(200);
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           updateUser: {
             usergroup: {

@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const chalk = require('chalk');
+const log = require('debug')('flint');
 
 mongoose.Promise = global.Promise;
 
@@ -42,9 +43,10 @@ module.exports = function connectToDatabase() {
 };
 
 // Close the Mongoose connected on Ctrl+C
+/* istanbul ignore next */
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {
-    console.log('Mongoose default connection disconnected');
+    log('Mongoose default connection disconnected');
     process.exit(0);
   });
 });

@@ -1,9 +1,12 @@
 language: node_js
+
 node_js:
   - "8"
-script: 
-  - npm test
+
+script:
+  - npm run test:coverage
   - npm run lint
+
 cache:
   directories:
     - node_modules
@@ -16,3 +19,4 @@ services:
 
 before_script:
   - mongo test --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
+  - npm run build

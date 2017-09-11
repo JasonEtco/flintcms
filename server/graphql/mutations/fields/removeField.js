@@ -34,6 +34,7 @@ module.exports = {
       .findByIdAndUpdate(sec._id, { $pull: { fields: _id } }, { new: true })
       .then(updateSection => io.emit('update-section', updateSection))));
 
+    /* istanbul ignore if */
     if (!removedField) throw new Error('Error removing field');
 
     events.emit('post-delete-field', removedField);

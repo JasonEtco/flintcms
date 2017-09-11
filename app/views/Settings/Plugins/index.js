@@ -25,9 +25,9 @@ export default class Plugins extends Component {
       key: plugin._id,
       image: {
         sortBy: false,
-        component: <img src={`data:image/png;base64,${plugin.icon.buffer}`} alt={plugin.name} />,
+        component: <img src={`data:image/png;base64,${plugin.icon.buffer}`} alt={plugin.title} />,
       },
-      name: plugin.name,
+      title: plugin.title,
     }));
 
     return (

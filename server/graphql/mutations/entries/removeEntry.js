@@ -33,6 +33,7 @@ module.exports = {
       .findByIdAndRemove(_id, { select: projection })
       .exec();
 
+    /* istanbul ignore if */
     if (!removedEntry) throw new Error('Error removing entry');
 
     events.emit('post-delete-entry', removedEntry);

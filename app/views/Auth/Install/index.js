@@ -24,7 +24,7 @@ export default class Install extends Component {
   componentDidMount() {
     get('/admin/firstinstall')
       .then((res) => {
-        if (res.data.aUserExists) {
+        if (!res.data.firstTimeInstall) {
           this.props.history.push('/login');
         }
       })

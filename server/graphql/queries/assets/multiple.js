@@ -13,6 +13,7 @@ module.exports = {
 
     return Asset
       .find()
+      .sort({ dateCreated: 1 })
       .select(projection)
       .exec();
   },

@@ -94,6 +94,7 @@ exports.users = [
     email: 'example@userstein.com',
     image: 'default_user.png',
     usergroup: '592a74034a0a9b372c3bff9c',
+    token: 'TOKEN',
   },
 ];
 
@@ -304,7 +305,7 @@ exports.pages = [{
   slug: 'homepage',
   route: '/',
   title: 'Homepage',
-  template: 'index',
+  template: 'index.njk',
   homepage: true,
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
@@ -351,3 +352,25 @@ exports.site = {
   style: '',
   defaultUserGroup: '592a74034a0a9b372c3bff9c',
 };
+
+exports.assets = [{
+  _id: '5926e863bd887652382edfe9',
+  title: 'Image',
+  extension: 'png',
+  filename: 'image.png',
+  dateCreated: 1497819215947,
+  width: 100,
+  height: 100,
+  size: 200,
+  mimetype: 'image/png',
+}, {
+  _id: '5946e833bd887652382edfe9',
+  title: 'Image Two',
+  extension: 'png',
+  filename: 'image2.png',
+  dateCreated: 1497819225947,
+  width: 100,
+  height: 100,
+  size: 200,
+  mimetype: 'image/png',
+}];

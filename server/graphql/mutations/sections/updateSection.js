@@ -23,6 +23,8 @@ module.exports = {
     events.emit('pre-update-section', { _id, data });
 
     const updatedSection = await Section.findByIdAndUpdate(_id, data, { new: true });
+
+    /* istanbul ignore if */
     if (!updatedSection) throw new Error('Error updating Section');
 
     socketEvent('update-section', updatedSection);

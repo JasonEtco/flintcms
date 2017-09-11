@@ -10,94 +10,112 @@ const router = express.Router();
 
 const strategyOptions = { passReqToCallback: true };
 
-router.post('/signup', passport.authenticate('local-signup', strategyOptions));
+module.exports = () => {
+  router.post('/signup', passport.authenticate('local-signup', strategyOptions));
 
-router.post('/login', passport.authenticate('local-login', strategyOptions), (req, res) => {
-  res.json({ success: true });
-});
+  router.post('/login', passport.authenticate('local-login', strategyOptions), (req, res) => {
+    res.json({ success: true });
+  });
 
-router.post('/firstuser', async (req, res) => {
-  const user = await User.findOne().exec();
-  if (user) {
-    res.status(200).json({ success: false, message: 'There is already a user in the database.' });
-    return;
-  }
+  router.post('/firstuser', async (req, res) => {
+    const user = await User.findOne().exec();
+    if (user) {
+      res.status(200).json({ success: false, message: 'There is already a user in the database.' });
+      return;
+    }
 
-  const newUser = new User(req.body);
-  newUser.password = newUser.generateHash(req.body.password);
+    const newUser = new User(req.body);
+    newUser.password = newUser.generateHash(req.body.password);
 
-  const adminUserGroup = await UserGroup.findOne({ slug: 'admin' }).exec();
-  newUser.usergroup = adminUserGroup._id;
+    const adminUserGroup = await UserGroup.findOne({ slug: 'admin' }).exec();
+    newUser.usergroup = adminUserGroup._id;
 
-  const savedUser = await newUser.save();
-  if (!savedUser) throw new Error('Could not save the User');
+    const savedUser = await newUser.save();
+    if (!savedUser) throw new Error('Could not save the User');
 
-  req.login(savedUser, (err) => {
-    if (!err) {
+    req.login(savedUser, () => {
       res.status(200).json({ success: true });
+    });
+  });
+
+  router.get('/firstinstall', async (req, res) => {
+    const foundUser = await User.findOne().exec();
+    if (foundUser) {
+      res.json({ firstTimeInstall: false });
     } else {
-      throw new Error(err);
+      res.json({ firstTimeInstall: true });
     }
   });
-});
 
-router.get('/firstinstall', async (req, res) => {
-  const foundUser = await User.findOne().exec();
-  if (foundUser) {
-    res.json({ aUserExists: true });
-  } else {
-    res.json({ aUserExists: false });
-  }
-});
+  router.post('/setpassword', async (req, res) => {
+    const { token, password } = req.body;
 
-router.post('/setpassword', async (req, res) => {
-  const { token, password } = req.body;
-  const user = await User.findOne({ token }).exec();
-  if (!user) throw new Error('Cannot find user');
-
-  user.password = await user.generateHash(password);
-  user.token = undefined;
-
-  const savedUser = await user.save();
-  if (!savedUser) throw new Error('Could not save the User');
-
-  req.login(user, (err) => {
-    if (!err) {
-      res.status(200).json({ success: true });
-    } else {
-      throw new Error(err);
+    if (!password) {
+      res.status(400).json({ message: 'You must include a password.' });
+      return;
     }
+
+    const user = await User.findOne({ token }).exec();
+    if (!user) {
+      res.status(400).json({ message: 'Cannot find user.' });
+      return;
+    }
+
+    user.password = await user.generateHash(password);
+    user.token = undefined;
+
+    const savedUser = await user.save();
+    if (!savedUser) {
+      res.status(400).json({ message: 'Could not save the User.' });
+      return;
+    }
+
+    req.login(user, () => {
+      res.status(200).json({ success: true });
+    });
   });
-});
 
-router.post('/forgotpassword', async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) throw new Error('There is no user with that id.');
+  router.post('/forgotpassword', async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
 
-  const token = await randtoken.generate(16);
-  const data = { token, password: undefined };
+    if (!user) {
+      res.status(400).end('There is no user with that email.');
+      return;
+    }
 
-  const updatedUser = await User.findByIdAndUpdate(user._id, data, { new: true });
-  if (!updatedUser) throw new Error('Error updating user');
+    const token = await randtoken.generate(16);
+    const data = { token, password: undefined };
 
-  const name = user.name.first || user.username;
+    const updatedUser = await User.findByIdAndUpdate(user._id, data, { new: true });
 
-  sendEmail(user.email, 'reset-password', { subject: 'Reset your password', token, name });
-  res.status(200).json({ success: true });
-});
+    if (!updatedUser) {
+      res.status(400).end('Error updating user');
+      return;
+    }
 
-router.get('/verify', async (req, res) => {
-  const token = req.query.t;
-  const user = await User.findOne({ token });
-  if (!user) res.redirect('/admin');
-  res.redirect(`/admin/sp/${token}`);
-});
+    const name = user.name.first || user.username;
 
-router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
+    sendEmail(user.email, 'reset-password', { subject: 'Reset your password', token, name });
+    res.status(200).json({ success: true });
+  });
 
+  router.get('/verify', async (req, res) => {
+    const token = req.query.t;
+    const user = await User.findOne({ token });
 
-module.exports = router;
+    if (!user) {
+      res.redirect('/admin');
+      return;
+    }
+
+    res.redirect(`/admin/sp/${token}`);
+  });
+
+  router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
+
+  return router;
+};

@@ -28,6 +28,9 @@ module.exports = {
     // Emit new-field event, wait for plugins to affect the new field
     const savedField = await newField.save();
 
+    /* istanbul ignore if */
+    if (!savedField) throw new Error('Error adding new field');
+
     events.emit('post-new-field', savedField);
     socketEvent('new-field', savedField);
     return savedField;

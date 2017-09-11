@@ -1,6 +1,4 @@
-const {
-  GraphQLNonNull,
-} = require('graphql');
+const { GraphQLNonNull } = require('graphql');
 const mongoose = require('mongoose');
 const { inputType, outputType } = require('../../types/Pages');
 const h = require('../../../utils/helpers');
@@ -20,7 +18,7 @@ module.exports = {
 
     const { fieldLayout, title, homepage, route } = args.data;
 
-    if (!homepage && route && !route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
+    if (!homepage && route && route.startsWith('/admin')) throw new Error('Routes starting with `/admin` are reserved for Flint.');
 
     if (fieldLayout === undefined || fieldLayout.length === 0) throw new Error('You must include at least one field.');
     if (!title) throw new Error('You must include a title.');
@@ -33,6 +31,7 @@ module.exports = {
     if (homepage || !route) {
       newPage.route = '/';
 
+      // Find existing homepage and change to `homepage: false`
       const HomePage = await Page.findOne({ homepage: true });
       if (HomePage) {
         await Page.findByIdAndUpdate(HomePage._id, { homepage: false });
@@ -42,6 +41,8 @@ module.exports = {
     events.emit('pre-new-page', newPage);
 
     const savedPage = await newPage.save();
+
+    /* istanbul ignore if */
     if (!savedPage) throw new Error('Could not save the page.');
 
     socketEvent('new-page', savedPage);

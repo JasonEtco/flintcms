@@ -26,6 +26,7 @@ module.exports = {
 
     Entry.remove({ section: args._id }).exec();
 
+    /* istanbul ignore if */
     if (!removedSection) throw new Error('Error removing section');
 
     socketEvent('delete-section', removedSection);

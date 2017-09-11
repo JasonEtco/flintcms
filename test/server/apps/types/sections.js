@@ -20,7 +20,7 @@ it('returns a list of sections', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           sections: mocks.sections,
         },
@@ -43,7 +43,7 @@ it('can query for a specific section by _id', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           section: { _id: mocks.sections[0]._id },
         },
@@ -66,7 +66,7 @@ it('can delete a section from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           removeSection: { _id: mocks.sections[0]._id },
         },
@@ -95,7 +95,7 @@ it('can save a section to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           addSection: {
             title: mocks.sections[0].title,
@@ -126,7 +126,7 @@ it('returns an error when saving a section without any fields', function (done) 
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You must include at least one field.');
+      expect(res.body.errors).to.include.an.item.with.property('message', 'You must include at least one field.');
       return done();
     });
 });
@@ -151,7 +151,7 @@ it('returns an error when saving a section without a title', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text).errors).to.include.an.item.with.property('message', 'You must include a title.');
+      expect(res.body.errors).to.include.an.item.with.property('message', 'You must include a title.');
       return done();
     });
 });
@@ -177,7 +177,7 @@ it('can update a section in the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).to.deep.equal({
+      expect(res.body).to.deep.equal({
         data: {
           updateSection: {
             title: 'New title',

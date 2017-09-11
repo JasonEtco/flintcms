@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const log = require('debug')('flint');
 
 const variables = [
   'DB_HOST',
@@ -13,8 +14,7 @@ const variables = [
 function validateEnvVariables(vars = variables) {
   const missingEnvVariables = vars.filter(v => process.env[v] === undefined || process.env[v] === '');
 
-  // eslint-disable-next-line no-console
-  missingEnvVariables.forEach(v => console.log(chalk.red(`Missing the ${v} variable in your .env file!`)));
+  missingEnvVariables.forEach(v => log(chalk.red(`Missing the ${v} variable in your .env file!`)));
   return missingEnvVariables;
 }
 
