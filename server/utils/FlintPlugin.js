@@ -15,12 +15,13 @@ class FlintPlugin {
   static get uid() {
     // eslint-disable-next-line no-console
     log(chalk.red('A plugin forgot to set a static getter for the uid. See https://flintcms.co/docs/plugins for more information.'));
+    return false;
   }
 
   /**
    * @type {String}
    */
-  static get name() { return ''; }
+  static get title() { return ''; }
 
   /**
    * @type {String}

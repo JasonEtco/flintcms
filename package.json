@@ -37,6 +37,7 @@
     "test:env": "npm test -- --grep \"env\"",
     "test:server": "npm test -- --grep \"server\"",
     "test:compiler": "npm test -- --grep \"Compile templates\"",
+    "test:plugin": "npm test -- --grep \"FlintPlugin\"",
     "test:firstrun": "npm test -- --grep \"First time install\"",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",

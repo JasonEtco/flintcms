@@ -13,9 +13,9 @@ exports.outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLID),
       description: 'Mongo ID string.',
     },
-    name: {
+    title: {
       type: new GraphQLNonNull(GraphQLString),
-      description: 'Name of the plugin.',
+      description: 'Title of the plugin.',
     },
     icon: {
       type: new GraphQLObjectType({
