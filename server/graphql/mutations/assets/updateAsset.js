@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   async resolve({ events, perms, socketEvent }, { data, _id }) {
-    if (!perms.canEditAssets) throw new Error('You do not have permission to edit assets.');
+    if (!perms.assets.canEditAssets) throw new Error('You do not have permission to edit assets.');
 
     const foundAsset = await Asset.findById(_id).lean().exec();
     if (!foundAsset) throw new Error('There is no Asset with this ID');
