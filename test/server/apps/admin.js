@@ -1,5 +1,3 @@
-/* eslint-disable func-names, prefer-arrow-callback */
-
 const Flint = require('../../../index.js');
 const request = require('supertest');
 const mongoose = require('mongoose');
