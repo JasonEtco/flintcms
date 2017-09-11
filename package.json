@@ -26,9 +26,8 @@
   ],
   "scripts": {
     "start": "cross-env DEBUG=flint nodemon --ignore app dev.js",
-    "tst": "tst",
     "test": "cross-env NODE_ENV=test mocha",
-    "test:coverage": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha",
+    "test:coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "test:api": "npm test -- --grep \"GraphQL API\"",
     "test:logs": "npm test -- --grep \"logs app\"",
     "test:site": "npm test -- --grep \"site endpoint\"",
@@ -163,6 +162,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.3.0",
     "mocha": "^3.5.0",
+    "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^11.2.1",
     "stylelint": "^8.0.0",
     "stylelint-config-devshelf": "^1.3.0",

@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "8"
 script: 
-  - npm test
+  - npm run test:coverage
   - npm run lint
 cache:
   directories:
