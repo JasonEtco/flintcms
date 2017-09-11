@@ -95,10 +95,8 @@ module.exports = class Flint {
     const connectedToDatabase = await connectToDatabase();
     log(connectedToDatabase);
 
-    if (!testing) {
-      const canSendEmails = await verifyNodemailer().catch(log);
-      if (canSendEmails) log(canSendEmails);
-    }
+    const canSendEmails = await verifyNodemailer().catch(log);
+    if (canSendEmails) log(canSendEmails);
 
     const canCompileSass = await compileSass();
     log(canCompileSass);
