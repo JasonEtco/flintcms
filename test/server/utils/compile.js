@@ -67,6 +67,26 @@ describe('Compile templates', function () {
   });
 });
 
+describe('Compile in debug mode', function () {
+  let server;
+
+  before('Creates a server and populates the db', async function () {
+    const flintServer = new Flint({ templatePath: 'test/fixtures/templates', listen: false }, true);
+    server = await flintServer.startServer();
+    return populateDB();
+  });
+
+  it('returns the index.njk template for the homepage', async function () {
+    const res = await request(server).get('/');
+    expect(res.text).to.not.equal('no-template');
+    expect(res.text).to.include('Flint Debug Mode');
+  });
+
+  after((done) => {
+    mongoose.disconnect(done);
+  });
+});
+
 describe('Compiler 404', function () {
   let server;
 
