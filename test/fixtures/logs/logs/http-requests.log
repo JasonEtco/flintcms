@@ -1,2 +1,0 @@
-::ffff:127.0.0.1 - - [09/Sep/2017:18:33:00 +0000] "GET /admin/api/logs HTTP/1.1" 200 26 "-" "node-superagent/3.6.0"
-::ffff:127.0.0.1 - - [09/Sep/2017:18:33:00 +0000] "GET /admin/api/logs HTTP/1.1" 200 150 "-" "node-superagent/3.6.0"
