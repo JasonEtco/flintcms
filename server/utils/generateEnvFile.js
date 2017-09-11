@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+const log = require('debug')('flint');
 const { promisify } = require('util');
 
 const writeFileAsync = promisify(fs.writeFile);
@@ -40,10 +41,11 @@ MAIL_PASS=
  * Generates a .env file with the appropriate variable names.
  * Returns true if it creates a new one that needs to be filled with database connection
  * strings, or false if it did not need to make one and can continue running the server.
+ * @param {String} [cwd=''] - Path to the directory in which the `.env` sits.
  * @returns {Boolean}
  */
-async function generateEnvFile(p) {
-  const pathToEnvFile = p || path.resolve('.env');
+async function generateEnvFile(cwd = '') {
+  const pathToEnvFile = path.resolve(cwd, '.env');
 
   // Checks if there is already a DB_HOST env variable
   // or if the .env file already exists. This double-check is to
@@ -51,10 +53,10 @@ async function generateEnvFile(p) {
   // variables not through a file, it still works.
 
   if (!process.env.DB_HOST && !fs.existsSync(pathToEnvFile)) {
-    console.log(chalk.cyan('Generating .env file...'));
+    log(chalk.cyan('Generating .env file...'));
     const secret = generateSecret();
     await writeFileAsync(pathToEnvFile, envTemplate(secret));
-    console.log(chalk.cyan('Finished generating .env file! Fill it with your own credentials.'));
+    log(chalk.cyan('Finished generating .env file! Fill it with your own credentials.'));
 
     return true;
   }
@@ -62,4 +64,4 @@ async function generateEnvFile(p) {
   return false;
 }
 
-module.exports = generateEnvFile;
+module.exports = { generateEnvFile, generateSecret };

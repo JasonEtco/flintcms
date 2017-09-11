@@ -4,7 +4,7 @@ require('dotenv').config({ path: testing ? '.env.dev' : '.env' });
 const path = require('path');
 const log = require('debug')('flint');
 const chalk = require('chalk');
-const generateEnvFile = require('./server/utils/generateEnvFile');
+const { generateEnvFile } = require('./server/utils/generateEnvFile');
 const nunjuckEnv = require('./server/utils/nunjucks');
 const validateEnvVariables = require('./server/utils/validateEnvVariables');
 const scaffold = require('./server/utils/scaffold');
@@ -87,6 +87,8 @@ module.exports = class Flint {
     if (didGenerateEnv && !testing) return process.exit();
 
     const shouldContinue = missingEnvVariables.length === 0;
+
+    /* istanbul ignore if */
     if (!shouldContinue) {
       log(chalk.red('Could not start the server.'));
       return process.exit(1);
