@@ -89,9 +89,9 @@ describe('Compiler 404', function () {
   let server;
 
   before('Creates a server and populates the db', async function () {
-    const flintServer = new Flint({ templatePath: 'test/fixtures/templates/pizzas', listen: false });
+    const flintServer = new Flint({ templatePath: 'test/fixtures/templates/empty', listen: false });
     server = await flintServer.startServer();
-    return populateDB();
+    return server;
   });
 
   it('redirects to `no-template` for the 404 page', async function () {
@@ -99,6 +99,7 @@ describe('Compiler 404', function () {
     expect(res.status).to.equal(302);
     expect(res.header.location).to.equal('/admin/error?r=no-template&p=404&t=404');
     expect(res.text).to.equal('Found. Redirecting to /admin/error?r=no-template&p=404&t=404');
+    return expect(true).to.be.true;
   });
 
   after((done) => {
