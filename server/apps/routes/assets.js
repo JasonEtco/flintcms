@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const path = require('path');
 const express = require('express');
 const multer = require('multer');
@@ -8,15 +7,37 @@ const schema = require('../../graphql');
 
 const router = express.Router();
 
+async function saveFile(buffer, pathToFile) {
+  const jimpFile = await jimp.read(buffer);
+  const { width, height } = jimpFile.bitmap;
+  const writtenFile = await jimpFile.write(pathToFile);
+
+  /* istanbul ignore if */
+  if (!writtenFile) throw new Error('There was an erroring saving your file.');
+
+  return { width, height };
+}
+
+async function processReq(req) {
+  const { body, file } = req;
+  const { originalname, buffer, size, mimetype } = file;
+  const pathToFile = path.join(global.FLINT.publicPath, 'assets', originalname);
+  const { width, height } = await saveFile(buffer, pathToFile);
+
+  return {
+    data: {
+      title: body.title,
+      filename: originalname,
+      size,
+      width,
+      height,
+      mimetype,
+    },
+  };
+}
+
 module.exports = (app) => {
   const io = app.get('io');
-  const Asset = mongoose.model('Asset');
-
-  router.get('/assets', (req, res) => {
-    Asset.find()
-      .then(users => res.status(200).json(users))
-      .catch(err => new Error(err));
-  });
 
   // Multer provides multipart form data parsing.
   const storage = multer.memoryStorage();
@@ -24,15 +45,7 @@ module.exports = (app) => {
 
   router.post('/assets', upload.single('file'), async (req, res) => {
     process.nextTick(async () => {
-      const { body, file } = req;
-      const { originalname, buffer, size, mimetype } = file;
-
-      const pathToFile = path.join(__dirname, '..', '..', '..', 'public', 'assets', originalname);
-
-      const jimpFile = await jimp.read(buffer);
-      const { width, height } = jimpFile.bitmap;
-      const writtenFile = await jimpFile.write(pathToFile);
-      if (!writtenFile) throw new Error('There was an erroring saving your file.');
+      const vars = await processReq(req);
 
       const query = `mutation ($data: AssetInput!) {
         addAsset(data: $data) {
@@ -47,18 +60,9 @@ module.exports = (app) => {
        }
       }`;
 
-      const vars = {
-        data: {
-          title: body.title,
-          filename: originalname,
-          size,
-          width,
-          height,
-          mimetype,
-        },
-      };
-
       const { errors, data } = await graphql(schema, query, { io }, null, vars);
+
+      /* istanbul ignore if */
       if (errors !== undefined && errors.length > 0) {
         res.status(500).json(errors);
       } else {
@@ -69,15 +73,7 @@ module.exports = (app) => {
 
   router.put('/assets/:_id', upload.single('file'), async (req, res) => {
     process.nextTick(async () => {
-      const { body, file } = req;
-      const { originalname, buffer, size, mimetype } = file;
-
-      const pathToFile = path.join(__dirname, '..', '..', '..', 'public', 'assets', originalname);
-
-      const jimpFile = await jimp.read(buffer);
-      const { width, height } = jimpFile.bitmap;
-      const writtenFile = await jimpFile.write(pathToFile);
-      if (!writtenFile) throw new Error('There was an erroring saving your file.');
+      const processedVars = await processReq(req);
 
       const query = `mutation ($data: AssetInput!, $_id: ID!) {
         updateAsset(data: $data, _id: $_id) {
@@ -94,14 +90,7 @@ module.exports = (app) => {
 
       const vars = {
         _id: req.params._id,
-        data: {
-          title: body.title,
-          filename: originalname,
-          size,
-          width,
-          height,
-          mimetype,
-        },
+        data: processedVars.data,
       };
 
       const { errors, data } = await graphql(schema, query, { io }, null, vars);

@@ -13,17 +13,17 @@ module.exports = {
     },
   },
   async resolve({ io, perms, events, socketEvent }, args) {
-    if (!perms.assets.canAddAssets) throw new Error('You do not have permission to add new assets.');
+    if (perms && !perms.assets.canAddAssets) throw new Error('You do not have permission to add new assets.');
 
     const newAsset = new Asset(args.data);
-    events.emit('pre-new-asset', newAsset);
+    if (events) events.emit('pre-new-asset', newAsset);
 
     const savedAsset = await newAsset.save();
 
     if (!savedAsset) throw new Error('There was a problem saving the asset.');
 
-    events.emit('post-new-asset', savedAsset);
-    socketEvent('new-asset', savedAsset);
+    if (events) events.emit('post-new-asset', savedAsset);
+    if (socketEvent) socketEvent('new-asset', savedAsset);
     return savedAsset;
   },
 };
