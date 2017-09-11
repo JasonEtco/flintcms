@@ -10,5 +10,4 @@ coverage
 public
 .nyc_output
 .DS_Store
-/logs
-test/fixtures/logs/http-requests.log
+*.log
