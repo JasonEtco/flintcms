@@ -48,7 +48,7 @@ module.exports = (app) => {
     admin.use(express.static(STATIC_PATH, STATIC_OPTS));
 
     admin.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'));
+      res.status(200).sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'));
     });
 
     log(`${chalk.gray('[App: Admin]')} initialized.`);
