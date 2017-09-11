@@ -6,13 +6,18 @@ const path = require('path');
 const fs = require('fs');
 const expect = require('chai').expect;
 const populateDB = require('../../../populatedb');
+const scaffold = require('../../../../server/utils/scaffold');
 
 describe('assets routes', function () {
   let server;
   const pathToImageFixtures = path.join(__dirname, '..', '..', '..', 'fixtures', 'images');
-  const publicPath = path.join(__dirname, '..', '..', '..', 'temp', 'public');
+  const tempPath = path.join(__dirname, '..', '..', '..', 'temp');
+  const publicPath = path.join(tempPath, 'public');
 
   before('Creates a server', async function () {
+    scaffold(tempPath);
+    scaffold(publicPath);
+
     const flintServer = new Flint({ publicPath, listen: false });
     server = await flintServer.startServer();
     global.agent = supertest.agent(server);

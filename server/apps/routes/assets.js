@@ -4,6 +4,7 @@ const multer = require('multer');
 const jimp = require('jimp');
 const { graphql } = require('graphql');
 const schema = require('../../graphql');
+const scaffold = require('../../utils/scaffold');
 
 const router = express.Router();
 
@@ -45,6 +46,7 @@ module.exports = (app) => {
 
   router.post('/assets', upload.single('file'), async (req, res) => {
     process.nextTick(async () => {
+      scaffold(path.join(global.FLINT.publicPath, 'assets'));
       const vars = await processReq(req);
 
       const query = `mutation ($data: AssetInput!) {
@@ -73,6 +75,7 @@ module.exports = (app) => {
 
   router.put('/assets/:_id', upload.single('file'), async (req, res) => {
     process.nextTick(async () => {
+      scaffold(path.join(global.FLINT.publicPath, 'assets'));
       const processedVars = await processReq(req);
 
       const query = `mutation ($data: AssetInput!, $_id: ID!) {

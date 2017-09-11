@@ -9,7 +9,7 @@ const mkdirAsync = promisify(fs.mkdir);
 function scaffold(path) {
   return new Promise((resolve) => {
     if (!fs.existsSync(path)) {
-      return mkdirAsync(path);
+      return mkdirAsync(path).then(() => resolve(path));
     }
     return resolve(path);
   });
