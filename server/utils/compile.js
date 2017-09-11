@@ -20,6 +20,8 @@ async function compile(template, data) {
   const compiledData = await collectData(data).catch(console.log); // eslint-disable-line no-console
 
   let html = await global.FLINT.nun.render(templatePath, compiledData);
+
+  /* istanbul ignore if */
   if (!html) return 'no-html';
 
   if (global.FLINT.debugMode) {

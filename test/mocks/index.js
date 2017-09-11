@@ -305,7 +305,7 @@ exports.pages = [{
   slug: 'homepage',
   route: '/',
   title: 'Homepage',
-  template: 'index',
+  template: 'index.njk',
   homepage: true,
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
