@@ -16,7 +16,7 @@ describe('Compile templates', function () {
   let server;
 
   before('Creates a server and populates the db', async function () {
-    const flintServer = new Flint({ templatePath: 'test/fixtures/templates' });
+    const flintServer = new Flint({ templatePath: 'test/fixtures/templates', listen: false });
     server = await flintServer.startServer();
     return populateDB();
   });
@@ -29,9 +29,10 @@ describe('Compile templates', function () {
     expect(res.text).to.equal(file);
   });
 
-  it('returns the `no-template` when the requested template does not exist', async function () {
+  it('returns `no-template` when the requested template does not exist', async function () {
     const res = await request(server).get('/no-template');
     expect(res.status).to.equal(302);
+    expect(res.header.location).to.equal('/admin/error?r=no-template&p=/no-template&t=template-no-exist');
     expect(res.text).to.equal('Found. Redirecting to /admin/error?r=no-template&p=/no-template&t=template-no-exist');
   });
 
@@ -59,6 +60,27 @@ describe('Compile templates', function () {
     file = file.replace(new RegExp('{{ this.title }}', 'g'), mocks.entries[3].title);
     expect(res.status).to.equal(200);
     expect(res.text).to.equal(file);
+  });
+
+  after((done) => {
+    mongoose.disconnect(done);
+  });
+});
+
+describe('Compiler 404', function () {
+  let server;
+
+  before('Creates a server and populates the db', async function () {
+    const flintServer = new Flint({ templatePath: 'test/fixtures/templates/pizzas', listen: false });
+    server = await flintServer.startServer();
+    return populateDB();
+  });
+
+  it('redirects to `no-template` for the 404 page', async function () {
+    const res = await request(server).get('/example');
+    expect(res.status).to.equal(302);
+    expect(res.header.location).to.equal('/admin/error?r=no-template&p=404&t=404');
+    expect(res.text).to.equal('Found. Redirecting to /admin/error?r=no-template&p=404&t=404');
   });
 
   after((done) => {
