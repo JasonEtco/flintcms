@@ -17,6 +17,16 @@ describe('updateSiteConfig', function () {
     expect(updatedSite).to.be.an('object');
   });
 
+  it('adds a new site config to the db', async function () {
+    const Site = mongoose.model('Site');
+
+    await Site.remove();
+    // eslint-disable-next-line global-require
+    const updateSiteConfig = require('../../../server/utils/updateSiteConfig');
+    const updatedSite = await updateSiteConfig();
+    expect(updatedSite).to.be.an('object');
+  });
+
   after((done) => {
     mongoose.disconnect(done);
   });
