@@ -21,6 +21,8 @@ async function removeFiles(dbFiles, pathToAssets) {
     .filter(file => !fs.existsSync(path.join(pathToAssets, file.filename)))
     .map(async (file) => {
       const deleted = await Asset.findByIdAndRemove(file._id);
+
+      /* istanbul ignore if */
       if (!deleted) throw new Error(`There was a problem deleting an asset: ${file._id}`);
       return file;
     });
@@ -53,6 +55,8 @@ async function saveFiles(dbFiles, pathToAssets) {
       });
 
       const savedAsset = await newAsset.save();
+
+      /* istanbul ignore if */
       if (!savedAsset) throw new Error(`There was a problem saving the asset: ${file}.`);
       return savedAsset;
     });

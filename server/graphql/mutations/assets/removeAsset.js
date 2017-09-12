@@ -22,6 +22,8 @@ module.exports = {
     events.emit('pre-delete-asset', foundAsset);
 
     const removedAsset = await Asset.findByIdAndRemove(_id).exec();
+
+    /* istanbul ignore if */
     if (!removedAsset) throw new Error('Error removing asset');
 
     const pathToFile = path.join(global.FLINT.publicPath, 'assets', foundAsset.filename);

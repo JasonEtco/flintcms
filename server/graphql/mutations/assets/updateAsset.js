@@ -20,11 +20,12 @@ module.exports = {
     if (perms && !perms.assets.canEditAssets) throw new Error('You do not have permission to edit assets.');
 
     const foundAsset = await Asset.findById(_id).lean().exec();
-    if (!foundAsset) throw new Error('There is no Asset with this ID');
+    if (!foundAsset) throw new Error('There is no Asset with that id');
     if (events) events.emit('pre-update-asset', { _id, data });
 
     const updatedAsset = await Asset.findByIdAndUpdate(_id, data, { new: true });
 
+    /* istanbul ignore if */
     if (!updatedAsset) throw new Error('Error updating Asset');
 
     if (socketEvent) socketEvent('update-asset', updatedAsset);
