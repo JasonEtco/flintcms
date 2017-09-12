@@ -224,6 +224,34 @@ it('can save an entry to the database', function (done) {
     });
 });
 
+it('returns an error when saving with an empty title', async function () {
+  const res = await global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($data: EntriesInput!) {
+        addEntry (data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        data: {
+          title: '    ',
+          status: mocks.entries[1].status,
+          author: mocks.users[0]._id,
+          section: mocks.sections[0]._id,
+          fields: [{
+            fieldId: mocks.fields[0]._id,
+            handle: mocks.fields[0].handle,
+            value: 'Hello!',
+          }],
+        },
+      },
+    });
+
+  expect(res.body.errors).to.include.an.item.with.property('message', 'Your entry\'s title must have some real characters');
+});
+
 it('can update an entry in the database', function (done) {
   global.agent
     .post('/graphql')
@@ -259,6 +287,34 @@ it('can update an entry in the database', function (done) {
       });
       return done();
     });
+});
+
+it('returns an error when updating a non-existent entry', async function () {
+  const res = await global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($_id: ID!, $data: EntriesInput!) {
+        updateEntry (_id: $_id, data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        _id: mocks.users[0]._id,
+        data: {
+          title: 'New title!',
+          author: mocks.users[0]._id,
+          section: mocks.sections[0]._id,
+          fields: [{
+            fieldId: mocks.fields[0]._id,
+            handle: mocks.fields[0].handle,
+            value: 'Hello!',
+          }],
+        },
+      },
+    });
+
+  expect(res.body.errors).to.include.an.item.with.propery('message', 'There is no Entry with that id');
 });
 
 describe('Permissions', function () {
