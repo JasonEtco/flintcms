@@ -124,7 +124,6 @@ it('can save an asset to the database', function (done) {
     });
 });
 
-
 describe('Permissions', function () {
   before('Set to non-admin', common.setNonAdmin);
 

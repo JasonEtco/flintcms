@@ -1,4 +1,6 @@
 const testing = process.env.NODE_ENV === 'test';
+
+/* istanbul ignore next */
 require('dotenv').config({ path: testing ? '.env.dev' : '.env' });
 
 const path = require('path');
