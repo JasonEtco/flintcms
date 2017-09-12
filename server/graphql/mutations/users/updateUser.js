@@ -31,6 +31,8 @@ module.exports = {
     events.emit('pre-update-user', { _id, data });
 
     const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true });
+
+    /* istanbul ignore if */
     if (!updatedUser) throw new Error('Error updating user');
 
     await User.populate(updatedUser, { path: 'usergroup' });

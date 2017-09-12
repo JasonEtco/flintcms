@@ -1,5 +1,5 @@
 const mocks = require('../../../mocks');
-const expect = require('expect');
+const expect = require('chai').expect;
 const common = require('../common');
 
 it('returns the site config', (done) => {
@@ -17,7 +17,7 @@ it('returns the site config', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(res.body).to.deep.equal({
         data: {
           site: {
             siteName: mocks.site.siteName,
@@ -47,7 +47,7 @@ it('updates the site document', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(res.body).to.deep.equal({
         data: {
           updateSite: {
             siteName: 'New site name',
@@ -80,7 +80,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
+        expect(res.body.errors[0]).to.include({
           message: 'You do not have permission to manage site configuration.',
         });
         return done();

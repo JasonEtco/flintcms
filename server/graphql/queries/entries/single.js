@@ -32,10 +32,12 @@ module.exports = {
 
     const fargs = Object.assign({}, args);
 
-    if (args.status) {
-      if (isAUser && root.perms) {
-        fargs.status = !root.perms.entries.canSeeDrafts ? 'live' : args.status;
-      }
+    if (isAUser && root.perms && !root.perms.entries.canSeeDrafts) {
+      fargs.status = 'live';
+    }
+
+    if (args.slug && !args.sectionSlug) {
+      throw new Error('When querying for an entry by slug, you must also query by sectionSlug.');
     }
 
     if (args.sectionSlug) {

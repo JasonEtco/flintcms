@@ -6,7 +6,8 @@ node_modules
 .env
 admin
 flint
-__coverage__
+coverage
 public
+.nyc_output
 .DS_Store
-/logs
+*.log

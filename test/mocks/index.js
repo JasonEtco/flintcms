@@ -11,6 +11,7 @@ exports.entries = [
   {
     _id: '57be1b901810931d043d9fc6',
     title: 'Test Entry Two',
+    slug: 'test-entry-two',
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
     dateCreated: 1488853902010,
@@ -49,6 +50,18 @@ exports.sections = [
       '58a232588397e21c8c8c8828',
       '58a37f8feae5082628cd21e0',
     ],
+    dateCreated: 1488422908432,
+  },
+  {
+    _id: '58b787fd28044618a7f7a737',
+    title: 'Fixed Section',
+    slug: 'fixed-section',
+    handle: 'fixedSection',
+    template: 'entry',
+    fields: [
+      '58a232588397e21c8c8c8828',
+      '58a37f8feae5082628cd21e0',
+    ],
     dateCreated: 1488422909432,
   },
 ];
@@ -81,6 +94,7 @@ exports.users = [
     email: 'example@userstein.com',
     image: 'default_user.png',
     usergroup: '592a74034a0a9b372c3bff9c',
+    token: 'TOKEN',
   },
 ];
 
@@ -291,7 +305,7 @@ exports.pages = [{
   slug: 'homepage',
   route: '/',
   title: 'Homepage',
-  template: 'index',
+  template: 'index.njk',
   homepage: true,
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
@@ -338,3 +352,25 @@ exports.site = {
   style: '',
   defaultUserGroup: '592a74034a0a9b372c3bff9c',
 };
+
+exports.assets = [{
+  _id: '5926e863bd887652382edfe9',
+  title: 'Image',
+  extension: 'png',
+  filename: 'image.png',
+  dateCreated: 1497819215947,
+  width: 100,
+  height: 100,
+  size: 200,
+  mimetype: 'image/png',
+}, {
+  _id: '5946e833bd887652382edfe9',
+  title: 'Image Two',
+  extension: 'png',
+  filename: 'image2.png',
+  dateCreated: 1497819225947,
+  width: 100,
+  height: 100,
+  size: 200,
+  mimetype: 'image/png',
+}];

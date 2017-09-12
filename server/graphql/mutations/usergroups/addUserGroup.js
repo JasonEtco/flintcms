@@ -21,6 +21,7 @@ module.exports = {
 
     const savedUserGroup = await newUserGroup.save();
 
+    /* istanbul ignore if */
     if (!savedUserGroup) throw new Error('Error adding new entry');
 
     events.emit('post-new-usergroup', savedUserGroup);

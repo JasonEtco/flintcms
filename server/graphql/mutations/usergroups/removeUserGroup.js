@@ -26,6 +26,7 @@ module.exports = {
       .findByIdAndRemove(_id, { select: projection })
       .exec();
 
+    /* istanbul ignore if */
     if (!removedUserGroup) throw new Error('Error removing user group');
 
     events.emit('post-delete-usergroup', removedUserGroup);

@@ -25,6 +25,8 @@ module.exports = {
     events.emit('pre-update-page', { _id, data });
 
     const updatedPage = await Page.findByIdAndUpdate(_id, data, { new: true });
+
+    /* istanbul ignore if */
     if (!updatedPage) throw new Error('Error updating Page');
 
     socketEvent('update-page', updatedPage);

@@ -44,6 +44,8 @@ module.exports = {
 
     // Save the new entry
     const savedEntry = await newEntry.save();
+
+    /* istanbul ignore if */
     if (!savedEntry) throw new Error('Error adding new entry');
 
     events.emit('post-new-entry', savedEntry);

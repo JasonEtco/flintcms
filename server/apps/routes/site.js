@@ -7,18 +7,18 @@ const pkg = require('../../../package.json');
 const router = express.Router();
 const Site = mongoose.model('Site');
 
-router.get('/site', (req, res) => {
-  Site.findOne().select('siteLogo')
-    .then(site => res.status(200).json(site))
-    .catch(err => new Error(err));
-});
+module.exports = () => {
+  router.get('/site', (req, res) => {
+    Site.findOne().select('siteLogo')
+      .then(site => res.status(200).json(site));
+  });
 
-router.get('/hasUpdate', async (req, res) => {
-  const currentVersion = pkg.version;
-  const latestVersion = await getLatestVersion(pkg.name)
-    .catch(() => { res.json({ hasUpdate: false }); });
+  router.get('/hasUpdate', async (req, res) => {
+    const currentVersion = pkg.version;
+    const latestVersion = await getLatestVersion(pkg.name);
 
-  res.json({ hasUpdate: semverDiff(currentVersion, latestVersion) !== null });
-});
+    res.json({ hasUpdate: semverDiff(currentVersion, latestVersion) !== null });
+  });
 
-module.exports = router;
+  return router;
+};

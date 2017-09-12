@@ -2,6 +2,7 @@ const supertest = require('supertest');
 const mocks = require('../../mocks');
 const Flint = require('../../../index.js');
 const mongoose = require('mongoose');
+const expect = require('chai').expect;
 
 describe('First time install', function () {
   let server;
@@ -15,12 +16,31 @@ describe('First time install', function () {
     return server;
   });
 
-  it('creates a first new user', function (done) {
-    agent
-      .post('/admin/firstuser')
-      .send(mocks.user)
-      .expect(200)
-      .end(done);
+  it('GET /admin/firstinstall returns true', async function () {
+    const res = await agent.get('/admin/firstinstall');
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal({ firstTimeInstall: true });
+  });
+
+  it('creates a first new user', async function () {
+    const res = await agent.post('/admin/firstuser').send(mocks.user);
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal({ success: true });
+  });
+
+  it('GET /admin/firstinstall returns false', async function () {
+    const res = await agent.get('/admin/firstinstall');
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal({ firstTimeInstall: false });
+  });
+
+  it('returns a message when a user already exists', async function () {
+    const res = await agent.post('/admin/firstuser').send(mocks.user);
+    expect(res.status).to.equal(200);
+    expect(res.body).to.deep.equal({
+      success: false,
+      message: 'There is already a user in the database.',
+    });
   });
 
   it('logs in a user', function (done) {

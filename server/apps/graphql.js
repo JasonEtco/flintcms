@@ -7,6 +7,7 @@ const getUserPermissions = require('../utils/getUserPermissions');
 const emitSocketEvent = require('../utils/emitSocketEvent');
 const events = require('../utils/events');
 const log = require('../utils/log');
+const debug = require('debug')('flint');
 
 module.exports = (app) => {
   const graphql = express();
@@ -28,11 +29,7 @@ module.exports = (app) => {
     },
   })));
 
-
-  const testing = process.env.NODE_ENV === 'test';
-
-  // eslint-disable-next-line no-console
-  if (!testing) console.log(`${chalk.gray('[App: GraphQL]')} initialized.`);
+  debug(`${chalk.gray('[App: GraphQL]')} initialized.`);
 
   return graphql;
 };

@@ -18,7 +18,7 @@ module.exports = {
   },
   async resolve({ events, perms, socketEvent }, { _id, data }, ctx) {
     const foundEntry = await Entry.findById(_id).lean().exec();
-    if (!foundEntry) throw new Error('There is no Entry with this ID');
+    if (!foundEntry) throw new Error('There is no Entry with that id');
 
     const isOwnEntry = foundEntry.author.toString() === ctx.user._id.toString();
 
@@ -40,6 +40,8 @@ module.exports = {
     events.emit('pre-update-entry', { _id, data });
 
     const updatedEntry = await Entry.findByIdAndUpdate(_id, data, { new: true });
+
+    /* istanbul ignore if */
     if (!updatedEntry) throw new Error('Error updating entry');
 
     events.emit('post-update-entry', updatedEntry);
