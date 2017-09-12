@@ -1,22 +1,29 @@
 language: node_js
 
+cache:
+  directories:
+    - node_modules
+  
+notifications:
+  email: false
+
+services:
+  - mongodb
+
 node_js:
   - "8"
+before_script:
+  - npm prune
+  - mongo test --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
+  - npm run build
 
 script:
   - npm run test:coverage
   - npm run lint
 
-cache:
-  directories:
-    - node_modules
+after_success:
+  - npm run semantic-release
+
 branches:
-  only: 
-    - master
-
-services:
-  - mongodb
-
-before_script:
-  - mongo test --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
-  - npm run build
+  except:
+    - /^v\d+\.\d+\.\d+$/

@@ -1,6 +1,6 @@
 {
   "name": "flintcms",
-  "version": "1.0.2",
+  "version": "0.0.0-development",
   "description": "Content-Focused CMS built on Node.js",
   "main": "index.js",
   "repository": "https://github.com/JasonEtco/flintcms",
@@ -42,7 +42,8 @@
     "test:firstrun": "npm test -- --grep \"First time install\"",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "stylelint": {
     "extends": [
@@ -170,6 +171,7 @@
     "stylelint-order": "^0.6.0",
     "stylelint-scss": "^1.5.1",
     "supertest": "^3.0.0",
-    "test-selector": "^1.0.1"
+    "test-selector": "^1.0.1",
+    "semantic-release": "^7.0.2"
   }
 }
