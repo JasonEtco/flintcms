@@ -64,7 +64,7 @@ module.exports = (app) => {
 
       const { errors, data } = await graphql(schema, query, { io }, null, vars);
 
-      /* istanbul ignore if */
+      /* istanbul ignore next */
       if (errors !== undefined && errors.length > 0) {
         res.status(500).json(errors);
       } else {

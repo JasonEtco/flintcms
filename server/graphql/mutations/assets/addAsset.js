@@ -20,6 +20,7 @@ module.exports = {
 
     const savedAsset = await newAsset.save();
 
+    /* istanbul ignore if */
     if (!savedAsset) throw new Error('There was a problem saving the asset.');
 
     if (events) events.emit('post-new-asset', savedAsset);

@@ -33,6 +33,7 @@
     "test:site": "npm test -- --grep \"site endpoint\"",
     "test:auth": "npm test -- --grep \"auth endpoint\"",
     "test:admin": "npm test -- --grep \"admin routes\"",
+    "test:publicRegistration": "npm test -- --grep \"publicRegistration\"",
     "test:env": "npm test -- --grep \"env\"",
     "test:server": "npm test -- --grep \"server\"",
     "test:compiler": "npm test -- --grep \"Compile templates\"",

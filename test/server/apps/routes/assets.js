@@ -13,10 +13,10 @@ describe('assets routes', function () {
   const pathToImageFixtures = path.join(__dirname, '..', '..', '..', 'fixtures', 'images');
   const tempPath = path.join(__dirname, '..', '..', '..', 'temp');
   const publicPath = path.join(tempPath, 'public');
+  const pathToImage = path.join(pathToImageFixtures, 'image.png');
 
   before('Creates a server', async function () {
     scaffold(tempPath);
-    scaffold(publicPath);
 
     const flintServer = new Flint({ publicPath, listen: false });
     server = await flintServer.startServer();
@@ -31,8 +31,6 @@ describe('assets routes', function () {
   });
 
   it('can upload a new image', async function () {
-    const pathToImage = path.join(pathToImageFixtures, 'image.png');
-
     const res = await global.agent
       .post('/admin/api/assets')
       .field('title', 'New Image')
@@ -51,8 +49,6 @@ describe('assets routes', function () {
   });
 
   it('can upload an existing image', async function () {
-    const pathToImage = path.join(pathToImageFixtures, 'image.png');
-
     const res = await global.agent
       .put(`/admin/api/assets/${mocks.assets[0]._id}`)
       .field('title', 'New Image')
@@ -71,13 +67,72 @@ describe('assets routes', function () {
   });
 
   it('returns 500 when the id does not exist', async function () {
-    const pathToImage = path.join(pathToImageFixtures, 'image.png');
-
     const res = await global.agent
       .put('/admin/api/assets/pizza')
       .attach('file', pathToImage);
 
     expect(res.status).to.equal(500);
+  });
+
+  describe('indexAssets', function () {
+    it('removes missing images from the db on indexAssets', async function () {
+      const res = await global.agent
+        .post('/graphql')
+        .send({
+          query: `mutation {
+            indexAssets {
+              savedFiles {
+                title
+              }
+              removedFiles {
+                title
+              }
+            }
+          }`,
+        });
+
+      expect(res.body).to.deep.equal({
+        data: {
+          indexAssets: {
+            savedFiles: [],
+            removedFiles: [
+              { title: 'Image Two' },
+            ],
+          },
+        },
+      });
+    });
+
+    it('adds new images to the db on indexAssets', async function () {
+      const Asset = mongoose.model('Asset');
+      await Asset.remove();
+
+      const res = await global.agent
+        .post('/graphql')
+        .send({
+          query: `mutation {
+            indexAssets {
+              savedFiles {
+                title
+              }
+              removedFiles {
+                title
+              }
+            }
+          }`,
+        });
+
+      expect(res.body).to.deep.equal({
+        data: {
+          indexAssets: {
+            savedFiles: [
+              { title: 'image.png' },
+            ],
+            removedFiles: [],
+          },
+        },
+      });
+    });
   });
 
   after('Closes the server', function (done) {

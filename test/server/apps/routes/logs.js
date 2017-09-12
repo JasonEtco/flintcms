@@ -23,7 +23,7 @@ describe('logs app', function () {
     expect(flint).to.be.an('array');
     expect(http).to.be.an('array');
 
-    expect(flint.join(' ')).to.equal('This is a log');
+    expect(flint).to.deep.equal(['This', 'is', 'a', 'log']);
   });
 
   after('Closes the server', function (done) {
