@@ -67,12 +67,15 @@ module.exports = class Flint {
 
     global.FLINT = FLINT;
 
-    scaffold(FLINT.templatePath);
-    scaffold(FLINT.publicPath);
-    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
-    scaffold(FLINT.logsPath);
+    Promise.all([
+      scaffold(FLINT.templatePath),
+      scaffold(FLINT.publicPath),
+      scaffold(FLINT.logsPath),
+    ]);
 
-    global.FLINT.nun = nunjuckEnv(global.FLINT.templatePath);
+    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
+
+    global.FLINT.nun = nunjuckEnv(FLINT.templatePath);
 
     this.port = process.env.PORT || 4000;
   }
