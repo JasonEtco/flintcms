@@ -35,7 +35,6 @@ module.exports = {
       analyzerMode: 'static',
       openAnalyzer: false,
     }),
-    // new BabiliPlugin(),
     new webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin('[name]-[hash].min.css'),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -46,22 +45,13 @@ module.exports = {
         to: 'assets',
         ignore: ['fonts/**/*'],
       },
-      {
-        context: path.join(__dirname, '..', 'app'),
-        from: 'manifest.json',
-        to: '',
-      },
     ]),
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor', 'manifest'], // vendor libs + extracted manifest
+      name: 'vendor', // vendor libs + extracted manifest
       minChunks: Infinity,
     }),
     new webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
-    new ChunkManifestPlugin({
-      filename: 'chunk-manifest.json',
-      manifestVariable: 'webpackManifest',
-    }),
   ],
   module: {
     rules: [{
