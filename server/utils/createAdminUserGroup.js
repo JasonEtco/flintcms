@@ -7,7 +7,7 @@ const UserGroup = mongoose.model('UserGroup');
  * Creates an admin usergroup in the database
  */
 async function createAdminUserGroup() {
-  if (await UserGroup.findOne({ slug: 'admin' })) return;
+  if (await UserGroup.findOne({ slug: 'admin' })) return false;
 
   const perms = reducePermissionsToObject((p, c) => Object.assign({}, p, { [c.name]: true }), {});
 
@@ -18,7 +18,11 @@ async function createAdminUserGroup() {
   });
 
   const savedAdminUserGroup = await adminUserGroup.save();
+
+  /* istanbul ignore if */
   if (!savedAdminUserGroup) throw new Error('Could not create admin usergroup');
+
+  return savedAdminUserGroup;
 }
 
 module.exports = createAdminUserGroup;
