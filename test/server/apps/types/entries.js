@@ -314,7 +314,7 @@ it('returns an error when updating a non-existent entry', async function () {
       },
     });
 
-  expect(res.body.errors).to.include.an.item.with.propery('message', 'There is no Entry with that id');
+  expect(res.body.errors).to.include.an.item.with.property('message', 'There is no Entry with that id');
 });
 
 describe('Permissions', function () {

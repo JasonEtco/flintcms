@@ -2,7 +2,7 @@ const Flint = require('../../../index.js');
 const expect = require('chai').expect;
 const mongoose = require('mongoose');
 
-describe('Compiler 404', function () {
+describe('createAdminUserGroup', function () {
   let UserGroup;
   let createAdminUserGroup;
 

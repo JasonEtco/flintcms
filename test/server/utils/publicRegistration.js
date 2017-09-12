@@ -48,7 +48,8 @@ describe('publicRegistration', function () {
         password: 'password',
       });
 
-    expect(res.header).to.have.property('set-cookie');
+    expect(res.status).to.equal(302);
+    expect(res.header).to.have.property('location', '/admin');
   });
 
   after((done) => {
