@@ -1,7 +1,7 @@
 /* eslint-disable func-names, prefer-arrow-callback */
 
 const Flint = require('../../../index.js');
-const expect = require('expect');
+const expect = require('chai').expect;
 const populateDB = require('../../populatedb');
 const mongoose = require('mongoose');
 const mocks = require('../../mocks');
@@ -20,17 +20,21 @@ describe('getEntryData', function () {
     const entry = await getEntryData({ slug: mocks.entries[3].slug, section: section.slug });
     const author = mocks.users.find(u => mocks.entries[3].author === u._id);
 
-    expect(entry._id).toEqual(mocks.entries[3]._id);
-    expect(entry.title).toEqual(mocks.entries[3].title);
-    expect(entry.fields).toEqual(mocks.entries[3].fields);
-    expect(entry.status).toEqual(mocks.entries[3].status);
-    expect(entry.slug).toEqual(mocks.entries[3].slug);
-    expect(entry.dateCreated).toEqual(mocks.entries[3].dateCreated);
-    expect(entry.section).toEqual(mocks.entries[3].section);
-    expect(entry.template).toEqual(section.template);
-    expect(entry.author.email).toEqual(author.email);
-    expect(entry.author.name).toBe(author.name);
-    expect(entry.author.username).toEqual(author.username);
+    expect(entry).to.deep.equal({
+      _id: mocks.entries[3]._id,
+      title: mocks.entries[3].title,
+      fields: mocks.entries[3].fields,
+      status: mocks.entries[3].status,
+      slug: mocks.entries[3].slug,
+      dateCreated: mocks.entries[3].dateCreated,
+      section: mocks.entries[3].section,
+      template: section.template,
+      author: {
+        email: author.email,
+        username: author.username,
+        name: author.name,
+      },
+    });
   });
 
   after((done) => {
