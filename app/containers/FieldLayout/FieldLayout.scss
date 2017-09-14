@@ -15,13 +15,13 @@
         min-height: 200px;
         width: 50%;
         padding: 1em 1em 4em;
-        border: 1px solid $grey-light;
+        border: 1px solid $gray-300;
         border-radius: 3px;
         margin: 0;
         list-style-type: none;
-        background-color: $grey-lighter;
+        background-color: $gray-000;
 
-        &.can-drop { background-color: $grey-light; }
+        &.can-drop { background-color: $gray-300; }
 
         &__field {
             display: flex;
@@ -30,7 +30,7 @@
             padding: 1em;
             border: 1px dotted $blurple;
             border-radius: 3px;
-            background-color: $grey-lighter;
+            background-color: $gray-000;
             transition: transform 150ms $bounce;
 
             &:not(:first-of-type) { margin-top: 0.2em; }

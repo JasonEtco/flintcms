@@ -3,7 +3,7 @@
 @import 'foundation/foundation';
 
 body, html, table.body {
-    background: $grey-light !important; 
+    background: $gray-300 !important; 
 }
 
 .container.main {
@@ -14,10 +14,10 @@ body, html, table.body {
 .container.no-bg {
     background: none;
 
-    small { color: $grey-light !important; }
+    small { color: $gray-300 !important; }
 }
 
 .line {
     width: 50px !important;
-    background-color: $grey;
+    background-color: $gray-500;
 }

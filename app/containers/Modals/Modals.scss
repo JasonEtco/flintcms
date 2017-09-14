@@ -30,9 +30,9 @@
         cursor: pointer;
 
         svg {
-            fill: $grey-light;
+            fill: $gray-300;
 
-            &:hover { fill: $grey; }
+            &:hover { fill: $gray-500; }
         }
     }
 

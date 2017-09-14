@@ -6,7 +6,7 @@
         padding: 1em;
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
-        border: 1px solid $grey-light;
+        border: 1px solid $gray-300;
         background-color: white;
     }
 
@@ -17,14 +17,14 @@
         background-color: white;
         line-height: 1.5;
 
-        @include scrollbar($grey-light, white, 8px);
+        @include scrollbar($gray-300, white, 8px);
     }
 
     &-toolbar {
         font-family: $font;
 
         button {
-            border-color: $grey-light;
+            border-color: $gray-300;
         }
     }
 }

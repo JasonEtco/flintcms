@@ -1,6 +1,6 @@
 .footer {
     padding: 2em;
-    border-top: 1px solid $grey-light;
+    border-top: 1px solid $gray-300;
     text-align: center;
 
     @include media($on-mobile) {
@@ -39,6 +39,6 @@
         width: 80px;
         height: 40px;
         margin-top: 1em;
-        fill: darken($grey-light, 20%);
+        fill: $gray-400;
     }
 }

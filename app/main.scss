@@ -6,10 +6,10 @@ html, body, .mount {
 
 body {
     overflow-y: hidden;
-    background-color: $grey-lighter;
+    background-color: $gray-000;
     font-family: $font;
 
-    &.body--grey { background-color: $grey-light; }
+    &.body--grey { background-color: $gray-300; }
 }
 
 .form-element {
@@ -35,13 +35,13 @@ body {
     width: 100%;
     height: 100%;
     flex-direction: column;
-    background-color: $grey-light;
+    background-color: $gray-300;
 
     h1 {
         max-width: 300px;
         padding: 2em;
         border-radius: 3px;
-        border: 1px solid $grey;
+        border: 1px solid $gray-500;
         background-color: white;
         font-weight: 500;
         font-size: $size2;

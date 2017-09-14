@@ -3,7 +3,7 @@
     width: 2em;
     height: 1em;
     padding: 0;
-    border: 1px solid $grey-light;
+    border: 1px solid $gray-300;
     border-radius: calc(0.5em + 2px);
     margin: 0;
     background-color: white;
@@ -17,7 +17,7 @@
         width: 1.2em;
         height: 1.2em;
         border-radius: 50%;
-        border: 1px solid $grey-light;
+        border: 1px solid $gray-300;
         background-color: white;
         box-shadow: 0 2px 4px rgba(black, 0.1);
         transition: transform 150ms $bounce;

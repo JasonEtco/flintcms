@@ -48,8 +48,8 @@
 
     &__dates {
         display: flex;
-        border-top: 1px solid $grey-light;
-        border-left: 1px solid $grey-light;
+        border-top: 1px solid $gray-300;
+        border-left: 1px solid $gray-300;
         margin: 1em;
         flex-wrap: wrap;
     }
@@ -59,8 +59,8 @@
         width: calc(100% / 7);
         padding: 0.3em;
         border: none;
-        border-right: 1px solid $grey-light;
-        border-bottom: 1px solid $grey-light;
+        border-right: 1px solid $gray-300;
+        border-bottom: 1px solid $gray-300;
         background: none;
         font-family: inherit;
         text-align: center;
@@ -69,16 +69,16 @@
             cursor: pointer;
 
             &:hover {
-                background-color: $grey-light;
+                background-color: $gray-300;
             }
         }
 
         &.is-active {
-            background: $grey-light;
+            background: $gray-300;
         }
 
         &.is-disabled {
-            color: $grey-light;
+            color: $gray-300;
             outline: none;
         }
     }
@@ -88,13 +88,13 @@
         width: 100%;
         padding: 0.6em;
         border: none;
-        border-top: 1px solid $grey-light;
+        border-top: 1px solid $gray-300;
         background: none;
         font-family: inherit;
         cursor: pointer;
 
         &:hover {
-            background-color: $grey-light;
+            background-color: $gray-300;
         }
     }
 }

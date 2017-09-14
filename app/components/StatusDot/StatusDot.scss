@@ -16,7 +16,7 @@
     }
 
     &--disabled {
-        border-color: darken($grey, 10%);
-        background-color: $grey;
+        border-color: $gray-600;
+        background-color: $gray-500;
     }
 }

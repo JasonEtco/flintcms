@@ -5,14 +5,14 @@
 
         &__btn {
             padding: 0.6em;
-            border: 1px solid $grey-light;
+            border: 1px solid $gray-300;
             border-right-width: 0;
             background: white;
             font-family: inherit;
             cursor: pointer;
 
             &:hover {
-                background-color: $grey-light;
+                background-color: $gray-300;
             }
 
             &:first-of-type {
@@ -35,9 +35,9 @@
     &__block {
         position: relative;
         padding: 1em;
-        border: 1px solid $grey-light;
+        border: 1px solid $gray-300;
         border-radius: 3px;
-        background-color: darken($grey-lighter, 5%);
+        background-color: $gray-100;
 
         &__btns {
             position: absolute;

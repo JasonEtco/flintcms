@@ -5,9 +5,9 @@
     width: 200px;
     padding: 2em;
     border-radius: 3px;
-    border: 1px solid $grey-light;
+    border: 1px solid $gray-300;
     margin: 2em 2em 0 1em;
-    background-color: $grey-lighter;
+    background-color: $gray-000;
 
     @include media($on-mobile) {
         width: calc(100% - 2em);
