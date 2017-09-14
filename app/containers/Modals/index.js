@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import CSSTransition from 'react-transition-group/CSSTransition';
 import classnames from 'classnames';
 import Icon from 'utils/icons';
 import { closeModals } from 'actions/uiActions';
@@ -47,13 +47,12 @@ export default class Modals extends Component {
     );
 
     return (
-      <CSSTransitionGroup
+      <CSSTransition
         className={modalClasses}
-        transitionName="modal"
-        transitionAppear={true}
-        transitionAppearTimeout={500000}
-        transitionEnter={false}
-        transitionLeave={false}
+        classNames="modal"
+        appear={true}
+        enter={false}
+        leave={false}
         component="div"
       >
         <div className="modal" style={{ zIndex: 9999 }} key="modal">
@@ -66,7 +65,7 @@ export default class Modals extends Component {
           key="modalOverlay"
           onClick={this.closeModals}
         />
-      </CSSTransitionGroup>
+      </CSSTransition>
     );
   }
 }
