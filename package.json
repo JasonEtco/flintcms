@@ -43,8 +43,7 @@
     "test:firstrun": "npm test -- --grep \"First time install\"",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
-    "prepublishOnly": "npm run build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "prepublishOnly": "npm run build"
   },
   "stylelint": {
     "extends": [
