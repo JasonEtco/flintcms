@@ -37,6 +37,20 @@ exports.entries = [
     status: 'live',
     fields: [],
   },
+  {
+    _id: '591e63abe8e41f00113de131',
+    slug: 'field-filter',
+    title: 'Field Filter',
+    section: '58b787fd28044618a8f7a537',
+    author: '589a12b5a08e0c2f24ece4e8',
+    dateCreated: 1488853905010,
+    status: 'live',
+    fields: [{
+      fieldId: '59376a4feef58d4a74e2fdcd',
+      handle: 'simpleText',
+      value: 'I am working!',
+    }],
+  },
 ];
 
 exports.sections = [
@@ -50,7 +64,7 @@ exports.sections = [
       '58a232588397e21c8c8c8828',
       '58a37f8feae5082628cd21e0',
     ],
-    dateCreated: 1488422908432,
+    dateCreated: 1488422908431,
   },
   {
     _id: '58b787fd28044618a7f7a737',
@@ -62,7 +76,19 @@ exports.sections = [
       '58a232588397e21c8c8c8828',
       '58a37f8feae5082628cd21e0',
     ],
-    dateCreated: 1488422909432,
+    dateCreated: 1488422908432,
+  },
+  {
+    _id: '58b787fd28044618a8f7a537',
+    title: 'Field Filter',
+    slug: 'field-filter',
+    handle: 'fieldFilter',
+    template: 'fieldFilter',
+    fields: [
+      '58a232588397e21c8c8c8828',
+      '58a37f8feae5082628cd21e0',
+    ],
+    dateCreated: 1488422908433,
   },
 ];
 

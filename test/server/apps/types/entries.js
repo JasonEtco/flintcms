@@ -18,9 +18,9 @@ it('returns a list of entries', (done) => {
       if (err) { return done(err); }
       expect(res.body).to.deep.equal({
         data: {
-          entries: mocks.entries.map(e => ({
-            _id: e._id,
-            title: e.title,
+          entries: mocks.entries.map(entry => ({
+            _id: entry._id,
+            title: entry.title,
           })),
         },
       });
