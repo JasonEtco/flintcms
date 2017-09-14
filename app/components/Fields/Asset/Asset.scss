@@ -18,6 +18,7 @@
         margin: 0;
         background: white;
         cursor: pointer;
+
         @extend %focus;
 
         svg {
