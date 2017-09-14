@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const WebpackChunkHash = require('webpack-chunk-hash');
 
 const autoprefixer = require('autoprefixer');
 const { browsers, resolve, vendor } = require('./constants');
@@ -46,11 +45,10 @@ module.exports = {
       },
     ]),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor', // vendor libs + extracted manifest
+      name: ['vendor', 'manifest'], // vendor libs + extracted manifest
       minChunks: Infinity,
     }),
     new webpack.HashedModuleIdsPlugin(),
-    new WebpackChunkHash(),
   ],
   module: {
     rules: [{

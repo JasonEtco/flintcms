@@ -2,8 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
-const WebpackChunkHash = require('webpack-chunk-hash');
 
 const { browsers, resolve, vendor } = require('./constants');
 
@@ -53,11 +51,6 @@ module.exports = {
       minChunks: Infinity,
     }),
     new webpack.HashedModuleIdsPlugin(),
-    new WebpackChunkHash(),
-    new ChunkManifestPlugin({
-      filename: 'chunk-manifest.json',
-      manifestVariable: 'webpackManifest',
-    }),
   ],
   module: {
     rules: [{
