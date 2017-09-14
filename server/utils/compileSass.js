@@ -4,7 +4,10 @@ const fs = require('fs');
 const chalk = require('chalk');
 const chokidar = require('chokidar');
 const scaffold = require('./scaffold');
-const { writeFileAsync } = require('./fsPromises');
+const { promisify } = require('util');
+const log = require('debug')('flint:scss');
+
+const writeFileAsync = promisify(fs.writeFile);
 
 function sassAsync(opt) {
   return new Promise((resolve, reject) => {
@@ -39,9 +42,9 @@ async function compile() {
   } catch (e) {
     if (process.env.NODE_ENV !== 'test') {
       /* eslint-disable no-console */
-      console.log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`);
-      console.log(`  ${chalk.grey('Line:')} ${chalk.red(e.line)}`);
-      console.log(`  ${chalk.grey('File:')} ${chalk.red(e.file)}`);
+      log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`);
+      log(`  ${chalk.grey('Line:')} ${chalk.red(e.line)}`);
+      log(`  ${chalk.grey('File:')} ${chalk.red(e.file)}`);
       /* eslint-enable no-console */
     }
 
@@ -51,18 +54,18 @@ async function compile() {
 
 function recompile() {
   // eslint-disable-next-line no-console
-  console.log(chalk.cyan('Recompiling SASS...'));
+  log(chalk.cyan('Recompiling SASS...'));
   return compile();
 }
 
 function watch(watcher) {
   watcher.on('add', async () => {
     const compiled = await recompile();
-    console.log(compiled); // eslint-disable-line no-console
+    log(compiled); // eslint-disable-line no-console
   });
   watcher.on('change', async () => {
     const compiled = await recompile();
-    console.log(compiled); // eslint-disable-line no-console
+    log(compiled); // eslint-disable-line no-console
   });
 }
 

@@ -31,6 +31,8 @@ module.exports = {
     events.emit('pre-new-section', newSection);
 
     const savedSection = await newSection.save();
+
+    /* istanbul ignore if */
     if (!savedSection) throw new Error('Could not save the section.');
 
     socketEvent('new-section', savedSection);

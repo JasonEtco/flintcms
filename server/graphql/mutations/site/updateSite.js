@@ -18,6 +18,8 @@ module.exports = {
     events.emit('pre-update-site', data);
 
     const updatedSite = await Site.findOneAndUpdate({}, data, { new: true });
+
+    /* istanbul ignore if */
     if (!updatedSite) throw new Error('Error updating site configuration');
 
     socketEvent('update-site', updatedSite);

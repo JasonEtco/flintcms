@@ -1,9 +1,12 @@
 const testing = process.env.NODE_ENV === 'test';
+
+/* istanbul ignore next */
 require('dotenv').config({ path: testing ? '.env.dev' : '.env' });
 
 const path = require('path');
+const log = require('debug')('flint');
 const chalk = require('chalk');
-const generateEnvFile = require('./server/utils/generateEnvFile');
+const { generateEnvFile } = require('./server/utils/generateEnvFile');
 const nunjuckEnv = require('./server/utils/nunjucks');
 const validateEnvVariables = require('./server/utils/validateEnvVariables');
 const scaffold = require('./server/utils/scaffold');
@@ -12,20 +15,6 @@ const compileSass = require('./server/utils/compileSass');
 const FlintPlugin = require('./server/utils/FlintPlugin');
 const connectToDatabase = require('./server/utils/database');
 const createServer = require('./server');
-
-/**
- * @typedef {Object} FLINT
- * @property {String} templatePath - Path to your templates directory
- * @property {String} scssPath - Path to your scss directory
- * @property {String} publicPath - Path to your public directory
- * @property {String} logsPath - Path to your logs directory
- * @property {String} scssEntryPoint - The entry point to your SCSS styles (within the scssPath)
- * @property {String[]} scssIncludePaths - Array of paths to include in SCSS compiling
- * @property {String} siteName - The title of your site
- * @property {String} siteUrl - The URL to your site
- * @property {Boolean} [listen] - Should the server listen; used for testing
- * @property {Function[]} plugins - Array of required Class modules
- */
 
 /**
  * Flint class
@@ -38,7 +27,20 @@ module.exports = class Flint {
 
   /**
    * Create a Flint server
-   * @param {FLINT} settings
+   *
+   * @typedef {Object} Flint
+   * @property {String} [templatePath] - Path to your templates directory
+   * @property {String} [scssPath] - Path to your scss directory
+   * @property {String} [publicPath] - Path to your public directory
+   * @property {String} [logsPath] - Path to your logs directory
+   * @property {String} [scssEntryPoint] - The entry point to your SCSS styles (within the scssPath)
+   * @property {String[]} [scssIncludePaths] - Array of paths to include in SCSS compiling
+   * @property {String} [siteName] - The title of your site
+   * @property {String} [siteUrl] - The URL to your site
+   * @property {Boolean} [listen] - Should the server listen; used for testing
+   * @property {Function[]} [plugins] - Array of required Class modules
+   *
+   * @param {Flint} settings
    * @param {boolean} debugMode
    */
   constructor(settings = {}, debugMode) {
@@ -49,10 +51,11 @@ module.exports = class Flint {
       plugins,
       scssEntryPoint,
       scssIncludePaths,
+      logsPath,
     } = settings;
 
     const FLINT = Object.assign({}, settings, {
-      logsPath: path.resolve('logs'),
+      logsPath: path.resolve(logsPath || 'logs'),
       templatePath: path.resolve(templatePath || 'templates'),
       scssPath: path.resolve(scssPath || 'scss'),
       publicPath: path.resolve(publicPath || 'public'),
@@ -64,12 +67,15 @@ module.exports = class Flint {
 
     global.FLINT = FLINT;
 
-    scaffold(FLINT.templatePath);
-    scaffold(FLINT.publicPath);
-    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
-    scaffold(FLINT.logsPath);
+    Promise.all([
+      scaffold(FLINT.templatePath),
+      scaffold(FLINT.publicPath),
+      scaffold(FLINT.logsPath),
+    ]);
 
-    global.FLINT.nun = nunjuckEnv(global.FLINT.templatePath);
+    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
+
+    global.FLINT.nun = nunjuckEnv(FLINT.templatePath);
 
     this.port = process.env.PORT || 4000;
   }
@@ -86,23 +92,21 @@ module.exports = class Flint {
     if (didGenerateEnv && !testing) return process.exit();
 
     const shouldContinue = missingEnvVariables.length === 0;
+
+    /* istanbul ignore if */
     if (!shouldContinue) {
-      if (!testing) console.error(chalk.red('Could not start the server.'));
+      log(chalk.red('Could not start the server.'));
       return process.exit(1);
     }
 
     const connectedToDatabase = await connectToDatabase();
-    if (!testing) console.log(connectedToDatabase);
+    log(connectedToDatabase);
 
-    if (!testing) {
-      const canSendEmails = await verifyNodemailer().catch(console.error);
-      if (canSendEmails) {
-        console.log(canSendEmails);
-      }
-    }
+    const canSendEmails = await verifyNodemailer().catch(log);
+    if (canSendEmails) log(canSendEmails);
 
     const canCompileSass = await compileSass();
-    if (!testing) console.log(canCompileSass);
+    log(canCompileSass);
     /* eslint-enable no-console */
 
     this.server = createServer(port);
@@ -110,14 +114,10 @@ module.exports = class Flint {
     if (global.FLINT.listen !== false) {
       this.server.listen(port, () => {
         // eslint-disable-next-line no-console
-        if (!testing) console.log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`);
+        log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`);
       });
     }
 
     return this.server;
-  }
-
-  closeServer(cb) {
-    return this.server.shutdown(cb);
   }
 };

@@ -1,8 +1,4 @@
-// graphql/index.js
-const {
-  GraphQLObjectType,
-  GraphQLSchema,
-} = require('graphql');
+const { GraphQLObjectType, GraphQLSchema } = require('graphql');
 
 const mutations = require('./mutations');
 const queries = require('./queries');

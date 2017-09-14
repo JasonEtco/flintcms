@@ -24,6 +24,8 @@ module.exports = {
     const data = { token, password: undefined };
 
     const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true });
+
+    /* istanbul ignore if */
     if (!updatedUser) throw new Error('Error updating user');
 
     const name = user.name.first || user.username;

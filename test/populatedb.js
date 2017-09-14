@@ -5,6 +5,16 @@ function processArray(array) {
   return array.reduce(p => p, Promise.resolve());
 }
 
+function wipeDB(models) {
+  return Object.keys(models).map(async (collection) => {
+    const Model = mongoose.model(collection);
+    return Promise.all([
+      await Model.remove(),
+      await Model.collection.dropIndexes(),
+    ]);
+  });
+}
+
 module.exports = async () => {
   const collections = [
     { model: 'UserGroup', mocks: mocks.usergroups },
@@ -14,6 +24,7 @@ module.exports = async () => {
     { model: 'Field', mocks: mocks.fields },
     { model: 'Page', mocks: mocks.pages },
     { model: 'Site', mocks: mocks.site },
+    { model: 'Asset', mocks: mocks.assets },
   ];
 
   const addModel = async (modelName) => {
@@ -24,11 +35,7 @@ module.exports = async () => {
   };
 
   return processArray([
-    await Promise.all(collections.map(async (collection) => {
-      const Model = mongoose.model(collection.model);
-      const done = await Model.remove();
-      return done;
-    })),
+    await wipeDB(mongoose.models),
     await Promise.all([
       await addModel('Site'),
       await addModel('Field'),
@@ -36,6 +43,7 @@ module.exports = async () => {
       await addModel('Section'),
       await addModel('Entry'),
       await addModel('Page'),
+      await addModel('Asset'),
     ]),
     await addModel('User'),
   ]);

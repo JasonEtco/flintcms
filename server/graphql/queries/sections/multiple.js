@@ -13,6 +13,7 @@ module.exports = {
 
     return Section
       .find()
+      .sort({ dateCreated: 1 })
       .select(projection)
       .exec();
   },

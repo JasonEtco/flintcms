@@ -1,5 +1,5 @@
 const mocks = require('../../../mocks');
-const expect = require('expect');
+const expect = require('chai').expect;
 const common = require('../common');
 
 it('returns a list of entries', (done) => {
@@ -16,7 +16,7 @@ it('returns a list of entries', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(res.body).to.deep.equal({
         data: {
           entries: mocks.entries.map(entry => ({
             _id: entry._id,
@@ -24,6 +24,55 @@ it('returns a list of entries', (done) => {
           })),
         },
       });
+      return done();
+    });
+});
+
+it('can query for all entries in a section by sectionSlug', function (done) {
+  const section = mocks.sections[0];
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($sectionSlug: String!) {
+        entries (sectionSlug: $sectionSlug) {
+          _id
+          title
+        }
+      }`,
+      variables: {
+        sectionSlug: section.slug,
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(res.body).to.deep.equal({
+        data: {
+          entries: mocks.entries.filter(e => e.section === section._id).map(e => ({
+            _id: e._id,
+            title: e.title,
+          })),
+        },
+      });
+      return done();
+    });
+});
+
+it('returns an error when querying for entries by a sectionSlug that does not exist', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($sectionSlug: String!) {
+        entries (sectionSlug: $sectionSlug) {
+          _id
+        }
+      }`,
+      variables: {
+        sectionSlug: 'non-existant-section',
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(res.body.errors).to.include.an.item.with.property('message', 'There is no section with that slug.');
       return done();
     });
 });
@@ -42,11 +91,75 @@ it('can query for a specific entry by _id', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(res.body).to.deep.equal({
         data: {
           entry: { _id: mocks.entries[1]._id },
         },
       });
+      return done();
+    });
+});
+
+it('can query for a specific entry by slug and sectionSlug', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($slug: String!, $sectionSlug: String!) {
+        entry (slug: $slug, sectionSlug: $sectionSlug) {
+          _id
+        }
+      }`,
+      variables: {
+        slug: mocks.entries[1].slug,
+        sectionSlug: mocks.sections.find(s => s._id === mocks.entries[1].section).slug,
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(res.body).to.deep.equal({
+        data: {
+          entry: { _id: mocks.entries[1]._id },
+        },
+      });
+      return done();
+    });
+});
+
+it('returns an error when querying an entry by slug without a sectionSlug', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($slug: String!) {
+        entry (slug: $slug) {
+          _id
+        }
+      }`,
+      variables: { slug: mocks.entries[1].slug },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(res.body.errors).to.include.an.item.with.property('message', 'When querying for an entry by slug, you must also query by sectionSlug.');
+      return done();
+    });
+});
+
+it('returns an error when querying an entry by slug with a sectionSlug that does not exist', function (done) {
+  global.agent
+    .post('/graphql')
+    .send({
+      query: `query ($slug: String!, $sectionSlug: String!) {
+        entry (slug: $slug, sectionSlug: $sectionSlug) {
+          _id
+        }
+      }`,
+      variables: {
+        slug: mocks.entries[1].slug,
+        sectionSlug: 'non-existant-section',
+      },
+    })
+    .end((err, res) => {
+      if (err) { return done(err); }
+      expect(res.body.errors).to.include.an.item.with.property('message', 'That section does not exist.');
       return done();
     });
 });
@@ -65,7 +178,7 @@ it('can delete an entry from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(res.body).to.deep.equal({
         data: {
           removeEntry: { _id: mocks.entries[1]._id },
         },
@@ -100,7 +213,7 @@ it('can save an entry to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(res.body).to.deep.equal({
         data: {
           addEntry: {
             title: mocks.entries[1].title,
@@ -109,6 +222,34 @@ it('can save an entry to the database', function (done) {
       });
       return done();
     });
+});
+
+it('returns an error when saving with an empty title', async function () {
+  const res = await global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($data: EntriesInput!) {
+        addEntry (data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        data: {
+          title: '    ',
+          status: mocks.entries[1].status,
+          author: mocks.users[0]._id,
+          section: mocks.sections[0]._id,
+          fields: [{
+            fieldId: mocks.fields[0]._id,
+            handle: mocks.fields[0].handle,
+            value: 'Hello!',
+          }],
+        },
+      },
+    });
+
+  expect(res.body.errors).to.include.an.item.with.property('message', 'Your entry\'s title must have some real characters');
 });
 
 it('can update an entry in the database', function (done) {
@@ -137,7 +278,7 @@ it('can update an entry in the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(JSON.parse(res.text)).toEqual({
+      expect(res.body).to.deep.equal({
         data: {
           updateEntry: {
             title: 'New title!',
@@ -146,6 +287,34 @@ it('can update an entry in the database', function (done) {
       });
       return done();
     });
+});
+
+it('returns an error when updating a non-existent entry', async function () {
+  const res = await global.agent
+    .post('/graphql')
+    .send({
+      query: `
+      mutation ($_id: ID!, $data: EntriesInput!) {
+        updateEntry (_id: $_id, data: $data) {
+          title
+        }
+      }`,
+      variables: {
+        _id: mocks.users[0]._id,
+        data: {
+          title: 'New title!',
+          author: mocks.users[0]._id,
+          section: mocks.sections[0]._id,
+          fields: [{
+            fieldId: mocks.fields[0]._id,
+            handle: mocks.fields[0].handle,
+            value: 'Hello!',
+          }],
+        },
+      },
+    });
+
+  expect(res.body.errors).to.include.an.item.with.property('message', 'There is no Entry with that id');
 });
 
 describe('Permissions', function () {
@@ -175,9 +344,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
-          message: 'You do not have permission to create new Entries',
-        });
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You do not have permission to create new Entries');
         return done();
       });
   });
@@ -208,9 +375,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
-          message: 'You are not allowed to change the status of entries. Sorry!',
-        });
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You are not allowed to change the status of entries. Sorry!');
         return done();
       });
   });
@@ -241,9 +406,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
-          message: 'You are not allowed to edit this entry. Sorry!',
-        });
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You are not allowed to edit this entry. Sorry!');
         return done();
       });
   });
@@ -274,9 +437,7 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(JSON.parse(res.text).errors[0]).toInclude({
-          message: 'You are not allowed to edit a live entry. Sorry!',
-        });
+        expect(res.body.errors).to.include.an.item.with.property('message', 'You are not allowed to edit a live entry. Sorry!');
         return done();
       });
   });
@@ -293,10 +454,10 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        const data = JSON.parse(res.text).data.entries;
-        expect(data).toExclude({ status: 'draft' });
-        expect(data).toExclude({ status: 'disabled' });
-        expect(data).toInclude({ status: 'live' });
+        const data = res.body.data.entries;
+        expect(data).to.not.deep.include({ status: 'draft' });
+        expect(data).to.not.deep.include({ status: 'disabled' });
+        expect(data).to.deep.include({ status: 'live' });
         return done();
       });
   });
@@ -314,8 +475,29 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        const data = JSON.parse(res.text);
-        expect(data.errors[0]).toInclude({ message: 'You do not have permission to delete Entries' });
+        const data = res.body;
+        expect(data.errors).to.include.an.item.with.property('message', 'You do not have permission to delete Entries');
+        return done();
+      });
+  });
+
+  it('returns an error when querying for a specific entry by _id', function (done) {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `
+        query ($_id: ID!) {
+          entry (_id: $_id) {
+            _id
+          }
+        }`,
+        variables: { _id: mocks.entries[1]._id },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+
+        // eslint-disable-next-line no-unused-expressions
+        expect(res.body.data.entry).to.be.null;
         return done();
       });
   });

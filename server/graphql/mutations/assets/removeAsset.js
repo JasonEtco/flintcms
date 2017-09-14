@@ -15,17 +15,22 @@ module.exports = {
     },
   },
   async resolve({ events, perms, socketEvent }, { _id }) {
-    if (!perms.canDeleteAssets) throw new Error('You do not have permission to delete assets.');
+    if (!perms.assets.canDeleteAssets) throw new Error('You do not have permission to delete assets.');
 
     const foundAsset = await Asset.findById(_id).exec();
     if (!foundAsset) throw new Error('This asset doesn\'t exist.');
     events.emit('pre-delete-asset', foundAsset);
 
     const removedAsset = await Asset.findByIdAndRemove(_id).exec();
+
+    /* istanbul ignore if */
     if (!removedAsset) throw new Error('Error removing asset');
 
     const pathToFile = path.join(global.FLINT.publicPath, 'assets', foundAsset.filename);
-    fs.unlinkSync(pathToFile);
+
+    try {
+      fs.unlinkSync(pathToFile);
+    } catch (e) {} // eslint-disable-line
 
     socketEvent('delete-asset', removedAsset);
     events.emit('post-delete-asset', removedAsset);

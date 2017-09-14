@@ -2,7 +2,7 @@ const Flint = require('../../../');
 const mocks = require('../../mocks');
 const populateDB = require('../../populatedb');
 const supertest = require('supertest');
-const expect = require('expect');
+const expect = require('chai').expect;
 const mongoose = require('mongoose');
 
 exports.importTest = function importTest(name, path) {
@@ -49,8 +49,8 @@ exports.setNonAdmin = function setNonAdmin(done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      // expect(res.status).toEqual(200);
-      expect(JSON.parse(res.text)).toEqual({
+      // expect(res.status).to.equal(200);
+      expect(res.body).to.deep.equal({
         data: {
           updateUser: {
             usergroup: {

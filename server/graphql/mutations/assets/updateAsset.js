@@ -17,18 +17,19 @@ module.exports = {
     },
   },
   async resolve({ events, perms, socketEvent }, { data, _id }) {
-    if (!perms.canEditAssets) throw new Error('You do not have permission to edit assets.');
+    if (perms && !perms.assets.canEditAssets) throw new Error('You do not have permission to edit assets.');
 
     const foundAsset = await Asset.findById(_id).lean().exec();
-    if (!foundAsset) throw new Error('There is no Asset with this ID');
-    events.emit('pre-update-asset', { _id, data });
+    if (!foundAsset) throw new Error('There is no Asset with that id');
+    if (events) events.emit('pre-update-asset', { _id, data });
 
     const updatedAsset = await Asset.findByIdAndUpdate(_id, data, { new: true });
 
+    /* istanbul ignore if */
     if (!updatedAsset) throw new Error('Error updating Asset');
 
-    socketEvent('update-asset', updatedAsset);
-    events.emit('post-update-asset', updatedAsset);
+    if (socketEvent) socketEvent('update-asset', updatedAsset);
+    if (events) events.emit('post-update-asset', updatedAsset);
     return updatedAsset;
   },
 };

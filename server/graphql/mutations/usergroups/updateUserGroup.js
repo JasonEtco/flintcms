@@ -26,6 +26,7 @@ module.exports = {
     events.emit('pre-update-usergroup', { _id, data });
     const updatedUserGroup = await UserGroup.findByIdAndUpdate(_id, data, { new: true });
 
+    /* istanbul ignore if */
     if (!updatedUserGroup) throw new Error('Error updating UserGroup');
 
     events.emit('post-update-usergroup', updatedUserGroup);

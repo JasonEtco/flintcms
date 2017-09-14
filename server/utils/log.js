@@ -11,17 +11,22 @@ const stream = fs.createWriteStream(pathToLog, { flags: 'a' });
  * @returns {String} - Returns the string that was logged.
  */
 function log(str, prependTimestamp = true) {
-  if (process.env.NODE_ENV === 'test') return str;
-  console.log(str); // eslint-disable-line no-console
-  let string = str;
+  /* istanbul ignore else */
+  if (process.env.NODE_ENV === 'test') {
+    return str;
+    // eslint-disable-next-line no-else-return
+  } else {
+    console.log(str); // eslint-disable-line no-console
+    let string = str;
 
-  if (prependTimestamp) {
-    const timestamp = new Date().toISOString();
-    string = `[${timestamp}] - ${string}`;
+    if (prependTimestamp) {
+      const timestamp = new Date().toISOString();
+      string = `[${timestamp}] - ${string}`;
+    }
+
+    stream.write(`${string}\n`);
+    return str;
   }
-
-  stream.write(`${string}\n`);
-  return str;
 }
 
 module.exports = log;

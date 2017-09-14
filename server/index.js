@@ -20,8 +20,11 @@ module.exports = () => {
   const server = shutter(Server(app));
   app.set('io', io(server));
 
-  const accessLogStream = fs.createWriteStream(path.join(global.FLINT.logsPath, 'http-requests.log'), { flags: 'a' });
-  app.use(morgan('combined', { stream: accessLogStream }));
+  /* istanbul ignore if */
+  if (process.env.NODE_ENV !== 'test') {
+    const accessLogStream = fs.createWriteStream(path.join(global.FLINT.logsPath, 'http-requests.log'), { flags: 'a' });
+    app.use(morgan('combined', { stream: accessLogStream }));
+  }
 
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,7 +43,7 @@ module.exports = () => {
   app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
   app.use('/admin', require('./apps/admin')(app));
   app.use('/graphql', require('./apps/graphql')(app));
-  app.use(require('./utils/publicRegistration'));
+  app.use(require('./utils/publicRegistration')());
 
   // ===== Template Routes
 

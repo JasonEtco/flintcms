@@ -117,7 +117,7 @@ const query = `{
 
   plugins {
     _id
-    name
+    title
     icon {
       path
       buffer
