@@ -6,7 +6,6 @@ const chalk = require('chalk');
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const config = require('../../config/webpack.config');
 const log = require('debug')('flint');
 
 module.exports = (app) => {
@@ -17,6 +16,7 @@ module.exports = (app) => {
 
   /* istanbul ignore if */
   if (process.env.BUILD_DASHBOARD) {
+    const config = require('../../config/webpack.config');
     const compiler = webpack(config);
     const middleware = webpackMiddleware(compiler, {
       publicPath: '/',
