@@ -7,7 +7,7 @@
         height: 8rem;
         padding: 1em;
         border-radius: 3px;
-        border: 1px solid $grey-light;
+        border: 1px solid $gray-300;
 
         img { max-width: 100%; }
     }
@@ -18,15 +18,16 @@
         margin: 0;
         background: white;
         cursor: pointer;
+
         @extend %focus;
 
         svg {
-            fill: $grey-light;
+            fill: $gray-300;
         }
 
         &:hover {
             .asset__img-wrapper {
-                border-color: $grey;
+                border-color: $gray-500;
             }
         }
 
@@ -50,7 +51,7 @@
             width: 100%;
 
             .table__row:hover {
-                background-color: darken($grey-lighter, 5%);
+                background-color: $gray-100;
                 cursor: pointer;
             }
         }

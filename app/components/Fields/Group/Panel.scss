@@ -1,29 +1,29 @@
 .panel {
     display: flex;
     width: 100%;
-    border: 1px solid $grey-light;
+    border: 1px solid $gray-300;
     border-radius: 3px;
     min-height: 300px;
 
     &__col {
         width: 20%;
-        border-right: 1px solid $grey-light;
+        border-right: 1px solid $gray-300;
         font-size: $size0;
 
         .btn { margin: 1em 0 0 1em; }
 
         &:nth-child(odd) {
-            background-color: $grey-lighter;
+            background-color: $gray-000;
         }
 
         &__title {
             box-sizing: border-box;
             width: 100%;
             padding: 1em;
-            border-bottom: 1px solid $grey-light;
+            border-bottom: 1px solid $gray-300;
             margin: 0;
-            background-color: lighten($grey-light, 10%);
-            color: $grey;
+            background-color: $gray-200;
+            color: $gray-500;
             font-size: $size0;
             font-weight: 400;
         }
@@ -31,7 +31,7 @@
         &__handle {
             display: block;
             width: 100%;
-            color: $grey;
+            color: $gray-500;
             font-size: 0.7rem;
         }
 
@@ -43,9 +43,9 @@
             width: 100%;
             padding: 1.5em;
             border: none;
-            border-bottom: 1px solid $grey-light;
+            border-bottom: 1px solid $gray-300;
             flex-wrap: wrap;
-            background-color: lighten($grey-light, 10%);
+            background-color: $gray-200;
             font-family: inherit;
             text-align: left;
             cursor: pointer;
@@ -55,7 +55,7 @@
             }
 
             &:hover {
-                background-color: $grey-light;
+                background-color: $gray-300;
             }
         }
     }

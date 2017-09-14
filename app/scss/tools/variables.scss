@@ -1,14 +1,19 @@
-// stylelint-disable no-browser-hacks
+// stylelint-disable
 
 //==============//
 //    COLORS    //
 //==============//
 // Greys
-$grey-lighter: #fafafa;
-$grey-light: darken(#ebedef, 8%);
-$grey: #92989a;
-$grey-dark: #353739;
-$grey-darker: darken($grey-dark, 65%);
+$gray-000:        #fafbfc !default;
+$gray-100:        #f6f8fa !default;
+$gray-200:        #e1e4e8 !default;
+$gray-300:        #d1d5da !default;
+$gray-400:        #959da5 !default;
+$gray-500:        #6a737d !default;
+$gray-600:        #586069 !default;
+$gray-700:        #474b4c !default;
+$gray-800:        #353739 !default;
+$gray-900:        #212324 !default; // body font color
 
 // Brand Colors
 $orange: #fe6300;
@@ -37,15 +42,15 @@ $size2: 1.15rem;
 $size1: 1rem;
 $size0: 0.8rem;
 
-$font: 'Roboto', sans-serif;
+$font: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
 //==============//
 //   SHADOWS    //
 //==============//
-$shadow4: 0 8px 10px rgba(black, 0.5);
-$shadow3: 0 6px 8px rgba(black, 0.3);
-$shadow2: 0 4px 6px rgba(black, 0.2);
-$shadow1: 0 2px 4px rgba(black, 0.1);
+$shadow4: 0 7px 15px rgba($gray-900, 0.2);
+$shadow3: 0 4px 10px rgba($gray-900, 0.2);
+$shadow2: 0 3px 10px rgba($gray-900, 0.15);
+$shadow1: 0 2px 4px rgba($gray-900, 0.1);
 
 //==============//
 //  ANIMATIONS  //
@@ -58,7 +63,7 @@ $bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 %card {
     box-sizing: border-box;
     padding: 2em;
-    border: 1px solid $grey-light;
+    border: 1px solid $gray-200;
     border-radius: 3px;
     background: white;
     box-shadow: $shadow1;

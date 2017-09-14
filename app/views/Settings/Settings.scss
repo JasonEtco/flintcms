@@ -9,7 +9,7 @@
             display: flex;
             align-items: center;
             padding: 2em;
-            border-bottom: 1px solid $grey-light;
+            border-bottom: 1px solid $gray-300;
             flex-wrap: wrap;
 
             &:first-of-type { padding-top: 0; }
@@ -46,8 +46,8 @@
             svg { fill: $blurple; margin-bottom: 1em; }
 
             &:hover {
-                border-color: $grey-light;
-                background-color: $grey-lighter;
+                border-color: $gray-300;
+                background-color: $gray-000;
             }
 
             @include media($on-mobile) {

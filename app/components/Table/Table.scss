@@ -19,7 +19,7 @@
             padding: 0.8em;
             border: none;
             background: none;
-            color: $grey-dark;
+            color: $gray-500;
             font-weight: 700;
             font-size: 0.7rem;
             font-family: inherit;
@@ -36,16 +36,16 @@
             }
 
             &.desc::after {
-                @include triangle(bottom, 4px, $grey-dark);
+                @include triangle(bottom, 4px, $gray-700);
                 top: calc(50% - 2px);
             }
 
             &.asc::after {
-                @include triangle(top, 4px, $grey-dark);
+                @include triangle(top, 4px, $gray-700);
                 top: calc(50% - 6px);
             }
 
-            &.is-active { background-color: $grey-light; }
+            &.is-active { background-color: $gray-200; }
         }
     }
 
@@ -66,8 +66,8 @@
         code {
             padding: 0.2em 0.4em;
             border-radius: 3px;
-            border: 1px solid $grey-light;
-            background-color: darken($grey-lighter, 5%);
+            border: 1px solid $gray-300;
+            background-color: $gray-100;
         }
 
         &--delete, &--status, &--homepage { width: 1em; }
@@ -81,7 +81,7 @@
     }
 
     &__row {
-        border-bottom: 1px solid $grey-light;
+        border-bottom: 1px solid $gray-300;
     }
 
     &__search {
@@ -100,8 +100,8 @@
         background: none;
         cursor: pointer;
 
-        svg { fill: $grey; }
+        svg { fill: $gray-400; }
 
-        &:hover svg { fill: darken($grey, 10%); }
+        &:hover svg { fill: $gray-500; }
     }
 }

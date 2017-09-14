@@ -5,24 +5,24 @@
 
     &__table {
         width: 100%;
-        border: 1px solid $grey-light;
+        border: 1px solid $gray-300;
         border-radius: 3px;
         border-collapse: collapse;
         font-size: $size0;
 
         &__head {
             padding: 0.6em;
-            border-bottom: 1px solid $grey-light;
+            border-bottom: 1px solid $gray-300;
             text-align: left;
 
             &:first-child {
-                border-right: 1px solid $grey-light;
+                border-right: 1px solid $gray-300;
             }
         }
 
         &__row {
             &:nth-child(even) {
-                background-color: lighten($grey-light, 10%);
+                background-color: $gray-200;
             }
         }
 
@@ -30,7 +30,7 @@
             margin: 0;
 
             &:first-child {
-                border-right: 1px solid $grey-light;
+                border-right: 1px solid $gray-300;
             }
 
             &__input {
@@ -47,7 +47,7 @@
 
             &--remove {
                 width: 3em;
-                background-color: $grey-light;
+                background-color: $gray-300;
             }
 
             &__btn {
@@ -64,15 +64,15 @@
 
                 &:hover { background-color: rgba(black, 0.4); }
 
-                svg { fill: $grey-light; }
+                svg { fill: $gray-300; }
             }
         }
     }
 
     &__btn {
-        border: 1px solid $grey;
+        border: 1px solid $gray-500;
         margin-top: 0.6em;
-        background: lighten($grey-light, 10%);
+        background: $gray-200;
         font-size: $size0;
         font-family: inherit;
     }

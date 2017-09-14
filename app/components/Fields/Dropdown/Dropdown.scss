@@ -55,7 +55,7 @@
         align-items: center;
         justify-content: space-between;
         border-radius: 3px;
-        border: 1px solid $grey-light;
+        border: 1px solid $gray-300;
         background: white;
         min-width: 100px;
         outline: none;
@@ -67,14 +67,14 @@
         @extend %focus;
 
         &::after {
-            @include triangle(bottom, 4px, $grey);
+            @include triangle(bottom, 4px, $gray-500);
             content: '';
             position: relative;
             top: 2px;
         }
 
         &:disabled {
-            background-color: darken($grey-lighter, 4%);
+            background-color: $gray-100;
             color: black;
             cursor: default;
         }
@@ -91,18 +91,18 @@
     &__opt {
         width: 100%;
         border: none;
-        border-bottom: 1px solid $grey-light;
+        border-bottom: 1px solid $gray-300;
         background: none;
         outline: none;
 
         &:hover, &:focus {
-            background-color: $grey-light;
+            background-color: $gray-300;
         }
     }
 
     &.is-open {
         .dropdown__btn {
-            background-color: $grey-light;
+            background-color: $gray-300;
         }
 
         .dropdown__options {

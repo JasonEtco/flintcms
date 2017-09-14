@@ -21,11 +21,11 @@
     &--subtle {
         border-color: transparent;
         background-color: transparent;
-        color: $grey;
+        color: $gray-500;
 
         &:hover {
-            border-color: $grey-light;
-            background-color: $grey-light;
+            border-color: $gray-300;
+            background-color: $gray-300;
         }
     }
 

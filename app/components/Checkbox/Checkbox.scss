@@ -7,7 +7,7 @@
     position: relative;
     width: 1em;
     height: 1em;
-    border: 1px solid $grey-light;
+    border: 1px solid $gray-300;
     border-radius: 3px;
     background: none;
     transition: background-color 150ms $standard;
@@ -33,7 +33,7 @@
     }
 
     &.is-checked {
-        border-color: $grey;
+        border-color: $gray-500;
         background-color: $orange;
 
         svg {

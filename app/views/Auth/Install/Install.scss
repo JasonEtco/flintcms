@@ -8,7 +8,7 @@
     justify-content: center;
 
     .flint-logo-wrapper {
-        .flint-logo { fill: $grey; }
+        .flint-logo { fill: $gray-500; }
     }
 
     &__inner {
@@ -29,7 +29,7 @@
         width: 50%;
         padding-right: 1em;
         flex-direction: column;
-        color: $grey-dark;
+        color: $gray-700;
         text-align: center;
 
         @include media($on-mobile) {

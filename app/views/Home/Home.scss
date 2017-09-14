@@ -43,7 +43,7 @@
             padding: 0;
 
             &:hover {
-                @include box-shadow(2);
+                box-shadow: $shadow2;
             }
 
             a {
@@ -63,7 +63,7 @@
 
             &__date {
                 margin-left: auto;
-                color: $grey;
+                color: $gray-500;
             }
 
             & + & {

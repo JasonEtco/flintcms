@@ -2,9 +2,9 @@
     box-sizing: border-box;
     width: 100%;
     padding: 0.75rem 2rem;
-    border-bottom: 1px solid $grey-light;
+    border-bottom: 1px solid $gray-300;
     flex-shrink: 0;
-    background-color: $grey-lighter;
+    background-color: $gray-000;
     font-size: 0.7rem;
 
     @include media($on-mobile) {
@@ -20,14 +20,14 @@
         &-item {
             &__separator {
                 margin: 0 0.4em;
-                color: $grey;
+                color: $gray-500;
             }
 
             a {
-                color: $grey;
+                color: $gray-500;
                 text-decoration: none;
 
-                &:hover { color: $grey-dark; }
+                &:hover { color: $gray-700; }
             }
         }
     }

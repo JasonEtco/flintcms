@@ -2,7 +2,7 @@
     position: relative;
     width: 220px;
     height: 100%;
-    background-color: $grey-dark;
+    background-color: $gray-800;
     font-size: $size0;
     transition: transform 200ms;
 
@@ -38,7 +38,7 @@
             width: 100px;
             padding: 0.4em;
             border-radius: 5px;
-            background-color: $grey;
+            background-color: $gray-500;
             color: white;
             font-size: 0.7rem;
             text-align: center;
@@ -47,7 +47,7 @@
             transform: translateX(-50%);
 
             &::before {
-                @include triangle(top, 6px, $grey);
+                @include triangle(top, 6px, $gray-500);
                 content: '';
                 position: absolute;
                 bottom: 100%;
@@ -68,13 +68,13 @@
         width: 100%;
         padding: 0.6em;
         border: none;
-        border-bottom: darken($grey-light, 10%) 1px solid;
+        border-bottom: $gray-400 1px solid;
         margin: 0;
-        background: $grey-light;
+        background: $gray-300;
 
         @include media($on-mobile) { display: block; }
 
-        svg { fill: $grey; }
+        svg { fill: $gray-500; }
 
         &-overlay {
             position: fixed;
@@ -96,13 +96,13 @@
     &__sitename {
         display: block;
         padding: 1em;
-        border-bottom: 1px solid darken($grey, 30%);
+        border-bottom: 1px solid $gray-700;
         color: white;
         font-size: 1.4rem;
         text-decoration: none;
 
         &:hover {
-            background-color: darken($grey-dark, 8%);
+            background-color: $gray-800;
         }
     }
 
@@ -112,7 +112,7 @@
         list-style-type: none;
 
         &-item {
-            border-bottom: 1px solid darken($grey, 30%);
+            border-bottom: 1px solid $gray-700;
 
             &__link {
                 display: flex;
@@ -124,7 +124,7 @@
                 .icon { margin-right: 1em; fill: white; }
 
                 &:hover, &:focus, &.is-active {
-                    background-color: darken($grey-dark, 8%);
+                    background-color: $gray-900;
                 }
             }
         }
@@ -137,7 +137,7 @@
         box-sizing: border-box;
         width: 100%;
         padding: 2em;
-        border-top: 1px solid darken($grey, 30%);
+        border-top: 1px solid $gray-700;
         color: white;
 
         &__text {
@@ -148,7 +148,7 @@
                 color: white;
             }
 
-            &__logout { color: $grey; }
+            &__logout { color: $gray-500; }
 
             &__title, &__logout {
                 display: block;

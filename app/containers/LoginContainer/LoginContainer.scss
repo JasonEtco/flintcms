@@ -10,7 +10,7 @@
     .flint-logo-wrapper {
         margin-bottom: 2em;
 
-        .flint-logo { fill: $grey; }
+        .flint-logo { fill: $gray-500; }
     }
 
     &__inner {
@@ -45,11 +45,11 @@
 
     &__forgot {
         margin-top: 1em;
-        color: $grey;
+        color: $gray-500;
         font-size: $size0;
 
         &:hover {
-            color: $grey-dark;
+            color: $gray-700;
         }
 
         + .flint-logo-wrapper {

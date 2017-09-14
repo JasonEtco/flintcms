@@ -11,9 +11,9 @@
         padding: 2em;
         max-width: 300px;
         border-radius: 5px;
-        border: 1px solid $grey;
+        border: 1px solid $gray-500;
         flex-direction: column;
-        background-color: darken($grey-lighter, 5%);
+        background-color: $gray-100;
         font-size: $size0;
 
         a {
@@ -25,6 +25,6 @@
             }
         }
 
-        svg { fill: $grey; margin-bottom: 1em; }
+        svg { fill: $gray-500; margin-bottom: 1em; }
     }
 }

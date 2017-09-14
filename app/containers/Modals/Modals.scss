@@ -6,7 +6,7 @@
     transition: transform 150ms $enter, opacity 150ms $enter;
     transition-delay: 100ms; // stylelint-disable-line time-no-imperceptible
 
-    &.modal-appear {
+    &.modal-enter {
         opacity: 0;
         transform: scale(0.95);
 
@@ -30,9 +30,9 @@
         cursor: pointer;
 
         svg {
-            fill: $grey-light;
+            fill: $gray-300;
 
-            &:hover { fill: $grey; }
+            &:hover { fill: $gray-500; }
         }
     }
 
@@ -101,6 +101,14 @@
 
                 &-overlay {
                     opacity: 0;
+                }
+            }
+        }
+
+        &.is-active {
+            .modal {
+                &-overlay {
+                    opacity: 0.5;
                 }
             }
         }

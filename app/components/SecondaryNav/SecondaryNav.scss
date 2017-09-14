@@ -2,14 +2,14 @@
     position: relative;
     min-width: 200px;
     padding: 2em 0 0;
-    border-right: 1px solid $grey-light;
-    background-color: $grey-lighter;
+    border-right: 1px solid $gray-300;
+    background-color: $gray-000;
 
     @include media($on-mobile) {
         padding: 0.5em;
 
         + .page__inner {
-            border: 1px solid $grey-light;
+            border: 1px solid $gray-300;
             margin: 0.5em;
         }
     }
@@ -32,10 +32,10 @@
                     padding: 0.5em;
                 }
 
-                &:hover { background-color: $grey-light; }
+                &:hover { background-color: $gray-300; }
 
                 &.is-active {
-                    background-color: $grey-light;
+                    background-color: $gray-200;
 
                     &::after, &::before {
                         content: '';
@@ -55,7 +55,7 @@
                     }
 
                     &::before {
-                        @include triangle(left, 8px, darken($grey-light, 5%));
+                        @include triangle(left, 8px, darken($gray-300, 4%));
                         z-index: 1;
                         right: 0;
                     }
