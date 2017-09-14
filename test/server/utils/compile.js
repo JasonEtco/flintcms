@@ -102,17 +102,29 @@ describe('Compiler 404', function () {
     return expect(true).to.be.true;
   });
 
-  describe('Custom Filters', function () {
-    describe('field filter', function () {
-      it('returns the correct value', async function () {
-        // const url = `/${mocks.sections[1].slug}/${mocks.entries[4].slug}`;
-        const url = `/field-filter/field-filter`;
-        const res = await request(server).get(url);
-        const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'fieldFilter.txt');
-        const file = await readFile(pathToFile, 'utf-8');
-        expect(res.status).toBe(200);
-        expect(res.text).toBe(file);
-      });
+  after((done) => {
+    mongoose.disconnect(done);
+  });
+});
+
+describe('Custom filters', function () {
+  let server;
+
+  before('Creates a server and populates the db', async function () {
+    const flintServer = new Flint({ templatePath: 'test/fixtures/templates', listen: false });
+    server = await flintServer.startServer();
+    return server;
+  });
+
+  describe('field filter', function () {
+    it('returns the correct value', async function () {
+      const url = `/${mocks.sections[2].slug}/${mocks.entries[4].slug}`;
+      const res = await request(server).get(url);
+      const pathToFile = path.join(__dirname, '..', '..', 'fixtures', 'templates', 'fieldFilter.txt');
+      const file = await readFile(pathToFile, 'utf-8');
+
+      expect(res.status).to.equal(200);
+      expect(res.text).to.equal(file);
     });
   });
 
