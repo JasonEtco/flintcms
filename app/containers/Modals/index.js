@@ -37,11 +37,11 @@ export default class Modals extends Component {
     const { currentModal, modalIsOpen } = this.props.ui;
     const { leaving } = this.state;
 
-    if (currentModal === null || modalIsOpen === false) return false;
+    if (!currentModal) return null;
 
     const modalClasses = classnames(
       'modal-wrapper',
-      { 'modal-wrapper--full': currentModal.props.full },
+      // { 'modal-wrapper--full': currentModal.props.full },
       { 'is-active': modalIsOpen },
       { 'is-leaving': leaving },
     );
@@ -50,21 +50,24 @@ export default class Modals extends Component {
       <CSSTransition
         className={modalClasses}
         classNames="modal"
+        in={modalIsOpen}
         appear={true}
         enter={false}
-        leave={false}
-        component="div"
+        exit={false}
+        timeout={500}
       >
-        <div className="modal" style={{ zIndex: 9999 }} key="modal">
-          <button className="modal__close" onClick={this.closeModals}><Icon icon="cross" width={14} height={14} /></button>
-          {React.cloneElement(currentModal, { close: () => this.closeModals() })}
-        </div>
+        <div className={modalClasses}>
+          <div className="modal" style={{ zIndex: 9999 }} key="modal">
+            <button className="modal__close" onClick={this.closeModals}><Icon icon="cross" width={14} height={14} /></button>
+            {React.cloneElement(currentModal, { close: () => this.closeModals() })}
+          </div>
 
-        <div // eslint-disable-line
-          className="modal-overlay"
-          key="modalOverlay"
-          onClick={this.closeModals}
-        />
+          <div // eslint-disable-line
+            className="modal-overlay"
+            key="modalOverlay"
+            onClick={this.closeModals}
+          />
+        </div>
       </CSSTransition>
     );
   }
