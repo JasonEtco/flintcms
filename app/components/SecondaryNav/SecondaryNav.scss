@@ -35,7 +35,7 @@
                 &:hover { background-color: $gray-300; }
 
                 &.is-active {
-                    background-color: $gray-300;
+                    background-color: $gray-200;
 
                     &::after, &::before {
                         content: '';
@@ -55,7 +55,7 @@
                     }
 
                     &::before {
-                        @include triangle(left, 8px, $gray-400);
+                        @include triangle(left, 8px, darken($gray-300, 4%));
                         z-index: 1;
                         right: 0;
                     }

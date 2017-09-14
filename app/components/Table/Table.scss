@@ -100,8 +100,8 @@
         background: none;
         cursor: pointer;
 
-        svg { fill: $gray-500; }
+        svg { fill: $gray-400; }
 
-        &:hover svg { fill: $gray-600; }
+        &:hover svg { fill: $gray-500; }
     }
 }
