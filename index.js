@@ -32,6 +32,7 @@ module.exports = class Flint {
    * @property {String} [templatePath] - Path to your templates directory
    * @property {String} [scssPath] - Path to your scss directory
    * @property {String} [publicPath] - Path to your public directory
+   * @property {String} [publicUrl] - Url for your public folder
    * @property {String} [logsPath] - Path to your logs directory
    * @property {String} [scssEntryPoint] - The entry point to your SCSS styles (within the scssPath)
    * @property {String[]} [scssIncludePaths] - Array of paths to include in SCSS compiling
@@ -52,6 +53,7 @@ module.exports = class Flint {
       scssEntryPoint,
       scssIncludePaths,
       logsPath,
+      publicUrl,
     } = settings;
 
     const FLINT = Object.assign({}, settings, {
@@ -62,6 +64,7 @@ module.exports = class Flint {
       plugins: plugins || [],
       scssEntryPoint: scssEntryPoint !== undefined ? scssEntryPoint : 'main.scss',
       scssIncludePaths: scssIncludePaths || [],
+      publicUrl: publicUrl || '/public',
       debugMode,
     });
 

@@ -39,8 +39,8 @@ module.exports = () => {
   // `/ping` endpoint for testing and uptime monitoring
   app.get('/ping', (req, res) => res.end('PONG'));
 
-  app.use('/public', express.static(global.FLINT.publicPath));
-  app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
+  app.use(global.FLINT.publicUrl, express.static(global.FLINT.publicPath));
+  // app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
   app.use('/admin', require('./apps/admin')(app));
   app.use('/graphql', require('./apps/graphql')(app));
   app.use(require('./utils/publicRegistration')());
