@@ -45,7 +45,7 @@ module.exports = function connectToDatabase() {
       mongoose.model('Asset', AssetSchema, 'assets');
       mongoose.model('Page', PageSchema, 'pages');
 
-      mongoose.model('Site', SiteSchema, 'sites');
+      mongoose.model('Site', SiteSchema, 'site');
       await updateSiteConfig();
       /* eslint-enable global-require */
 
