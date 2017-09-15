@@ -6,24 +6,31 @@ const log = require('debug')('flint:plugin');
 
 const readFileAsync = promisify(fs.readFile);
 
-
 /**
  * Registers all plugins by looping over the plugin directory,
  * adding new ones to the DB and registering them with Mongoose
  */
-function registerPlugins(plugins = global.FLINT.plugins) {
+function registerPlugins(schemas) {
+  const plugins = global.FLINT.plugins;
   const Plugin = mongoose.model('Plugin');
 
-  return Promise.all(plugins.map(async (PluginClass) => {
+  return plugins.map(async (PluginClass) => {
     if (!PluginClass.uid) throw new Error(`${PluginClass.name} is missing a UID.`);
     if (!PluginClass.version) throw new Error(`${PluginClass.name} is missing a version.`);
 
-    mongoose.plugin((schema) => {
-      if (schema.name === undefined) return null;
-
-      log(`${chalk.grey('[Plugin]')} Registered the ${chalk.bold(`[${PluginClass.name}]`)} plugin against the ${schema.name} Model.`);
-      return new PluginClass(schema, PluginClass);
+    await schemas.forEach((schema) => {
+      schema.plugin(() => {
+        log(`${chalk.grey('[Plugin]')} Registered the ${chalk.bold(`[${PluginClass.name}]`)} plugin against the ${schema.name} Model.`);
+        return new PluginClass(schema, PluginClass);
+      });
     });
+    // await mongoose.plugin((schema) => {
+    //   console.log('MONGOOSE', schema);
+    //   if (schema.name === undefined) return null;
+
+    //   log(`${chalk.grey('[Plugin]')} Registered the ${chalk.bold(`[${PluginClass.name}]`)} plugin against the ${schema.name} Model.`);
+    //   return new PluginClass(schema, PluginClass);
+    // });
 
     const pathToIcon = PluginClass.icon;
     const buffer = await readFileAsync(pathToIcon, null);
@@ -53,7 +60,7 @@ function registerPlugins(plugins = global.FLINT.plugins) {
       const savedPlugin = await newPlugin.save();
       if (!savedPlugin) throw new Error(`Could not save the [${PluginClass.name}] plugin to the database.`);
     }
-  }));
+  });
 }
 
 module.exports = registerPlugins;

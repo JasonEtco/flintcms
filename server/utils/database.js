@@ -31,10 +31,7 @@ module.exports = function connectToDatabase() {
   mongoose.connect(mongoUri, mongoOptions);
   return new Promise((resolve, reject) => {
     mongoose.connection.on('open', async () => {
-      /* eslint-disable global-require */
       mongoose.model('Plugin', PluginSchema, 'plugins');
-      await registerPlugins();
-
       mongoose.model('UserGroup', UserGroupSchema, 'usergroups');
       await createAdminUserGroup();
 
@@ -47,7 +44,17 @@ module.exports = function connectToDatabase() {
 
       mongoose.model('Site', SiteSchema, 'site');
       await updateSiteConfig();
-      /* eslint-enable global-require */
+
+      await registerPlugins([
+        UserGroupSchema,
+        UserSchema,
+        SectionSchema,
+        EntrySchema,
+        FieldSchema,
+        AssetSchema,
+        PageSchema,
+        SiteSchema,
+      ]);
 
       resolve(`${chalk.green('[Mongoose]')} connection has been successfully established.`);
     });

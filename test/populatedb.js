@@ -18,6 +18,7 @@ function wipeDB(models) {
 
 module.exports = async () => {
   const collections = [
+    { model: 'Plugin', mocks: mocks.plugins },
     { model: 'UserGroup', mocks: mocks.usergroups },
     { model: 'User', mocks: mocks.users },
     { model: 'Section', mocks: mocks.sections },
@@ -38,13 +39,14 @@ module.exports = async () => {
   return processArray([
     await wipeDB(collections.map(c => c.model)),
     await Promise.all([
-      await addModel('Site'),
       await addModel('Field'),
       await addModel('UserGroup'),
       await addModel('Section'),
       await addModel('Entry'),
       await addModel('Page'),
       await addModel('Asset'),
+      await addModel('Site'),
+      await addModel('Plugin'),
     ]),
     await addModel('User'),
   ]);

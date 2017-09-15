@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = [{
   logsPath: '/app/logs',
   templatePath: '/app/templates',
   scssPath: '/app/scss',
@@ -15,4 +15,4 @@ module.exports = {
   ],
   style: '',
   defaultUserGroup: '592a74034a0a9b372c3bff9c',
-};
+}];

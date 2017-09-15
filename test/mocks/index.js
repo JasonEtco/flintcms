@@ -7,6 +7,7 @@ const user = require('./user');
 const users = require('./users');
 const pages = require('./pages');
 const fields = require('./fields');
+const plugins = require('./plugins');
 
 module.exports = {
   assets,
@@ -18,4 +19,5 @@ module.exports = {
   users,
   pages,
   fields,
+  plugins,
 };
