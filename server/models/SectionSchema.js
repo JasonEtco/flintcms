@@ -43,4 +43,4 @@ SectionSchema.pre('validate', function (next) {
   next();
 });
 
-module.exports = mongoose.model('Section', SectionSchema, 'sections');
+module.exports = SectionSchema;

@@ -8,6 +8,11 @@ const PluginSchema = new Schema({
     required: true,
     unique: true,
   },
+  title: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   uid: {
     type: String,
     required: true,
@@ -28,8 +33,12 @@ const PluginSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  version: {
+    type: String,
+    required: true,
+  },
 }, { strict: false });
 
 PluginSchema.name = 'Plugin';
 
-module.exports = mongoose.model('Plugin', PluginSchema, 'plugins');
+module.exports = PluginSchema;

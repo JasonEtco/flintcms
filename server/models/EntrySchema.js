@@ -3,8 +3,6 @@ const h = require('../utils/helpers');
 
 const Schema = mongoose.Schema;
 
-const Section = mongoose.model('Section');
-
 const EntrySchema = new Schema({
   title: {
     type: String,
@@ -69,6 +67,7 @@ EntrySchema.pre('validate', function (next) {
 
 // eslint-disable-next-line func-names
 EntrySchema.methods.getTemplate = async function ({ section }) {
+  const Section = mongoose.model('Section');
   const foundSection = await Section.findById(section).select('template').lean();
   if (!foundSection) throw new Error('The Section could not be found');
 
@@ -77,10 +76,11 @@ EntrySchema.methods.getTemplate = async function ({ section }) {
 
 // eslint-disable-next-line func-names
 EntrySchema.methods.getUrl = async function ({ section, slug }) {
+  const Section = mongoose.model('Section');
   const foundSection = await Section.findById(section).select('slug').lean();
   if (!foundSection) throw new Error('The Section could not be found');
 
   return `/${foundSection.slug}/${slug}`;
 };
 
-module.exports = mongoose.model('Entry', EntrySchema, 'entries');
+module.exports = EntrySchema;
