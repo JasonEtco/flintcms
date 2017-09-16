@@ -32,6 +32,8 @@ module.exports = function connectToDatabase() {
   return new Promise((resolve, reject) => {
     mongoose.connection.on('open', async () => {
       mongoose.model('Plugin', PluginSchema, 'plugins');
+      await registerPlugins();
+
       mongoose.model('UserGroup', UserGroupSchema, 'usergroups');
       await createAdminUserGroup();
 
@@ -44,17 +46,6 @@ module.exports = function connectToDatabase() {
 
       mongoose.model('Site', SiteSchema, 'site');
       await updateSiteConfig();
-
-      await registerPlugins([
-        UserGroupSchema,
-        UserSchema,
-        SectionSchema,
-        EntrySchema,
-        FieldSchema,
-        AssetSchema,
-        PageSchema,
-        SiteSchema,
-      ]);
 
       resolve(`${chalk.green('[Mongoose]')} connection has been successfully established.`);
     });

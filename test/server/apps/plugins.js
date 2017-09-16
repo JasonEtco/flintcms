@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const populateDB = require('../../populatedb');
 const Flint = require('../../../index');
 const ConsolePlugin = require('../../fixtures/plugins/ConsolePlugin');
-const SecondPlugin = require('../../fixtures/plugins/SecondPlugin');
+// const SecondPlugin = require('../../fixtures/plugins/SecondPlugin');
 
 describe('Plugin system', function () {
   before('Start a server and populate the db', async function () {

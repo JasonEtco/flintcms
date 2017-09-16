@@ -10,10 +10,8 @@ class ConsolePlugin extends FlintPlugin {
   static get icon() { return path.join(__dirname, 'icon.png'); }
 
   init(schema) {
-    console.log('INIT AGAINST', schema.name);
     if (schema.name === 'Entry') {
       schema.pre('save', function (next) {
-        console.log(this);
         this.title = 'Edited Title';
         next();
       });

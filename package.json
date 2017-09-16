@@ -40,6 +40,7 @@
     "test:plugin": "npm test -- --grep \"FlintPlugin\"",
     "test:assets": "npm test -- --grep \"assets routes\"",
     "test:firstrun": "npm test -- --grep \"First time install\"",
+    "wipe-db": "npm test -- --grep \"First time install\"",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
     "prepublishOnly": "npm run build"

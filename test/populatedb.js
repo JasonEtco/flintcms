@@ -5,9 +5,8 @@ function processArray(array) {
   return array.reduce(p => p, Promise.resolve());
 }
 
-function wipeDB(models) {
-  const arr = Array.isArray(models) ? models : Object.keys(models);
-  return arr.map(async (collection) => {
+function wipeDB(array) {
+  return array.map(async (collection) => {
     const Model = mongoose.model(collection);
     return Promise.all([
       await Model.remove(),
