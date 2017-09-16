@@ -21,6 +21,10 @@ describe('Compile SCSS', function () {
     done();
   });
 
+  afterEach('Delete the temp public folder', function () {
+    return rimraf('test/temp/public');
+  });
+
   it('compiles scss', async function () {
     const result = await compileSass();
     expect(result).to.include('Your SCSS has been compiled to');
@@ -29,11 +33,24 @@ describe('Compile SCSS', function () {
     const compiled = await readFile(path.join(__dirname, '..', '..', 'temp', 'public', 'main.css'), 'utf-8');
     expect(compiled).to.equal(fixture);
   });
+
+  describe('Disable SCSS compiling', function () {
+    before('Setup global variables', function (done) {
+      global.FLINT.scssEntryPoint = false;
+      done();
+    });
+
+    it('does not compile scss', async function () {
+      const result = await compileSass();
+      expect(result).to.include('SCSS compiling has been disabled in the site configuration.');
+      const pathToMainCSS = path.join(__dirname, '..', '..', 'temp', 'public', 'main.css');
+      return expect(fs.existsSync(pathToMainCSS)).to.be.false;
+    });
+  });
 });
 
 describe('Cache busting', function () {
   before('Create server and delete the temp folder', async function () {
-    await rimraf('test/temp/public');
     const flintServer = new Flint({
       scssPath: 'test/fixtures/scss',
       publicPath: 'test/temp/public',

@@ -13,6 +13,7 @@ const writeFileAsync = promisify(fs.writeFile);
 function sassAsync(opt) {
   return new Promise((resolve, reject) => {
     sass.render(opt, (err, res) => {
+      /* istanbul ignore if */
       if (err) reject(err);
       resolve(res);
     });
@@ -64,7 +65,7 @@ async function compile() {
 
     await writeFileAsync(pathToFile, scss.css);
     return `${chalk.grey('[SCSS]')} Your SCSS has been compiled to ${pathToFile}`;
-  } catch (e) {
+  } catch (e) /* istanbul ignore next */ {
     log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`);
     log(`  ${chalk.grey('Line:')} ${chalk.red(e.line)}`);
     log(`  ${chalk.grey('File:')} ${chalk.red(e.file)}`);
@@ -73,12 +74,14 @@ async function compile() {
   }
 }
 
+/* istanbul ignore next */
 function recompile() {
   // eslint-disable-next-line no-console
   log(chalk.cyan('Recompiling SASS...'));
   return compile();
 }
 
+/* istanbul ignore next */
 function watch(watcher) {
   watcher.on('add', async () => {
     const compiled = await recompile();
@@ -95,6 +98,7 @@ function watch(watcher) {
  */
 async function compileSass() {
   if (global.FLINT.scssEntryPoint) {
+    /* istanbul ignore if */
     if (global.FLINT.debugMode) {
       const watcher = chokidar.watch(global.FLINT.scssPath, {
         persistent: true,
