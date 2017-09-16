@@ -6,6 +6,7 @@ const chokidar = require('chokidar');
 const scaffold = require('./scaffold');
 const { promisify } = require('util');
 const log = require('debug')('flint:scss');
+const mongoose = require('mongoose');
 
 const writeFileAsync = promisify(fs.writeFile);
 
@@ -16,6 +17,33 @@ function sassAsync(opt) {
       resolve(res);
     });
   });
+}
+
+function generateHash(length = 16) {
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let retVal = '';
+
+  for (let i = 0, n = charset.length; i < length; ++i) {
+    retVal += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return retVal;
+}
+
+async function handleCacheBusting() {
+  const filename = global.FLINT.scssEntryPoint.replace('.scss', '.css');
+  if (!global.FLINT.enableCacheBusting) return filename;
+
+  const Site = mongoose.model('Site');
+
+  const cacheHash = generateHash();
+  global.FLINT.cacheHash = cacheHash;
+  const site = await Site.findOne().exec();
+  const updatedSite = await Site.findByIdAndUpdate(site._id, { cacheHash }, { new: true }).exec();
+
+  /* istanbul ignore if */
+  if (!updatedSite) throw new Error('Could not save the site config to the database.');
+
+  return filename.replace('.css', `-${cacheHash}.css`);
 }
 
 /**
@@ -31,22 +59,15 @@ async function compile() {
 
   try {
     const scss = await sassAsync(opts);
-
-    const cssPath = path.join(global.FLINT.publicPath);
-    const p = await scaffold(cssPath);
-    const filename = global.FLINT.scssEntryPoint.replace('.scss', '.css');
-    const pathToFile = path.join(p, filename);
+    const filename = await handleCacheBusting();
+    const pathToFile = path.join(await scaffold(global.FLINT.publicPath), filename);
 
     await writeFileAsync(pathToFile, scss.css);
     return `${chalk.grey('[SCSS]')} Your SCSS has been compiled to ${pathToFile}`;
   } catch (e) {
-    if (process.env.NODE_ENV !== 'test') {
-      /* eslint-disable no-console */
-      log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`);
-      log(`  ${chalk.grey('Line:')} ${chalk.red(e.line)}`);
-      log(`  ${chalk.grey('File:')} ${chalk.red(e.file)}`);
-      /* eslint-enable no-console */
-    }
+    log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`);
+    log(`  ${chalk.grey('Line:')} ${chalk.red(e.line)}`);
+    log(`  ${chalk.grey('File:')} ${chalk.red(e.file)}`);
 
     return `${chalk.red('[SCSS]')} There was an error compiling your SCSS.`;
   }

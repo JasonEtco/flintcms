@@ -32,6 +32,11 @@ const SiteSchema = new Schema({
     type: String,
     default: 'main.scss',
   },
+  enableCacheBusting: {
+    type: Boolean,
+    default: false,
+  },
+  cacheHash: String,
 }, { strict: false });
 
 SiteSchema.name = 'Site';

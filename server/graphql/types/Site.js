@@ -26,6 +26,15 @@ const fields = {
     type: GraphQLBoolean,
     description: 'Boolean to allow or disallow the public registration routes.',
   },
+  enableCacheBusting: {
+    type: GraphQLBoolean,
+    description: 'Enable or disable hash generation for the CSS bundle.',
+    defaultValue: false,
+  },
+  cacheHash: {
+    type: GraphQLString,
+    description: 'The hash used to cache bust for the CSS bundle.',
+  },
 };
 
 exports.outputType = new GraphQLObjectType({
