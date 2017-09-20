@@ -31,7 +31,7 @@ const fields = {
     description: 'Enable or disable hash generation for the CSS bundle.',
     defaultValue: false,
   },
-  cacheHash: {
+  cssHash: {
     type: GraphQLString,
     description: 'The hash used to cache bust for the CSS bundle.',
   },

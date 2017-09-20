@@ -67,10 +67,10 @@ describe('Cache busting', function () {
     expect(result).to.not.include('main.css');
 
     const Site = mongoose.model('Site');
-    const site = await Site.findOne().exec();
+    const site = await Site.findOne().select('cssHash').exec();
 
     const fixture = await readFile(path.join(__dirname, '..', '..', 'fixtures', 'scss', 'main.css'), 'utf-8');
-    const compiled = await readFile(path.join(__dirname, '..', '..', 'temp', 'public', `main-${site.cacheHash}.css`), 'utf-8');
+    const compiled = await readFile(path.join(__dirname, '..', '..', 'temp', 'public', `main-${site.cssHash}.css`), 'utf-8');
     expect(compiled).to.equal(fixture);
   });
 

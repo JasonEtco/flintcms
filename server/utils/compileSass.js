@@ -36,15 +36,15 @@ async function handleCacheBusting() {
 
   const Site = mongoose.model('Site');
 
-  const cacheHash = generateHash();
-  global.FLINT.cacheHash = cacheHash;
+  const cssHash = generateHash();
+  global.FLINT.cssHash = cssHash;
   const site = await Site.findOne().exec();
-  const updatedSite = await Site.findByIdAndUpdate(site._id, { cacheHash }, { new: true }).exec();
+  const updatedSite = await Site.findByIdAndUpdate(site._id, { cssHash }, { new: true }).exec();
 
   /* istanbul ignore if */
   if (!updatedSite) throw new Error('Could not save the site config to the database.');
 
-  return filename.replace('.css', `-${cacheHash}.css`);
+  return filename.replace('.css', `-${cssHash}.css`);
 }
 
 /**
@@ -52,10 +52,13 @@ async function handleCacheBusting() {
  * @param {object} opts - Compile options
  */
 async function compile() {
+  /* istanbul ignore next */
+  const outputStyle = process.env.NODE_ENV === 'production' ? 'compressed' : 'nested';
+
   const opts = {
     file: path.join(global.FLINT.scssPath, global.FLINT.scssEntryPoint),
-    outputStyle: process.env.NODE_ENV === 'production' ? 'compressed' : 'nested',
     includePaths: global.FLINT.scssIncludePaths,
+    outputStyle,
   };
 
   try {

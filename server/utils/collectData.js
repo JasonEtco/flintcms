@@ -159,7 +159,7 @@ async function collectData(entry) {
       siteUrl
       style
       enableCacheBusting
-      cacheHash
+      cssHash
     }
   }`;
 

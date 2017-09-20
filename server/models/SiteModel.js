@@ -36,7 +36,7 @@ const SiteSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  cacheHash: String,
+  cssHash: String,
 }, { strict: false });
 
 SiteSchema.name = 'Site';
