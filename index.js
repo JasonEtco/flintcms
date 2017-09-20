@@ -39,6 +39,7 @@ module.exports = class Flint {
    * @property {String} [siteName] - The title of your site
    * @property {String} [siteUrl] - The URL to your site
    * @property {Boolean} [listen] - Should the server listen; used for testing
+   * @property {Boolean} [enableCacheBusting] - Add a hash to the compiled CSS bundle
    * @property {Function[]} [plugins] - Array of required Class modules
    *
    * @param {Flint} settings

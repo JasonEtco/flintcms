@@ -171,6 +171,8 @@ async function collectData(entry) {
       siteName
       siteUrl
       style
+      enableCacheBusting
+      cssHash
     }
   }`;
 

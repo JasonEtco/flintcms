@@ -5,6 +5,7 @@ const mkdirAsync = promisify(fs.mkdir);
 /**
  * Creates a directory at the given path if it does not already exist.
  * @param {String} path - Path to the directory
+ * @returns {Promise<string>} - Path to the directory
  */
 function scaffold(path) {
   return new Promise((resolve) => {
