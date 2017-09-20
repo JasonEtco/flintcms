@@ -9,6 +9,7 @@ const log = require('debug')('flint:scss');
 const mongoose = require('mongoose');
 
 const writeFileAsync = promisify(fs.writeFile);
+const unlink = promisify(fs.unlink);
 
 function sassAsync(opt) {
   return new Promise((resolve, reject) => {
@@ -30,26 +31,40 @@ function generateHash(length = 16) {
   return retVal;
 }
 
-async function handleCacheBusting() {
-  const filename = global.FLINT.scssEntryPoint.replace('.scss', '.css');
-  if (!global.FLINT.enableCacheBusting) return filename;
+const appendHash = (str, hash) => str.replace('.css', `-${hash}.css`);
+
+/**
+ * @typedef {Object} CacheBusted
+ * @property {string} file - File name ending in .css
+ * @property {string} [oldFile] - The old file, if cache busting is enabled.
+ * @property {string} [newHash] - The new hash, if one was generated.
+ *
+ * Generates a hash and adds the hash to the db's site document.
+ * @param {string} filename - File name, sans extension.
+ * @returns {CacheBusted}
+ */
+async function handleCacheBusting(filename) {
+  const file = `${filename}.css`;
+  if (!global.FLINT.enableCacheBusting) return { file };
 
   const Site = mongoose.model('Site');
-
+  const site = await Site.findOne().exec();
   const cssHash = generateHash();
   global.FLINT.cssHash = cssHash;
-  const site = await Site.findOne().exec();
   const updatedSite = await Site.findByIdAndUpdate(site._id, { cssHash }, { new: true }).exec();
 
   /* istanbul ignore if */
   if (!updatedSite) throw new Error('Could not save the site config to the database.');
-
-  return filename.replace('.css', `-${cssHash}.css`);
+  return {
+    file: appendHash(file, cssHash),
+    oldFile: appendHash(file, site.cssHash),
+    newHash: cssHash,
+  };
 }
 
 /**
  * Actually compiles the SCSS
- * @param {object} opts - Compile options
+ * @returns {string}
  */
 async function compile() {
   /* istanbul ignore next */
@@ -61,12 +76,26 @@ async function compile() {
     outputStyle,
   };
 
+  const fileSplit = global.FLINT.scssEntryPoint.split('.');
+  const filename = fileSplit.slice(0, fileSplit.length - 1).join('.');
+
   try {
     const scss = await sassAsync(opts);
-    const filename = await handleCacheBusting();
-    const pathToFile = path.join(await scaffold(global.FLINT.publicPath), filename);
+    const { file, oldFile } = await handleCacheBusting(filename);
+    const pathToFile = path.join(await scaffold(global.FLINT.publicPath), file);
 
     await writeFileAsync(pathToFile, scss.css);
+
+    // Delete the old file
+    if (global.FLINT.enableCacheBusting && oldFile) {
+      const pathToOldFile = path.join(global.FLINT.publicPath, oldFile);
+      const exists = fs.existsSync(pathToOldFile);
+      if (exists) {
+        log('Deleting old bundle.');
+        await unlink(pathToOldFile);
+      }
+    }
+
     return `${chalk.grey('[SCSS]')} Your SCSS has been compiled to ${pathToFile}`;
   } catch (e) /* istanbul ignore next */ {
     log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`);
