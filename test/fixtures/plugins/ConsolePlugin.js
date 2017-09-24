@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+
 const Flint = require('../../../index');
 const path = require('path');
 
@@ -9,14 +11,7 @@ class ConsolePlugin extends FlintPlugin {
   static get version() { return '1.0.0'; }
   static get icon() { return path.join(__dirname, 'icon.png'); }
 
-  init(schema) {
-    if (schema.name === 'Entry') {
-      schema.pre('save', function (next) {
-        this.title = 'Edited Title';
-        next();
-      });
-    }
-  }
+  init() {}
 }
 
 module.exports = ConsolePlugin;

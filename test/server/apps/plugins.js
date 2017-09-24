@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const populateDB = require('../../populatedb');
 const Flint = require('../../../index');
 const ConsolePlugin = require('../../fixtures/plugins/ConsolePlugin');
-// const SecondPlugin = require('../../fixtures/plugins/SecondPlugin');
+
 
 describe('Plugin system', function () {
   before('Start a server and populate the db', async function () {
@@ -44,37 +44,9 @@ describe('Plugin system', function () {
             name: mocks.plugins[0].name,
             title: mocks.plugins[0].title,
           },
-          // {
-          //   uid: SecondPlugin.uid,
-          //   version: SecondPlugin.version,
-          //   name: SecondPlugin.name,
-          //   title: SecondPlugin.title,
-          // },
         ],
       },
     });
-  });
-
-  it('edits the title of an entry before it is saved', async function () {
-    const res = await global.agent
-      .post('/graphql')
-      .send({
-        query: `mutation ($data: EntriesInput!) {
-          addEntry (data: $data) {
-            title
-          }
-        }`,
-        variables: {
-          data: {
-            title: 'Plugin Thing',
-            section: mocks.sections[0]._id,
-            fields: [],
-            author: mocks.users[0]._id,
-          },
-        },
-      });
-
-    expect(res.body.data.addEntry.title).to.equal('Edited Title');
   });
 
   after((done) => {
