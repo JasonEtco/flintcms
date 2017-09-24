@@ -1,22 +1,9 @@
 const mongoose = require('mongoose');
 const mocks = require('./mocks');
 
-function nexter(obj) {
-  return new Promise((resolve, reject) => {
-    mongoose.connection.db.listCollections(obj)
-      .next((err, collinfo) => {
-        if (collinfo) resolve(collinfo);
-        else reject(err);
-      });
-  });
-}
-
 async function wipeDB(collections) {
-  return collections.map(async ({ model, collection }) => {
+  return collections.map(async ({ model }) => {
     const Model = mongoose.model(model);
-    // const collectionExists = await nexter({ name: collection });
-
-    // if (collectionExists) await Model.collection.dropIndexes();
     return Model.remove();
   });
 }
