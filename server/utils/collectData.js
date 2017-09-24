@@ -12,6 +12,19 @@ async function formatEntryFields(arr, target = 'fields') {
   return arr.map(doc => Object.assign({}, doc, h.reduceToObj(doc[target], 'handle', 'value')));
 }
 
+/**
+ * Adds the next/previous properties to an entry
+ * @param {Object} entry - An entry object
+ * @param {Object[]} entries - Array of Entry objects
+ * @returns {Object}
+ */
+function addNextPrevious(entry, entries, target = 'fields') {
+  const i = entries.findIndex(e => e._id === entry._id);
+  return Object.assign({}, entry, h.reduceToObj(entry[target], 'handle', 'value'), {
+    previous: entries[i - 1] ? entries[i - 1] : null,
+    next: entries[i + 1] ? entries[i + 1] : null,
+  });
+}
 
 /**
  * Organizes entries by section slug
@@ -158,6 +171,8 @@ async function collectData(entry) {
       siteName
       siteUrl
       style
+      enableCacheBusting
+      cssHash
     }
   }`;
 
@@ -182,7 +197,7 @@ async function collectData(entry) {
 
   if (entry) {
     return {
-      this: Object.assign({}, entry, h.reduceToObj(entry.fields, 'handle', 'value')),
+      this: addNextPrevious(entry, formattedEntries),
       flint,
     };
   }

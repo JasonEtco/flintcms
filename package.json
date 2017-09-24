@@ -1,6 +1,6 @@
 {
   "name": "flintcms",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "Content-Focused CMS built on Node.js",
   "main": "index.js",
   "repository": "https://github.com/JasonEtco/flintcms",
@@ -25,7 +25,7 @@
     "async/await"
   ],
   "scripts": {
-    "start": "cross-env DEBUG=flint nodemon --ignore app dev.js",
+    "start": "cross-env DEBUG=flint* nodemon --ignore app dev.js",
     "test": "cross-env NODE_ENV=test mocha",
     "test:coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "test:api": "npm test -- --grep \"GraphQL API\"",
