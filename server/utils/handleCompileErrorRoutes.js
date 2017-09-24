@@ -31,6 +31,7 @@ function handleCompileErrorRoutes(req, res, type, template) {
     case 'no-exist':
       return fourOhFourHandler(req, res);
     default:
+      res.set('Cache-Control', 'public, max-age=1200, s-maxage=3200');
       return res.send(type);
   }
 }
