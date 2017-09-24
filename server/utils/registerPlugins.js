@@ -42,14 +42,14 @@ function registerPlugins() {
       // Update the existing plugin in case its configuration (icon, name, etc) have changed.
       const updatedPlugin = Object.assign(foundPlugin, pluginData, { uid: PluginClass.uid });
       const savedPlugin = await updatedPlugin.save();
-      if (!savedPlugin) throw new Error(`Could not save the [${PluginClass.name}] plugin to the database.`);
+      if (!savedPlugin) log(chalk.red(`Could not save the [${PluginClass.name}] plugin to the database.`));
     } else {
       // Create a new plugin instance by including the Class model
       // The PluginSchema has { strict: false } so additions to the
       // model will work fine.
       const newPlugin = new Plugin(pluginData);
       const savedPlugin = await newPlugin.save();
-      if (!savedPlugin) throw new Error(`Could not save the [${PluginClass.name}] plugin to the database.`);
+      if (!savedPlugin) log(chalk.red(`Could not save the [${PluginClass.name}] plugin to the database.`));
     }
   }));
 }
