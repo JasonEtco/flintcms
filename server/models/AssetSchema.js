@@ -47,4 +47,4 @@ AssetSchema.pre('validate', function (next) {
   next();
 });
 
-module.exports = mongoose.model('Asset', AssetSchema, 'assets');
+module.exports = AssetSchema;

@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
-const Site = mongoose.model('Site');
-
 async function updateSiteConfig() {
+  const Site = mongoose.model('Site');
   const site = await Site.findOne().exec();
   if (!site) {
     const newSite = new Site(global.FLINT);

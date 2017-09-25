@@ -20,9 +20,9 @@ it('returns the site config', (done) => {
       expect(res.body).to.deep.equal({
         data: {
           site: {
-            siteName: mocks.site.siteName,
-            siteUrl: mocks.site.siteUrl,
-            style: mocks.site.style,
+            siteName: mocks.site[0].siteName,
+            siteUrl: mocks.site[0].siteUrl,
+            style: mocks.site[0].style,
           },
         },
       });

@@ -17,6 +17,18 @@ exports.outputType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       description: 'Title of the plugin.',
     },
+    version: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Version of the plugin, ideally a semver.',
+    },
+    uid: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'UID of the plugin.',
+    },
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Name of the plugin class.',
+    },
     icon: {
       type: new GraphQLObjectType({
         name: 'PluginIcon',

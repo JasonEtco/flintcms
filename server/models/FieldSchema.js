@@ -49,4 +49,4 @@ FieldSchema.pre('validate', function (next) {
   next();
 });
 
-module.exports = mongoose.model('Field', FieldSchema, 'fields');
+module.exports = FieldSchema;

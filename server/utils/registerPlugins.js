@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 const chalk = require('chalk');
 const { promisify } = require('util');
 const fs = require('fs');
+const log = require('debug')('flint:plugin');
 
 const readFileAsync = promisify(fs.readFile);
-
-const Plugin = mongoose.model('Plugin');
 
 /**
  * Registers all plugins by looping over the plugin directory,
@@ -13,16 +12,15 @@ const Plugin = mongoose.model('Plugin');
  */
 function registerPlugins() {
   const plugins = global.FLINT.plugins;
+  const Plugin = mongoose.model('Plugin');
 
-  plugins.forEach(async (PluginClass) => {
+  return Promise.all(plugins.map(async (PluginClass) => {
     if (!PluginClass.uid) throw new Error(`${PluginClass.name} is missing a UID.`);
     if (!PluginClass.version) throw new Error(`${PluginClass.name} is missing a version.`);
 
-    mongoose.plugin((schema) => {
+    mongoose.plugin((schema, options) => {
       if (schema.name === undefined) return null;
-      // eslint-disable-next-line no-console
-      console.log(`${chalk.grey('[Plugin]')} Registered the ${chalk.bold(`[${PluginClass.name}]`)} plugin against the ${schema.name} Model.`);
-      return new PluginClass(schema, PluginClass);
+      return new PluginClass(schema, options);
     });
 
     const pathToIcon = PluginClass.icon;
@@ -30,6 +28,7 @@ function registerPlugins() {
     const foundPlugin = await Plugin.findOne({ uid: PluginClass.uid });
 
     const pluginData = Object.assign({}, {
+      title: PluginClass.title,
       name: PluginClass.name,
       uid: PluginClass.uid,
       version: PluginClass.version,
@@ -43,16 +42,16 @@ function registerPlugins() {
       // Update the existing plugin in case its configuration (icon, name, etc) have changed.
       const updatedPlugin = Object.assign(foundPlugin, pluginData, { uid: PluginClass.uid });
       const savedPlugin = await updatedPlugin.save();
-      if (!savedPlugin) throw new Error(`Could not save the [${PluginClass.name}] plugin to the database.`);
+      if (!savedPlugin) log(chalk.red(`Could not save the [${PluginClass.name}] plugin to the database.`));
     } else {
       // Create a new plugin instance by including the Class model
       // The PluginSchema has { strict: false } so additions to the
       // model will work fine.
       const newPlugin = new Plugin(pluginData);
       const savedPlugin = await newPlugin.save();
-      if (!savedPlugin) throw new Error(`Could not save the [${PluginClass.name}] plugin to the database.`);
+      if (!savedPlugin) log(chalk.red(`Could not save the [${PluginClass.name}] plugin to the database.`));
     }
-  });
+  }));
 }
 
 module.exports = registerPlugins;

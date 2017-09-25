@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
-const UserGroup = mongoose.model('UserGroup');
-
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -41,6 +39,7 @@ UserSchema.name = 'User';
 UserSchema.pre('validate', async function (next) {
   if (this.usergroup) next();
 
+  const UserGroup = mongoose.model('UserGroup');
   const admin = await UserGroup.findOne({ slug: 'admin' }).select('_id').exec();
   if (!admin) next(new Error('There is no admin usergroup'));
   this.usergroup = admin._id;
@@ -60,10 +59,11 @@ UserSchema.methods.validateHash = function (password) {
 
 // eslint-disable-next-line func-names
 UserSchema.methods.getPermissions = async function () {
+  const UserGroup = mongoose.model('UserGroup');
   const usergroup = await UserGroup.findById(this.usergroup);
   if (!usergroup) throw new Error('The User Group could not be found');
 
   return usergroup.permissions;
 };
 
-module.exports = mongoose.model('User', UserSchema, 'users');
+module.exports = UserSchema;

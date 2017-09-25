@@ -66,4 +66,4 @@ PageSchema.pre('validate', function (next) {
   next();
 });
 
-module.exports = mongoose.model('Page', PageSchema, 'pages');
+module.exports = PageSchema;

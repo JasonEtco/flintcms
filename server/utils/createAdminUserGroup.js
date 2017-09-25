@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const reducePermissionsToObject = require('./reducePermissionsToObject');
 
-const UserGroup = mongoose.model('UserGroup');
-
 /**
  * Creates an admin usergroup in the database
  */
 async function createAdminUserGroup() {
+  const UserGroup = mongoose.model('UserGroup');
   if (await UserGroup.findOne({ slug: 'admin' })) return false;
 
   const perms = reducePermissionsToObject((p, c) => Object.assign({}, p, { [c.name]: true }), {});

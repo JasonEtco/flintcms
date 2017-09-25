@@ -3,6 +3,20 @@
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 const log = require('debug')('flint');
+const registerPlugins = require('./registerPlugins');
+
+const UserGroupSchema = require('../models/UserGroupSchema');
+const UserSchema = require('../models/UserSchema');
+const SectionSchema = require('../models/SectionSchema');
+const EntrySchema = require('../models/EntrySchema');
+const FieldSchema = require('../models/FieldSchema');
+const AssetSchema = require('../models/AssetSchema');
+const PageSchema = require('../models/PageSchema');
+const SiteSchema = require('../models/SiteSchema');
+const PluginSchema = require('../models/PluginSchema');
+const createAdminUserGroup = require('./createAdminUserGroup');
+const updateSiteConfig = require('./updateSiteConfig');
+
 
 mongoose.Promise = global.Promise;
 
@@ -16,24 +30,22 @@ const mongoOptions = {
 module.exports = function connectToDatabase() {
   mongoose.connect(mongoUri, mongoOptions);
   return new Promise((resolve, reject) => {
-    mongoose.connection.on('open', () => {
-      /* eslint-disable global-require */
-      require('../models/PluginModel');
-      require('./registerPlugins')();
+    mongoose.connection.on('open', async () => {
+      mongoose.model('Plugin', PluginSchema, 'plugins');
+      await registerPlugins();
 
-      require('../models/UserGroupModel');
-      require('./createAdminUserGroup')();
+      mongoose.model('UserGroup', UserGroupSchema, 'usergroups');
+      await createAdminUserGroup();
 
-      require('../models/UserModel');
-      require('../models/SectionModel');
-      require('../models/EntryModel');
-      require('../models/FieldModel');
-      require('../models/AssetModel');
-      require('../models/PageModel');
+      mongoose.model('User', UserSchema, 'users');
+      mongoose.model('Section', SectionSchema, 'sections');
+      mongoose.model('Entry', EntrySchema, 'entries');
+      mongoose.model('Field', FieldSchema, 'fields');
+      mongoose.model('Asset', AssetSchema, 'assets');
+      mongoose.model('Page', PageSchema, 'pages');
 
-      require('../models/SiteModel');
-      require('./updateSiteConfig')();
-      /* eslint-enable global-require */
+      mongoose.model('Site', SiteSchema, 'site');
+      await updateSiteConfig();
 
       resolve(`${chalk.green('[Mongoose]')} connection has been successfully established.`);
     });

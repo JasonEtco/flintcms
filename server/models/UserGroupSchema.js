@@ -39,4 +39,4 @@ UserGroupSchema.pre('validate', function (next) {
   next();
 });
 
-module.exports = mongoose.model('UserGroup', UserGroupSchema, 'usergroups');
+module.exports = UserGroupSchema;
