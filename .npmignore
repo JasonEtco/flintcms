@@ -6,3 +6,6 @@ dev.js
 test
 admin/report.html
 app
+.*
+coverage
+config
