@@ -45,4 +45,5 @@ exports.vendor = [
   'react-dnd',
   'react-dnd-html5-backend',
   'core-js',
+  'react-rte',
 ];
