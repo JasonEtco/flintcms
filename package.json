@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "start": "cross-env DEBUG=flint* nodemon --ignore app dev.js",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "test:api": "npm test -- -t \"GraphQL API\"",
     "test:logs": "jest test/server/apps/routes/logs.test.js",
