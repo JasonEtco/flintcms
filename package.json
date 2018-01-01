@@ -26,8 +26,7 @@
   ],
   "scripts": {
     "start": "cross-env DEBUG=flint* nodemon --ignore app dev.js",
-    "test": "jest --runInBand",
-    "test:coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "test": "jest --runInBand --coverage && npm run lint",
     "test:api": "npm test -- -t \"GraphQL API\"",
     "test:logs": "jest test/server/apps/routes/logs.test.js",
     "test:site": "jest test/server/apps/routes/site.test.js",
@@ -136,7 +135,6 @@
     "classnames": "^2.2.5",
     "codemirror": "^5.29.0",
     "copy-webpack-plugin": "^4.0.1",
-    "coveralls": "^2.13.1",
     "css-loader": "^0.28.7",
     "draft-js": "^0.10.2",
     "draft-js-export-html": "^1.1.0",
