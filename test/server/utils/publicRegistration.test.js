@@ -19,7 +19,7 @@ describe('publicRegistration', () => {
     agent = supertest.agent(server);
 
     const Site = mongoose.model('Site');
-    await Site.findOneAndUpdate({}, { $set: { allowPublicRegistration: true } });
+    await Site.findOneAndUpdate({}, { $set: { allowPublicRegistration: true } }).exec();
 
     return server;
   });
@@ -34,7 +34,7 @@ describe('publicRegistration', () => {
       });
 
     const User = mongoose.model('User');
-    const foundNewUser = await User.findOne({ username: 'exampler' });
+    const foundNewUser = await User.findOne({ username: 'exampler' }).exec();
 
     expect(typeof foundNewUser).toBe('object');
   });

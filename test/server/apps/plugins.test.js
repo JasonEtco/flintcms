@@ -7,21 +7,18 @@ const ConsolePlugin = require('../../fixtures/plugins/ConsolePlugin');
 
 
 describe('Plugin system', () => {
+  let agent;
+
   beforeAll(async function () {
     const flintServer = new Flint({ listen: false, plugins: [ConsolePlugin] });
     const server = await flintServer.startServer();
-    global.agent = supertest.agent(server);
+    agent = supertest.agent(server);
 
     await populateDB();
-
-    return global.agent
-      .post('/admin/login')
-      .send({ email: mocks.users[0].email, password: 'password' })
-      .expect(200);
   });
 
   it('returns a list of plugins', async () => {
-    const res = await global.agent
+    const res = await agent
       .post('/graphql')
       .send({
         query: `{
