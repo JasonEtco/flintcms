@@ -14,14 +14,16 @@ exports.importTest = function importTest(name, path) {
 exports.before = async function before() {
   const flintServer = new Flint({ listen: false });
   const server = await flintServer.startServer();
-  global.agent = supertest.agent(server);
+  const agent = supertest.agent(server);
 
   await populateDB();
 
-  return global.agent
+  await agent
     .post('/admin/login')
     .send({ email: mocks.users[0].email, password: 'password' })
     .expect(200);
+
+  return agent;
 };
 
 exports.setNonAdmin = function setNonAdmin(done) {

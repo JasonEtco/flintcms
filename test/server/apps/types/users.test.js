@@ -1,450 +1,213 @@
 const mocks = require('../../../mocks');
 const common = require('../common');
+const mongoose = require('mongoose');
 
-it('returns a list of users', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      {
-        users {
-          _id
-          image
-          name {
-            first
-            last
-          }
-          dateCreated
-          username
-          email
-        }
-      }`,
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          users: mocks.users.map(user => ({
-            _id: user._id,
-            image: user.image,
-            dateCreated: user.dateCreated,
-            username: user.username,
-            email: user.email,
-            name: user.name,
-          })),
-        },
-      });
-      return done();
-    });
-});
+describe('Users', () => {
+  let agent;
 
-it('can query for a specific user', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `query ($_id: ID!) {
-        user (_id: $_id) {
-          _id
-          image
-          usergroup {
-            _id
-          }
-          name {
-            first
-            last
-          }
-          dateCreated
-          username
-          email
-        }
-      }`,
-      variables: { _id: mocks.users[1]._id },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          user: {
-            _id: mocks.users[1]._id,
-            image: mocks.users[1].image,
-            dateCreated: mocks.users[1].dateCreated,
-            username: mocks.users[1].username,
-            email: mocks.users[1].email,
-            usergroup: {
-              _id: mocks.users[1].usergroup,
-            },
-            name: {
-              first: mocks.users[1].name.first,
-              last: mocks.users[1].name.last,
-            },
-          },
-        },
-      });
-      return done();
-    });
-});
+  beforeAll(async () => {
+    agent = await common.before();
+  });
 
-it('can return a user\'s own details', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `{
-        user {
-          _id
-          image
-          usergroup {
-            _id
-          }
-          name {
-            first
-            last
-          }
-          dateCreated
-          username
-          email
-        }
-      }`,
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          user: {
-            _id: mocks.users[0]._id,
-            image: mocks.users[0].image,
-            dateCreated: mocks.users[0].dateCreated,
-            username: mocks.users[0].username,
-            email: mocks.users[0].email,
-            usergroup: {
-              _id: mocks.users[0].usergroup,
-            },
-            name: {
-              first: mocks.users[0].name.first,
-              last: mocks.users[0].name.last,
-            },
-          },
-        },
-      });
-      return done();
-    });
-});
-
-it('can delete a user from the database', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($_id: ID!) {
-        deleteUser (_id: $_id) {
-          _id
-          image
-          name {
-            first
-            last
-          }
-          dateCreated
-          username
-          email
-        }
-      }`,
-      variables: { _id: mocks.users[1]._id },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          deleteUser: {
-            _id: mocks.users[1]._id,
-            image: mocks.users[1].image,
-            dateCreated: mocks.users[1].dateCreated,
-            username: mocks.users[1].username,
-            email: mocks.users[1].email,
-            name: {
-              first: mocks.users[1].name.first,
-              last: mocks.users[1].name.last,
-            },
-          },
-        },
-      });
-      return done();
-    });
-});
-
-it('can save a user to the database', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($user: UserInput!) {
-        addUser (user: $user) {
-          usergroup {
-            _id
-          }
-          name {
-            first
-            last
-          }
-          username
-          email
-        }
-      }`,
-      variables: {
-        user: {
-          username: mocks.users[1].username,
-          email: mocks.users[1].email,
-          usergroup: mocks.usergroups[0]._id,
-          name: {
-            first: mocks.users[1].name.first,
-            last: mocks.users[1].name.last,
-          },
-        },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          addUser: {
-            username: mocks.users[1].username,
-            usergroup: {
-              _id: mocks.users[1].usergroup,
-            },
-            email: mocks.users[1].email,
-            name: {
-              first: mocks.users[1].name.first,
-              last: mocks.users[1].name.last,
-            },
-          },
-        },
-      });
-      return done();
-    });
-});
-
-it('throws when using an existing user\'s username', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($user: UserInput!) {
-        addUser (user: $user) {
-          email
-        }
-      }`,
-      variables: {
-        user: {
-          username: mocks.users[0].username,
-          email: mocks.users[0].email,
-          usergroup: mocks.usergroups[0]._id,
-        },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.status).toEqual(500);
-      expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is already a user with that username.');
-      return done();
-    });
-});
-
-it('throws when using an existing user\'s email', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($user: UserInput!) {
-        addUser (user: $user) {
-          email
-        }
-      }`,
-      variables: {
-        user: {
-          username: 'fakeusername',
-          email: mocks.users[0].email,
-          usergroup: mocks.usergroups[0]._id,
-        },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.status).toBe(500);
-      expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is already a user with that email.');
-      return done();
-    });
-});
-
-it('throws when a new user\'s usergroup does not exist', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($user: UserInput!) {
-        addUser (user: $user) {
-          email
-          usergroup {
-            _id
-          }
-        }
-      }`,
-      variables: {
-        user: {
-          username: 'newusername',
-          email: 'new@example.com',
-          usergroup: '5946e850bd887652381ecfe2',
-        },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.status).toEqual(500);
-      expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'That UserGroup does not exist.');
-      return done();
-    });
-});
-
-it('can update an existing user', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($_id: ID!, $data: UserInput!) {
-        updateUser (_id: $_id, data: $data) {
-          name {
-            first
-          }
-        }
-      }`,
-      variables: {
-        _id: mocks.users[0]._id,
-        data: {
-          email: mocks.users[0].email,
-          usergroup: mocks.usergroups[0]._id,
-          username: mocks.users[0].username,
-          name: {
-            first: 'Jason',
-          },
-        },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      // expect(res.status).to.deep.equal(200);
-      expect(res.body).toEqual({
-        data: {
-          updateUser: {
-            name: {
-              first: 'Jason',
-            },
-          },
-        },
-      });
-      return done();
-    });
-});
-
-it('throws when updating a non-existing user', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($_id: ID!, $data: UserInput!) {
-        updateUser (_id: $_id, data: $data) {
-          name {
-            first
-          }
-        }
-      }`,
-      variables: {
-        _id: '5946e850bd887652381ecfe8',
-        data: {
-          email: mocks.users[0].email,
-          username: mocks.users[0].username,
-          usergroup: mocks.usergroups[0]._id,
-          name: {
-            first: 'Jason',
-          },
-        },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is no User with this ID.');
-      return done();
-    });
-});
-
-it('can reset a user\'s password', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `mutation ($_id: ID!) {
-        resetPassword (_id: $_id) {
-          token
-        }
-      }`,
-      variables: { _id: mocks.users[0]._id },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toHaveProperty('data');
-      expect(res.body.data).toHaveProperty('resetPassword');
-      expect(res.body.data.resetPassword).toHaveProperty('token');
-      expect(typeof res.body.data.resetPassword.token).toBe('string');
-      return done();
-    });
-});
-
-describe('Permissions', () => {
-  beforeAll(common.setNonAdmin);
-
-  it('throws when user is not allowed to edit other users', (done) => {
-    global.agent
+  afterAll((done) => {
+    mongoose.disconnect();
+    done();
+  });
+  it('returns a list of users', (done) => {
+    agent
       .post('/graphql')
       .send({
-        query: `mutation ($_id: ID!, $data: UserInput!) {
-          updateUser (_id: $_id, data: $data) {
+        query: `
+        {
+          users {
+            _id
+            image
             name {
               first
+              last
             }
+            dateCreated
+            username
+            email
           }
         }`,
-        variables: {
-          _id: mocks.users[1]._id,
-          data: {
-            email: mocks.users[1].email,
-            username: mocks.users[1].username,
-            name: {
-              first: 'Jason',
-            },
-          },
-        },
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to edit users.');
+        expect(res.body).toEqual({
+          data: {
+            users: mocks.users.map(user => ({
+              _id: user._id,
+              image: user.image,
+              dateCreated: user.dateCreated,
+              username: user.username,
+              email: user.email,
+              name: user.name,
+            })),
+          },
+        });
         return done();
       });
   });
 
-  it('allows a user to edit themselves', (done) => {
-    global.agent
+  it('can query for a specific user', (done) => {
+    agent
       .post('/graphql')
       .send({
-        query: `mutation ($_id: ID!, $data: UserInput!) {
-          updateUser (_id: $_id, data: $data) {
+        query: `query ($_id: ID!) {
+          user (_id: $_id) {
+            _id
+            image
+            usergroup {
+              _id
+            }
             name {
               first
+              last
             }
+            dateCreated
+            username
+            email
+          }
+        }`,
+        variables: { _id: mocks.users[1]._id },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.body).toEqual({
+          data: {
+            user: {
+              _id: mocks.users[1]._id,
+              image: mocks.users[1].image,
+              dateCreated: mocks.users[1].dateCreated,
+              username: mocks.users[1].username,
+              email: mocks.users[1].email,
+              usergroup: {
+                _id: mocks.users[1].usergroup,
+              },
+              name: {
+                first: mocks.users[1].name.first,
+                last: mocks.users[1].name.last,
+              },
+            },
+          },
+        });
+        return done();
+      });
+  });
+
+  it('can return a user\'s own details', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `{
+          user {
+            _id
+            image
+            usergroup {
+              _id
+            }
+            name {
+              first
+              last
+            }
+            dateCreated
+            username
+            email
+          }
+        }`,
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.body).toEqual({
+          data: {
+            user: {
+              _id: mocks.users[0]._id,
+              image: mocks.users[0].image,
+              dateCreated: mocks.users[0].dateCreated,
+              username: mocks.users[0].username,
+              email: mocks.users[0].email,
+              usergroup: {
+                _id: mocks.users[0].usergroup,
+              },
+              name: {
+                first: mocks.users[0].name.first,
+                last: mocks.users[0].name.last,
+              },
+            },
+          },
+        });
+        return done();
+      });
+  });
+
+  it('can delete a user from the database', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($_id: ID!) {
+          deleteUser (_id: $_id) {
+            _id
+            image
+            name {
+              first
+              last
+            }
+            dateCreated
+            username
+            email
+          }
+        }`,
+        variables: { _id: mocks.users[1]._id },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.body).toEqual({
+          data: {
+            deleteUser: {
+              _id: mocks.users[1]._id,
+              image: mocks.users[1].image,
+              dateCreated: mocks.users[1].dateCreated,
+              username: mocks.users[1].username,
+              email: mocks.users[1].email,
+              name: {
+                first: mocks.users[1].name.first,
+                last: mocks.users[1].name.last,
+              },
+            },
+          },
+        });
+        return done();
+      });
+  });
+
+  it('can save a user to the database', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($user: UserInput!) {
+          addUser (user: $user) {
+            usergroup {
+              _id
+            }
+            name {
+              first
+              last
+            }
+            username
+            email
           }
         }`,
         variables: {
-          _id: mocks.users[0]._id,
-          data: {
-            email: mocks.users[0].email,
-            username: mocks.users[0].username,
-            usergroup: mocks.usergroups[2]._id,
+          user: {
+            username: mocks.users[1].username,
+            email: mocks.users[1].email,
+            usergroup: mocks.usergroups[0]._id,
             name: {
-              first: 'Jason',
+              first: mocks.users[1].name.first,
+              last: mocks.users[1].name.last,
             },
           },
         },
@@ -452,17 +215,111 @@ describe('Permissions', () => {
       .end((err, res) => {
         if (err) { return done(err); }
         expect(res.body).toEqual({
-          data: { updateUser: { name: { first: 'Jason' } } },
+          data: {
+            addUser: {
+              username: mocks.users[1].username,
+              usergroup: {
+                _id: mocks.users[1].usergroup,
+              },
+              email: mocks.users[1].email,
+              name: {
+                first: mocks.users[1].name.first,
+                last: mocks.users[1].name.last,
+              },
+            },
+          },
         });
         return done();
       });
   });
 
-  it('returns an error when changing a user\'s usergroup', (done) => {
-    global.agent
+  it('throws when using an existing user\'s username', (done) => {
+    agent
       .post('/graphql')
       .send({
-        query: `mutation ($_id: ID!, $data: UserInput!) {
+        query: `
+        mutation ($user: UserInput!) {
+          addUser (user: $user) {
+            email
+          }
+        }`,
+        variables: {
+          user: {
+            username: mocks.users[0].username,
+            email: mocks.users[0].email,
+            usergroup: mocks.usergroups[0]._id,
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.status).toEqual(500);
+        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is already a user with that username.');
+        return done();
+      });
+  });
+
+  it('throws when using an existing user\'s email', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($user: UserInput!) {
+          addUser (user: $user) {
+            email
+          }
+        }`,
+        variables: {
+          user: {
+            username: 'fakeusername',
+            email: mocks.users[0].email,
+            usergroup: mocks.usergroups[0]._id,
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.status).toBe(500);
+        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is already a user with that email.');
+        return done();
+      });
+  });
+
+  it('throws when a new user\'s usergroup does not exist', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($user: UserInput!) {
+          addUser (user: $user) {
+            email
+            usergroup {
+              _id
+            }
+          }
+        }`,
+        variables: {
+          user: {
+            username: 'newusername',
+            email: 'new@example.com',
+            usergroup: '5946e850bd887652381ecfe2',
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.status).toEqual(500);
+        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'That UserGroup does not exist.');
+        return done();
+      });
+  });
+
+  it('can update an existing user', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($_id: ID!, $data: UserInput!) {
           updateUser (_id: $_id, data: $data) {
             name {
               first
@@ -471,6 +328,46 @@ describe('Permissions', () => {
         }`,
         variables: {
           _id: mocks.users[0]._id,
+          data: {
+            email: mocks.users[0].email,
+            usergroup: mocks.usergroups[0]._id,
+            username: mocks.users[0].username,
+            name: {
+              first: 'Jason',
+            },
+          },
+        },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        // expect(res.status).to.deep.equal(200);
+        expect(res.body).toEqual({
+          data: {
+            updateUser: {
+              name: {
+                first: 'Jason',
+              },
+            },
+          },
+        });
+        return done();
+      });
+  });
+
+  it('throws when updating a non-existing user', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($_id: ID!, $data: UserInput!) {
+          updateUser (_id: $_id, data: $data) {
+            name {
+              first
+            }
+          }
+        }`,
+        variables: {
+          _id: '5946e850bd887652381ecfe8',
           data: {
             email: mocks.users[0].email,
             username: mocks.users[0].username,
@@ -483,13 +380,13 @@ describe('Permissions', () => {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to change a user\'s usergroup.');
+        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is no User with this ID.');
         return done();
       });
   });
 
-  it('returns an error when resetting a user\'s password', (done) => {
-    global.agent
+  it('can reset a user\'s password', (done) => {
+    agent
       .post('/graphql')
       .send({
         query: `mutation ($_id: ID!) {
@@ -501,10 +398,126 @@ describe('Permissions', () => {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to manage users.');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('resetPassword');
+        expect(res.body.data.resetPassword).toHaveProperty('token');
+        expect(typeof res.body.data.resetPassword.token).toBe('string');
         return done();
       });
   });
 
-  afterAll(common.setAdmin);
+  describe('Permissions', () => {
+    beforeAll(common.setNonAdmin);
+
+    it('throws when user is not allowed to edit other users', (done) => {
+      agent
+        .post('/graphql')
+        .send({
+          query: `mutation ($_id: ID!, $data: UserInput!) {
+            updateUser (_id: $_id, data: $data) {
+              name {
+                first
+              }
+            }
+          }`,
+          variables: {
+            _id: mocks.users[1]._id,
+            data: {
+              email: mocks.users[1].email,
+              username: mocks.users[1].username,
+              name: {
+                first: 'Jason',
+              },
+            },
+          },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to edit users.');
+          return done();
+        });
+    });
+
+    it('allows a user to edit themselves', (done) => {
+      agent
+        .post('/graphql')
+        .send({
+          query: `mutation ($_id: ID!, $data: UserInput!) {
+            updateUser (_id: $_id, data: $data) {
+              name {
+                first
+              }
+            }
+          }`,
+          variables: {
+            _id: mocks.users[0]._id,
+            data: {
+              email: mocks.users[0].email,
+              username: mocks.users[0].username,
+              usergroup: mocks.usergroups[2]._id,
+              name: {
+                first: 'Jason',
+              },
+            },
+          },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(res.body).toEqual({
+            data: { updateUser: { name: { first: 'Jason' } } },
+          });
+          return done();
+        });
+    });
+
+    it('returns an error when changing a user\'s usergroup', (done) => {
+      agent
+        .post('/graphql')
+        .send({
+          query: `mutation ($_id: ID!, $data: UserInput!) {
+            updateUser (_id: $_id, data: $data) {
+              name {
+                first
+              }
+            }
+          }`,
+          variables: {
+            _id: mocks.users[0]._id,
+            data: {
+              email: mocks.users[0].email,
+              username: mocks.users[0].username,
+              usergroup: mocks.usergroups[0]._id,
+              name: {
+                first: 'Jason',
+              },
+            },
+          },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to change a user\'s usergroup.');
+          return done();
+        });
+    });
+
+    it('returns an error when resetting a user\'s password', (done) => {
+      agent
+        .post('/graphql')
+        .send({
+          query: `mutation ($_id: ID!) {
+            resetPassword (_id: $_id) {
+              token
+            }
+          }`,
+          variables: { _id: mocks.users[0]._id },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to manage users.');
+          return done();
+        });
+    });
+
+    afterAll(common.setAdmin);
+  });
 });

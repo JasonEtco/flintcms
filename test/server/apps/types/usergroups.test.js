@@ -1,6 +1,7 @@
 const mocks = require('../../../mocks');
 const permissions = require('../../../../server/utils/permissions.json');
 const common = require('../common');
+const mongoose = require('mongoose');
 
 const permissionsQuery = `
   permissions {
@@ -8,147 +9,99 @@ const permissionsQuery = `
   }
 `;
 
+describe('Usergroups', () => {
+  let agent;
 
-it('returns a list of usergroups', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      {
-        usergroups {
-          _id
-          title
-          slug
-          dateCreated
-          ${permissionsQuery}
-        }
-      }`,
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          usergroups: mocks.usergroups,
-        },
-      });
-      return done();
-    });
-});
+  beforeAll(async () => {
+    agent = await common.before();
+  });
 
-it('can query for a specific usergroup', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      query ($_id: ID!) {
-        usergroup (_id: $_id) {
-          _id
-        }
-      }`,
-      variables: { _id: mocks.usergroups[0]._id },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          usergroup: { _id: mocks.usergroups[0]._id },
-        },
-      });
-      return done();
-    });
-});
-
-it('can update a usergroup in the database', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($_id: ID!, $data: UserGroupInput!) {
-        updateUserGroup (_id: $_id, data: $data) {
-          title
-        }
-      }`,
-      variables: {
-        _id: mocks.usergroups[1]._id,
-        data: {
-          title: 'New title!',
-          permissions: mocks.usergroups[1].permissions,
-        },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          updateUserGroup: {
-            title: 'New title!',
+  afterAll((done) => {
+    mongoose.disconnect();
+    done();
+  });
+  it('returns a list of usergroups', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        {
+          usergroups {
+            _id
+            title
+            slug
+            dateCreated
+            ${permissionsQuery}
+          }
+        }`,
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.body).toEqual({
+          data: {
+            usergroups: mocks.usergroups,
           },
-        },
+        });
+        return done();
       });
-      return done();
-    });
-});
+  });
 
-it('can delete a usergroup from the database', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($_id: ID!) {
-        removeUserGroup (_id: $_id) {
-          _id
-        }
-      }`,
-      variables: { _id: mocks.usergroups[1]._id },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          removeUserGroup: { _id: mocks.usergroups[1]._id },
-        },
+  it('can query for a specific usergroup', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        query ($_id: ID!) {
+          usergroup (_id: $_id) {
+            _id
+          }
+        }`,
+        variables: { _id: mocks.usergroups[0]._id },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.body).toEqual({
+          data: {
+            usergroup: { _id: mocks.usergroups[0]._id },
+          },
+        });
+        return done();
       });
-      return done();
-    });
-});
+  });
 
-it('can save a usergroup to the database', (done) => {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($data: UserGroupInput!) {
-        addUserGroup (data: $data) {
-          title
-          ${permissionsQuery}
-        }
-      }`,
-      variables: {
-        data: {
-          title: mocks.usergroups[1].title,
-          permissions: mocks.usergroups[1].permissions,
-        },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body).toEqual({
-        data: {
-          addUserGroup: {
-            title: mocks.usergroups[1].title,
+  it('can update a usergroup in the database', (done) => {
+    agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($_id: ID!, $data: UserGroupInput!) {
+          updateUserGroup (_id: $_id, data: $data) {
+            title
+          }
+        }`,
+        variables: {
+          _id: mocks.usergroups[1]._id,
+          data: {
+            title: 'New title!',
             permissions: mocks.usergroups[1].permissions,
           },
         },
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.body).toEqual({
+          data: {
+            updateUserGroup: {
+              title: 'New title!',
+            },
+          },
+        });
+        return done();
       });
-      return done();
-    });
-});
+  });
 
-describe('Permissions', () => {
-  beforeAll(common.setNonAdmin);
-
-  it('cannot delete a usergroup from the database', (done) => {
-    global.agent
+  it('can delete a usergroup from the database', (done) => {
+    agent
       .post('/graphql')
       .send({
         query: `
@@ -161,13 +114,17 @@ describe('Permissions', () => {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to delete User Groups.');
+        expect(res.body).toEqual({
+          data: {
+            removeUserGroup: { _id: mocks.usergroups[1]._id },
+          },
+        });
         return done();
       });
   });
 
-  it('cannot save a usergroup to the database', (done) => {
-    global.agent
+  it('can save a usergroup to the database', (done) => {
+    agent
       .post('/graphql')
       .send({
         query: `
@@ -179,43 +136,98 @@ describe('Permissions', () => {
         }`,
         variables: {
           data: {
-            title: 'Pizza Group',
+            title: mocks.usergroups[1].title,
             permissions: mocks.usergroups[1].permissions,
           },
         },
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to add User Groups.');
-        return done();
-      });
-  });
-
-  it('cannot update a usergroup in the database', (done) => {
-    global.agent
-      .post('/graphql')
-      .send({
-        query: `
-        mutation ($_id: ID!, $data: UserGroupInput!) {
-          updateUserGroup (_id: $_id, data: $data) {
-            title
-            ${permissionsQuery}
-          }
-        }`,
-        variables: {
-          _id: mocks.usergroups[1]._id,
+        expect(res.body).toEqual({
           data: {
-            title: 'Pizza Group',
-            permissions: mocks.usergroups[1].permissions,
+            addUserGroup: {
+              title: mocks.usergroups[1].title,
+              permissions: mocks.usergroups[1].permissions,
+            },
           },
-        },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to edit User Groups.');
+        });
         return done();
       });
   });
 
-  afterAll(common.setAdmin);
+  describe('Permissions', () => {
+    beforeAll(common.setNonAdmin);
+
+    it('cannot delete a usergroup from the database', (done) => {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          mutation ($_id: ID!) {
+            removeUserGroup (_id: $_id) {
+              _id
+            }
+          }`,
+          variables: { _id: mocks.usergroups[1]._id },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to delete User Groups.');
+          return done();
+        });
+    });
+
+    it('cannot save a usergroup to the database', (done) => {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          mutation ($data: UserGroupInput!) {
+            addUserGroup (data: $data) {
+              title
+              ${permissionsQuery}
+            }
+          }`,
+          variables: {
+            data: {
+              title: 'Pizza Group',
+              permissions: mocks.usergroups[1].permissions,
+            },
+          },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to add User Groups.');
+          return done();
+        });
+    });
+
+    it('cannot update a usergroup in the database', (done) => {
+      agent
+        .post('/graphql')
+        .send({
+          query: `
+          mutation ($_id: ID!, $data: UserGroupInput!) {
+            updateUserGroup (_id: $_id, data: $data) {
+              title
+              ${permissionsQuery}
+            }
+          }`,
+          variables: {
+            _id: mocks.usergroups[1]._id,
+            data: {
+              title: 'Pizza Group',
+              permissions: mocks.usergroups[1].permissions,
+            },
+          },
+        })
+        .end((err, res) => {
+          if (err) { return done(err); }
+          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to edit User Groups.');
+          return done();
+        });
+    });
+
+    afterAll(common.setAdmin);
+  });
 });
