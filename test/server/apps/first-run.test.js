@@ -12,7 +12,6 @@ describe('First time install', () => {
     server = await flintServer.startServer();
     await mongoose.model('User').remove();
     agent = supertest.agent(server);
-    return server;
   });
 
   it('GET /admin/firstinstall returns true', async () => {
