@@ -299,8 +299,8 @@ describe('Pages', () => {
       .end((err, res) => {
         if (err) { return done(err); }
         expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You must include at least one field.',
-          }));
+          message: 'You must include at least one field.',
+        }));
         return done();
       });
   });
@@ -327,8 +327,8 @@ describe('Pages', () => {
       .end((err, res) => {
         if (err) { return done(err); }
         expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You must include a title.',
-          }));
+          message: 'You must include a title.',
+        }));
         return done();
       });
   });
