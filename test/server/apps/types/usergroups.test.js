@@ -172,7 +172,9 @@ describe('Usergroups', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to delete User Groups.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to delete User Groups.',
+          }));
           return done();
         });
     });
@@ -197,7 +199,9 @@ describe('Usergroups', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to add User Groups.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to add User Groups.'
+          }));
           return done();
         });
     });
@@ -223,7 +227,9 @@ describe('Usergroups', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to edit User Groups.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to edit User Groups.'
+          }));
           return done();
         });
     });
