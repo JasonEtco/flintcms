@@ -13,6 +13,7 @@ describe('Users', () => {
     mongoose.disconnect();
     done();
   });
+
   it('returns a list of users', (done) => {
     agent
       .post('/graphql')
@@ -254,7 +255,9 @@ describe('Users', () => {
       .end((err, res) => {
         if (err) { return done(err); }
         expect(res.status).toEqual(500);
-        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is already a user with that username.');
+        expect(res.body.errors).toContainEqual(expect.objectContaining({
+          message: 'There is already a user with that username.',
+        }));
         return done();
       });
   });
@@ -280,7 +283,9 @@ describe('Users', () => {
       .end((err, res) => {
         if (err) { return done(err); }
         expect(res.status).toBe(500);
-        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is already a user with that email.');
+        expect(res.body.errors).toContainEqual(expect.objectContaining({
+          message: 'There is already a user with that email.',
+        }));
         return done();
       });
   });
@@ -309,7 +314,9 @@ describe('Users', () => {
       .end((err, res) => {
         if (err) { return done(err); }
         expect(res.status).toEqual(500);
-        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'That UserGroup does not exist.');
+        expect(res.body.errors).toContainEqual(expect.objectContaining({
+          message: 'That UserGroup does not exist.',
+        }));
         return done();
       });
   });
@@ -380,7 +387,9 @@ describe('Users', () => {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is no User with this ID.');
+        expect(res.body.errors).toContainEqual(expect.objectContaining({
+          message: 'There is no User with this ID.',
+        }));
         return done();
       });
   });
@@ -433,7 +442,9 @@ describe('Users', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to edit users.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to edit users.',
+          }));
           return done();
         });
     });
@@ -495,7 +506,9 @@ describe('Users', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to change a user\'s usergroup.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to change a user\'s usergroup.',
+          }));
           return done();
         });
     });
@@ -513,7 +526,9 @@ describe('Users', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to manage users.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to manage users.',
+          }));
           return done();
         });
     });

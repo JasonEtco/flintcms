@@ -11,11 +11,6 @@ exports.before = async function before() {
 
   await populateDB();
 
-  await agent
-    .post('/admin/login')
-    .send({ email: mocks.users[0].email, password: 'password' })
-    .expect(200);
-
   return agent;
 };
 

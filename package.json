@@ -34,6 +34,7 @@
     "test:auth": "jest test/server/apps/routes/auth.test.js",
     "test:assets": "jest test/server/apps/routes/assets.test.js",
     "test:admin": "jest test/server/apps/admin.test.js",
+    "test:gql:users": "jest test/server/apps/types/users.test.js",
     "test:gql:entries": "jest test/server/apps/types/entries.test.js",
     "test:publicRegistration": "jest test/server/publicRegistration\"",
     "test:env": "jest test/server/env\"",
