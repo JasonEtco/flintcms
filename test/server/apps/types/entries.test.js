@@ -69,7 +69,7 @@ describe('Entries', () => {
       });
   });
 
-  test(
+  it(
     'returns an error when querying for entries by a sectionSlug that does not exist',
     (done) => {
       agent
@@ -86,7 +86,7 @@ describe('Entries', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'There is no section with that slug.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'There is no section with that slug.' }));
           return done();
         });
     },
@@ -115,7 +115,7 @@ describe('Entries', () => {
       });
   });
 
-  test(
+  it(
     'can query for a specific entry by slug and sectionSlug',
     (done) => {
       agent
@@ -143,7 +143,7 @@ describe('Entries', () => {
     },
   );
 
-  test(
+  it(
     'returns an error when querying an entry by slug without a sectionSlug',
     (done) => {
       agent
@@ -158,16 +158,15 @@ describe('Entries', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty(
-            'message',
-            'When querying for an entry by slug, you must also query by sectionSlug.',
-          );
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'When querying for an entry by slug, you must also query by sectionSlug.',
+          }));
           return done();
         });
     },
   );
 
-  test(
+  it(
     'returns an error when querying an entry by slug with a sectionSlug that does not exist',
     (done) => {
       agent
@@ -185,7 +184,7 @@ describe('Entries', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'That section does not exist.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'That section does not exist.' }));
           return done();
         });
     },
@@ -276,7 +275,7 @@ describe('Entries', () => {
         },
       });
 
-    expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'Your entry\'s title must have some real characters');
+    expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'Your entry\'s title must have some real characters' }));
   });
 
   it('can update an entry in the database', (done) => {
@@ -341,7 +340,7 @@ describe('Entries', () => {
         },
       });
 
-    expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'There is no Entry with that id');
+    expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'There is no Entry with that id' }));
   });
 
   describe('Permissions', () => {
@@ -371,12 +370,12 @@ describe('Entries', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to create new Entries');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'You do not have permission to create new Entries' }));
           return done();
         });
     });
 
-    test(
+    it(
       'throws when user is not allowed to update an entry\'s status',
       (done) => {
         agent
@@ -404,7 +403,7 @@ describe('Entries', () => {
           })
           .end((err, res) => {
             if (err) { return done(err); }
-            expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You are not allowed to change the status of entries. Sorry!');
+            expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'You are not allowed to change the status of entries. Sorry!' }));
             return done();
           });
       },
@@ -436,7 +435,7 @@ describe('Entries', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You are not allowed to edit this entry. Sorry!');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'You are not allowed to edit this entry. Sorry!' }));
           return done();
         });
     });
@@ -467,7 +466,7 @@ describe('Entries', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You are not allowed to edit a live entry. Sorry!');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'You are not allowed to edit a live entry. Sorry!' }));
           return done();
         });
     });
@@ -485,9 +484,7 @@ describe('Entries', () => {
         .end((err, res) => {
           if (err) { return done(err); }
           const data = res.body.data.entries;
-          expect(data).not.toMatchObject({ status: 'draft' });
-          expect(data).not.toMatchObject({ status: 'disabled' });
-          expect(data).toMatchObject({ status: 'live' });
+          expect(data.every(obj => obj.status === 'live')).toBeTruthy();
           return done();
         });
     });
@@ -506,12 +503,12 @@ describe('Entries', () => {
         .end((err, res) => {
           if (err) { return done(err); }
           const data = res.body;
-          expect(data.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to delete Entries');
+          expect(data.errors).toContainEqual(expect.objectContaining({ message: 'You do not have permission to delete Entries' }));
           return done();
         });
     });
 
-    test(
+    it(
       'returns an error when querying for a specific entry by _id',
       (done) => {
         agent
