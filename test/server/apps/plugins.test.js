@@ -1,5 +1,4 @@
 const mocks = require('../../mocks');
-const expect = require('chai').expect;
 const supertest = require('supertest');
 const mongoose = require('mongoose');
 const populateDB = require('../../populatedb');
@@ -7,8 +6,8 @@ const Flint = require('../../../index');
 const ConsolePlugin = require('../../fixtures/plugins/ConsolePlugin');
 
 
-describe('Plugin system', function () {
-  before('Start a server and populate the db', async function () {
+describe('Plugin system', () => {
+  beforeAll(async function () {
     const flintServer = new Flint({ listen: false, plugins: [ConsolePlugin] });
     const server = await flintServer.startServer();
     global.agent = supertest.agent(server);
@@ -21,7 +20,7 @@ describe('Plugin system', function () {
       .expect(200);
   });
 
-  it('returns a list of plugins', async function () {
+  it('returns a list of plugins', async () => {
     const res = await global.agent
       .post('/graphql')
       .send({
@@ -35,7 +34,7 @@ describe('Plugin system', function () {
         }`,
       });
 
-    expect(res.body).to.deep.equal({
+    expect(res.body).toEqual({
       data: {
         plugins: [
           {
@@ -49,7 +48,7 @@ describe('Plugin system', function () {
     });
   });
 
-  after((done) => {
+  afterAll((done) => {
     mongoose.disconnect();
     done();
   });

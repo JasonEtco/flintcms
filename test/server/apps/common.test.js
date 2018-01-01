@@ -2,11 +2,10 @@ const Flint = require('../../../');
 const mocks = require('../../mocks');
 const populateDB = require('../../populatedb');
 const supertest = require('supertest');
-const expect = require('chai').expect;
 const mongoose = require('mongoose');
 
 exports.importTest = function importTest(name, path) {
-  describe(name, function () {
+  describe(name, () => {
     // eslint-disable-next-line global-require, import/no-dynamic-require
     require(path);
   });
@@ -50,7 +49,7 @@ exports.setNonAdmin = function setNonAdmin(done) {
     .end((err, res) => {
       if (err) { return done(err); }
       // expect(res.status).to.equal(200);
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           updateUser: {
             usergroup: {

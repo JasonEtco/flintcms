@@ -1,5 +1,4 @@
 const mocks = require('../../../mocks');
-const expect = require('chai').expect;
 
 it('returns a list of sections', (done) => {
   global.agent
@@ -20,7 +19,7 @@ it('returns a list of sections', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           sections: mocks.sections,
         },
@@ -29,7 +28,7 @@ it('returns a list of sections', (done) => {
     });
 });
 
-it('can query for a specific section by _id', function (done) {
+it('can query for a specific section by _id', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -43,7 +42,7 @@ it('can query for a specific section by _id', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           section: { _id: mocks.sections[0]._id },
         },
@@ -52,7 +51,7 @@ it('can query for a specific section by _id', function (done) {
     });
 });
 
-it('can delete a section from the database', function (done) {
+it('can delete a section from the database', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -66,7 +65,7 @@ it('can delete a section from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           removeSection: { _id: mocks.sections[0]._id },
         },
@@ -75,7 +74,7 @@ it('can delete a section from the database', function (done) {
     });
 });
 
-it('can save a section to the database', function (done) {
+it('can save a section to the database', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -95,7 +94,7 @@ it('can save a section to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           addSection: {
             title: mocks.sections[0].title,
@@ -106,57 +105,63 @@ it('can save a section to the database', function (done) {
     });
 });
 
-it('returns an error when saving a section without any fields', function (done) {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($data: SectionsInput!) {
-        addSection (data: $data) {
-          title
-        }
-      }`,
-      variables: {
-        data: {
-          title: 'Hello!',
-          template: mocks.sections[0].template,
-          fields: [],
+test(
+  'returns an error when saving a section without any fields',
+  done => {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($data: SectionsInput!) {
+          addSection (data: $data) {
+            title
+          }
+        }`,
+        variables: {
+          data: {
+            title: 'Hello!',
+            template: mocks.sections[0].template,
+            fields: [],
+          },
         },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body.errors).to.include.an.item.with.property('message', 'You must include at least one field.');
-      return done();
-    });
-});
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You must include at least one field.');
+        return done();
+      });
+  }
+);
 
-it('returns an error when saving a section without a title', function (done) {
-  global.agent
-    .post('/graphql')
-    .send({
-      query: `
-      mutation ($data: SectionsInput!) {
-        addSection (data: $data) {
-          title
-        }
-      }`,
-      variables: {
-        data: {
-          title: '',
-          template: mocks.sections[0].template,
-          fields: [mocks.fields[0]._id],
+test(
+  'returns an error when saving a section without a title',
+  done => {
+    global.agent
+      .post('/graphql')
+      .send({
+        query: `
+        mutation ($data: SectionsInput!) {
+          addSection (data: $data) {
+            title
+          }
+        }`,
+        variables: {
+          data: {
+            title: '',
+            template: mocks.sections[0].template,
+            fields: [mocks.fields[0]._id],
+          },
         },
-      },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      expect(res.body.errors).to.include.an.item.with.property('message', 'You must include a title.');
-      return done();
-    });
-});
+      })
+      .end((err, res) => {
+        if (err) { return done(err); }
+        expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You must include a title.');
+        return done();
+      });
+  }
+);
 
-it('can update a section in the database', function (done) {
+it('can update a section in the database', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -177,7 +182,7 @@ it('can update a section in the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           updateSection: {
             title: 'New title',

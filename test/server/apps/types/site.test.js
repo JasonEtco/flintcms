@@ -1,5 +1,4 @@
 const mocks = require('../../../mocks');
-const expect = require('chai').expect;
 const common = require('../common');
 
 it('returns the site config', (done) => {
@@ -17,7 +16,7 @@ it('returns the site config', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           site: {
             siteName: mocks.site[0].siteName,
@@ -47,7 +46,7 @@ it('updates the site document', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           updateSite: {
             siteName: 'New site name',
@@ -58,8 +57,8 @@ it('updates the site document', (done) => {
     });
 });
 
-describe('Permissions', function () {
-  before('Set to non-admin', common.setNonAdmin);
+describe('Permissions', () => {
+  beforeAll(common.setNonAdmin);
 
   it('cannot update the site document', (done) => {
     global.agent
@@ -80,12 +79,12 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors[0]).to.include({
+        expect(res.body.errors[0]).toMatchObject({
           message: 'You do not have permission to manage site configuration.',
         });
         return done();
       });
   });
 
-  after('Set to admin', common.setAdmin);
+  afterAll(common.setAdmin);
 });

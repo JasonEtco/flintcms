@@ -2,46 +2,45 @@
 
 const path = require('path');
 const fs = require('fs');
-const expect = require('chai').expect;
 const { generateEnvFile, generateSecret } = require('../../../server/utils/generateEnvFile');
 
-describe('generateSecret', function () {
-  it('should generate a secret', function () {
+describe('generateSecret', () => {
+  it('should generate a secret', () => {
     const secret = generateSecret();
-    expect(secret).to.be.a('string');
+    expect(typeof secret).toBe('string');
   });
 
-  it('should generate three different secrets', function () {
+  it('should generate three different secrets', () => {
     const s1 = generateSecret();
     const s2 = generateSecret();
     const s3 = generateSecret();
-    expect(s1).to.not.equal(s2);
-    expect(s1).to.not.equal(s3);
-    expect(s2).to.not.equal(s3);
+    expect(s1).not.toBe(s2);
+    expect(s1).not.toBe(s3);
+    expect(s2).not.toBe(s3);
   });
 });
 
-describe('generateEnvFile', function () {
+describe('generateEnvFile', () => {
   const oldHost = process.env.DB_HOST;
 
-  before('delete the testing .env', async function () {
+  beforeAll(async function () {
     const pathToEnv = path.join(__dirname, '..', '..', 'fixtures', '.env');
     fs.unlink(pathToEnv, f => f);
   });
 
-  it('should not generate a new .env file without DB_HOST', async function () {
+  it('should not generate a new .env file without DB_HOST', async () => {
     process.env.DB_HOST = 'example';
     const generatedFile = await generateEnvFile();
-    return expect(generatedFile).to.be.false;
+    return expect(generatedFile).toBe(false);
   });
 
-  it('should generate a new .env file', async function () {
+  it('should generate a new .env file', async () => {
     delete process.env.DB_HOST;
     const generatedFile = await generateEnvFile(path.join(__dirname, '..', '..', 'fixtures'));
-    return expect(generatedFile).to.be.true;
+    return expect(generatedFile).toBe(true);
   });
 
-  after('reset old DB_HOST', function () {
+  afterAll(function () {
     process.env.DB_HOST = oldHost;
   });
 });

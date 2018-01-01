@@ -1,32 +1,31 @@
 const Flint = require('../../../../index.js');
 const request = require('supertest');
 const mongoose = require('mongoose');
-const expect = require('chai').expect;
 
-describe('site endpoint', function () {
+describe('site endpoint', () => {
   this.timeout(4000);
   let server;
 
-  before('Creates a server', async function () {
+  beforeAll(async function () {
     const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
     return server;
   });
 
-  it('returns a 200 response for /admin/api/site', function (done) {
+  it('returns a 200 response for /admin/api/site', done => {
     request(server).get('/admin/api/site').expect(200, done);
   });
 
-  it('returns a 200 response for /admin/api/hasUpdate', function (done) {
+  it('returns a 200 response for /admin/api/hasUpdate', done => {
     request(server).get('/admin/api/hasUpdate').expect(200, done);
   });
 
-  it('GET /admin/api/hasUpdate returns an object', async function () {
+  it('GET /admin/api/hasUpdate returns an object', async () => {
     const res = await request(server).get('/admin/api/hasUpdate');
-    expect(res.body.hasUpdate).to.be.a('boolean');
+    expect(typeof res.body.hasUpdate).toBe('boolean');
   });
 
-  after('Closes the server', function (done) {
+  afterAll(function (done) {
     mongoose.disconnect(done);
   });
 });

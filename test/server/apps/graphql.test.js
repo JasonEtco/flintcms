@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const common = require('./common');
 
-describe('GraphQL API', function () {
-  before('Start a server and populates the db', common.before);
+describe('GraphQL API', () => {
+  beforeAll(common.before);
 
   common.importTest('Users', './types/users');
   common.importTest('Entries', './types/entries');
@@ -13,7 +13,7 @@ describe('GraphQL API', function () {
   common.importTest('Site', './types/site');
   common.importTest('Assets', './types/assets');
 
-  after((done) => {
+  afterAll((done) => {
     mongoose.disconnect();
     done();
   });

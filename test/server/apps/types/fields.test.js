@@ -1,5 +1,4 @@
 const mocks = require('../../../mocks');
-const expect = require('chai').expect;
 const common = require('../common');
 
 it('returns a list of fields', (done) => {
@@ -22,7 +21,7 @@ it('returns a list of fields', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           fields: mocks.fields,
         },
@@ -31,7 +30,7 @@ it('returns a list of fields', (done) => {
     });
 });
 
-it('can query for a specific field', function (done) {
+it('can query for a specific field', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -45,7 +44,7 @@ it('can query for a specific field', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           field: { _id: mocks.fields[0]._id },
         },
@@ -55,7 +54,7 @@ it('can query for a specific field', function (done) {
 });
 
 
-it('can update a field in the database', function (done) {
+it('can update a field in the database', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -79,7 +78,7 @@ it('can update a field in the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           updateField: {
             title: 'New title!',
@@ -90,7 +89,7 @@ it('can update a field in the database', function (done) {
     });
 });
 
-it('can delete a field from the database', function (done) {
+it('can delete a field from the database', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -104,7 +103,7 @@ it('can delete a field from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           removeField: { _id: mocks.fields[0]._id },
         },
@@ -113,7 +112,7 @@ it('can delete a field from the database', function (done) {
     });
 });
 
-it('can save a field to the database', function (done) {
+it('can save a field to the database', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -139,7 +138,7 @@ it('can save a field to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           addField: {
             title: mocks.fields[0].title,
@@ -156,10 +155,10 @@ it('can save a field to the database', function (done) {
 });
 
 
-describe('Permissions', function () {
-  before('Set to non-admin', common.setNonAdmin);
+describe('Permissions', () => {
+  beforeAll(common.setNonAdmin);
 
-  it('cannot delete a field from the database', function (done) {
+  it('cannot delete a field from the database', done => {
     global.agent
       .post('/graphql')
       .send({
@@ -173,14 +172,14 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors[0]).to.include({
+        expect(res.body.errors[0]).toMatchObject({
           message: 'You do not have permission to delete Fields.',
         });
         return done();
       });
   });
 
-  it('cannot save a field to the database', function (done) {
+  it('cannot save a field to the database', done => {
     global.agent
       .post('/graphql')
       .send({
@@ -203,12 +202,12 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors[0]).to.include({
+        expect(res.body.errors[0]).toMatchObject({
           message: 'You do not have permission to create a new Field.',
         });
         return done();
       });
   });
 
-  after('Set to admin', common.setAdmin);
+  afterAll(common.setAdmin);
 });

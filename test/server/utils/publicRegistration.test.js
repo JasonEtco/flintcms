@@ -1,15 +1,14 @@
 const Flint = require('../../../index.js');
 const supertest = require('supertest');
-const expect = require('chai').expect;
 const mongoose = require('mongoose');
 
-describe('publicRegistration', function () {
+describe('publicRegistration', () => {
   let server;
   let agent;
   const signupRoute = '/p/signup';
   const loginRoute = '/p/login';
 
-  before('setup server', async function () {
+  beforeAll(async function () {
     const flintServer = new Flint({
       listen: false,
       signupRoute,
@@ -25,7 +24,7 @@ describe('publicRegistration', function () {
     return server;
   });
 
-  it('can sign up a new user', async function () {
+  it('can sign up a new user', async () => {
     await agent
       .post(signupRoute)
       .send({
@@ -37,10 +36,10 @@ describe('publicRegistration', function () {
     const User = mongoose.model('User');
     const foundNewUser = await User.findOne({ username: 'exampler' });
 
-    expect(foundNewUser).to.be.an('object');
+    expect(typeof foundNewUser).toBe('object');
   });
 
-  it('can log in that new user', async function () {
+  it('can log in that new user', async () => {
     const res = await agent
       .post(loginRoute)
       .send({
@@ -48,11 +47,11 @@ describe('publicRegistration', function () {
         password: 'password',
       });
 
-    expect(res.status).to.equal(302);
-    expect(res.header).to.have.property('location', '/admin');
+    expect(res.status).toBe(302);
+    expect(res.header).toHaveProperty('location', '/admin');
   });
 
-  after((done) => {
+  afterAll((done) => {
     mongoose.disconnect(done);
   });
 });

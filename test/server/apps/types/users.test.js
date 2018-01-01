@@ -27,7 +27,7 @@ it('returns a list of users', (done) => {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           users: mocks.users.map(user => ({
             _id: user._id,
@@ -43,7 +43,7 @@ it('returns a list of users', (done) => {
     });
 });
 
-it('can query for a specific user', function (done) {
+it('can query for a specific user', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -67,7 +67,7 @@ it('can query for a specific user', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           user: {
             _id: mocks.users[1]._id,
@@ -89,7 +89,7 @@ it('can query for a specific user', function (done) {
     });
 });
 
-it('can return a user\'s own details', function (done) {
+it('can return a user\'s own details', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -112,7 +112,7 @@ it('can return a user\'s own details', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           user: {
             _id: mocks.users[0]._id,
@@ -134,7 +134,7 @@ it('can return a user\'s own details', function (done) {
     });
 });
 
-it('can delete a user from the database', function (done) {
+it('can delete a user from the database', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -156,7 +156,7 @@ it('can delete a user from the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           deleteUser: {
             _id: mocks.users[1]._id,
@@ -175,7 +175,7 @@ it('can delete a user from the database', function (done) {
     });
 });
 
-it('can save a user to the database', function (done) {
+it('can save a user to the database', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -207,7 +207,7 @@ it('can save a user to the database', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           addUser: {
             username: mocks.users[1].username,
@@ -226,7 +226,7 @@ it('can save a user to the database', function (done) {
     });
 });
 
-it('throws when using an existing user\'s username', function (done) {
+it('throws when using an existing user\'s username', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -246,13 +246,13 @@ it('throws when using an existing user\'s username', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.status).to.deep.equal(500);
-      expect(res.body.errors).to.contain.an.item.with.property('message', 'There is already a user with that username.');
+      expect(res.status).toEqual(500);
+      expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is already a user with that username.');
       return done();
     });
 });
 
-it('throws when using an existing user\'s email', function (done) {
+it('throws when using an existing user\'s email', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -272,13 +272,13 @@ it('throws when using an existing user\'s email', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.status).to.equal(500);
-      expect(res.body.errors).to.contain.an.item.with.property('message', 'There is already a user with that email.');
+      expect(res.status).toBe(500);
+      expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is already a user with that email.');
       return done();
     });
 });
 
-it('throws when a new user\'s usergroup does not exist', function (done) {
+it('throws when a new user\'s usergroup does not exist', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -301,13 +301,13 @@ it('throws when a new user\'s usergroup does not exist', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.status).to.deep.equal(500);
-      expect(res.body.errors).to.contain.an.item.with.property('message', 'That UserGroup does not exist.');
+      expect(res.status).toEqual(500);
+      expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'That UserGroup does not exist.');
       return done();
     });
 });
 
-it('can update an existing user', function (done) {
+it('can update an existing user', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -334,7 +334,7 @@ it('can update an existing user', function (done) {
     .end((err, res) => {
       if (err) { return done(err); }
       // expect(res.status).to.deep.equal(200);
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           updateUser: {
             name: {
@@ -347,7 +347,7 @@ it('can update an existing user', function (done) {
     });
 });
 
-it('throws when updating a non-existing user', function (done) {
+it('throws when updating a non-existing user', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -373,12 +373,12 @@ it('throws when updating a non-existing user', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body.errors).to.contain.an.item.with.property('message', 'There is no User with this ID.');
+      expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'There is no User with this ID.');
       return done();
     });
 });
 
-it('can reset a user\'s password', function (done) {
+it('can reset a user\'s password', done => {
   global.agent
     .post('/graphql')
     .send({
@@ -391,18 +391,18 @@ it('can reset a user\'s password', function (done) {
     })
     .end((err, res) => {
       if (err) { return done(err); }
-      expect(res.body).to.have.property('data');
-      expect(res.body.data).to.have.property('resetPassword');
-      expect(res.body.data.resetPassword).to.have.property('token');
-      expect(res.body.data.resetPassword.token).to.be.a('string');
+      expect(res.body).toHaveProperty('data');
+      expect(res.body.data).toHaveProperty('resetPassword');
+      expect(res.body.data.resetPassword).toHaveProperty('token');
+      expect(typeof res.body.data.resetPassword.token).toBe('string');
       return done();
     });
 });
 
-describe('Permissions', function () {
-  before('Set to non-admin', common.setNonAdmin);
+describe('Permissions', () => {
+  beforeAll(common.setNonAdmin);
 
-  it('throws when user is not allowed to edit other users', function (done) {
+  it('throws when user is not allowed to edit other users', done => {
     global.agent
       .post('/graphql')
       .send({
@@ -426,12 +426,12 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.contain.an.item.with.property('message', 'You do not have permission to edit users.');
+        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to edit users.');
         return done();
       });
   });
 
-  it('allows a user to edit themselves', function (done) {
+  it('allows a user to edit themselves', done => {
     global.agent
       .post('/graphql')
       .send({
@@ -456,14 +456,14 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body).to.deep.equal({
+        expect(res.body).toEqual({
           data: { updateUser: { name: { first: 'Jason' } } },
         });
         return done();
       });
   });
 
-  it('returns an error when changing a user\'s usergroup', function (done) {
+  it('returns an error when changing a user\'s usergroup', done => {
     global.agent
       .post('/graphql')
       .send({
@@ -488,12 +488,12 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.contain.an.item.with.property('message', 'You do not have permission to change a user\'s usergroup.');
+        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to change a user\'s usergroup.');
         return done();
       });
   });
 
-  it('returns an error when resetting a user\'s password', function (done) {
+  it('returns an error when resetting a user\'s password', done => {
     global.agent
       .post('/graphql')
       .send({
@@ -506,10 +506,10 @@ describe('Permissions', function () {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.contain.an.item.with.property('message', 'You do not have permission to manage users.');
+        expect(res.body.errors).to.contain.an.item.toHaveProperty('message', 'You do not have permission to manage users.');
         return done();
       });
   });
 
-  after('Set to admin', common.setAdmin);
+  afterAll(common.setAdmin);
 });

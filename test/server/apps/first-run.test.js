@@ -2,13 +2,12 @@ const supertest = require('supertest');
 const mocks = require('../../mocks');
 const Flint = require('../../../index.js');
 const mongoose = require('mongoose');
-const expect = require('chai').expect;
 
-describe('First time install', function () {
+describe('First time install', () => {
   let server;
   let agent;
 
-  before('Start a server', async function () {
+  beforeAll(async function () {
     const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
     await mongoose.model('User').remove();
@@ -16,34 +15,34 @@ describe('First time install', function () {
     return server;
   });
 
-  it('GET /admin/firstinstall returns true', async function () {
+  it('GET /admin/firstinstall returns true', async () => {
     const res = await agent.get('/admin/firstinstall');
-    expect(res.status).to.equal(200);
-    expect(res.body).to.deep.equal({ firstTimeInstall: true });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ firstTimeInstall: true });
   });
 
-  it('creates a first new user', async function () {
+  it('creates a first new user', async () => {
     const res = await agent.post('/admin/firstuser').send(mocks.user);
-    expect(res.status).to.equal(200);
-    expect(res.body).to.deep.equal({ success: true });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ success: true });
   });
 
-  it('GET /admin/firstinstall returns false', async function () {
+  it('GET /admin/firstinstall returns false', async () => {
     const res = await agent.get('/admin/firstinstall');
-    expect(res.status).to.equal(200);
-    expect(res.body).to.deep.equal({ firstTimeInstall: false });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ firstTimeInstall: false });
   });
 
-  it('returns a message when a user already exists', async function () {
+  it('returns a message when a user already exists', async () => {
     const res = await agent.post('/admin/firstuser').send(mocks.user);
-    expect(res.status).to.equal(200);
-    expect(res.body).to.deep.equal({
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
       success: false,
       message: 'There is already a user in the database.',
     });
   });
 
-  it('logs in a user', function (done) {
+  it('logs in a user', done => {
     agent
       .post('/admin/login')
       .send({ email: mocks.user.email, password: mocks.user.password })
@@ -51,7 +50,7 @@ describe('First time install', function () {
       .end(done);
   });
 
-  after((done) => {
+  afterAll((done) => {
     mongoose.disconnect();
     done();
   });
