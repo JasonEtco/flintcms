@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const collectData = require('./collectData');
+const collectData = require('./collect-data');
 
 /**
  * Compiles template/data with Nunjucks into an HTML string

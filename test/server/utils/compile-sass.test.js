@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const { promisify } = require('util');
 const path = require('path');
-const compileSass = require('../../../server/utils/compileSass');
+const compileSass = require('../../../server/utils/compile-sass');
 
 const readFile = promisify(fs.readFile);
 const rimraf = promisify(require('rimraf'));

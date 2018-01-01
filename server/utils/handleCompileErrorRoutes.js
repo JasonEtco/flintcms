@@ -1,4 +1,4 @@
-const fourOhFourHandler = require('./fourOhFourHandler');
+const fourOhFourHandler = require('./four-oh-four-handler');
 
 /**
  * Handles compilation errors

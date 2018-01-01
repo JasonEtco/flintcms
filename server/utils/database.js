@@ -14,7 +14,7 @@ const AssetSchema = require('../models/AssetSchema');
 const PageSchema = require('../models/PageSchema');
 const SiteSchema = require('../models/SiteSchema');
 const PluginSchema = require('../models/PluginSchema');
-const createAdminUserGroup = require('./createAdminUserGroup');
+const createAdminUserGroup = require('./create-admin-usergroup');
 const updateSiteConfig = require('./updateSiteConfig');
 
 

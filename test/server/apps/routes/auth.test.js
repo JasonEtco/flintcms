@@ -5,7 +5,6 @@ const mocks = require('../../../mocks');
 const mongoose = require('mongoose');
 
 describe('auth endpoint', () => {
-  this.timeout(4000);
   let server;
 
   beforeAll(async function () {

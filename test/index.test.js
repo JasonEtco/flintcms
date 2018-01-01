@@ -3,7 +3,6 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 
 describe('server', () => {
-  this.timeout(4000);
   let server;
 
   beforeAll(async function () {

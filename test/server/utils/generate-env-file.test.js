@@ -2,7 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const { generateEnvFile, generateSecret } = require('../../../server/utils/generateEnvFile');
+const { generateEnvFile, generateSecret } = require('../../../server/utils/generate-env-file');
 
 describe('generateSecret', () => {
   it('should generate a secret', () => {

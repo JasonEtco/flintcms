@@ -12,7 +12,7 @@ describe('createAdminUserGroup', () => {
     UserGroup = mongoose.model('UserGroup');
 
     // eslint-disable-next-line global-require
-    createAdminUserGroup = require('../../../server/utils/createAdminUserGroup');
+    createAdminUserGroup = require('../../../server/utils/create-admin-usergroup');
 
     return UserGroup.remove();
   });
