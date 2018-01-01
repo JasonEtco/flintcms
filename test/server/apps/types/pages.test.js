@@ -357,7 +357,7 @@ describe('Pages', () => {
   );
 
   describe('Permissions', () => {
-    beforeAll(common.setNonAdmin);
+    beforeAll(done => common.setNonAdmin(done, agent));
 
     it('returns an error when adding a page', (done) => {
       agent

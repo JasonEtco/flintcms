@@ -156,7 +156,7 @@ describe('Usergroups', () => {
   });
 
   describe('Permissions', () => {
-    beforeAll(common.setNonAdmin);
+    beforeAll(done => common.setNonAdmin(done, agent));
 
     it('cannot delete a usergroup from the database', (done) => {
       agent

@@ -71,7 +71,7 @@ describe('Site', () => {
   });
 
   describe('Permissions', () => {
-    beforeAll(common.setNonAdmin);
+    beforeAll(done => common.setNonAdmin(done, agent));
 
     it('cannot update the site document', (done) => {
       agent

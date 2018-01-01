@@ -173,7 +173,7 @@ describe('Assets', () => {
   });
 
   describe('Permissions', () => {
-    beforeAll(common.setNonAdmin);
+    beforeAll(done => common.setNonAdmin(done, agent));
 
     it('cannot edit an asset in the database', (done) => {
       agent

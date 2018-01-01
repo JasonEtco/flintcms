@@ -39,6 +39,15 @@ module.exports = () => {
   // `/ping` endpoint for testing and uptime monitoring
   app.get('/ping', (req, res) => res.end('PONG'));
 
+  // Auto-authenticate in test
+  if (process.env.NODE_ENV === 'test') {
+    app.use((req, res, next) => {
+      const user = require('../test/mocks/users')[0];
+      req.user = user;
+      next();
+    });
+  }
+
   app.use(global.FLINT.publicUrl, express.static(global.FLINT.publicPath));
   // app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
   app.use('/admin', require('./apps/admin')(app));

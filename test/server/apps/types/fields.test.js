@@ -169,7 +169,7 @@ describe('Fields', () => {
 
 
   describe('Permissions', () => {
-    beforeAll(common.setNonAdmin);
+    beforeAll(done => common.setNonAdmin(done, agent));
 
     it('cannot delete a field from the database', (done) => {
       agent

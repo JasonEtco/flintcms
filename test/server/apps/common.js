@@ -4,13 +4,6 @@ const populateDB = require('../../populatedb');
 const supertest = require('supertest');
 const mongoose = require('mongoose');
 
-exports.importTest = function importTest(name, path) {
-  describe(name, () => {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(path);
-  });
-};
-
 exports.before = async function before() {
   const flintServer = new Flint({ listen: false });
   const server = await flintServer.startServer();
@@ -26,8 +19,8 @@ exports.before = async function before() {
   return agent;
 };
 
-exports.setNonAdmin = function setNonAdmin(done) {
-  global.agent
+exports.setNonAdmin = function setNonAdmin(done, agent) {
+  agent
     .post('/graphql')
     .send({
       query: `mutation ($_id: ID!, $data: UserInput!) {

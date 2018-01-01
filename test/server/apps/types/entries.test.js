@@ -345,7 +345,7 @@ describe('Entries', () => {
   });
 
   describe('Permissions', () => {
-    beforeAll(common.setNonAdmin);
+    beforeAll(done => common.setNonAdmin(done, agent));
 
     it('throws when user is not allowed to add a new entry', (done) => {
       agent

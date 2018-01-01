@@ -26,21 +26,22 @@
   ],
   "scripts": {
     "start": "cross-env DEBUG=flint* nodemon --ignore app dev.js",
-    "test": "cross-env DEBUG=none jest",
+    "test": "jest",
     "test:coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
-    "test:api": "npm test -- --grep \"GraphQL API\"",
-    "test:logs": "npm test -- --grep \"logs app\"",
-    "test:site": "npm test -- --grep \"site endpoint\"",
-    "test:auth": "npm test -- --grep \"auth endpoint\"",
-    "test:admin": "npm test -- --grep \"admin routes\"",
-    "test:publicRegistration": "npm test -- --grep \"publicRegistration\"",
-    "test:env": "npm test -- --grep \"env\"",
-    "test:server": "npm test -- --grep \"server\"",
-    "test:compiler": "npm test -- --grep \"Compile templates\"",
-    "test:plugin": "npm test -- --grep \"FlintPlugin\"",
-    "test:assets": "npm test -- --grep \"assets routes\"",
-    "test:firstrun": "npm test -- --grep \"First time install\"",
-    "wipe-db": "npm test -- --grep \"First time install\"",
+    "test:api": "npm test -- -t \"GraphQL API\"",
+    "test:logs": "jest test/server/apps/routes/logs.test.js",
+    "test:site": "jest test/server/apps/routes/site.test.js",
+    "test:auth": "jest test/server/apps/routes/auth.test.js",
+    "test:assets": "jest test/server/apps/routes/assets.test.js",
+    "test:admin": "jest test/server/apps/admin.test.js",
+    "test:gql:entries": "jest test/server/apps/types/entries.test.js",
+    "test:publicRegistration": "jest test/server/publicRegistration\"",
+    "test:env": "jest test/server/env\"",
+    "test:server": "jest test/server/server\"",
+    "test:compiler": "jest test/server/Compile templates\"",
+    "test:plugin": "jest test/server/FlintPlugin\"",
+    "test:firstrun": "jest test/server/First time install\"",
+    "wipe-db": "jest test/server/First time install\"",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "lint": "eslint **/*.js",
     "prepublishOnly": "npm run build"
@@ -68,6 +69,9 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules"
+    ],
+    "setupFiles": [
+      "./test/setup.js"
     ]
   },
   "dependencies": {

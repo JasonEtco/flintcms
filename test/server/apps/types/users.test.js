@@ -407,7 +407,7 @@ describe('Users', () => {
   });
 
   describe('Permissions', () => {
-    beforeAll(common.setNonAdmin);
+    beforeAll(done => common.setNonAdmin(done, agent));
 
     it('throws when user is not allowed to edit other users', (done) => {
       agent
