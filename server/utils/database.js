@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 const log = require('debug')('flint');
-const registerPlugins = require('./registerPlugins');
+const registerPlugins = require('./register-plugins');
 
 const UserGroupSchema = require('../models/UserGroupSchema');
 const UserSchema = require('../models/UserSchema');
@@ -15,7 +15,7 @@ const PageSchema = require('../models/PageSchema');
 const SiteSchema = require('../models/SiteSchema');
 const PluginSchema = require('../models/PluginSchema');
 const createAdminUserGroup = require('./create-admin-usergroup');
-const updateSiteConfig = require('./updateSiteConfig');
+const updateSiteConfig = require('./update-site-config');
 
 
 mongoose.Promise = global.Promise;

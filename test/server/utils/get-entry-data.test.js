@@ -14,7 +14,7 @@ describe('getEntryData', () => {
 
   it('returns an entry\'s data', async () => {
     // eslint-disable-next-line global-require
-    const getEntryData = require('../../../server/utils/getEntryData');
+    const getEntryData = require('../../../server/utils/get-entry-data');
     const section = mocks.sections.find(s => mocks.entries[3].section === s._id);
     const entry = await getEntryData({ slug: mocks.entries[3].slug, section: section.slug });
     const author = mocks.users.find(u => mocks.entries[3].author === u._id);

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const compile = require('./compile');
-const getEntryData = require('./getEntryData');
-const handleCompileErrorRoutes = require('./handleCompileErrorRoutes');
+const getEntryData = require('./get-entry-data');
+const handleCompileErrorRoutes = require('./handle-compile-error-routes');
 
 const Page = mongoose.model('Page');
 const router = express.Router();

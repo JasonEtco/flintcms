@@ -1,7 +1,7 @@
 const { GraphQLList, GraphQLObjectType } = require('graphql');
 const path = require('path');
 const fs = require('fs');
-const getAssetDetails = require('../../../utils/getAssetDetails');
+const getAssetDetails = require('../../../utils/get-asset-details');
 const mongoose = require('mongoose');
 const { outputType } = require('../../types/Assets');
 const { promisify } = require('util');

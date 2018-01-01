@@ -11,7 +11,7 @@ describe('updateSiteConfig', () => {
 
   it('updates the site config in the db', async () => {
     // eslint-disable-next-line global-require
-    const updateSiteConfig = require('../../../server/utils/updateSiteConfig');
+    const updateSiteConfig = require('../../../server/utils/update-site-config');
     const updatedSite = await updateSiteConfig();
     expect(typeof updatedSite).toBe('object');
   });
@@ -21,7 +21,7 @@ describe('updateSiteConfig', () => {
 
     await Site.remove();
     // eslint-disable-next-line global-require
-    const updateSiteConfig = require('../../../server/utils/updateSiteConfig');
+    const updateSiteConfig = require('../../../server/utils/update-site-config');
     const updatedSite = await updateSiteConfig();
     expect(typeof updatedSite).toBe('object');
   });

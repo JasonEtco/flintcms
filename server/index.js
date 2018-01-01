@@ -52,11 +52,11 @@ module.exports = () => {
   // app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
   app.use('/admin', require('./apps/admin')(app));
   app.use('/graphql', require('./apps/graphql')(app));
-  app.use(require('./utils/publicRegistration')());
+  app.use(require('./utils/public-registration')());
 
   // ===== Template Routes
 
-  app.use(require('./utils/templateRoutes'));
+  app.use(require('./utils/template-routes'));
 
   return server;
 };
