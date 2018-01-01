@@ -95,7 +95,9 @@ describe('Assets', () => {
         },
       });
 
-      expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'There is no Asset with that id');
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'There is no Asset with that id',
+      }));
     },
   );
 
@@ -135,7 +137,9 @@ describe('Assets', () => {
         variables: { _id: mocks.users[0]._id },
       });
 
-    expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'This asset doesn\'t exist.');
+    expect(res.body.errors).toContainEqual(expect.objectContaining({
+      message: 'This asset doesn\'t exist.',
+    }));
   });
 
   it('can save an asset to the database', (done) => {
@@ -194,7 +198,9 @@ describe('Assets', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to edit assets.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to edit assets.',
+          }));
           return done();
         });
     });
@@ -213,7 +219,9 @@ describe('Assets', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to delete assets.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to delete assets.',
+          }));
           return done();
         });
     });
@@ -241,7 +249,9 @@ describe('Assets', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to add new assets.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You do not have permission to add new assets.',
+          }));
           return done();
         });
     });
@@ -262,7 +272,9 @@ describe('Assets', () => {
           }`,
         });
 
-      expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You do not have permission to re-index assets.');
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to re-index assets.',
+      }));
     });
 
     afterAll(common.setAdmin);
