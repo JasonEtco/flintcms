@@ -12,8 +12,6 @@ node_js:
   - "9"
 
 before_script:
-  - npm prune
-  - mongo test --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
   - npm run build
   
 notifications:

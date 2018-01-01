@@ -17,17 +17,32 @@ const PluginSchema = require('../models/PluginSchema');
 const createAdminUserGroup = require('./create-admin-usergroup');
 const updateSiteConfig = require('./update-site-config');
 
-
-mongoose.Promise = global.Promise;
-
-const mongoUri = `mongodb://${process.env.DB_HOST}`;
-const mongoOptions = {
-  user: process.env.DB_USER,
-  pass: process.env.DB_PASS,
-  useMongoClient: true,
-};
-
 module.exports = function connectToDatabase() {
+  const config = {
+    development: {
+      database: 'flint-dev',
+      host: '127.0.0.1',
+    },
+    test: {
+      database: 'flint-test',
+      host: '127.0.0.1',
+    },
+  };
+
+  const env = process.env.NODE_ENV || 'development';
+  mongoose.Promise = global.Promise;
+
+  let mongoUri;
+  if (env === 'production') {
+    const { DB_URL, DB_USER, DB_PASS } = process.env;
+    mongoUri = `mongodb://${DB_USER}:${DB_PASS}@${DB_URL}`;
+  } else {
+    const cfg = config[env];
+    mongoUri = `mongodb://${cfg.host}/${cfg.database}`;
+  }
+
+  const mongoOptions = { useMongoClient: true };
+
   mongoose.connect(mongoUri, mongoOptions);
   return new Promise((resolve, reject) => {
     mongoose.connection.on('open', async () => {
