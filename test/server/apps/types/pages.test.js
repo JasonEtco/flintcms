@@ -239,7 +239,7 @@ describe('Pages', () => {
         .end((err, res) => {
           if (err) { return done(err); }
           const { data } = res.body;
-          expect(data.pages).toMatchObject({ homepage: true });
+          expect(data.pages).toContainEqual({ homepage: true });
           expect(data.pages.filter(p => p.homepage).length).toBe(1);
           return done();
         });
@@ -269,7 +269,9 @@ describe('Pages', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'There is already a page with that slug.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'There is already a page with that slug.',
+          }));
           return done();
         });
     },
@@ -296,7 +298,9 @@ describe('Pages', () => {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You must include at least one field.');
+        expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You must include at least one field.',
+          }));
         return done();
       });
   });
@@ -322,7 +326,9 @@ describe('Pages', () => {
       })
       .end((err, res) => {
         if (err) { return done(err); }
-        expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You must include a title.');
+        expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'You must include a title.',
+          }));
         return done();
       });
   });
@@ -350,7 +356,9 @@ describe('Pages', () => {
         })
         .end((err, res) => {
           if (err) { return done(err); }
-          expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'Routes starting with `/admin` are reserved for Flint.');
+          expect(res.body.errors).toContainEqual(expect.objectContaining({
+            message: 'Routes starting with `/admin` are reserved for Flint.',
+          }));
           return done();
         });
     },
