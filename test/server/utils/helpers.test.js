@@ -12,14 +12,14 @@ describe('helpers', () => {
       { foo: 'one', bar: 'two' },
       { foo: 'three', bar: 'four' },
     ];
-    test(
+    it(
       'should create and an object of the keys in an array of objects',
       () => {
         expect(reduceToObj(obj, 'foo', 'bar')).toEqual({
           one: 'two',
           three: 'four',
         });
-      }
+      },
     );
   });
 

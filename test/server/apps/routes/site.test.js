@@ -12,11 +12,11 @@ describe('site endpoint', () => {
     return server;
   });
 
-  it('returns a 200 response for /admin/api/site', done => {
+  it('returns a 200 response for /admin/api/site', (done) => {
     request(server).get('/admin/api/site').expect(200, done);
   });
 
-  it('returns a 200 response for /admin/api/hasUpdate', done => {
+  it('returns a 200 response for /admin/api/hasUpdate', (done) => {
     request(server).get('/admin/api/hasUpdate').expect(200, done);
   });
 

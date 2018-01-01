@@ -42,7 +42,7 @@ describe('First time install', () => {
     });
   });
 
-  it('logs in a user', done => {
+  it('logs in a user', (done) => {
     agent
       .post('/admin/login')
       .send({ email: mocks.user.email, password: mocks.user.password })

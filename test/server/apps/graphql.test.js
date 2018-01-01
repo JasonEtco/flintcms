@@ -4,14 +4,14 @@ const common = require('./common');
 describe('GraphQL API', () => {
   beforeAll(common.before);
 
-  common.importTest('Users', './types/users');
-  common.importTest('Entries', './types/entries');
-  common.importTest('Sections', './types/sections');
-  common.importTest('Pages', './types/pages');
-  common.importTest('Fields', './types/fields');
-  common.importTest('UserGroups', './types/usergroups');
-  common.importTest('Site', './types/site');
-  common.importTest('Assets', './types/assets');
+  common.importTest('Users', './types/users.test');
+  common.importTest('Entries', './types/entries.test');
+  common.importTest('Sections', './types/sections.test');
+  common.importTest('Pages', './types/pages.test');
+  common.importTest('Fields', './types/fields.test');
+  common.importTest('UserGroups', './types/usergroups.test');
+  common.importTest('Site', './types/site.test');
+  common.importTest('Assets', './types/assets.test');
 
   afterAll((done) => {
     mongoose.disconnect();

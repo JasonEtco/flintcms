@@ -27,7 +27,7 @@ it('returns a list of entries', (done) => {
     });
 });
 
-it('can query for all entries in a section by sectionSlug', done => {
+it('can query for all entries in a section by sectionSlug', (done) => {
   const section = mocks.sections[0];
   global.agent
     .post('/graphql')
@@ -58,7 +58,7 @@ it('can query for all entries in a section by sectionSlug', done => {
 
 test(
   'returns an error when querying for entries by a sectionSlug that does not exist',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -76,10 +76,10 @@ test(
         expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'There is no section with that slug.');
         return done();
       });
-  }
+  },
 );
 
-it('can query for a specific entry by _id', done => {
+it('can query for a specific entry by _id', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -104,7 +104,7 @@ it('can query for a specific entry by _id', done => {
 
 test(
   'can query for a specific entry by slug and sectionSlug',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -127,12 +127,12 @@ test(
         });
         return done();
       });
-  }
+  },
 );
 
 test(
   'returns an error when querying an entry by slug without a sectionSlug',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -147,16 +147,16 @@ test(
         if (err) { return done(err); }
         expect(res.body.errors).to.include.an.item.toHaveProperty(
           'message',
-          'When querying for an entry by slug, you must also query by sectionSlug.'
+          'When querying for an entry by slug, you must also query by sectionSlug.',
         );
         return done();
       });
-  }
+  },
 );
 
 test(
   'returns an error when querying an entry by slug with a sectionSlug that does not exist',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -175,10 +175,10 @@ test(
         expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'That section does not exist.');
         return done();
       });
-  }
+  },
 );
 
-it('can delete an entry from the database', done => {
+it('can delete an entry from the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -201,7 +201,7 @@ it('can delete an entry from the database', done => {
     });
 });
 
-it('can save an entry to the database', done => {
+it('can save an entry to the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -266,7 +266,7 @@ it('returns an error when saving with an empty title', async () => {
   expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'Your entry\'s title must have some real characters');
 });
 
-it('can update an entry in the database', done => {
+it('can update an entry in the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -334,7 +334,7 @@ it('returns an error when updating a non-existent entry', async () => {
 describe('Permissions', () => {
   beforeAll(common.setNonAdmin);
 
-  it('throws when user is not allowed to add a new entry', done => {
+  it('throws when user is not allowed to add a new entry', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -365,7 +365,7 @@ describe('Permissions', () => {
 
   test(
     'throws when user is not allowed to update an entry\'s status',
-    done => {
+    (done) => {
       global.agent
         .post('/graphql')
         .send({
@@ -394,10 +394,10 @@ describe('Permissions', () => {
           expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You are not allowed to change the status of entries. Sorry!');
           return done();
         });
-    }
+    },
   );
 
-  it('throws when user edits an entry not their own', done => {
+  it('throws when user edits an entry not their own', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -428,7 +428,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('throws when user edits a live entry', done => {
+  it('throws when user edits a live entry', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -459,7 +459,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('does not return a draft entry', done => {
+  it('does not return a draft entry', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -479,7 +479,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('throws when deleting an entry', done => {
+  it('throws when deleting an entry', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -500,7 +500,7 @@ describe('Permissions', () => {
 
   test(
     'returns an error when querying for a specific entry by _id',
-    done => {
+    (done) => {
       global.agent
         .post('/graphql')
         .send({
@@ -519,7 +519,7 @@ describe('Permissions', () => {
           expect(res.body.data.entry).toBeNull();
           return done();
         });
-    }
+    },
   );
 
   afterAll(common.setAdmin);

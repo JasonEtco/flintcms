@@ -13,13 +13,11 @@ describe('server', () => {
   });
 
   describe('Monitoring', () => {
-    it('is listening', () => {
-      return expect(server.listening).toBe(true);
-    });
+    it('is listening', () => expect(server.listening).toBe(true));
   });
 
   describe('GET /ping', () => {
-    it('returns a 200 response', done => {
+    it('returns a 200 response', (done) => {
       request(server).get('/ping').expect(200, 'PONG', done);
     });
   });

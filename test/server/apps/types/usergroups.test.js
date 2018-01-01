@@ -35,7 +35,7 @@ it('returns a list of usergroups', (done) => {
     });
 });
 
-it('can query for a specific usergroup', done => {
+it('can query for a specific usergroup', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -58,7 +58,7 @@ it('can query for a specific usergroup', done => {
     });
 });
 
-it('can update a usergroup in the database', done => {
+it('can update a usergroup in the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -89,7 +89,7 @@ it('can update a usergroup in the database', done => {
     });
 });
 
-it('can delete a usergroup from the database', done => {
+it('can delete a usergroup from the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -112,7 +112,7 @@ it('can delete a usergroup from the database', done => {
     });
 });
 
-it('can save a usergroup to the database', done => {
+it('can save a usergroup to the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -147,7 +147,7 @@ it('can save a usergroup to the database', done => {
 describe('Permissions', () => {
   beforeAll(common.setNonAdmin);
 
-  it('cannot delete a usergroup from the database', done => {
+  it('cannot delete a usergroup from the database', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -166,7 +166,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('cannot save a usergroup to the database', done => {
+  it('cannot save a usergroup to the database', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -191,7 +191,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('cannot update a usergroup in the database', done => {
+  it('cannot update a usergroup in the database', (done) => {
     global.agent
       .post('/graphql')
       .send({

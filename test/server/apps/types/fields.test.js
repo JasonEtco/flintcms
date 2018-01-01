@@ -30,7 +30,7 @@ it('returns a list of fields', (done) => {
     });
 });
 
-it('can query for a specific field', done => {
+it('can query for a specific field', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -54,7 +54,7 @@ it('can query for a specific field', done => {
 });
 
 
-it('can update a field in the database', done => {
+it('can update a field in the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -89,7 +89,7 @@ it('can update a field in the database', done => {
     });
 });
 
-it('can delete a field from the database', done => {
+it('can delete a field from the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -112,7 +112,7 @@ it('can delete a field from the database', done => {
     });
 });
 
-it('can save a field to the database', done => {
+it('can save a field to the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -158,7 +158,7 @@ it('can save a field to the database', done => {
 describe('Permissions', () => {
   beforeAll(common.setNonAdmin);
 
-  it('cannot delete a field from the database', done => {
+  it('cannot delete a field from the database', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -179,7 +179,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('cannot save a field to the database', done => {
+  it('cannot save a field to the database', (done) => {
     global.agent
       .post('/graphql')
       .send({

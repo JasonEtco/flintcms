@@ -26,16 +26,16 @@ describe('Compile templates', () => {
     expect(res.text).toBe(file);
   });
 
-  test(
+  it(
     'returns `no-template` when the requested template does not exist',
     async () => {
       const res = await request(server).get('/no-template');
       expect(res.status).toBe(302);
       expect(res.header.location).toBe('/admin/error?r=no-template&p=/no-template&t=template-no-exist');
       expect(res.text).toBe(
-        'Found. Redirecting to /admin/error?r=no-template&p=/no-template&t=template-no-exist'
+        'Found. Redirecting to /admin/error?r=no-template&p=/no-template&t=template-no-exist',
       );
-    }
+    },
   );
 
   it('returns 404 when a page does not exist', async () => {

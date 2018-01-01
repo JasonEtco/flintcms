@@ -12,7 +12,7 @@ describe('logs app', () => {
     return server;
   });
 
-  it('returns a 200 response for /admin/api/logs', done => {
+  it('returns a 200 response for /admin/api/logs', (done) => {
     request(server).get('/admin/api/logs').expect(200, done);
   });
 

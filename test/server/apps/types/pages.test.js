@@ -36,7 +36,7 @@ it('returns a list of pages', (done) => {
     });
 });
 
-it('can query for a specific page by _id', done => {
+it('can query for a specific page by _id', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -59,7 +59,7 @@ it('can query for a specific page by _id', done => {
     });
 });
 
-it('can delete a page from the database', done => {
+it('can delete a page from the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -82,7 +82,7 @@ it('can delete a page from the database', done => {
     });
 });
 
-it('can save a page to the database', done => {
+it('can save a page to the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -114,7 +114,7 @@ it('can save a page to the database', done => {
     });
 });
 
-it('can update a page in the database', done => {
+it('can update a page in the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -146,7 +146,7 @@ it('can update a page in the database', done => {
     });
 });
 
-it('sets a new homepage\'s route to `/`', done => {
+it('sets a new homepage\'s route to `/`', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -179,7 +179,7 @@ it('sets a new homepage\'s route to `/`', done => {
     });
 });
 
-it('can overwrite an existing homepage', done => {
+it('can overwrite an existing homepage', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -214,7 +214,7 @@ it('can overwrite an existing homepage', done => {
 
 test(
   'overwrites the last homepage when a new homepage is saved',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -231,12 +231,12 @@ test(
         expect(data.pages.filter(p => p.homepage).length).toBe(1);
         return done();
       });
-  }
+  },
 );
 
 test(
   'returns the correct error for a page with an existing slug',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -260,10 +260,10 @@ test(
         expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'There is already a page with that slug.');
         return done();
       });
-  }
+  },
 );
 
-it('returns the correct error without a fieldLayout', done => {
+it('returns the correct error without a fieldLayout', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -289,7 +289,7 @@ it('returns the correct error without a fieldLayout', done => {
     });
 });
 
-it('returns the correct error without a title', done => {
+it('returns the correct error without a title', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -317,7 +317,7 @@ it('returns the correct error without a title', done => {
 
 test(
   'returns the correct error for a route starting with /admin',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -341,13 +341,13 @@ test(
         expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'Routes starting with `/admin` are reserved for Flint.');
         return done();
       });
-  }
+  },
 );
 
 describe('Permissions', () => {
   beforeAll(common.setNonAdmin);
 
-  it('returns an error when adding a page', done => {
+  it('returns an error when adding a page', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -375,7 +375,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('returns an error when editing a page', done => {
+  it('returns an error when editing a page', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -404,7 +404,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('returns an error when deleting a page', done => {
+  it('returns an error when deleting a page', (done) => {
     global.agent
       .post('/graphql')
       .send({

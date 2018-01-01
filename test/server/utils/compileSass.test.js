@@ -20,9 +20,7 @@ describe('Compile SCSS', () => {
     done();
   });
 
-  afterEach(() => {
-    return rimraf('test/temp/public');
-  });
+  afterEach(() => rimraf('test/temp/public'));
 
   it('compiles scss', async () => {
     const result = await compileSass();

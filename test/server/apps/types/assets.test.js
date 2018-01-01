@@ -35,7 +35,7 @@ it('can query for a specific asset', async () => {
   expect(res.body.data.asset._id).toBe(mocks.assets[0]._id);
 });
 
-it('can update an asset in the database', done => {
+it('can update an asset in the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -83,10 +83,10 @@ test(
     });
 
     expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'There is no Asset with that id');
-  }
+  },
 );
 
-it('can delete an asset from the database', done => {
+it('can delete an asset from the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -125,7 +125,7 @@ it('returns an error for a non-existing asset', async () => {
   expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'This asset doesn\'t exist.');
 });
 
-it('can save an asset to the database', done => {
+it('can save an asset to the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -162,7 +162,7 @@ it('can save an asset to the database', done => {
 describe('Permissions', () => {
   beforeAll(common.setNonAdmin);
 
-  it('cannot edit an asset in the database', done => {
+  it('cannot edit an asset in the database', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -186,7 +186,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('cannot delete an asset from the database', done => {
+  it('cannot delete an asset from the database', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -205,7 +205,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('cannot save an asset to the database', done => {
+  it('cannot save an asset to the database', (done) => {
     global.agent
       .post('/graphql')
       .send({

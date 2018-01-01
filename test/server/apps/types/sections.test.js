@@ -28,7 +28,7 @@ it('returns a list of sections', (done) => {
     });
 });
 
-it('can query for a specific section by _id', done => {
+it('can query for a specific section by _id', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -51,7 +51,7 @@ it('can query for a specific section by _id', done => {
     });
 });
 
-it('can delete a section from the database', done => {
+it('can delete a section from the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -74,7 +74,7 @@ it('can delete a section from the database', done => {
     });
 });
 
-it('can save a section to the database', done => {
+it('can save a section to the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -107,7 +107,7 @@ it('can save a section to the database', done => {
 
 test(
   'returns an error when saving a section without any fields',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -130,12 +130,12 @@ test(
         expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You must include at least one field.');
         return done();
       });
-  }
+  },
 );
 
 test(
   'returns an error when saving a section without a title',
-  done => {
+  (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -158,10 +158,10 @@ test(
         expect(res.body.errors).to.include.an.item.toHaveProperty('message', 'You must include a title.');
         return done();
       });
-  }
+  },
 );
 
-it('can update a section in the database', done => {
+it('can update a section in the database', (done) => {
   global.agent
     .post('/graphql')
     .send({

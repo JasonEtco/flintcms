@@ -16,16 +16,16 @@ describe('auth endpoint', () => {
 
   test(
     'redirects to admin when a verify link token does not exist',
-    done => {
+    (done) => {
       request(server).get('/admin/verify')
         .query({ t: 'PIZZA' })
         .expect(302)
         .expect('Location', '/admin')
         .end(done);
-    }
+    },
   );
 
-  it('redirects to the set password page from /verify', done => {
+  it('redirects to the set password page from /verify', (done) => {
     request(server).get('/admin/verify')
       .query({ t: 'TOKEN' })
       .expect(302)
@@ -39,7 +39,7 @@ describe('auth endpoint', () => {
       const res = await request(server).post('/admin/setpassword').send({ token: 'PIZZA', password: 'password' });
       expect(res.status).toBe(400);
       expect(res.body).toEqual({ message: 'Cannot find user.' });
-    }
+    },
   );
 
   it('returns success false without a password', async () => {
@@ -57,14 +57,14 @@ describe('auth endpoint', () => {
 
   test(
     'returns an error when resetting a password for a non-existent email',
-    done => {
+    (done) => {
       request(server)
         .post('/admin/forgotpassword')
         .send({ email: 'dontexist@example.com' })
         .expect(400)
         .expect('There is no user with that email.')
         .end(done);
-    }
+    },
   );
 
   test(
@@ -73,10 +73,10 @@ describe('auth endpoint', () => {
       const res = await request(server).post('/admin/forgotpassword').send({ email: mocks.users[1].email });
       expect(res.status).toBe(200);
       expect(res.body).toEqual({ success: true });
-    }
+    },
   );
 
-  it('redirects to / after logout', done => {
+  it('redirects to / after logout', (done) => {
     request(server).get('/admin/logout')
       .expect(302)
       .expect('Location', '/')

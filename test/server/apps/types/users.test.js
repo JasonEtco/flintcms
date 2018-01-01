@@ -1,10 +1,5 @@
 const mocks = require('../../../mocks');
-const chai = require('chai');
 const common = require('../common');
-
-chai.use(require('chai-things'));
-
-const expect = chai.expect;
 
 it('returns a list of users', (done) => {
   global.agent
@@ -43,7 +38,7 @@ it('returns a list of users', (done) => {
     });
 });
 
-it('can query for a specific user', done => {
+it('can query for a specific user', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -89,7 +84,7 @@ it('can query for a specific user', done => {
     });
 });
 
-it('can return a user\'s own details', done => {
+it('can return a user\'s own details', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -134,7 +129,7 @@ it('can return a user\'s own details', done => {
     });
 });
 
-it('can delete a user from the database', done => {
+it('can delete a user from the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -175,7 +170,7 @@ it('can delete a user from the database', done => {
     });
 });
 
-it('can save a user to the database', done => {
+it('can save a user to the database', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -226,7 +221,7 @@ it('can save a user to the database', done => {
     });
 });
 
-it('throws when using an existing user\'s username', done => {
+it('throws when using an existing user\'s username', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -252,7 +247,7 @@ it('throws when using an existing user\'s username', done => {
     });
 });
 
-it('throws when using an existing user\'s email', done => {
+it('throws when using an existing user\'s email', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -278,7 +273,7 @@ it('throws when using an existing user\'s email', done => {
     });
 });
 
-it('throws when a new user\'s usergroup does not exist', done => {
+it('throws when a new user\'s usergroup does not exist', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -307,7 +302,7 @@ it('throws when a new user\'s usergroup does not exist', done => {
     });
 });
 
-it('can update an existing user', done => {
+it('can update an existing user', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -347,7 +342,7 @@ it('can update an existing user', done => {
     });
 });
 
-it('throws when updating a non-existing user', done => {
+it('throws when updating a non-existing user', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -378,7 +373,7 @@ it('throws when updating a non-existing user', done => {
     });
 });
 
-it('can reset a user\'s password', done => {
+it('can reset a user\'s password', (done) => {
   global.agent
     .post('/graphql')
     .send({
@@ -402,7 +397,7 @@ it('can reset a user\'s password', done => {
 describe('Permissions', () => {
   beforeAll(common.setNonAdmin);
 
-  it('throws when user is not allowed to edit other users', done => {
+  it('throws when user is not allowed to edit other users', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -431,7 +426,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('allows a user to edit themselves', done => {
+  it('allows a user to edit themselves', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -463,7 +458,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('returns an error when changing a user\'s usergroup', done => {
+  it('returns an error when changing a user\'s usergroup', (done) => {
     global.agent
       .post('/graphql')
       .send({
@@ -493,7 +488,7 @@ describe('Permissions', () => {
       });
   });
 
-  it('returns an error when resetting a user\'s password', done => {
+  it('returns an error when resetting a user\'s password', (done) => {
     global.agent
       .post('/graphql')
       .send({
