@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const reducePermissionsToObject = require('./reducePermissionsToObject');
+const reducePermissionsToObject = require('./reduce-perms-to-object');
 
 /**
  * Creates an admin usergroup in the database

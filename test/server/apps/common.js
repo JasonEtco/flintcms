@@ -2,32 +2,20 @@ const Flint = require('../../../');
 const mocks = require('../../mocks');
 const populateDB = require('../../populatedb');
 const supertest = require('supertest');
-const expect = require('chai').expect;
 const mongoose = require('mongoose');
 
-exports.importTest = function importTest(name, path) {
-  describe(name, function () {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(path);
-  });
-};
-
 exports.before = async function before() {
-  this.timeout(15000);
   const flintServer = new Flint({ listen: false });
   const server = await flintServer.startServer();
-  global.agent = supertest.agent(server);
+  const agent = supertest.agent(server);
 
   await populateDB();
 
-  return global.agent
-    .post('/admin/login')
-    .send({ email: mocks.users[0].email, password: 'password' })
-    .expect(200);
+  return agent;
 };
 
-exports.setNonAdmin = function setNonAdmin(done) {
-  global.agent
+exports.setNonAdmin = function setNonAdmin(done, agent) {
+  agent
     .post('/graphql')
     .send({
       query: `mutation ($_id: ID!, $data: UserInput!) {
@@ -50,7 +38,7 @@ exports.setNonAdmin = function setNonAdmin(done) {
     .end((err, res) => {
       if (err) { return done(err); }
       // expect(res.status).to.equal(200);
-      expect(res.body).to.deep.equal({
+      expect(res.body).toEqual({
         data: {
           updateUser: {
             usergroup: {

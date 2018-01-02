@@ -1,27 +1,30 @@
-language: node_js
+sudo: false
 
 cache:
   directories:
     - node_modules
-  
-notifications:
-  email: false
 
 services:
   - mongodb
 
 node_js:
   - "8"
+  - "9"
 
 before_script:
-  - npm prune
-  - mongo test --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
   - npm run build
+  
+notifications:
+  disabled: true
 
-script:
-  - npm run test:coverage
-  - npm run lint
+install:
+  - npm install -g codecov
+  - npm install
 
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
+    
+script:
+  - npm test
+  - codecov

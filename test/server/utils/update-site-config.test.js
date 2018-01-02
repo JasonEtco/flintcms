@@ -1,33 +1,32 @@
 const Flint = require('../../../index.js');
-const expect = require('chai').expect;
 const populateDB = require('../../populatedb');
 const mongoose = require('mongoose');
 
-describe('updateSiteConfig', function () {
-  before('Creates a server and populates the db', async function () {
+describe('updateSiteConfig', () => {
+  beforeAll(async function () {
     const flintServer = new Flint({ listen: false });
     await flintServer.startServer();
     return populateDB();
   });
 
-  it('updates the site config in the db', async function () {
+  it('updates the site config in the db', async () => {
     // eslint-disable-next-line global-require
-    const updateSiteConfig = require('../../../server/utils/updateSiteConfig');
+    const updateSiteConfig = require('../../../server/utils/update-site-config');
     const updatedSite = await updateSiteConfig();
-    expect(updatedSite).to.be.an('object');
+    expect(typeof updatedSite).toBe('object');
   });
 
-  it('adds a new site config to the db', async function () {
+  it('adds a new site config to the db', async () => {
     const Site = mongoose.model('Site');
 
     await Site.remove();
     // eslint-disable-next-line global-require
-    const updateSiteConfig = require('../../../server/utils/updateSiteConfig');
+    const updateSiteConfig = require('../../../server/utils/update-site-config');
     const updatedSite = await updateSiteConfig();
-    expect(updatedSite).to.be.an('object');
+    expect(typeof updatedSite).toBe('object');
   });
 
-  after((done) => {
+  afterAll((done) => {
     mongoose.disconnect(done);
   });
 });

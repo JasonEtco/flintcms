@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const reducePermissionsToObject = require('../utils/reducePermissionsToObject');
+const reducePermissionsToObject = require('../utils/reduce-perms-to-object');
 const h = require('../utils/helpers');
 
 const Schema = mongoose.Schema;
