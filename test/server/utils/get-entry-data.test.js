@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 const mocks = require('../../mocks');
 
 describe('getEntryData', () => {
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ listen: false, templatePath: 'test/fixtures' });
     await flintServer.startServer();
-    return populateDB();
+    await populateDB();
   });
 
   it('returns an entry\'s data', async () => {
@@ -36,8 +36,5 @@ describe('getEntryData', () => {
     });
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 });

@@ -7,7 +7,7 @@ describe('First time install', () => {
   let server;
   let agent;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
     await mongoose.model('User').remove();
@@ -49,8 +49,5 @@ describe('First time install', () => {
       .end(done);
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 });

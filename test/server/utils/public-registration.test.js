@@ -8,7 +8,7 @@ describe('publicRegistration', () => {
   const signupRoute = '/p/signup';
   const loginRoute = '/p/login';
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({
       listen: false,
       signupRoute,
@@ -20,8 +20,6 @@ describe('publicRegistration', () => {
 
     const Site = mongoose.model('Site');
     await Site.findOneAndUpdate({}, { $set: { allowPublicRegistration: true } }).exec();
-
-    return server;
   });
 
   it('can sign up a new user', async () => {
@@ -51,7 +49,5 @@ describe('publicRegistration', () => {
     expect(res.header).toHaveProperty('location', '/admin');
   });
 
-  afterAll((done) => {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

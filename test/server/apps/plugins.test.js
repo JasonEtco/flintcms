@@ -9,7 +9,7 @@ const ConsolePlugin = require('../../fixtures/plugins/ConsolePlugin');
 describe('Plugin system', () => {
   let agent;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ listen: false, plugins: [ConsolePlugin] });
     const server = await flintServer.startServer();
     agent = supertest.agent(server);
@@ -45,8 +45,5 @@ describe('Plugin system', () => {
     });
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 });

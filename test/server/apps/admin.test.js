@@ -23,7 +23,5 @@ describe('admin routes', () => {
     expect(res.text).toContain('<!DOCTYPE html>');
   });
 
-  afterAll(function (done) {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

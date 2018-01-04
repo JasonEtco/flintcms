@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 describe('server', () => {
   let server;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
   });
