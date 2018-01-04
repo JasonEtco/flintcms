@@ -5,10 +5,9 @@ const mongoose = require('mongoose');
 describe('admin routes', () => {
   let server;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
-    return server;
   });
 
   it('returns the correct response for /admin/login', async () => {
