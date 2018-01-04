@@ -9,10 +9,7 @@ describe('Assets', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
   it('returns a list of assets', async () => {
     const res = await agent

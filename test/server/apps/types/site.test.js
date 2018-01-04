@@ -9,10 +9,7 @@ describe('Site', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
   it('returns the site config', async () => {
     const res = await agent
@@ -65,8 +62,8 @@ describe('Site', () => {
   describe('Permissions', () => {
     beforeAll(async () => common.setNonAdmin(agent));
 
-    it('cannot update the site document', (done) => {
-      agent
+    it('cannot update the site document', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($data: SiteInput!) {
@@ -81,14 +78,10 @@ describe('Site', () => {
               siteName: 'New site name',
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors[0]).toMatchObject({
-            message: 'You do not have permission to manage site configuration.',
-          });
-          return done();
         });
+      expect(res.body.errors[0]).toMatchObject({
+        message: 'You do not have permission to manage site configuration.',
+      });
     });
 
     afterAll(common.setAdmin);

@@ -9,10 +9,7 @@ describe('Sections', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
   it('returns a list of sections', async () => {
     const res = await agent
@@ -105,8 +102,8 @@ describe('Sections', () => {
 
   it(
     'returns an error when saving a section without any fields',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -122,21 +119,17 @@ describe('Sections', () => {
               fields: [],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You must include at least one field.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You must include at least one field.',
+      }));
     },
   );
 
   it(
     'returns an error when saving a section without a title',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -152,14 +145,10 @@ describe('Sections', () => {
               fields: [mocks.fields[0]._id],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You must include a title.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You must include a title.',
+      }));
     },
   );
 

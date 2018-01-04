@@ -9,10 +9,8 @@ describe('Pages', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
+
   it('returns a list of pages', async () => {
     const res = await agent
       .post('/graphql')

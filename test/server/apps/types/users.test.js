@@ -9,10 +9,7 @@ describe('Users', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
   it('returns a list of users', async () => {
     const res = await agent
@@ -374,8 +371,8 @@ describe('Users', () => {
   describe('Permissions', () => {
     beforeAll(async () => common.setNonAdmin(agent));
 
-    it('throws when user is not allowed to edit other users', (done) => {
-      agent
+    it('throws when user is not allowed to edit other users', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!, $data: UserInput!) {
@@ -395,18 +392,14 @@ describe('Users', () => {
               },
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to edit users.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to edit users.',
+      }));
     });
 
-    it('allows a user to edit themselves', (done) => {
-      agent
+    it('allows a user to edit themselves', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!, $data: UserInput!) {
@@ -427,18 +420,14 @@ describe('Users', () => {
               },
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body).toEqual({
-            data: { updateUser: { name: { first: 'Jason' } } },
-          });
-          return done();
         });
+      expect(res.body).toEqual({
+        data: { updateUser: { name: { first: 'Jason' } } },
+      });
     });
 
-    it('returns an error when changing a user\'s usergroup', (done) => {
-      agent
+    it('returns an error when changing a user\'s usergroup', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!, $data: UserInput!) {
@@ -459,18 +448,14 @@ describe('Users', () => {
               },
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to change a user\'s usergroup.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to change a user\'s usergroup.',
+      }));
     });
 
-    it('returns an error when resetting a user\'s password', (done) => {
-      agent
+    it('returns an error when resetting a user\'s password', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!) {
@@ -479,14 +464,10 @@ describe('Users', () => {
             }
           }`,
           variables: { _id: mocks.users[0]._id },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to manage users.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to manage users.',
+      }));
     });
 
     afterAll(common.setAdmin);

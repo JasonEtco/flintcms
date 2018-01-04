@@ -9,10 +9,7 @@ describe('Entries', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
   it('returns a list of entries', async () => {
     const res = await agent
@@ -459,8 +456,8 @@ describe('Entries', () => {
 
     it(
       'returns an error when querying for a specific entry by _id',
-      (done) => {
-        agent
+      async () => {
+        const res = await agent
           .post('/graphql')
           .send({
             query: `
@@ -470,14 +467,8 @@ describe('Entries', () => {
               }
             }`,
             variables: { _id: mocks.entries[1]._id },
-          })
-          .end((err, res) => {
-            if (err) { return done(err); }
-
-            // eslint-disable-next-line no-unused-expressions
-            expect(res.body.data.entry).toBeNull();
-            return done();
           });
+        expect(res.body.data.entry).toBeNull();
       },
     );
 

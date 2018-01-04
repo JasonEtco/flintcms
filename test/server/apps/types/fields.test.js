@@ -9,10 +9,7 @@ describe('Fields', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
   it('returns a list of fields', async () => {
     const res = await agent
