@@ -4,8 +4,8 @@ const populateDB = require('../../populatedb');
 const supertest = require('supertest');
 const mongoose = require('mongoose');
 
-exports.before = async function before() {
-  const flintServer = new Flint({ listen: false });
+exports.before = async function before(plugins = []) {
+  const flintServer = new Flint({ listen: false, plugins });
   const server = await flintServer.startServer();
   const agent = supertest.agent(server);
 
