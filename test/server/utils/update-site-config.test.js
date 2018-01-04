@@ -3,10 +3,10 @@ const populateDB = require('../../populatedb');
 const mongoose = require('mongoose');
 
 describe('updateSiteConfig', () => {
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ listen: false });
     await flintServer.startServer();
-    return populateDB();
+    await populateDB();
   });
 
   it('updates the site config in the db', async () => {
@@ -26,7 +26,5 @@ describe('updateSiteConfig', () => {
     expect(typeof updatedSite).toBe('object');
   });
 
-  afterAll((done) => {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

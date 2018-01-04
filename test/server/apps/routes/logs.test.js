@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 describe('logs app', () => {
   let server;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ logsPath: 'test/fixtures/logs', listen: false });
     server = await flintServer.startServer();
     return server;
@@ -24,7 +24,5 @@ describe('logs app', () => {
     expect(flint).toEqual(['This', 'is', 'a', 'log']);
   });
 
-  afterAll(function (done) {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

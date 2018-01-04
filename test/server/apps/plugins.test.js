@@ -1,20 +1,14 @@
 const mocks = require('../../mocks');
-const supertest = require('supertest');
 const mongoose = require('mongoose');
-const populateDB = require('../../populatedb');
-const Flint = require('../../../index');
 const ConsolePlugin = require('../../fixtures/plugins/ConsolePlugin');
+const common = require('./common');
 
 
 describe('Plugin system', () => {
   let agent;
 
-  beforeAll(async function () {
-    const flintServer = new Flint({ listen: false, plugins: [ConsolePlugin] });
-    const server = await flintServer.startServer();
-    agent = supertest.agent(server);
-
-    await populateDB();
+  beforeAll(async () => {
+    agent = await common.before([ConsolePlugin]);
   });
 
   it('returns a list of plugins', async () => {
@@ -45,8 +39,5 @@ describe('Plugin system', () => {
     });
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 });

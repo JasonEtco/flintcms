@@ -5,14 +5,9 @@ const mongoose = require('mongoose');
 describe('server', () => {
   let server;
 
-  beforeAll(async function () {
-    const flintServer = new Flint();
+  beforeAll(async () => {
+    const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
-    return server;
-  });
-
-  describe('Monitoring', () => {
-    it('is listening', () => expect(server.listening).toBe(true));
   });
 
   describe('GET /ping', () => {
@@ -28,8 +23,5 @@ describe('server', () => {
     });
   });
 
-  afterAll(function (done) {
-    mongoose.disconnect();
-    server.shutdown(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

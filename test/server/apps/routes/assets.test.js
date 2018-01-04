@@ -16,7 +16,7 @@ describe('assets routes', () => {
   let server;
   let agent;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     scaffold(tempPath);
 
     const flintServer = new Flint({ publicPath, listen: false });
@@ -136,7 +136,5 @@ describe('assets routes', () => {
     });
   });
 
-  afterAll(function (done) {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

@@ -9,12 +9,10 @@ describe('Pages', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
-  it('returns a list of pages', (done) => {
-    agent
+  afterAll(() => mongoose.disconnect());
+
+  it('returns a list of pages', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -36,20 +34,16 @@ describe('Pages', () => {
             template
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            pages: mocks.pages,
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        pages: mocks.pages,
+      },
+    });
   });
 
-  it('can query for a specific page by _id', (done) => {
-    agent
+  it('can query for a specific page by _id', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -59,20 +53,16 @@ describe('Pages', () => {
           }
         }`,
         variables: { _id: mocks.pages[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            page: { _id: mocks.pages[0]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        page: { _id: mocks.pages[0]._id },
+      },
+    });
   });
 
-  it('can delete a page from the database', (done) => {
-    agent
+  it('can delete a page from the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -82,20 +72,16 @@ describe('Pages', () => {
           }
         }`,
         variables: { _id: mocks.pages[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            removePage: { _id: mocks.pages[0]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        removePage: { _id: mocks.pages[0]._id },
+      },
+    });
   });
 
-  it('can save a page to the database', (done) => {
-    agent
+  it('can save a page to the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -112,22 +98,18 @@ describe('Pages', () => {
             homepage: false,
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addPage: {
-              title: mocks.pages[0].title,
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addPage: {
+          title: mocks.pages[0].title,
+        },
+      },
+    });
   });
 
-  it('can update a page in the database', (done) => {
-    agent
+  it('can update a page in the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -144,22 +126,18 @@ describe('Pages', () => {
             route: mocks.pages[1].route,
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            updatePage: {
-              title: 'New title',
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        updatePage: {
+          title: 'New title',
+        },
+      },
+    });
   });
 
-  it('sets a new homepage\'s route to `/`', (done) => {
-    agent
+  it('sets a new homepage\'s route to `/`', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -177,22 +155,18 @@ describe('Pages', () => {
             fieldLayout: [mocks.fields[0]._id],
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addPage: {
-              route: '/',
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addPage: {
+          route: '/',
+        },
+      },
+    });
   });
 
-  it('can overwrite an existing homepage', (done) => {
-    agent
+  it('can overwrite an existing homepage', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -210,24 +184,20 @@ describe('Pages', () => {
             fieldLayout: [mocks.fields[0]._id],
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addPage: {
-              title: 'Newer Homepage',
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addPage: {
+          title: 'Newer Homepage',
+        },
+      },
+    });
   });
 
-  test(
+  it(
     'overwrites the last homepage when a new homepage is saved',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `{
@@ -235,21 +205,17 @@ describe('Pages', () => {
               homepage
             }
           }`,
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          const { data } = res.body;
-          expect(data.pages).toContainEqual({ homepage: true });
-          expect(data.pages.filter(p => p.homepage).length).toBe(1);
-          return done();
         });
+      const { data } = res.body;
+      expect(data.pages).toContainEqual({ homepage: true });
+      expect(data.pages.filter(p => p.homepage).length).toBe(1);
     },
   );
 
   test(
     'returns the correct error for a page with an existing slug',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -266,19 +232,15 @@ describe('Pages', () => {
               fieldLayout: [mocks.fields[0]._id],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'There is already a page with that slug.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'There is already a page with that slug.',
+      }));
     },
   );
 
-  it('returns the correct error without a fieldLayout', (done) => {
-    agent
+  it('returns the correct error without a fieldLayout', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -295,18 +257,14 @@ describe('Pages', () => {
             fieldLayout: [],
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body.errors).toContainEqual(expect.objectContaining({
-          message: 'You must include at least one field.',
-        }));
-        return done();
       });
+    expect(res.body.errors).toContainEqual(expect.objectContaining({
+      message: 'You must include at least one field.',
+    }));
   });
 
-  it('returns the correct error without a title', (done) => {
-    agent
+  it('returns the correct error without a title', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -323,20 +281,16 @@ describe('Pages', () => {
             fieldLayout: [mocks.fields[0]._id],
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body.errors).toContainEqual(expect.objectContaining({
-          message: 'You must include a title.',
-        }));
-        return done();
       });
+    expect(res.body.errors).toContainEqual(expect.objectContaining({
+      message: 'You must include a title.',
+    }));
   });
 
   test(
     'returns the correct error for a route starting with /admin',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -353,22 +307,18 @@ describe('Pages', () => {
               fieldLayout: [mocks.fields[0]._id],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'Routes starting with `/admin` are reserved for Flint.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'Routes starting with `/admin` are reserved for Flint.',
+      }));
     },
   );
 
   describe('Permissions', () => {
-    beforeAll(done => common.setNonAdmin(done, agent));
+    beforeAll(async () => common.setNonAdmin(agent));
 
-    it('returns an error when adding a page', (done) => {
-      agent
+    it('returns an error when adding a page', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -385,18 +335,14 @@ describe('Pages', () => {
               fieldLayout: [mocks.fields[0]._id],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors[0]).toMatchObject({
-            message: 'You do not have permission to create a new Page.',
-          });
-          return done();
         });
+      expect(res.body.errors[0]).toMatchObject({
+        message: 'You do not have permission to create a new Page.',
+      });
     });
 
-    it('returns an error when editing a page', (done) => {
-      agent
+    it('returns an error when editing a page', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -414,18 +360,14 @@ describe('Pages', () => {
               fieldLayout: [mocks.fields[0]._id],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors[0]).toMatchObject({
-            message: 'You do not have permission to edit Pages.',
-          });
-          return done();
         });
+      expect(res.body.errors[0]).toMatchObject({
+        message: 'You do not have permission to edit Pages.',
+      });
     });
 
-    it('returns an error when deleting a page', (done) => {
-      agent
+    it('returns an error when deleting a page', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -437,14 +379,10 @@ describe('Pages', () => {
           variables: {
             _id: mocks.pages[0]._id,
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors[0]).toMatchObject({
-            message: 'You do not have permission to delete Pages.',
-          });
-          return done();
         });
+      expect(res.body.errors[0]).toMatchObject({
+        message: 'You do not have permission to delete Pages.',
+      });
     });
 
     afterAll(common.setAdmin);

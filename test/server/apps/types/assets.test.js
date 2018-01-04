@@ -9,13 +9,10 @@ describe('Assets', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
-  it('returns a list of assets', (done) => {
-    agent
+  it('returns a list of assets', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `{
@@ -23,16 +20,12 @@ describe('Assets', () => {
             _id
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            assets: mocks.assets.map(a => ({ _id: a._id })),
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        assets: mocks.assets.map(a => ({ _id: a._id })),
+      },
+    });
   });
 
   it('can query for a specific asset', async () => {
@@ -48,8 +41,8 @@ describe('Assets', () => {
     expect(res.body.data.asset._id).toBe(mocks.assets[0]._id);
   });
 
-  it('can update an asset in the database', (done) => {
-    agent
+  it('can update an asset in the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -64,21 +57,18 @@ describe('Assets', () => {
             title: 'New title!',
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            updateAsset: {
-              title: 'New title!',
-            },
-          },
-        });
-        return done();
       });
+
+    expect(res.body).toEqual({
+      data: {
+        updateAsset: {
+          title: 'New title!',
+        },
+      },
+    });
   });
 
-  test(
+  it(
     'returns an error when the there is no asset with the given id',
     async () => {
       const res = await agent.post('/graphql').send({
@@ -101,8 +91,8 @@ describe('Assets', () => {
     },
   );
 
-  it('can delete an asset from the database', (done) => {
-    agent
+  it('can delete an asset from the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -112,16 +102,12 @@ describe('Assets', () => {
           }
         }`,
         variables: { _id: mocks.assets[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            removeAsset: { _id: mocks.assets[0]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        removeAsset: { _id: mocks.assets[0]._id },
+      },
+    });
   });
 
   it('returns an error for a non-existing asset', async () => {
@@ -142,8 +128,8 @@ describe('Assets', () => {
     }));
   });
 
-  it('can save an asset to the database', (done) => {
-    agent
+  it('can save an asset to the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -162,25 +148,21 @@ describe('Assets', () => {
             height: mocks.assets[0].height,
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addAsset: {
-              title: mocks.assets[0].title,
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addAsset: {
+          title: mocks.assets[0].title,
+        },
+      },
+    });
   });
 
   describe('Permissions', () => {
-    beforeAll(done => common.setNonAdmin(done, agent));
+    beforeAll(async () => common.setNonAdmin(agent));
 
-    it('cannot edit an asset in the database', (done) => {
-      agent
+    it('cannot edit an asset in the database', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -195,18 +177,14 @@ describe('Assets', () => {
               title: 'New title!',
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to edit assets.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to edit assets.',
+      }));
     });
 
-    it('cannot delete an asset from the database', (done) => {
-      agent
+    it('cannot delete an asset from the database', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -216,18 +194,14 @@ describe('Assets', () => {
             }
           }`,
           variables: { _id: mocks.assets[0]._id },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to delete assets.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to delete assets.',
+      }));
     });
 
-    it('cannot save an asset to the database', (done) => {
-      agent
+    it('cannot save an asset to the database', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -246,14 +220,10 @@ describe('Assets', () => {
               height: mocks.assets[0].height,
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to add new assets.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to add new assets.',
+      }));
     });
 
     it('cannot index assets', async () => {

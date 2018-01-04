@@ -5,7 +5,7 @@ describe('createAdminUserGroup', () => {
   let UserGroup;
   let createAdminUserGroup;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ templatePath: 'test/fixtures/templates/empty', listen: false });
     await flintServer.startServer();
 
@@ -14,7 +14,7 @@ describe('createAdminUserGroup', () => {
     // eslint-disable-next-line global-require
     createAdminUserGroup = require('../../../server/utils/create-admin-usergroup');
 
-    return UserGroup.remove();
+    await UserGroup.remove();
   });
 
   it('creates a new admin user group', async () => {
@@ -27,7 +27,5 @@ describe('createAdminUserGroup', () => {
     return expect(AdminUserGroup).toBe(false);
   });
 
-  afterAll((done) => {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

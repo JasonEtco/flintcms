@@ -30,7 +30,7 @@ module.exports = {
 
     events.emit('pre-update-user', { _id, data });
 
-    const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true }).exec();
 
     /* istanbul ignore if */
     if (!updatedUser) throw new Error('Error updating user');

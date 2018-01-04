@@ -5,10 +5,9 @@ const mongoose = require('mongoose');
 describe('site endpoint', () => {
   let server;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
-    return server;
   });
 
   it('returns a 200 response for /admin/api/site', (done) => {
@@ -24,7 +23,5 @@ describe('site endpoint', () => {
     expect(typeof res.body.hasUpdate).toBe('boolean');
   });
 
-  afterAll(function (done) {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

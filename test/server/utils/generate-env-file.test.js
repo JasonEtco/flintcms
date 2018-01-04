@@ -23,7 +23,7 @@ describe('generateSecret', () => {
 describe('generateEnvFile', () => {
   const oldHost = process.env.DB_HOST;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const pathToEnv = path.join(__dirname, '..', '..', 'fixtures', '.env');
     fs.unlink(pathToEnv, f => f);
   });
@@ -40,7 +40,7 @@ describe('generateEnvFile', () => {
     return expect(generatedFile).toBe(true);
   });
 
-  afterAll(function () {
+  afterAll(() => {
     process.env.DB_HOST = oldHost;
   });
 });

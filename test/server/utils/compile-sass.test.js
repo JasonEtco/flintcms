@@ -9,15 +9,13 @@ const readFile = promisify(fs.readFile);
 const rimraf = promisify(require('rimraf'));
 
 describe('Compile SCSS', () => {
-  beforeAll(function (done) {
+  beforeAll(() => {
     global.FLINT = {
       publicPath: path.join(__dirname, '..', '..', 'temp', 'public'),
       scssEntryPoint: 'main.scss',
       scssPath: path.join(__dirname, '..', '..', 'fixtures', 'scss'),
       scssIncludePaths: [],
     };
-
-    done();
   });
 
   afterEach(() => rimraf('test/temp/public'));
@@ -32,9 +30,8 @@ describe('Compile SCSS', () => {
   });
 
   describe('Disable SCSS compiling', () => {
-    beforeAll(function (done) {
+    beforeAll(() => {
       global.FLINT.scssEntryPoint = false;
-      done();
     });
 
     it('does not compile scss', async () => {
@@ -47,7 +44,7 @@ describe('Compile SCSS', () => {
 });
 
 describe('Cache busting', () => {
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({
       scssPath: 'test/fixtures/scss',
       publicPath: 'test/temp/public',
@@ -71,7 +68,5 @@ describe('Cache busting', () => {
     expect(compiled).toBe(fixture);
   });
 
-  afterAll((done) => {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });

@@ -87,7 +87,7 @@ module.exports = () => {
     const token = await randtoken.generate(16);
     const data = { token, password: undefined };
 
-    const updatedUser = await User.findByIdAndUpdate(user._id, data, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(user._id, data, { new: true }).exec();
 
     if (!updatedUser) {
       res.status(400).end('Error updating user');

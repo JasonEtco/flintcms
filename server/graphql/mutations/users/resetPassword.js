@@ -23,7 +23,7 @@ module.exports = {
     const token = user.token || await randtoken.generate(16);
     const data = { token, password: undefined };
 
-    const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(_id, data, { new: true }).exec();
 
     /* istanbul ignore if */
     if (!updatedUser) throw new Error('Error updating user');

@@ -9,13 +9,10 @@ describe('Users', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
-  it('returns a list of users', (done) => {
-    agent
+  it('returns a list of users', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -32,27 +29,23 @@ describe('Users', () => {
             email
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            users: mocks.users.map(user => ({
-              _id: user._id,
-              image: user.image,
-              dateCreated: user.dateCreated,
-              username: user.username,
-              email: user.email,
-              name: user.name,
-            })),
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        users: mocks.users.map(user => ({
+          _id: user._id,
+          image: user.image,
+          dateCreated: user.dateCreated,
+          username: user.username,
+          email: user.email,
+          name: user.name,
+        })),
+      },
+    });
   });
 
-  it('can query for a specific user', (done) => {
-    agent
+  it('can query for a specific user', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `query ($_id: ID!) {
@@ -72,33 +65,29 @@ describe('Users', () => {
           }
         }`,
         variables: { _id: mocks.users[1]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            user: {
-              _id: mocks.users[1]._id,
-              image: mocks.users[1].image,
-              dateCreated: mocks.users[1].dateCreated,
-              username: mocks.users[1].username,
-              email: mocks.users[1].email,
-              usergroup: {
-                _id: mocks.users[1].usergroup,
-              },
-              name: {
-                first: mocks.users[1].name.first,
-                last: mocks.users[1].name.last,
-              },
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        user: {
+          _id: mocks.users[1]._id,
+          image: mocks.users[1].image,
+          dateCreated: mocks.users[1].dateCreated,
+          username: mocks.users[1].username,
+          email: mocks.users[1].email,
+          usergroup: {
+            _id: mocks.users[1].usergroup,
+          },
+          name: {
+            first: mocks.users[1].name.first,
+            last: mocks.users[1].name.last,
+          },
+        },
+      },
+    });
   });
 
-  it('can return a user\'s own details', (done) => {
-    agent
+  it('can return a user\'s own details', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `{
@@ -117,33 +106,29 @@ describe('Users', () => {
             email
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            user: {
-              _id: mocks.users[0]._id,
-              image: mocks.users[0].image,
-              dateCreated: mocks.users[0].dateCreated,
-              username: mocks.users[0].username,
-              email: mocks.users[0].email,
-              usergroup: {
-                _id: mocks.users[0].usergroup,
-              },
-              name: {
-                first: mocks.users[0].name.first,
-                last: mocks.users[0].name.last,
-              },
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        user: {
+          _id: mocks.users[0]._id,
+          image: mocks.users[0].image,
+          dateCreated: mocks.users[0].dateCreated,
+          username: mocks.users[0].username,
+          email: mocks.users[0].email,
+          usergroup: {
+            _id: mocks.users[0].usergroup,
+          },
+          name: {
+            first: mocks.users[0].name.first,
+            last: mocks.users[0].name.last,
+          },
+        },
+      },
+    });
   });
 
-  it('can delete a user from the database', (done) => {
-    agent
+  it('can delete a user from the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -161,30 +146,26 @@ describe('Users', () => {
           }
         }`,
         variables: { _id: mocks.users[1]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            deleteUser: {
-              _id: mocks.users[1]._id,
-              image: mocks.users[1].image,
-              dateCreated: mocks.users[1].dateCreated,
-              username: mocks.users[1].username,
-              email: mocks.users[1].email,
-              name: {
-                first: mocks.users[1].name.first,
-                last: mocks.users[1].name.last,
-              },
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        deleteUser: {
+          _id: mocks.users[1]._id,
+          image: mocks.users[1].image,
+          dateCreated: mocks.users[1].dateCreated,
+          username: mocks.users[1].username,
+          email: mocks.users[1].email,
+          name: {
+            first: mocks.users[1].name.first,
+            last: mocks.users[1].name.last,
+          },
+        },
+      },
+    });
   });
 
-  it('can save a user to the database', (done) => {
-    agent
+  it('can save a user to the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -212,30 +193,26 @@ describe('Users', () => {
             },
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addUser: {
-              username: mocks.users[1].username,
-              usergroup: {
-                _id: mocks.users[1].usergroup,
-              },
-              email: mocks.users[1].email,
-              name: {
-                first: mocks.users[1].name.first,
-                last: mocks.users[1].name.last,
-              },
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addUser: {
+          username: mocks.users[1].username,
+          usergroup: {
+            _id: mocks.users[1].usergroup,
+          },
+          email: mocks.users[1].email,
+          name: {
+            first: mocks.users[1].name.first,
+            last: mocks.users[1].name.last,
+          },
+        },
+      },
+    });
   });
 
-  it('throws when using an existing user\'s username', (done) => {
-    agent
+  it('throws when using an existing user\'s username', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -251,19 +228,15 @@ describe('Users', () => {
             usergroup: mocks.usergroups[0]._id,
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.status).toEqual(500);
-        expect(res.body.errors).toContainEqual(expect.objectContaining({
-          message: 'There is already a user with that username.',
-        }));
-        return done();
       });
+    expect(res.status).toEqual(500);
+    expect(res.body.errors).toContainEqual(expect.objectContaining({
+      message: 'There is already a user with that username.',
+    }));
   });
 
-  it('throws when using an existing user\'s email', (done) => {
-    agent
+  it('throws when using an existing user\'s email', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -279,19 +252,15 @@ describe('Users', () => {
             usergroup: mocks.usergroups[0]._id,
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.status).toBe(500);
-        expect(res.body.errors).toContainEqual(expect.objectContaining({
-          message: 'There is already a user with that email.',
-        }));
-        return done();
       });
+    expect(res.status).toBe(500);
+    expect(res.body.errors).toContainEqual(expect.objectContaining({
+      message: 'There is already a user with that email.',
+    }));
   });
 
-  it('throws when a new user\'s usergroup does not exist', (done) => {
-    agent
+  it('throws when a new user\'s usergroup does not exist', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -310,19 +279,15 @@ describe('Users', () => {
             usergroup: '5946e850bd887652381ecfe2',
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.status).toEqual(500);
-        expect(res.body.errors).toContainEqual(expect.objectContaining({
-          message: 'That UserGroup does not exist.',
-        }));
-        return done();
       });
+    expect(res.status).toEqual(500);
+    expect(res.body.errors).toContainEqual(expect.objectContaining({
+      message: 'That UserGroup does not exist.',
+    }));
   });
 
-  it('can update an existing user', (done) => {
-    agent
+  it('can update an existing user', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -344,25 +309,21 @@ describe('Users', () => {
             },
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        // expect(res.status).to.deep.equal(200);
-        expect(res.body).toEqual({
-          data: {
-            updateUser: {
-              name: {
-                first: 'Jason',
-              },
-            },
-          },
-        });
-        return done();
       });
+        // expect(res.status).to.deep.equal(200);
+    expect(res.body).toEqual({
+      data: {
+        updateUser: {
+          name: {
+            first: 'Jason',
+          },
+        },
+      },
+    });
   });
 
-  it('throws when updating a non-existing user', (done) => {
-    agent
+  it('throws when updating a non-existing user', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -384,18 +345,14 @@ describe('Users', () => {
             },
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body.errors).toContainEqual(expect.objectContaining({
-          message: 'There is no User with this ID.',
-        }));
-        return done();
       });
+    expect(res.body.errors).toContainEqual(expect.objectContaining({
+      message: 'There is no User with this ID.',
+    }));
   });
 
-  it('can reset a user\'s password', (done) => {
-    agent
+  it('can reset a user\'s password', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `mutation ($_id: ID!) {
@@ -404,22 +361,18 @@ describe('Users', () => {
           }
         }`,
         variables: { _id: mocks.users[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toHaveProperty('data');
-        expect(res.body.data).toHaveProperty('resetPassword');
-        expect(res.body.data.resetPassword).toHaveProperty('token');
-        expect(typeof res.body.data.resetPassword.token).toBe('string');
-        return done();
       });
+    expect(res.body).toHaveProperty('data');
+    expect(res.body.data).toHaveProperty('resetPassword');
+    expect(res.body.data.resetPassword).toHaveProperty('token');
+    expect(typeof res.body.data.resetPassword.token).toBe('string');
   });
 
   describe('Permissions', () => {
-    beforeAll(done => common.setNonAdmin(done, agent));
+    beforeAll(async () => common.setNonAdmin(agent));
 
-    it('throws when user is not allowed to edit other users', (done) => {
-      agent
+    it('throws when user is not allowed to edit other users', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!, $data: UserInput!) {
@@ -439,18 +392,14 @@ describe('Users', () => {
               },
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to edit users.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to edit users.',
+      }));
     });
 
-    it('allows a user to edit themselves', (done) => {
-      agent
+    it('allows a user to edit themselves', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!, $data: UserInput!) {
@@ -471,18 +420,14 @@ describe('Users', () => {
               },
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body).toEqual({
-            data: { updateUser: { name: { first: 'Jason' } } },
-          });
-          return done();
         });
+      expect(res.body).toEqual({
+        data: { updateUser: { name: { first: 'Jason' } } },
+      });
     });
 
-    it('returns an error when changing a user\'s usergroup', (done) => {
-      agent
+    it('returns an error when changing a user\'s usergroup', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!, $data: UserInput!) {
@@ -503,18 +448,14 @@ describe('Users', () => {
               },
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to change a user\'s usergroup.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to change a user\'s usergroup.',
+      }));
     });
 
-    it('returns an error when resetting a user\'s password', (done) => {
-      agent
+    it('returns an error when resetting a user\'s password', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!) {
@@ -523,14 +464,10 @@ describe('Users', () => {
             }
           }`,
           variables: { _id: mocks.users[0]._id },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to manage users.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to manage users.',
+      }));
     });
 
     afterAll(common.setAdmin);

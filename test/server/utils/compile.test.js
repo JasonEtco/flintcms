@@ -7,7 +7,7 @@ const mocks = require('../../mocks');
 describe('Compile templates', () => {
   let server;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ templatePath: 'test/fixtures/templates', listen: false });
     server = await flintServer.startServer();
     await populateDB();
@@ -58,7 +58,7 @@ describe('Compile templates', () => {
 describe('Compiler 404', () => {
   let server;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ templatePath: 'test/fixtures/templates/empty', listen: false });
     server = await flintServer.startServer();
   });
@@ -78,7 +78,7 @@ describe('Compiler 404', () => {
 describe('Custom filters', () => {
   let server;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ templatePath: 'test/fixtures/templates', listen: false });
     server = await flintServer.startServer();
   });

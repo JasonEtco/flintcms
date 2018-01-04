@@ -9,13 +9,10 @@ describe('Fields', () => {
     agent = await common.before();
   });
 
-  afterAll((done) => {
-    mongoose.disconnect();
-    done();
-  });
+  afterAll(() => mongoose.disconnect());
 
-  it('returns a list of fields', (done) => {
-    agent
+  it('returns a list of fields', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -31,20 +28,16 @@ describe('Fields', () => {
             type
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            fields: mocks.fields,
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        fields: mocks.fields,
+      },
+    });
   });
 
-  it('can query for a specific field', (done) => {
-    agent
+  it('can query for a specific field', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -54,21 +47,17 @@ describe('Fields', () => {
           }
         }`,
         variables: { _id: mocks.fields[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            field: { _id: mocks.fields[0]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        field: { _id: mocks.fields[0]._id },
+      },
+    });
   });
 
 
-  it('can update a field in the database', (done) => {
-    agent
+  it('can update a field in the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -88,22 +77,18 @@ describe('Fields', () => {
             },
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            updateField: {
-              title: 'New title!',
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        updateField: {
+          title: 'New title!',
+        },
+      },
+    });
   });
 
-  it('can delete a field from the database', (done) => {
-    agent
+  it('can delete a field from the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -113,20 +98,16 @@ describe('Fields', () => {
           }
         }`,
         variables: { _id: mocks.fields[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            removeField: { _id: mocks.fields[0]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        removeField: { _id: mocks.fields[0]._id },
+      },
+    });
   });
 
-  it('can save a field to the database', (done) => {
-    agent
+  it('can save a field to the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -148,31 +129,27 @@ describe('Fields', () => {
             type: mocks.fields[0].type,
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addField: {
-              title: mocks.fields[0].title,
-              slug: mocks.fields[0].slug,
-              handle: mocks.fields[0].handle,
-              required: mocks.fields[0].required,
-              options: mocks.fields[0].options,
-              type: mocks.fields[0].type,
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addField: {
+          title: mocks.fields[0].title,
+          slug: mocks.fields[0].slug,
+          handle: mocks.fields[0].handle,
+          required: mocks.fields[0].required,
+          options: mocks.fields[0].options,
+          type: mocks.fields[0].type,
+        },
+      },
+    });
   });
 
 
   describe('Permissions', () => {
-    beforeAll(done => common.setNonAdmin(done, agent));
+    beforeAll(async () => common.setNonAdmin(agent));
 
-    it('cannot delete a field from the database', (done) => {
-      agent
+    it('cannot delete a field from the database', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -182,18 +159,14 @@ describe('Fields', () => {
             }
           }`,
           variables: { _id: mocks.fields[0]._id },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors[0]).toMatchObject({
-            message: 'You do not have permission to delete Fields.',
-          });
-          return done();
         });
+      expect(res.body.errors[0]).toMatchObject({
+        message: 'You do not have permission to delete Fields.',
+      });
     });
 
-    it('cannot save a field to the database', (done) => {
-      agent
+    it('cannot save a field to the database', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `
@@ -212,14 +185,10 @@ describe('Fields', () => {
               },
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors[0]).toMatchObject({
-            message: 'You do not have permission to create a new Field.',
-          });
-          return done();
         });
+      expect(res.body.errors[0]).toMatchObject({
+        message: 'You do not have permission to create a new Field.',
+      });
     });
 
     afterAll(common.setAdmin);

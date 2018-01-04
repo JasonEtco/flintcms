@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 describe('auth endpoint', () => {
   let server;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     const flintServer = new Flint({ listen: false });
     server = await flintServer.startServer();
     return populateDB();
@@ -82,7 +82,5 @@ describe('auth endpoint', () => {
       .end(done);
   });
 
-  afterAll(function (done) {
-    mongoose.disconnect(done);
-  });
+  afterAll(() => mongoose.disconnect());
 });
