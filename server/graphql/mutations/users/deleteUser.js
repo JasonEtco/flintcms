@@ -20,7 +20,7 @@ module.exports = {
       throw new Error('You do not have permission to delete Users.');
     }
 
-    const foundUser = await User.findById(_id);
+    const foundUser = await User.findById(_id).exec();
     if (!foundUser) throw new Error('There is no User with that id.');
 
     const projection = getProjection(ast);
