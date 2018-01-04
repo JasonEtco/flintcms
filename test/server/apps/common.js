@@ -14,8 +14,8 @@ exports.before = async function before() {
   return agent;
 };
 
-exports.setNonAdmin = function setNonAdmin(done, agent) {
-  agent
+exports.setNonAdmin = async function setNonAdmin(agent) {
+  const res = await agent
     .post('/graphql')
     .send({
       query: `mutation ($_id: ID!, $data: UserInput!) {
@@ -34,27 +34,22 @@ exports.setNonAdmin = function setNonAdmin(done, agent) {
           usergroup: mocks.usergroups[2]._id,
         },
       },
-    })
-    .end((err, res) => {
-      if (err) { return done(err); }
-      // expect(res.status).to.equal(200);
-      expect(res.body).toEqual({
-        data: {
-          updateUser: {
-            usergroup: {
-              _id: mocks.usergroups[2]._id,
-              slug: mocks.usergroups[2].slug,
-            },
-          },
-        },
-      });
-      return done();
     });
+  expect(res.body).toEqual({
+    data: {
+      updateUser: {
+        usergroup: {
+          _id: mocks.usergroups[2]._id,
+          slug: mocks.usergroups[2].slug,
+        },
+      },
+    },
+  });
 };
 
 exports.setAdmin = function setAdmin() {
   const User = mongoose.model('User');
   return User.findByIdAndUpdate(mocks.users[0]._id, {
     $set: { usergroup: mocks.usergroups[0]._id },
-  });
+  }).exec();
 };

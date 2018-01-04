@@ -14,8 +14,8 @@ describe('Entries', () => {
     done();
   });
 
-  it('returns a list of entries', (done) => {
-    agent
+  it('returns a list of entries', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -25,24 +25,20 @@ describe('Entries', () => {
             title
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            entries: mocks.entries.map(entry => ({
-              _id: entry._id,
-              title: entry.title,
-            })),
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        entries: mocks.entries.map(entry => ({
+          _id: entry._id,
+          title: entry.title,
+        })),
+      },
+    });
   });
 
-  it('can query for all entries in a section by sectionSlug', (done) => {
+  it('can query for all entries in a section by sectionSlug', async () => {
     const section = mocks.sections[0];
-    agent
+    const res = await agent
       .post('/graphql')
       .send({
         query: `query ($sectionSlug: String!) {
@@ -54,25 +50,21 @@ describe('Entries', () => {
         variables: {
           sectionSlug: section.slug,
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            entries: mocks.entries.filter(e => e.section === section._id).map(e => ({
-              _id: e._id,
-              title: e.title,
-            })),
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        entries: mocks.entries.filter(e => e.section === section._id).map(e => ({
+          _id: e._id,
+          title: e.title,
+        })),
+      },
+    });
   });
 
   it(
     'returns an error when querying for entries by a sectionSlug that does not exist',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `query ($sectionSlug: String!) {
@@ -83,17 +75,15 @@ describe('Entries', () => {
           variables: {
             sectionSlug: 'non-existant-section',
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'There is no section with that slug.' }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'There is no section with that slug.',
+      }));
     },
   );
 
-  it('can query for a specific entry by _id', (done) => {
-    agent
+  it('can query for a specific entry by _id', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -103,22 +93,18 @@ describe('Entries', () => {
           }
         }`,
         variables: { _id: mocks.entries[1]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            entry: { _id: mocks.entries[1]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        entry: { _id: mocks.entries[1]._id },
+      },
+    });
   });
 
   it(
     'can query for a specific entry by slug and sectionSlug',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `query ($slug: String!, $sectionSlug: String!) {
@@ -130,23 +116,19 @@ describe('Entries', () => {
             slug: mocks.entries[1].slug,
             sectionSlug: mocks.sections.find(s => s._id === mocks.entries[1].section).slug,
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body).toEqual({
-            data: {
-              entry: { _id: mocks.entries[1]._id },
-            },
-          });
-          return done();
         });
+      expect(res.body).toEqual({
+        data: {
+          entry: { _id: mocks.entries[1]._id },
+        },
+      });
     },
   );
 
   it(
     'returns an error when querying an entry by slug without a sectionSlug',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `query ($slug: String!) {
@@ -155,21 +137,17 @@ describe('Entries', () => {
             }
           }`,
           variables: { slug: mocks.entries[1].slug },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'When querying for an entry by slug, you must also query by sectionSlug.',
-          }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'When querying for an entry by slug, you must also query by sectionSlug.',
+      }));
     },
   );
 
   it(
     'returns an error when querying an entry by slug with a sectionSlug that does not exist',
-    (done) => {
-      agent
+    async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `query ($slug: String!, $sectionSlug: String!) {
@@ -181,17 +159,15 @@ describe('Entries', () => {
             slug: mocks.entries[1].slug,
             sectionSlug: 'non-existant-section',
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'That section does not exist.' }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'That section does not exist.',
+      }));
     },
   );
 
-  it('can delete an entry from the database', (done) => {
-    agent
+  it('can delete an entry from the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -201,20 +177,16 @@ describe('Entries', () => {
           }
         }`,
         variables: { _id: mocks.entries[1]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            removeEntry: { _id: mocks.entries[1]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        removeEntry: { _id: mocks.entries[1]._id },
+      },
+    });
   });
 
-  it('can save an entry to the database', (done) => {
-    agent
+  it('can save an entry to the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -236,18 +208,14 @@ describe('Entries', () => {
             }],
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addEntry: {
-              title: mocks.entries[1].title,
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addEntry: {
+          title: mocks.entries[1].title,
+        },
+      },
+    });
   });
 
   it('returns an error when saving with an empty title', async () => {
@@ -278,8 +246,8 @@ describe('Entries', () => {
     expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'Your entry\'s title must have some real characters' }));
   });
 
-  it('can update an entry in the database', (done) => {
-    agent
+  it('can update an entry in the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -301,18 +269,14 @@ describe('Entries', () => {
             }],
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            updateEntry: {
-              title: 'New title!',
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        updateEntry: {
+          title: 'New title!',
+        },
+      },
+    });
   });
 
   it('returns an error when updating a non-existent entry', async () => {
@@ -344,10 +308,10 @@ describe('Entries', () => {
   });
 
   describe('Permissions', () => {
-    beforeAll(done => common.setNonAdmin(done, agent));
+    beforeAll(async () => common.setNonAdmin(agent));
 
-    it('throws when user is not allowed to add a new entry', (done) => {
-      agent
+    it('throws when user is not allowed to add a new entry', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($data: EntriesInput!) {
@@ -367,18 +331,16 @@ describe('Entries', () => {
               }],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'You do not have permission to create new Entries' }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to create new Entries',
+      }));
     });
 
     it(
       'throws when user is not allowed to update an entry\'s status',
-      (done) => {
-        agent
+      async () => {
+        const res = await agent
           .post('/graphql')
           .send({
             query: `mutation ($_id: ID!, $data: EntriesInput!) {
@@ -400,17 +362,15 @@ describe('Entries', () => {
                 }],
               },
             },
-          })
-          .end((err, res) => {
-            if (err) { return done(err); }
-            expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'You are not allowed to change the status of entries. Sorry!' }));
-            return done();
           });
+        expect(res.body.errors).toContainEqual(expect.objectContaining({
+          message: 'You are not allowed to change the status of entries. Sorry!',
+        }));
       },
     );
 
-    it('throws when user edits an entry not their own', (done) => {
-      agent
+    it('throws when user edits an entry not their own', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!, $data: EntriesInput!) {
@@ -432,16 +392,14 @@ describe('Entries', () => {
               }],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'You are not allowed to edit this entry. Sorry!' }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You are not allowed to edit this entry. Sorry!',
+      }));
     });
 
-    it('throws when user edits a live entry', (done) => {
-      agent
+    it('throws when user edits a live entry', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation ($_id: ID!, $data: EntriesInput!) {
@@ -463,16 +421,14 @@ describe('Entries', () => {
               }],
             },
           },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          expect(res.body.errors).toContainEqual(expect.objectContaining({ message: 'You are not allowed to edit a live entry. Sorry!' }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You are not allowed to edit a live entry. Sorry!',
+      }));
     });
 
-    it('does not return a draft entry', (done) => {
-      agent
+    it('does not return a draft entry', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `{
@@ -480,17 +436,13 @@ describe('Entries', () => {
               status
             }
           }`,
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          const data = res.body.data.entries;
-          expect(data.every(obj => obj.status === 'live')).toBeTruthy();
-          return done();
         });
+      const data = res.body.data.entries;
+      expect(data.every(obj => obj.status === 'live')).toBeTruthy();
     });
 
-    it('throws when deleting an entry', (done) => {
-      agent
+    it('throws when deleting an entry', async () => {
+      const res = await agent
         .post('/graphql')
         .send({
           query: `mutation removeEntry ($_id: ID!) {
@@ -499,13 +451,10 @@ describe('Entries', () => {
             }
           }`,
           variables: { _id: mocks.entries[0]._id },
-        })
-        .end((err, res) => {
-          if (err) { return done(err); }
-          const data = res.body;
-          expect(data.errors).toContainEqual(expect.objectContaining({ message: 'You do not have permission to delete Entries' }));
-          return done();
         });
+      expect(res.body.errors).toContainEqual(expect.objectContaining({
+        message: 'You do not have permission to delete Entries',
+      }));
     });
 
     it(

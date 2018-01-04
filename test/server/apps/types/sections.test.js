@@ -14,8 +14,8 @@ describe('Sections', () => {
     done();
   });
 
-  it('returns a list of sections', (done) => {
-    agent
+  it('returns a list of sections', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -30,20 +30,16 @@ describe('Sections', () => {
             fields
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            sections: mocks.sections,
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        sections: mocks.sections,
+      },
+    });
   });
 
-  it('can query for a specific section by _id', (done) => {
-    agent
+  it('can query for a specific section by _id', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -53,20 +49,16 @@ describe('Sections', () => {
           }
         }`,
         variables: { _id: mocks.sections[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            section: { _id: mocks.sections[0]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        section: { _id: mocks.sections[0]._id },
+      },
+    });
   });
 
-  it('can delete a section from the database', (done) => {
-    agent
+  it('can delete a section from the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -76,20 +68,16 @@ describe('Sections', () => {
           }
         }`,
         variables: { _id: mocks.sections[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            removeSection: { _id: mocks.sections[0]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        removeSection: { _id: mocks.sections[0]._id },
+      },
+    });
   });
 
-  it('can save a section to the database', (done) => {
-    agent
+  it('can save a section to the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -105,18 +93,14 @@ describe('Sections', () => {
             fields: [mocks.fields[0]._id],
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addSection: {
-              title: mocks.sections[0].title,
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addSection: {
+          title: mocks.sections[0].title,
+        },
+      },
+    });
   });
 
   it(
@@ -179,8 +163,8 @@ describe('Sections', () => {
     },
   );
 
-  it('can update a section in the database', (done) => {
-    agent
+  it('can update a section in the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -197,17 +181,13 @@ describe('Sections', () => {
             fields: [mocks.fields[0]._id],
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            updateSection: {
-              title: 'New title',
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        updateSection: {
+          title: 'New title',
+        },
+      },
+    });
   });
 });

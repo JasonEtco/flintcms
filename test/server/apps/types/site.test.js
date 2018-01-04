@@ -14,8 +14,8 @@ describe('Site', () => {
     done();
   });
 
-  it('returns the site config', (done) => {
-    agent
+  it('returns the site config', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -26,24 +26,20 @@ describe('Site', () => {
             style
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            site: {
-              siteName: mocks.site[0].siteName,
-              siteUrl: mocks.site[0].siteUrl,
-              style: mocks.site[0].style,
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        site: {
+          siteName: mocks.site[0].siteName,
+          siteUrl: mocks.site[0].siteUrl,
+          style: mocks.site[0].style,
+        },
+      },
+    });
   });
 
-  it('updates the site document', (done) => {
-    agent
+  it('updates the site document', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `mutation ($data: SiteInput!) {
@@ -56,22 +52,18 @@ describe('Site', () => {
             siteName: 'New site name',
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            updateSite: {
-              siteName: 'New site name',
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        updateSite: {
+          siteName: 'New site name',
+        },
+      },
+    });
   });
 
   describe('Permissions', () => {
-    beforeAll(done => common.setNonAdmin(done, agent));
+    beforeAll(async () => common.setNonAdmin(agent));
 
     it('cannot update the site document', (done) => {
       agent

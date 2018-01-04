@@ -20,8 +20,8 @@ describe('Usergroups', () => {
     mongoose.disconnect();
     done();
   });
-  it('returns a list of usergroups', (done) => {
-    agent
+  it('returns a list of usergroups', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -34,20 +34,16 @@ describe('Usergroups', () => {
             ${permissionsQuery}
           }
         }`,
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            usergroups: mocks.usergroups,
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        usergroups: mocks.usergroups,
+      },
+    });
   });
 
-  it('can query for a specific usergroup', (done) => {
-    agent
+  it('can query for a specific usergroup', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -57,20 +53,16 @@ describe('Usergroups', () => {
           }
         }`,
         variables: { _id: mocks.usergroups[0]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            usergroup: { _id: mocks.usergroups[0]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        usergroup: { _id: mocks.usergroups[0]._id },
+      },
+    });
   });
 
-  it('can update a usergroup in the database', (done) => {
-    agent
+  it('can update a usergroup in the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -86,22 +78,18 @@ describe('Usergroups', () => {
             permissions: mocks.usergroups[1].permissions,
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            updateUserGroup: {
-              title: 'New title!',
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        updateUserGroup: {
+          title: 'New title!',
+        },
+      },
+    });
   });
 
-  it('can delete a usergroup from the database', (done) => {
-    agent
+  it('can delete a usergroup from the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -111,20 +99,16 @@ describe('Usergroups', () => {
           }
         }`,
         variables: { _id: mocks.usergroups[1]._id },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            removeUserGroup: { _id: mocks.usergroups[1]._id },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        removeUserGroup: { _id: mocks.usergroups[1]._id },
+      },
+    });
   });
 
-  it('can save a usergroup to the database', (done) => {
-    agent
+  it('can save a usergroup to the database', async () => {
+    const res = await agent
       .post('/graphql')
       .send({
         query: `
@@ -140,23 +124,19 @@ describe('Usergroups', () => {
             permissions: mocks.usergroups[1].permissions,
           },
         },
-      })
-      .end((err, res) => {
-        if (err) { return done(err); }
-        expect(res.body).toEqual({
-          data: {
-            addUserGroup: {
-              title: mocks.usergroups[1].title,
-              permissions: mocks.usergroups[1].permissions,
-            },
-          },
-        });
-        return done();
       });
+    expect(res.body).toEqual({
+      data: {
+        addUserGroup: {
+          title: mocks.usergroups[1].title,
+          permissions: mocks.usergroups[1].permissions,
+        },
+      },
+    });
   });
 
   describe('Permissions', () => {
-    beforeAll(done => common.setNonAdmin(done, agent));
+    beforeAll(async () => common.setNonAdmin(agent));
 
     it('cannot delete a usergroup from the database', (done) => {
       agent
@@ -200,7 +180,7 @@ describe('Usergroups', () => {
         .end((err, res) => {
           if (err) { return done(err); }
           expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to add User Groups.'
+            message: 'You do not have permission to add User Groups.',
           }));
           return done();
         });
@@ -228,7 +208,7 @@ describe('Usergroups', () => {
         .end((err, res) => {
           if (err) { return done(err); }
           expect(res.body.errors).toContainEqual(expect.objectContaining({
-            message: 'You do not have permission to edit User Groups.'
+            message: 'You do not have permission to edit User Groups.',
           }));
           return done();
         });
