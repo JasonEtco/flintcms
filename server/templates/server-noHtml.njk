@@ -1,0 +1,17 @@
+{% extends "server-base.njk" %}
+
+{% set title = "No HTML" %}
+
+{% block content %}
+<div class="eq-space"></div>
+<section>
+  <p class="content icon">💔</p>
+  <div class="row">
+    <div class="content">
+      <h1 class="title is-1">No HTML</h1>
+      <h4 class="subtitle is-5">The template &#x2018;{{this.template}}&#x2019; returned no HTML.</b></h4>
+    </div>
+  </div>
+</section>
+<div class="eq-space"></div>
+{% endblock %}
