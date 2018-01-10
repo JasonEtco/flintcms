@@ -90,12 +90,7 @@ export default class Group extends Component {
   }
 
   onListChange(blocks) {
-    const newBlocks = Array(blocks.length);
-    // eslint-disable-next-line
-    blocks.map((block, i) => {
-      newBlocks[i] = { ...block, order: i };
-    });
-
+    const newBlocks = blocks.map((block, i) => ({ ...block, order: i }));
     this.setState({ blocks: newBlocks });
   }
 
