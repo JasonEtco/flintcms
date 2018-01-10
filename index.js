@@ -60,6 +60,7 @@ module.exports = class Flint {
     const FLINT = Object.assign({}, settings, {
       logsPath: path.resolve(logsPath || 'logs'),
       templatePath: path.resolve(templatePath || 'templates'),
+      systemTemplatePath: path.resolve( process.cwd()+'/server/templates'),
       scssPath: path.resolve(scssPath || 'scss'),
       publicPath: path.resolve(publicPath || 'public'),
       plugins: plugins || [],

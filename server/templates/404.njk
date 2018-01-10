@@ -1,0 +1,17 @@
+{% extends "server-base.njk" %}
+
+{% set title = "404" %}
+
+{% block content %}
+<div class="eq-space"></div>
+<section>
+  <p class="content icon">👻</p>
+  <div class="row">
+    <div class="content">
+      <h1 class="title">404  –  Page not found</h1>
+      <h4 class="subtitle">We can't find <b>{{this.request.url}}</b></h4>
+    </div>
+  </div>
+</section>
+<div class="eq-space"></div>
+{% endblock %}

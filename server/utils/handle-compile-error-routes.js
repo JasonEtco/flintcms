@@ -1,4 +1,9 @@
-const fourOhFourHandler = require('./four-oh-four-handler');
+
+const { fourOhFourHandler,
+        noTemplateHandler,
+        noHomepageHandler,
+        noHtmlHandler }
+        = require('./error-handlers');
 
 /**
  * Handles compilation errors
@@ -11,25 +16,17 @@ const fourOhFourHandler = require('./four-oh-four-handler');
 function handleCompileErrorRoutes(req, res, type, template) {
   switch (type) {
     case 'no-html':
+      return noHtmlHandler(req, res, template);
+      break;
     case 'no-template':
-    case 'no-homepage': {
-      const obj = {
-        r: type,
-        p: req.originalUrl,
-      };
-
-      if (template) obj.t = template;
-
-      const queryString = Object.keys(obj).reduce((prev, curr, i) => {
-        let queryParam = `${curr}=${obj[curr]}`;
-        if (i !== 0) queryParam = `&${queryParam}`;
-        return `${prev}${queryParam}`;
-      }, '');
-
-      return res.redirect(`/admin/error?${queryString}`);
-    }
+      return noTemplateHandler(req, res, template);
+      break;
+    case 'no-homepage':
+      return noHomepageHandler(req, res, template);
+      break;
     case 'no-exist':
-      return fourOhFourHandler(req, res);
+      return fourOhFourHandler(req, res, template);
+      break;
     default:
       res.set('Cache-Control', 'public, max-age=1200, s-maxage=3200');
       return res.send(type);

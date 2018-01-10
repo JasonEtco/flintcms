@@ -16,7 +16,7 @@ function fieldFilter(entry, handle) {
 }
 
 module.exports = (pathToTemplates) => {
-  const nun = nunjucks.configure(pathToTemplates, {
+  const nun = nunjucks.configure([global.FLINT.systemTemplatePath, pathToTemplates], {
     noCache: process.env.NODE_ENV !== 'production',
     autoescape: false,
   });
