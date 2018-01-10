@@ -1,0 +1,21 @@
+{% extends "server-base.njk" %}
+
+{% set title = "Error" %}
+
+{% block content %}
+<div class="eq-space"></div>
+<section>
+  <div class="row">
+    <p class="content icon">😱</p>
+    <div class="content">
+      <h1>Render Error</h1>
+      <h4 class="text-left">{{ this.error }}</h4>
+    </div>
+  </div>
+  <pre>
+    <h6>Stack Trace</h6>
+    <code>{{ this.stack }}</code>
+  </pre>
+</section>
+<div class="eq-space"></div>
+{% endblock %}
