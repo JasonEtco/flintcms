@@ -3,7 +3,7 @@ module.exports = {
   username: 'testeroni',
   name: {
     first: 'Tester',
-    last: 'McGee',
+    last: 'McGee'
   },
-  password: 'pass11',
-};
+  password: 'pass11'
+}

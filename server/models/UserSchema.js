@@ -1,69 +1,69 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt-nodejs')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
   name: {
     first: String,
-    last: String,
+    last: String
   },
   password: String,
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   username: {
     type: String,
     lowercase: true,
     required: true,
-    unique: true,
+    unique: true
   },
   usergroup: {
     type: Schema.Types.ObjectId,
     ref: 'UserGroup',
-    required: true,
+    required: true
   },
   image: String,
   dateCreated: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
-  token: String,
-});
+  token: String
+})
 
-UserSchema.name = 'User';
+UserSchema.name = 'User'
 
 // eslint-disable-next-line func-names
 UserSchema.pre('validate', async function (next) {
-  if (this.usergroup) next();
+  if (this.usergroup) next()
 
-  const UserGroup = mongoose.model('UserGroup');
-  const admin = await UserGroup.findOne({ slug: 'admin' }).select('_id').exec();
-  if (!admin) next(new Error('There is no admin usergroup'));
-  this.usergroup = admin._id;
+  const UserGroup = mongoose.model('UserGroup')
+  const admin = await UserGroup.findOne({ slug: 'admin' }).select('_id').exec()
+  if (!admin) next(new Error('There is no admin usergroup'))
+  this.usergroup = admin._id
 
-  next();
-});
+  next()
+})
 
 // Generate hash
-UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync());
+UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync())
 
 // Validate hash
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 UserSchema.methods.validateHash = function (password) {
-  return bcrypt.compareSync(password, this.password);
-};
+  return bcrypt.compareSync(password, this.password)
+}
 
 // eslint-disable-next-line func-names
 UserSchema.methods.getPermissions = async function () {
-  const UserGroup = mongoose.model('UserGroup');
-  const usergroup = await UserGroup.findById(this.usergroup);
-  if (!usergroup) throw new Error('The User Group could not be found');
+  const UserGroup = mongoose.model('UserGroup')
+  const usergroup = await UserGroup.findById(this.usergroup)
+  if (!usergroup) throw new Error('The User Group could not be found')
 
-  return usergroup.permissions;
-};
+  return usergroup.permissions
+}
 
-module.exports = UserSchema;
+module.exports = UserSchema

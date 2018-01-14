@@ -1,20 +1,20 @@
-import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import io from 'socket.io-client';
+import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
+import io from 'socket.io-client'
 
-import user from '../reducers/user';
-import users from '../reducers/users';
-import usergroups from '../reducers/usergroups';
-import entries from '../reducers/entries';
-import sections from '../reducers/sections';
-import fields from '../reducers/fields';
-import assets from '../reducers/assets';
-import site from '../reducers/site';
-import ui from '../reducers/ui';
-import plugins from '../reducers/plugins';
-import pages from '../reducers/pages';
+import user from '../reducers/user'
+import users from '../reducers/users'
+import usergroups from '../reducers/usergroups'
+import entries from '../reducers/entries'
+import sections from '../reducers/sections'
+import fields from '../reducers/fields'
+import assets from '../reducers/assets'
+import site from '../reducers/site'
+import ui from '../reducers/ui'
+import plugins from '../reducers/plugins'
+import pages from '../reducers/pages'
 
-const socket = io();
+const socket = io()
 
 // Combine reducers into one, easily ingestible file
 // which is then imported into the Redux store
@@ -34,7 +34,7 @@ const rootReducer = combineReducers({
   pages,
   plugins,
   socket: (state = socket) => state,
-  routing: routerReducer,
-});
+  routing: routerReducer
+})
 
-export default rootReducer;
+export default rootReducer

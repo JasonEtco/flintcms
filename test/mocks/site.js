@@ -11,8 +11,8 @@ module.exports = [{
   siteUrl: 'https://example.com',
   siteName: 'Example site title',
   scssIncludePaths: [
-    'node_modules',
+    'node_modules'
   ],
   style: '',
-  defaultUserGroup: '592a74034a0a9b372c3bff9c',
-}];
+  defaultUserGroup: '592a74034a0a9b372c3bff9c'
+}]

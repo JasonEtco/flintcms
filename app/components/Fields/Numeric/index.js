@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
 
 export default class Numeric extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ export default class Numeric extends Component {
     defaultValue: PropTypes.number,
     max: PropTypes.number,
     min: PropTypes.number,
-    step: PropTypes.number,
+    step: PropTypes.number
   }
 
   static defaultProps = {
@@ -20,21 +20,21 @@ export default class Numeric extends Component {
     required: false,
     max: null,
     min: null,
-    step: null,
+    step: null
   }
 
-  render() {
-    const { required, name, max, min, step, defaultValue, instructions, label } = this.props;
+  render () {
+    const { required, name, max, min, step, defaultValue, instructions, label } = this.props
     const classes = classnames(
       'input-wrapper',
       'form-element',
-      { 'form-element--required': required },
-    );
+      { 'form-element--required': required }
+    )
 
     const input = (
       <input
-        className="input"
-        type="number"
+        className='input'
+        type='number'
         name={name}
         id={name}
         required={required}
@@ -43,14 +43,14 @@ export default class Numeric extends Component {
         min={min}
         step={step}
       />
-    );
+    )
 
     return (
       <div className={classes}>
-        {label && <label className="input__label" htmlFor={name}>{label}</label>}
-        {instructions && <p className="input__instructions">{instructions}</p>}
+        {label && <label className='input__label' htmlFor={name}>{label}</label>}
+        {instructions && <p className='input__instructions'>{instructions}</p>}
         {input}
       </div>
-    );
+    )
   }
 }

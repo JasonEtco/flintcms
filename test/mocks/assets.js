@@ -7,7 +7,7 @@ module.exports = [{
   width: 100,
   height: 100,
   size: 200,
-  mimetype: 'image/png',
+  mimetype: 'image/png'
 }, {
   _id: '5946e833bd887652382edfe9',
   title: 'Image Two',
@@ -17,5 +17,5 @@ module.exports = [{
   width: 100,
   height: 100,
   size: 200,
-  mimetype: 'image/png',
-}];
+  mimetype: 'image/png'
+}]

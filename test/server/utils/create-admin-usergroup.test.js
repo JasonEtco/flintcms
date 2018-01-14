@@ -1,31 +1,31 @@
-const Flint = require('../../../index.js');
-const mongoose = require('mongoose');
+const Flint = require('../../../index.js')
+const mongoose = require('mongoose')
 
 describe('createAdminUserGroup', () => {
-  let UserGroup;
-  let createAdminUserGroup;
+  let UserGroup
+  let createAdminUserGroup
 
   beforeAll(async () => {
-    const flintServer = new Flint({ templatePath: 'test/fixtures/templates/empty', listen: false });
-    await flintServer.startServer();
+    const flintServer = new Flint({ templatePath: 'test/fixtures/templates/empty', listen: false })
+    await flintServer.startServer()
 
-    UserGroup = mongoose.model('UserGroup');
+    UserGroup = mongoose.model('UserGroup')
 
     // eslint-disable-next-line global-require
-    createAdminUserGroup = require('../../../server/utils/create-admin-usergroup');
+    createAdminUserGroup = require('../../../server/utils/create-admin-usergroup')
 
-    await UserGroup.remove();
-  });
+    await UserGroup.remove()
+  })
 
   it('creates a new admin user group', async () => {
-    const AdminUserGroup = await createAdminUserGroup();
-    expect(typeof AdminUserGroup).toBe('object');
-  });
+    const AdminUserGroup = await createAdminUserGroup()
+    expect(typeof AdminUserGroup).toBe('object')
+  })
 
   it('returns false if an admin user group already exists', async () => {
-    const AdminUserGroup = await createAdminUserGroup();
-    return expect(AdminUserGroup).toBe(false);
-  });
+    const AdminUserGroup = await createAdminUserGroup()
+    return expect(AdminUserGroup).toBe(false)
+  })
 
-  afterAll(() => mongoose.disconnect());
-});
+  afterAll(() => mongoose.disconnect())
+})

@@ -1,14 +1,13 @@
-import { REQUEST_PLUGINS, RECEIVE_PLUGINS } from 'actions/pluginActions';
+import { REQUEST_PLUGINS, RECEIVE_PLUGINS } from 'actions/pluginActions'
 
-export default function plugins(state = {}, action) {
+export default function plugins (state = {}, action) {
   switch (action.type) {
-
     case REQUEST_PLUGINS: {
       return {
         ...state,
         isFetching: true,
-        didInvalidate: false,
-      };
+        didInvalidate: false
+      }
     }
 
     case RECEIVE_PLUGINS: {
@@ -17,11 +16,11 @@ export default function plugins(state = {}, action) {
         plugins: action.plugins,
         isFetching: false,
         didInvalidate: false,
-        lastUpdated: action.receivedAt,
-      };
+        lastUpdated: action.receivedAt
+      }
     }
 
     default:
-      return state;
+      return state
   }
 }

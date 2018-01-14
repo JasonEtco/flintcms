@@ -1,28 +1,28 @@
-const testing = process.env.NODE_ENV === 'test';
+const testing = process.env.NODE_ENV === 'test'
 
 /* istanbul ignore next */
-require('dotenv').config({ path: testing ? '.env.dev' : '.env' });
+require('dotenv').config({ path: testing ? '.env.dev' : '.env' })
 
-const path = require('path');
-const log = require('debug')('flint');
-const chalk = require('chalk');
-const { generateEnvFile } = require('./server/utils/generate-env-file');
-const nunjuckEnv = require('./server/utils/nunjucks');
-const validateEnvVariables = require('./server/utils/validate-env-variables');
-const scaffold = require('./server/utils/scaffold');
-const { verifyNodemailer } = require('./server/utils/emails');
-const compileSass = require('./server/utils/compile-sass');
-const FlintPlugin = require('./server/utils/FlintPlugin');
-const connectToDatabase = require('./server/utils/database');
-const createServer = require('./server');
+const path = require('path')
+const log = require('debug')('flint')
+const chalk = require('chalk')
+const { generateEnvFile } = require('./server/utils/generate-env-file')
+const nunjuckEnv = require('./server/utils/nunjucks')
+const validateEnvVariables = require('./server/utils/validate-env-variables')
+const scaffold = require('./server/utils/scaffold')
+const { verifyNodemailer } = require('./server/utils/emails')
+const compileSass = require('./server/utils/compile-sass')
+const FlintPlugin = require('./server/utils/FlintPlugin')
+const connectToDatabase = require('./server/utils/database')
+const createServer = require('./server')
 
 /**
  * Flint class
  * @class
  */
 module.exports = class Flint {
-  static get FlintPlugin() {
-    return FlintPlugin;
+  static get FlintPlugin () {
+    return FlintPlugin
   }
 
   /**
@@ -45,7 +45,7 @@ module.exports = class Flint {
    * @param {Flint} settings
    * @param {boolean} debugMode
    */
-  constructor(settings = {}, debugMode) {
+  constructor (settings = {}, debugMode) {
     const {
       templatePath,
       scssPath,
@@ -54,8 +54,8 @@ module.exports = class Flint {
       scssEntryPoint,
       scssIncludePaths,
       logsPath,
-      publicUrl,
-    } = settings;
+      publicUrl
+    } = settings
 
     const FLINT = Object.assign({}, settings, {
       logsPath: path.resolve(logsPath || 'logs'),
@@ -66,22 +66,22 @@ module.exports = class Flint {
       scssEntryPoint: scssEntryPoint !== undefined ? scssEntryPoint : 'main.scss',
       scssIncludePaths: scssIncludePaths || [],
       publicUrl: publicUrl || '/public',
-      debugMode,
-    });
+      debugMode
+    })
 
-    global.FLINT = FLINT;
+    global.FLINT = FLINT
 
     Promise.all([
       scaffold(FLINT.templatePath),
       scaffold(FLINT.publicPath),
-      scaffold(FLINT.logsPath),
-    ]);
+      scaffold(FLINT.logsPath)
+    ])
 
-    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath);
+    if (!FLINT.scssEntryPoint) scaffold(FLINT.scssPath)
 
-    global.FLINT.nun = nunjuckEnv(FLINT.templatePath);
+    global.FLINT.nun = nunjuckEnv(FLINT.templatePath)
 
-    this.port = process.env.PORT || 4000;
+    this.port = process.env.PORT || 4000
   }
 
   /**
@@ -89,39 +89,39 @@ module.exports = class Flint {
    * then starts the Flint server
    * @param {Number} [port] - Defaults to either the process.env port or 4000
    */
-  async startServer(port = this.port) {
+  async startServer (port = this.port) {
     /* eslint-disable no-console */
-    const missingEnvVariables = validateEnvVariables();
-    const didGenerateEnv = await generateEnvFile();
-    if (didGenerateEnv && !testing) return process.exit();
+    const missingEnvVariables = validateEnvVariables()
+    const didGenerateEnv = await generateEnvFile()
+    if (didGenerateEnv && !testing) return process.exit()
 
-    const shouldContinue = missingEnvVariables.length === 0;
+    const shouldContinue = missingEnvVariables.length === 0
 
     /* istanbul ignore if */
     if (!shouldContinue) {
-      log(chalk.red('Could not start the server.'));
-      return process.exit(1);
+      log(chalk.red('Could not start the server.'))
+      return process.exit(1)
     }
 
-    const connectedToDatabase = await connectToDatabase();
-    log(connectedToDatabase);
+    const connectedToDatabase = await connectToDatabase()
+    log(connectedToDatabase)
 
-    const canSendEmails = await verifyNodemailer().catch(log);
-    if (canSendEmails) log(canSendEmails);
+    const canSendEmails = await verifyNodemailer().catch(log)
+    if (canSendEmails) log(canSendEmails)
 
-    const canCompileSass = await compileSass();
-    log(canCompileSass);
+    const canCompileSass = await compileSass()
+    log(canCompileSass)
     /* eslint-enable no-console */
 
-    this.server = createServer(port);
+    this.server = createServer(port)
 
     if (global.FLINT.listen !== false) {
       this.server.listen(port, () => {
         // eslint-disable-next-line no-console
-        log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`);
-      });
+        log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`)
+      })
     }
 
-    return this.server;
+    return this.server
   }
-};
+}

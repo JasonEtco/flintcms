@@ -1,28 +1,28 @@
 const {
   GraphQLID,
-  GraphQLNonNull,
-} = require('graphql');
-const mongoose = require('mongoose');
+  GraphQLNonNull
+} = require('graphql')
+const mongoose = require('mongoose')
 
-const { outputType } = require('../../types/Assets');
-const getProjection = require('../../get-projection');
+const { outputType } = require('../../types/Assets')
+const getProjection = require('../../get-projection')
 
-const Asset = mongoose.model('Asset');
+const Asset = mongoose.model('Asset')
 
 module.exports = {
   type: outputType,
   args: {
     _id: {
       name: '_id',
-      type: new GraphQLNonNull(GraphQLID),
-    },
+      type: new GraphQLNonNull(GraphQLID)
+    }
   },
-  resolve(root, args, ctx, ast) {
-    const projection = getProjection(ast);
+  resolve (root, args, ctx, ast) {
+    const projection = getProjection(ast)
 
     return Asset
       .findById(args._id)
       .select(projection)
-      .exec();
-  },
-};
+      .exec()
+  }
+}

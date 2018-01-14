@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import './Toggle.scss';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import './Toggle.scss'
 
 export default class Toggle extends Component {
   static propTypes = {
@@ -9,51 +9,51 @@ export default class Toggle extends Component {
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
     onChange: PropTypes.func,
-    defaultValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    defaultValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
   }
 
   static defaultProps = {
     instructions: null,
     defaultValue: false,
-    onChange: null,
+    onChange: null
   }
 
-  constructor(props) {
-    super(props);
-    let isActive = props.defaultValue;
+  constructor (props) {
+    super(props)
+    let isActive = props.defaultValue
     if (typeof props.defaultValue === 'string' && props.defaultValue !== '') {
-      isActive = JSON.parse(props.defaultValue);
+      isActive = JSON.parse(props.defaultValue)
     }
-    this.state = { isActive };
-    this.handleChange = this.handleChange.bind(this);
+    this.state = { isActive }
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange() {
-    const { isActive } = this.state;
-    const { onChange } = this.props;
-    if (onChange) onChange(!isActive);
-    this.setState({ isActive: !isActive });
+  handleChange () {
+    const { isActive } = this.state
+    const { onChange } = this.props
+    if (onChange) onChange(!isActive)
+    this.setState({ isActive: !isActive })
   }
 
-  render() {
-    const { instructions, label, name } = this.props;
-    const { isActive } = this.state;
+  render () {
+    const { instructions, label, name } = this.props
+    const { isActive } = this.state
 
     const classes = classnames(
       'toggle-wrapper',
       'form-element',
-      { 'is-active': isActive },
-    );
+      { 'is-active': isActive }
+    )
 
     return (
       <div className={classes}>
-        {label && <label className="input__label" htmlFor={name}>{label}</label>}
-        {instructions && <p className="input__instructions">{instructions}</p>}
-        <button className="toggle" role="checkbox" aria-checked={isActive} onClick={this.handleChange} type="button">
-          <div className="toggle__marker" />
+        {label && <label className='input__label' htmlFor={name}>{label}</label>}
+        {instructions && <p className='input__instructions'>{instructions}</p>}
+        <button className='toggle' role='checkbox' aria-checked={isActive} onClick={this.handleChange} type='button'>
+          <div className='toggle__marker' />
         </button>
-        <input name={name} type="checkbox" hidden readOnly value={JSON.stringify(isActive)} checked={isActive} />
+        <input name={name} type='checkbox' hidden readOnly value={JSON.stringify(isActive)} checked={isActive} />
       </div>
-    );
+    )
   }
 }

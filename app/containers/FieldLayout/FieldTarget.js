@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { DropTarget } from 'react-dnd';
-import classnames from 'classnames';
-import target from './utils/target';
-import { collectTarget } from './utils/collect';
-import c from './utils/constants';
-import FieldTargetCard from './FieldTargetCard';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { DropTarget } from 'react-dnd'
+import classnames from 'classnames'
+import target from './utils/target'
+import { collectTarget } from './utils/collect'
+import c from './utils/constants'
+import FieldTargetCard from './FieldTargetCard'
 
 class FieldTarget extends Component {
   static propTypes = {
@@ -14,23 +14,23 @@ class FieldTarget extends Component {
     removeField: PropTypes.func.isRequired,
     sortField: PropTypes.func.isRequired,
     canDrop: PropTypes.bool.isRequired,
-    fields: PropTypes.array.isRequired,
+    fields: PropTypes.array.isRequired
   }
 
-  render() {
+  render () {
     const {
       isOver,
       canDrop,
       connectDropTarget,
       fields,
       removeField,
-      sortField,
-    } = this.props;
+      sortField
+    } = this.props
 
     const classes = classnames(
       'field-layout__target',
-      { 'can-drop': isOver && canDrop },
-    );
+      { 'can-drop': isOver && canDrop }
+    )
 
     return connectDropTarget(
       <ul className={classes}>
@@ -43,9 +43,9 @@ class FieldTarget extends Component {
             sortField={sortField}
           />
         ))}
-      </ul>,
-    );
+      </ul>
+    )
   }
 }
 
-export default DropTarget(c.FIELD, target, collectTarget)(FieldTarget);
+export default DropTarget(c.FIELD, target, collectTarget)(FieldTarget)

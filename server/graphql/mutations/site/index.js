@@ -1,5 +1,5 @@
-const updateSite = require('./updateSite');
+const updateSite = require('./updateSite')
 
 module.exports = {
-  updateSite,
-};
+  updateSite
+}

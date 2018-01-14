@@ -1,9 +1,9 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const { browsers, resolve, vendor } = require('./constants');
+const { browsers, resolve, vendor } = require('./constants')
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -11,46 +11,46 @@ module.exports = {
     main: [
       'babel-polyfill',
       'webpack-hot-middleware/client?reload=true&dynamicPublicPath=true',
-      path.resolve(__dirname, '..', 'app', 'main.js'),
+      path.resolve(__dirname, '..', 'app', 'main.js')
     ],
-    vendor,
+    vendor
   },
   output: {
     path: path.join(__dirname, '..', 'admin'),
     filename: '[name].js',
-    publicPath: '/admin/',
+    publicPath: '/admin/'
   },
   resolve,
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '..', 'app', 'index.tpl.html'),
       inject: 'body',
-      filename: 'index.html',
+      filename: 'index.html'
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify('development')
     }),
     new CopyWebpackPlugin([
       {
         context: path.join(__dirname, '..', 'app'),
         from: 'assets',
         to: 'assets',
-        ignore: ['fonts/**/*'],
+        ignore: ['fonts/**/*']
       },
       {
         context: path.join(__dirname, '..', 'app'),
         from: 'manifest.json',
-        to: '',
-      },
+        to: ''
+      }
     ]),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor', 'manifest'], // vendor libs + extracted manifest
-      minChunks: Infinity,
+      minChunks: Infinity
     }),
-    new webpack.HashedModuleIdsPlugin(),
+    new webpack.HashedModuleIdsPlugin()
   ],
   module: {
     rules: [{
@@ -65,46 +65,46 @@ module.exports = {
               debug: false,
               loose: true,
               modules: false,
-              useBuiltIns: true,
+              useBuiltIns: true
             }],
             'react',
-            'react-hmre',
+            'react-hmre'
           ],
           plugins: [
             [
               'transform-object-rest-spread',
-              { useBuiltIns: true },
+              { useBuiltIns: true }
             ],
             'transform-runtime',
-            'transform-class-properties',
-          ],
-        },
-      },
+            'transform-class-properties'
+          ]
+        }
+      }
     }, {
       test: /\.scss$/,
       use: [{
-        loader: 'style-loader',
+        loader: 'style-loader'
       }, {
         loader: 'css-loader',
         options: {
-          sourceMap: true,
-        },
+          sourceMap: true
+        }
       }, {
         loader: 'sass-loader',
         options: {
           sourceMap: true,
           data: '@import "tools";',
           includePaths: [
-            path.resolve(__dirname, '../app/scss/tools'),
-          ],
-        },
-      }],
+            path.resolve(__dirname, '../app/scss/tools')
+          ]
+        }
+      }]
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
       use: [
         'url-loader?limit=10000',
-        'img-loader',
-      ],
-    }],
-  },
-};
+        'img-loader'
+      ]
+    }]
+  }
+}

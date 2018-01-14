@@ -1,8 +1,8 @@
-const jimp = require('jimp');
-const { promisify } = require('util');
-const fs = require('fs');
+const jimp = require('jimp')
+const { promisify } = require('util')
+const fs = require('fs')
 
-const statAsync = promisify(fs.stat);
+const statAsync = promisify(fs.stat)
 
 /**
  * Gets the mimetype, width, height and file size of an asset.
@@ -16,14 +16,14 @@ const statAsync = promisify(fs.stat);
  *
  * @returns {AssetDetails}
  */
-async function getAssetDetails(pathToFile) {
-  const { size } = await statAsync(pathToFile).catch(err => new Error(err));
+async function getAssetDetails (pathToFile) {
+  const { size } = await statAsync(pathToFile).catch(err => new Error(err))
   const {
     _originalMime: mimetype,
-    bitmap: { width, height },
-  } = await jimp.read(pathToFile);
+    bitmap: { width, height }
+  } = await jimp.read(pathToFile)
 
-  return { mimetype, width, height, size };
+  return { mimetype, width, height, size }
 }
 
-module.exports = getAssetDetails;
+module.exports = getAssetDetails

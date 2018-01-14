@@ -6,31 +6,31 @@ module.exports = [{
     pages: {
       canAddPages: true,
       canDeletePages: true,
-      canEditPages: true,
+      canEditPages: true
     },
     site: {
       canManagePlugins: true,
       canCustomStyles: true,
-      canManageSite: true,
+      canManageSite: true
     },
     assets: {
       canIndexAssets: true,
       canDeleteAssets: true,
       canEditAssets: true,
-      canAddAssets: true,
+      canAddAssets: true
     },
     usergroups: {
       canViewUserGroups: true,
       canDeleteUserGroups: true,
       canEditUserGroups: true,
-      canAddUserGroups: true,
+      canAddUserGroups: true
     },
     users: {
       canChangeUsersUsergroup: true,
       canResetUserPasswords: true,
       canDeleteUsers: true,
       canEditUsers: true,
-      canAddUsers: true,
+      canAddUsers: true
     },
     entries: {
       canChangeEntryStatus: true,
@@ -39,23 +39,23 @@ module.exports = [{
       canEditLive: true,
       canEditOthersEntries: true,
       canDeleteEntries: true,
-      canAddEntries: true,
+      canAddEntries: true
     },
     fields: {
       canEditFields: true,
       canDeleteFields: true,
-      canAddFields: true,
+      canAddFields: true
     },
     plugins: {
-      canManagePlugins: true,
+      canManagePlugins: true
     },
     sections: {
       canEditSections: true,
       canDeleteSections: true,
-      canAddSections: true,
-    },
+      canAddSections: true
+    }
   },
-  dateCreated: 1486492351619,
+  dateCreated: 1486492351619
 }, {
   _id: '597530faa5535235e9137f53',
   title: 'Placeholder',
@@ -64,34 +64,34 @@ module.exports = [{
     pages: {
       canAddPages: false,
       canDeletePages: false,
-      canEditPages: false,
+      canEditPages: false
     },
     plugins: {
-      canManagePlugins: false,
+      canManagePlugins: false
     },
     site: {
       canManagePlugins: false,
       canCustomStyles: false,
-      canManageSite: false,
+      canManageSite: false
     },
     assets: {
       canIndexAssets: false,
       canDeleteAssets: false,
       canEditAssets: false,
-      canAddAssets: false,
+      canAddAssets: false
     },
     usergroups: {
       canViewUserGroups: false,
       canDeleteUserGroups: false,
       canEditUserGroups: false,
-      canAddUserGroups: false,
+      canAddUserGroups: false
     },
     users: {
       canChangeUsersUsergroup: false,
       canResetUserPasswords: false,
       canDeleteUsers: false,
       canEditUsers: false,
-      canAddUsers: false,
+      canAddUsers: false
     },
     entries: {
       canChangeEntryStatus: false,
@@ -100,20 +100,20 @@ module.exports = [{
       canEditLive: false,
       canEditOthersEntries: false,
       canDeleteEntries: false,
-      canAddEntries: false,
+      canAddEntries: false
     },
     fields: {
       canEditFields: false,
       canDeleteFields: false,
-      canAddFields: false,
+      canAddFields: false
     },
     sections: {
       canEditSections: false,
       canDeleteSections: false,
-      canAddSections: false,
-    },
+      canAddSections: false
+    }
   },
-  dateCreated: 1486492351719,
+  dateCreated: 1486492351719
 }, {
   _id: '59357fdf76fb4f43905c7149',
   title: 'Can do nothing',
@@ -122,34 +122,34 @@ module.exports = [{
     pages: {
       canAddPages: false,
       canDeletePages: false,
-      canEditPages: false,
+      canEditPages: false
     },
     plugins: {
-      canManagePlugins: false,
+      canManagePlugins: false
     },
     site: {
       canManagePlugins: false,
       canCustomStyles: false,
-      canManageSite: false,
+      canManageSite: false
     },
     assets: {
       canIndexAssets: false,
       canDeleteAssets: false,
       canEditAssets: false,
-      canAddAssets: false,
+      canAddAssets: false
     },
     usergroups: {
       canViewUserGroups: false,
       canDeleteUserGroups: false,
       canEditUserGroups: false,
-      canAddUserGroups: false,
+      canAddUserGroups: false
     },
     users: {
       canChangeUsersUsergroup: false,
       canResetUserPasswords: false,
       canDeleteUsers: false,
       canEditUsers: false,
-      canAddUsers: false,
+      canAddUsers: false
     },
     entries: {
       canChangeEntryStatus: false,
@@ -158,18 +158,18 @@ module.exports = [{
       canEditLive: false,
       canEditOthersEntries: false,
       canDeleteEntries: false,
-      canAddEntries: false,
+      canAddEntries: false
     },
     fields: {
       canEditFields: false,
       canDeleteFields: false,
-      canAddFields: false,
+      canAddFields: false
     },
     sections: {
       canEditSections: false,
       canDeleteSections: false,
-      canAddSections: false,
-    },
+      canAddSections: false
+    }
   },
-  dateCreated: 1486492351819,
-}];
+  dateCreated: 1486492351819
+}]

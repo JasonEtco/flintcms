@@ -7,8 +7,8 @@ module.exports = [
     required: false,
     type: 'Text',
     options: {
-      placeholder: 'Example!',
+      placeholder: 'Example!'
     },
-    dateCreated: 1496803919903,
-  },
-];
+    dateCreated: 1496803919903
+  }
+]

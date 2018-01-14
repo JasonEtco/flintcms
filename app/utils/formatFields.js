@@ -10,18 +10,18 @@
  *
  * @returns {FieldObject}
  */
-async function formatFields(fields, stateFields) {
-  if (fields.length <= 0) return fields;
+async function formatFields (fields, stateFields) {
+  if (fields.length <= 0) return fields
 
   const options = await Object.keys(fields).map((key) => {
-    const fieldId = stateFields.find(field => key === field.handle)._id;
+    const fieldId = stateFields.find(field => key === field.handle)._id
     return {
       fieldId,
       handle: key,
-      value: fields[key],
-    };
-  });
-  return options;
+      value: fields[key]
+    }
+  })
+  return options
 }
 
-export default formatFields;
+export default formatFields

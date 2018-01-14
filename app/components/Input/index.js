@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { formatStringWithCode } from 'utils/helpers';
-import './Input.scss';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import { formatStringWithCode } from 'utils/helpers'
+import './Input.scss'
 
 export default class Input extends Component {
   static propTypes = {
@@ -23,7 +23,7 @@ export default class Input extends Component {
     disabled: PropTypes.bool,
     defaultValue: PropTypes.string,
     value: PropTypes.string,
-    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   }
 
   static defaultProps = {
@@ -43,28 +43,28 @@ export default class Input extends Component {
     value: undefined,
     autoFocus: false,
     autoCorrect: false,
-    maxLength: null,
+    maxLength: null
   }
 
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
+  constructor (props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
 
-    const value = props.value || props.defaultValue || '';
-    this.value = value;
-    this.state = { value };
+    const value = props.value || props.defaultValue || ''
+    this.value = value
+    this.state = { value }
   }
 
-  handleChange({ target }) {
-    const { onChange } = this.props;
-    const { value } = target;
+  handleChange ({ target }) {
+    const { onChange } = this.props
+    const { value } = target
 
-    this.value = value;
-    this.setState({ value });
-    if (onChange) onChange(value);
+    this.value = value
+    this.setState({ value })
+    if (onChange) onChange(value)
   }
 
-  render() {
+  render () {
     const {
       name,
       label,
@@ -82,8 +82,8 @@ export default class Input extends Component {
       autoFocus,
       autoCorrect,
       maxLength,
-      onKeyPress,
-    } = this.props;
+      onKeyPress
+    } = this.props
 
     const classes = classnames(
       'input-wrapper',
@@ -93,12 +93,12 @@ export default class Input extends Component {
       { 'input-wrapper--full': full },
       { 'input-wrapper--code': code },
       { 'input-wrapper--disabled': disabled },
-      className,
-    );
+      className
+    )
 
     const input = (
       <input
-        className="input"
+        className='input'
         type={type}
         name={name}
         id={name}
@@ -113,17 +113,17 @@ export default class Input extends Component {
         autoCorrect={autoCorrect}
         maxLength={maxLength}
       />
-    );
+    )
 
     return (
       <div className={classes}>
-        {label && <label className="input__label" htmlFor={name}>{label}</label>}
+        {label && <label className='input__label' htmlFor={name}>{label}</label>}
         {instructions &&
-          <p className="input__instructions" dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} />  // eslint-disable-line react/no-danger
+          <p className='input__instructions' dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} />  // eslint-disable-line react/no-danger
         }
         {input}
-        {maxLength && <span className="input__max">{this.state.value.length}/{maxLength} characters</span>}
+        {maxLength && <span className='input__max'>{this.state.value.length}/{maxLength} characters</span>}
       </div>
-    );
+    )
   }
 }

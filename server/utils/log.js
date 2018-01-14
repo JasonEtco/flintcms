@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
-const pathToLog = path.join(global.FLINT.logsPath, 'flint.log');
-const stream = fs.createWriteStream(pathToLog, { flags: 'a' });
+const pathToLog = path.join(global.FLINT.logsPath, 'flint.log')
+const stream = fs.createWriteStream(pathToLog, { flags: 'a' })
 
 /**
  * Logs a string to the console and adds it to the Flint log file.
@@ -10,23 +10,23 @@ const stream = fs.createWriteStream(pathToLog, { flags: 'a' });
  * @param {Boolean} [prependTimestamp=true] - Prepend a timestamp to the string in the log file.
  * @returns {String} - Returns the string that was logged.
  */
-function log(str, prependTimestamp = true) {
+function log (str, prependTimestamp = true) {
   /* istanbul ignore else */
   if (process.env.NODE_ENV === 'test') {
-    return str;
+    return str
     // eslint-disable-next-line no-else-return
   } else {
-    console.log(str); // eslint-disable-line no-console
-    let string = str;
+    console.log(str) // eslint-disable-line no-console
+    let string = str
 
     if (prependTimestamp) {
-      const timestamp = new Date().toISOString();
-      string = `[${timestamp}] - ${string}`;
+      const timestamp = new Date().toISOString()
+      string = `[${timestamp}] - ${string}`
     }
 
-    stream.write(`${string}\n`);
-    return str;
+    stream.write(`${string}\n`)
+    return str
   }
 }
 
-module.exports = log;
+module.exports = log

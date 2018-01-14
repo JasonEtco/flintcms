@@ -1,7 +1,7 @@
-const Flint = require('.');
+const Flint = require('.')
 
 const flintServer = new Flint({
-  enableCacheBusting: true,
-}, true);
+  enableCacheBusting: true
+}, true)
 
-flintServer.startServer();
+flintServer.startServer()

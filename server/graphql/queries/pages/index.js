@@ -1,7 +1,7 @@
-const page = require('./single');
-const pages = require('./multiple');
+const page = require('./single')
+const pages = require('./multiple')
 
 module.exports = {
   page,
-  pages,
-};
+  pages
+}
