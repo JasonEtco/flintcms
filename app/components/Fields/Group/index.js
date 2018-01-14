@@ -29,7 +29,7 @@ class GroupRow extends Component {
     return (
         <div key={item.key} className="group__block form-element">
           <div className="group__block__btns">
-            {dragHandle(<button className="group__drag"><Icon icon="dragHandle" /></button>)}
+            {dragHandle(<button className="group__drag" type="button"><Icon icon="dragHandle" /></button>)}
             <DeleteIcon onClick={() => deleteBlock(this.props.item.key)} small />
           </div>
           {item.fields.map(field => renderOption(field, field.defaultValue || null, { onChange:(v)=>{childChanged(field, v)},
