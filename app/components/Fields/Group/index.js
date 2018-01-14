@@ -7,6 +7,39 @@ import DeleteIcon from 'components/DeleteIcon';
 import DraggableList from 'react-draggable-list';
 import './Group.scss';
 
+
+class GroupRow extends Component {
+  static propTypes = {
+    item: PropTypes.shape({
+      fields: PropTypes.array.isRequired,
+      key: PropTypes.number.isRequired,
+      type: PropTypes.string.isRequired,
+    }).isRequired,
+    dragHandle: PropTypes.func.isRequired,
+    commonProps: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      deleteBlock: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
+  render() {
+    const { dragHandle, item, commonProps } = this.props;
+    const { name, deleteBlock } = commonProps;
+
+    return (
+      <div key={item.key} className="group__block form-element">
+        <div className="group__block__btns">
+          {dragHandle(<button className="group__drag" type="button"><Icon icon="dragVertical" /></button>)}
+          <DeleteIcon onClick={() => deleteBlock(this.props.item.key)} small />
+        </div>
+        {item.fields.map(field => renderOption(field, field.defaultValue || null, { name: `${name}[${item.order}][${field.handle}]`, key: `${name}[${item.order}][${field.handle}]` }))}
+        <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
+      </div>
+    );
+  }
+}
+
+
 export default class Group extends Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
@@ -56,6 +89,11 @@ export default class Group extends Component {
     this.state = { blocks: formattedFields };
   }
 
+  onListChange(blocks) {
+    const newBlocks = blocks.map((block, i) => ({ ...block, order: i }));
+    this.setState({ blocks: newBlocks });
+  }
+
   addBlock(key) {
     this.setState({
       blocks: [
@@ -80,27 +118,6 @@ export default class Group extends Component {
     });
   }
 
-
-  onListChange(blocks) {
-
-    let newBlocks = Array(blocks.length);
-    blocks.map((block, i)=>{
-      newBlocks[i] = {...block, order:i}
-    });
-
-    this.setState({blocks:newBlocks});
-  }
-
-  childComponentChanged(field, v){
-    if(v != null){
-      field.defaultValue = v;
-      //field.value = v;
-      console.log('field set def', field, v);
-    }
-    console.log(field);
-  }
-
-
   render() {
     const { required, name, instructions, label, blocks } = this.props;
 
@@ -118,13 +135,13 @@ export default class Group extends Component {
         {label && <label className="input__label" htmlFor={name}>{label}</label>}
         {instructions && <p className="input__instructions">{instructions}</p>}
         <div className="group__fields form-element">
-        <DraggableList
-          list={this.state.blocks}
-          itemKey="key"
-          template={GroupRow}
-          onMoveEnd={newList => this.onListChange(newList)}
-          container={()=>document.body}
-          commonProps={common}
+          <DraggableList
+            list={this.state.blocks}
+            itemKey="key"
+            template={GroupRow}
+            onMoveEnd={newList => this.onListChange(newList)}
+            container={() => document.body}
+            commonProps={common}
           />
         </div>
         <div className={`group__buttons ${this.state.blocks.length > 0 ? 'form-element' : ''}`}>
@@ -133,35 +150,4 @@ export default class Group extends Component {
       </div>
     );
   }
-}
-
-
-
-
-
-class GroupRow extends Component {
-
-  // getDragHeight(){
-  //   return 32;
-  // }
-
-  render(){
-
-    const { dragHandle, item, commonProps } = this.props;
-    const { name, deleteBlock, childChanged } = commonProps;
-
-    return (
-        <div key={item.key} className="group__block form-element">
-          <div className="group__block__btns">
-            {dragHandle(<button className="group__drag"><Icon icon="dragHandle" /></button>)}
-            <DeleteIcon onClick={() => deleteBlock(this.props.item.key)} small />
-          </div>
-          {item.fields.map(field => renderOption(field, field.defaultValue || null, { onChange:(v)=>{childChanged(field, v)},
-                                                                                      name: `${name}[${item.order}][${field.handle}]`,
-                                                                                      key: `${name}[${item.order}][${field.handle}]` }))}
-          <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
-        </div>
-    )
-  }
-
 }
