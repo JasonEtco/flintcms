@@ -30,9 +30,9 @@ class GroupRow extends Component {
         <div key={item.key} className="group__block form-element">
           <div className="group__block__btns">
             {dragHandle(<button className="group__drag" type="button"><Icon icon="dragHandle" /></button>)}
-            <DeleteIcon onClick={() => deleteBlock(this.props.item.key)} small />
+            <DeleteIcon onClick={() => deleteBlock(this.props.item.order)} small />
           </div>
-          {item.fields.map(field => renderOption(field, field.defaultValue || null, { onChange:(v)=>{childChanged(field, v)},
+          {item.fields.map((field, i) => renderOption(field, field.defaultValue || null, { onChange:(v)=>{childChanged(field, v)},
                                                                                       name: `${name}[${item.order}][${field.handle}]`,
                                                                                       key: `${name}[${item.order}][${field.handle}]` }))}
           <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
@@ -108,19 +108,24 @@ export default class Group extends Component {
           type: key,
           order: this.state.blocks.length,
           key: this.state.blocks.length,
-          ...this.props.blocks[key],
+          ...(JSON.parse(JSON.stringify(this.props.blocks[key]))),
         },
       ],
     });
   }
 
   deleteBlock(index) {
+
     const { blocks } = this.state;
+    const newBlocks = [
+      ...blocks.slice(0, index),
+      ...blocks.slice(index+1),
+    ];
+
+    newBlocks.map((b, i) => {b.order = i});
+
     this.setState({
-      blocks: [
-        ...blocks.slice(0, index),
-        ...blocks.slice(index + 1),
-      ],
+      blocks: newBlocks,
     });
   }
 
