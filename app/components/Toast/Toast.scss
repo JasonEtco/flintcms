@@ -4,6 +4,7 @@
     bottom: 1em;
     overflow: hidden;
     padding-right: 0.8em;
+    z-index: 9999;
 
     &__toast {
         display: flex;

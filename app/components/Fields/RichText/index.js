@@ -21,6 +21,7 @@ export default class RichText extends Component {
     defaultValue: null,
     contentState: null,
     required: false,
+    onChange: ()=>{}
   }
 
   static validate(val) {
@@ -38,7 +39,10 @@ export default class RichText extends Component {
     }
 
     this.focus = () => this[props.name].focus();
-    this.onChange = value => this.setState({ value });
+    this.onChange = value => {
+      this.setState({ value });
+      this.props.onChange(value.toString('html'));
+    }
   }
 
   render() {

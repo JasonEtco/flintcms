@@ -19,6 +19,7 @@ export default class Color extends Component {
     defaultValue: '#000000',
     label: null,
     instructions: null,
+    onChange:f=>f
   }
 
   static validate(val) {
@@ -47,6 +48,7 @@ export default class Color extends Component {
   handleChangeComplete = (color) => {
     this.value = color;
     this.setState({ color: color.hex });
+    this.props.onChange(color.hex);
   };
 
   render() {

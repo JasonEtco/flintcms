@@ -44,6 +44,21 @@
             z-index: 2;
             top: 1em;
             right: 1em;
+            display: flex;
+            align-items: center;
         }
+    }
+
+    &__drag {
+        display: flex;
+        padding: 0;
+        border: none;
+        margin-right: 0.3em;
+        background: none;
+        cursor: pointer;
+
+        svg { fill: $gray-400; }
+
+        &:hover svg { fill: $gray-500; }
     }
 }

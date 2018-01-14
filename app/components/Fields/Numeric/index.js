@@ -21,6 +21,7 @@ export default class Numeric extends Component {
     max: null,
     min: null,
     step: null,
+    onChange: ()=>{}
   }
 
   render() {
@@ -42,6 +43,7 @@ export default class Numeric extends Component {
         max={max}
         min={min}
         step={step}
+        onChange={(e)=>this.props.onChange(e.target.value)}
       />
     );
 
