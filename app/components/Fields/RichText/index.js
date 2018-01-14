@@ -21,7 +21,7 @@ export default class RichText extends Component {
     defaultValue: null,
     contentState: null,
     required: false,
-    onChange: ()=>{}
+    onChange: f => f
   }
 
   static validate(val) {

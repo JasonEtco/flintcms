@@ -19,7 +19,7 @@ export default class Color extends Component {
     defaultValue: '#000000',
     label: null,
     instructions: null,
-    onChange:f=>f
+    onChange: f => f
   }
 
   static validate(val) {

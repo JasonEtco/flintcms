@@ -19,7 +19,7 @@ export default class Asset extends Component {
     instructions: null,
     defaultValue: null,
     readOnly: false,
-    onChange: ()=>{}
+    onChange: f => f
   }
 
   constructor(props) {

@@ -21,7 +21,7 @@ export default class Numeric extends Component {
     max: null,
     min: null,
     step: null,
-    onChange: ()=>{}
+    onChange: f => f
   }
 
   render() {
