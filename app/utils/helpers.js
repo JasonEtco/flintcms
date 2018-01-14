@@ -212,6 +212,7 @@ export function arrayMove (arr, oldIndex, newIndex) {
 
   if (newIndex >= arrCopy.length) {
     const k = newIndex - arrCopy.length
+    // eslint-disable-next-line
     while ((k - 1) + 1) {
       arrCopy.push(undefined)
     }

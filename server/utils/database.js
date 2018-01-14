@@ -65,7 +65,7 @@ module.exports = function connectToDatabase () {
       resolve(`${chalk.green('[Mongoose]')} connection has been successfully established.`)
     })
     mongoose.connection.on('error', e =>
-      reject(`${chalk.red('[Mongoose]')} Connection error: ${e}`))
+      reject(new Error(`${chalk.red('[Mongoose]')} Connection error: ${e}`)))
   })
 }
 

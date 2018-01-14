@@ -11,12 +11,12 @@ const nun = nunjucks.configure(pathToTemplates, {
 })
 
 function renderSass (file) {
-  return new Promise((res, rej) => {
+  return new Promise((resolve, reject) => {
     sass.render({ file }, (err, result) => {
       if (err) {
-        rej(err)
+        reject(err)
       } else {
-        res(result)
+        resolve(result)
       }
     })
   })

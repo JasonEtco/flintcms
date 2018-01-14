@@ -18,7 +18,7 @@ function verifyNodemailer () {
         switch (error.code) {
           case 'ECONNECTION':
             /* istanbul ignore next */
-            reject(`${chalk.red('[Email Service]')} Connection could not be established, you may be offline.`)
+            reject(new Error(`${chalk.red('[Email Service]')} Connection could not be established, you may be offline.`))
             break
           default:
             reject(error)

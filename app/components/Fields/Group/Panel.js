@@ -114,7 +114,7 @@ class Panel extends Component {
 
       const d = data || serialize(this.fieldColumn.form, { hash: true, empty: true })
 
-      if (!d) reject()
+      if (!d) reject(new Error())
       this.setState({
         blocks: {
           ...blocks,
