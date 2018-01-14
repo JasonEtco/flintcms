@@ -22,20 +22,22 @@ class GroupRow extends Component {
     }).isRequired,
   }
 
-  render() {
+  render(){
     const { dragHandle, item, commonProps } = this.props;
-    const { name, deleteBlock } = commonProps;
+    const { name, deleteBlock, childChanged } = commonProps;
 
     return (
-      <div key={item.key} className="group__block form-element">
-        <div className="group__block__btns">
-          {dragHandle(<button className="group__drag" type="button"><Icon icon="dragVertical" /></button>)}
-          <DeleteIcon onClick={() => deleteBlock(this.props.item.key)} small />
+        <div key={item.key} className="group__block form-element">
+          <div className="group__block__btns">
+            {dragHandle(<button className="group__drag"><Icon icon="dragHandle" /></button>)}
+            <DeleteIcon onClick={() => deleteBlock(this.props.item.key)} small />
+          </div>
+          {item.fields.map(field => renderOption(field, field.defaultValue || null, { onChange:(v)=>{childChanged(field, v)},
+                                                                                      name: `${name}[${item.order}][${field.handle}]`,
+                                                                                      key: `${name}[${item.order}][${field.handle}]` }))}
+          <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
         </div>
-        {item.fields.map(field => renderOption(field, field.defaultValue || null, { name: `${name}[${item.order}][${field.handle}]`, key: `${name}[${item.order}][${field.handle}]` }))}
-        <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
-      </div>
-    );
+    )
   }
 }
 
@@ -92,6 +94,10 @@ export default class Group extends Component {
   onListChange(blocks) {
     const newBlocks = blocks.map((block, i) => ({ ...block, order: i }));
     this.setState({ blocks: newBlocks });
+  }
+
+  childComponentChanged(field, v){
+    if(v != null) field.defaultValue = v;
   }
 
   addBlock(key) {
