@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "start": "cross-env DEBUG=flint* nodemon --ignore app dev.js",
-    "test": "jest --runInBand --coverage && npm run lint",
+    "test": "jest --runInBand --coverage && standard",
     "test:update": "jest --runInBand -u",
     "test:logs": "jest test/server/apps/routes/logs.test.js",
     "test:site": "jest test/server/apps/routes/site.test.js",
@@ -53,7 +53,6 @@
     "test:gql:entries": "jest test/server/apps/types/entries.test.js",
     "test:public-registration": "jest test/server/utils/public-registration.test.js",
     "build": "rimraf admin && webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
-    "lint": "standard",
     "prepublishOnly": "npm run build"
   },
   "stylelint": {
