@@ -39,6 +39,7 @@ export default class DatePicker extends Component {
     instructions: null,
     attachment: 'left',
     disabled: false,
+    onChange: f=>f
   }
 
   constructor(props) {
@@ -68,6 +69,7 @@ export default class DatePicker extends Component {
 
   selectDate({ year, month, day }) {
     const value = new Date(year, month, day).getTime();
+    this.props.onChange( moment(value).format('MM/DD/YYYY') );
     this.setState({ value, open: false });
   }
 

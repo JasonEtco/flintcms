@@ -19,6 +19,7 @@ export default class Asset extends Component {
     instructions: null,
     defaultValue: null,
     readOnly: false,
+    onChange: ()=>{}
   }
 
   constructor(props) {
@@ -30,6 +31,7 @@ export default class Asset extends Component {
 
   onSelect(value) {
     this.setState({ value });
+    this.props.onChange(value);
   }
 
   toggle() {
