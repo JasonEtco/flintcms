@@ -37,14 +37,14 @@ router.get('/:section/:slug', async (req, res, next) => {
 
   try {
     const compiled = await compile(entry.template, entry);
-    return handleCompileErrorRoutes(req, res, compiled, entry.template);
+    return res.send(compiled);
   } catch (err) { return next(err); }
 });
 
 /*
 * 404
 */
-router.use((req, res) => handleCompileErrorRoutes(req, res, 'no-exist'));
+router.use(async (req, res) => handleCompileErrorRoutes(req, res, 'no-exist'));
 
 /*
 * Error handler route

@@ -27,7 +27,6 @@ describe('Compile templates', () => {
 
   it('returns a page with variables', async () => {
     const res = await request(server).get('/page-with-vars');
-    console.log(res.text)
     expect(res.status).toBe(200);
     expect(res.text).toMatchSnapshot();
   });
