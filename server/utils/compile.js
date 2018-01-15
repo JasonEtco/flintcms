@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const util = require('util');
+const stringify = require('json-stringify-safe');
 const collectData = require('./collect-data');
 
 /**
@@ -15,8 +15,8 @@ async function compile(template, data) {
   let templatePath = path.join(global.FLINT.templatePath, templateWithFormat);
 
   // Check that the template file actually exists, or try built in template
-  if (!fs.existsSync(templatePath)){
-    templatePath = path.join(global.FLINT.systemTemplatePath, templateWithFormat);
+  if (!fs.existsSync(templatePath)) {
+    templatePath = path.join(__dirname, '..', 'templates', templateWithFormat);
     if (!fs.existsSync(templatePath)) return 'no-template';
   }
 
@@ -29,7 +29,6 @@ async function compile(template, data) {
   if (!html) return 'no-html';
 
   if (global.FLINT.debugMode) {
-    const stringify = require('json-stringify-safe');
     const scr = `
     console.log('%cFlint Debug Mode', 'color: #fe6300; font-weight: bold; font-size: 1.2rem;');
 
