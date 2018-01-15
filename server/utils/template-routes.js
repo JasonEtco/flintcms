@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 
   try {
     const compiled = await compile(homepage.template, homepage);
-    return compiled;
+    return res.send(compiled);
   } catch (err) { return next(err); }
 });
 
