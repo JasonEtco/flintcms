@@ -13,12 +13,14 @@ export default class Color extends Component {
     label: PropTypes.string,
     instructions: PropTypes.string,
     required: PropTypes.bool.isRequired,
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
     defaultValue: '#000000',
     label: null,
     instructions: null,
+    onChange: f => f,
   }
 
   static validate(val) {
@@ -47,6 +49,7 @@ export default class Color extends Component {
   handleChangeComplete = (color) => {
     this.value = color;
     this.setState({ color: color.hex });
+    this.props.onChange(color.hex);
   };
 
   render() {
