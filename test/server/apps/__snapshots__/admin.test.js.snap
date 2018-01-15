@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin routes returns the correct response for /admin/login 1`] = `
+"<!DOCTYPE html>
+<html lang=\\"en\\">
+<head>
+    <meta charset=\\"UTF-8\\">
+    <title>FlintCMS Dashboard</title>
+    <link rel=\\"shortcut icon\\" href=\\"/admin/assets/favicon.png\\">
+    <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\">
+    <link href=\\"https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i\\" rel=\\"stylesheet\\">
+
+    <link rel=\\"apple-touch-icon\\" sizes=\\"180x180\\" href=\\"/admin/assets/apple-touch-icon.png\\">
+    <link rel=\\"icon\\" type=\\"image/png\\" href=\\"/admin/assets/favicon-32x32.png\\" sizes=\\"32x32\\">
+    <link rel=\\"icon\\" type=\\"image/png\\" href=\\"/admin/assets/favicon-16x16.png\\" sizes=\\"16x16\\">
+    <link rel=\\"manifest\\" href=\\"/admin/manifest.json\\">
+    <link rel=\\"mask-icon\\" href=\\"/admin/assets/safari-pinned-tab.svg\\" color=\\"#fe6300\\">
+    <meta name=\\"msapplication-config\\" content=\\"/admin/assets/browserconfig.xml\\">
+    <meta name=\\"theme-color\\" content=\\"#fe6300\\">
+<link href=\\"/admin/main-a838df309aa39514ba88.min.css\\" rel=\\"stylesheet\\"></head>
+<body>
+    <noscript>
+        <div class=\\"no-script\\">
+            <h1>You must enable JavaScript to use the Flint admin dashboard.</h1>
+            <a href=\\"https://github.com/JasonEtco/flintcms/issues\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">Need help?</a>
+        </div>
+    </noscript>
+
+    <div class=\\"mount\\"></div>
+    <script src=\\"https://cdn.polyfill.io/v2/polyfill.min.js\\"></script>
+<script type=\\"text/javascript\\" src=\\"/admin/manifest-c953e040d5285261b01b.min.js\\"></script><script type=\\"text/javascript\\" src=\\"/admin/vendor-f968a8f91e67fa65ebfe.min.js\\"></script><script type=\\"text/javascript\\" src=\\"/admin/main-bd23de59e8e4e270f504.min.js\\"></script></body>
+</html>
+"
+`;

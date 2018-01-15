@@ -25,8 +25,10 @@ router.get('*', async (req, res, next) => {
 
   try {
     const compiled = await compile(page.template, page);
-    return handleCompileErrorRoutes(req, res, compiled, page.template);
-  } catch (err) { return next(err); }
+    return res.send(compiled);
+  } catch (err) {
+    return handleCompileErrorRoutes(req, res, 'no-template', page.template);
+  }
 });
 
 router.get('/:section/:slug', async (req, res, next) => {

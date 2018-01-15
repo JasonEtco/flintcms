@@ -27,6 +27,7 @@ describe('Compile templates', () => {
 
   it('returns a page with variables', async () => {
     const res = await request(server).get('/page-with-vars');
+    console.log(res.text)
     expect(res.status).toBe(200);
     expect(res.text).toMatchSnapshot();
   });
@@ -35,25 +36,6 @@ describe('Compile templates', () => {
     const url = `/${mocks.sections[0].slug}/${mocks.entries[3].slug}`;
     const res = await request(server).get(url);
     expect(res.status).toBe(200);
-    expect(res.text).toMatchSnapshot();
-  });
-
-  afterAll((done) => {
-    mongoose.disconnect(done);
-  });
-});
-
-describe('Compiler 404', () => {
-  let server;
-
-  beforeAll(async () => {
-    const flintServer = new Flint({ templatePath: 'test/fixtures/templates/empty', listen: false });
-    server = await flintServer.startServer();
-  });
-
-  it('redirects to `no-template` for the 404 page', async () => {
-    const res = await request(server).get('/example');
-    expect(res.status).toBe(404);
     expect(res.text).toMatchSnapshot();
   });
 

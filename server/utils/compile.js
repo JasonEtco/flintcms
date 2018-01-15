@@ -12,12 +12,11 @@ const collectData = require('./collect-data');
 async function compile(template, data) {
   // Ensure that template has the .njk file extension
   const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`;
-  let templatePath = path.join(global.FLINT.templatePath, templateWithFormat);
+  const templatePath = path.join(global.FLINT.templatePath, templateWithFormat);
 
   // Check that the template file actually exists, or try built in template
   if (!fs.existsSync(templatePath)) {
-    templatePath = path.join(__dirname, '..', 'templates', templateWithFormat);
-    if (!fs.existsSync(templatePath)) return 'no-template';
+    throw new Error('no-template');
   }
 
   // Collect site's data (entries, pages, sections, users, etc)
