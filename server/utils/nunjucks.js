@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 
