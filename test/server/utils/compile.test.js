@@ -19,18 +19,6 @@ describe('Compile templates', () => {
     expect(res.text).toMatchSnapshot();
   });
 
-  it(
-    'returns `no-template` when the requested template does not exist',
-    async () => {
-      const res = await request(server).get('/no-template');
-      expect(res.status).toBe(302);
-      expect(res.header.location).toBe('/admin/error?r=no-template&p=/no-template&t=template-no-exist');
-      expect(res.text).toBe(
-        'Found. Redirecting to /admin/error?r=no-template&p=/no-template&t=template-no-exist',
-      );
-    },
-  );
-
   it('returns 404 when a page does not exist', async () => {
     const res = await request(server).get('/pizza');
     expect(res.status).toBe(404);
@@ -65,9 +53,8 @@ describe('Compiler 404', () => {
 
   it('redirects to `no-template` for the 404 page', async () => {
     const res = await request(server).get('/example');
-    expect(res.status).toBe(302);
-    expect(res.header.location).toBe('/admin/error?r=no-template&p=404&t=404');
-    expect(res.text).toBe('Found. Redirecting to /admin/error?r=no-template&p=404&t=404');
+    expect(res.status).toBe(404);
+    expect(res.text).toMatchSnapshot();
   });
 
   afterAll((done) => {
