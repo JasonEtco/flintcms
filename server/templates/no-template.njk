@@ -1,0 +1,11 @@
+{% extends "server-base.njk" %}
+
+{% set title = "Missing Template" %}
+
+{% block content %}
+<section>
+  <p class="icon">🔨</p>
+  <h1>Missing template: <code>{{this.template}}</code></h1>
+  <p>Please choose another template or create the <strong>{{this.template}}</strong> template file.</h4>
+</section>
+{% endblock %}
