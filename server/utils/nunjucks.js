@@ -1,3 +1,4 @@
+const path = require('path');
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 
@@ -16,7 +17,7 @@ function fieldFilter(entry, handle) {
 }
 
 module.exports = (pathToTemplates) => {
-  const nun = nunjucks.configure(pathToTemplates, {
+  const nun = nunjucks.configure([path.join(__dirname, '..', 'templates'), pathToTemplates], {
     noCache: process.env.NODE_ENV !== 'production',
     autoescape: false,
   });

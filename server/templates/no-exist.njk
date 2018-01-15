@@ -1,0 +1,8 @@
+{% extends "server-base.njk" %}
+
+{% set title = "404" %}
+
+{% block content %}
+  <h1>👻 404 | Page not found</h1>
+  <p class="text-gray-light">We can't find <b>{{this.request.url}}</b></p>
+{% endblock %}

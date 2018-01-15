@@ -1,0 +1,8 @@
+{% extends "server-base.njk" %}
+
+{% set title = "No HTML" %}
+
+{% block content %}
+  <h1>💔 No HTML</h1>
+  <p class="text-gray-light">The template <code class="inline-code">{{this.template}}</code> returned no HTML.</p>
+{% endblock %}

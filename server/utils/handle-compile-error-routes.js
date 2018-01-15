@@ -1,4 +1,4 @@
-const fourOhFourHandler = require('./four-oh-four-handler');
+const compile = require('./compile');
 
 /**
  * Handles compilation errors
@@ -8,31 +8,13 @@ const fourOhFourHandler = require('./four-oh-four-handler');
  * @param {String} type - Type of error or a compiled HTML string
  * @param {String} [template] - Template that the error happened with
  */
-function handleCompileErrorRoutes(req, res, type, template) {
-  switch (type) {
-    case 'no-html':
-    case 'no-template':
-    case 'no-homepage': {
-      const obj = {
-        r: type,
-        p: req.originalUrl,
-      };
-
-      if (template) obj.t = template;
-
-      const queryString = Object.keys(obj).reduce((prev, curr, i) => {
-        let queryParam = `${curr}=${obj[curr]}`;
-        if (i !== 0) queryParam = `&${queryParam}`;
-        return `${prev}${queryParam}`;
-      }, '');
-
-      return res.redirect(`/admin/error?${queryString}`);
-    }
-    case 'no-exist':
-      return fourOhFourHandler(req, res);
-    default:
-      res.set('Cache-Control', 'public, max-age=1200, s-maxage=3200');
-      return res.send(type);
+async function handleCompileErrorRoutes(req, res, type, template) {
+  try {
+    const compiled = await compile(type, { request: req, template });
+    return res.status(type === 'no-exist' ? 404 : 500).send(compiled);
+  } catch (e) {
+    res.set('Cache-Control', 'public, max-age=1200, s-maxage=3200');
+    return res.send(type);
   }
 }
 

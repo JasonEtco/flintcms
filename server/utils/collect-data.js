@@ -196,6 +196,9 @@ async function collectData(entry) {
   });
 
   if (entry) {
+
+    entry.fields = entry.fields || []; 
+
     return {
       this: addNextPrevious(entry, formattedEntries),
       flint,

@@ -13,13 +13,7 @@ describe('admin routes', () => {
   it('returns the correct response for /admin/login', async () => {
     const res = await request(server).get('/admin/login');
     expect(res.status).toBe(200);
-    expect(res.text).toContain('<!DOCTYPE html>');
-  });
-
-  it('returns the correct response for any route', async () => {
-    const res = await request(server).get('/admin/asdfsdfsadfsadf');
-    expect(res.status).toBe(200);
-    expect(res.text).toContain('<!DOCTYPE html>');
+    expect(res.text).toMatchSnapshot();
   });
 
   afterAll(() => mongoose.disconnect());
