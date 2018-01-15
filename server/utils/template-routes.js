@@ -9,10 +9,12 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   const homepage = await Page.findOne({ homepage: true }).lean().exec();
-  const homepageTemplate = homepage ? homepage.template : 'server-default-homepage';
+  if (!homepage) {
+    return handleCompileErrorRoutes(req, res, 'no-homepage');
+  }
   try {
-    const compiled = await compile(homepageTemplate, homepage);
-    return handleCompileErrorRoutes(req, res, compiled, homepageTemplate);
+    const compiled = await compile(homepage.template, homepage);
+    return compiled;
   } catch (err) { return next(err); }
 });
 

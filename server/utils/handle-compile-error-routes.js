@@ -11,7 +11,7 @@ const compile = require('./compile');
 async function handleCompileErrorRoutes(req, res, type, template) {
   try {
     const compiled = await compile(type, { request: req, template });
-    return compiled;
+    return res.send(compiled);
   } catch (e) {
     res.set('Cache-Control', 'public, max-age=1200, s-maxage=3200');
     return res.send(type);
