@@ -13,13 +13,14 @@ export default class Asset extends Component {
     instructions: PropTypes.string,
     defaultValue: PropTypes.object,
     readOnly: PropTypes.bool,
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
     instructions: null,
     defaultValue: null,
     readOnly: false,
-    onChange: f => f
+    onChange: f => f,
   }
 
   constructor(props) {
