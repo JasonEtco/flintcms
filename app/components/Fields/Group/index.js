@@ -22,22 +22,22 @@ class GroupRow extends Component {
     }).isRequired,
   }
 
-  render(){
+  render() {
     const { dragHandle, item, commonProps } = this.props;
     const { name, deleteBlock, childChanged } = commonProps;
 
     return (
-        <div key={item.key} className="group__block form-element">
-          <div className="group__block__btns">
-            {dragHandle(<button className="group__drag" type="button"><Icon icon="dragHandle" /></button>)}
-            <DeleteIcon onClick={() => deleteBlock(this.props.item.order)} small />
-          </div>
-          {item.fields.map((field, i) => renderOption(field, field.defaultValue || null, { onChange:(v)=>{childChanged(field, v)},
-                                                                                      name: `${name}[${item.order}][${field.handle}]`,
-                                                                                      key: `${name}[${item.order}][${field.handle}]` }))}
-          <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
+      <div key={item.key} className="group__block form-element">
+        <div className="group__block__btns">
+          {dragHandle(<button className="group__drag" type="button"><Icon icon="dragHandle" /></button>)}
+          <DeleteIcon onClick={() => deleteBlock(this.props.item.order)} small />
         </div>
-    )
+        {item.fields.map((field, i) => renderOption(field, field.defaultValue || null, { onChange: (v) => { childChanged(field, v); },
+          name: `${name}[${item.order}][${field.handle}]`,
+          key: `${name}[${item.order}][${field.handle}]` }))}
+        <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
+      </div>
+    );
   }
 }
 
@@ -96,8 +96,8 @@ export default class Group extends Component {
     this.setState({ blocks: newBlocks });
   }
 
-  childComponentChanged(field, v){
-    if(v != null) field.defaultValue = v;
+  childComponentChanged(field, v) {
+    if (v != null) field.defaultValue = v;
   }
 
   addBlock(key) {
@@ -115,14 +115,13 @@ export default class Group extends Component {
   }
 
   deleteBlock(index) {
-
     const { blocks } = this.state;
     const newBlocks = [
       ...blocks.slice(0, index),
-      ...blocks.slice(index+1),
+      ...blocks.slice(index + 1),
     ];
 
-    newBlocks.map((b, i) => {b.order = i});
+    newBlocks.map((b, i) => { b.order = i; });
 
     this.setState({
       blocks: newBlocks,
@@ -138,7 +137,7 @@ export default class Group extends Component {
       { 'form-element--required': required },
     );
 
-    const common = {...this.props, deleteBlock:this.deleteBlock, childChanged:this.childComponentChanged};
+    const common = { ...this.props, deleteBlock: this.deleteBlock, childChanged: this.childComponentChanged };
 
     /* eslint-disable react/no-array-index-key */
     return (
