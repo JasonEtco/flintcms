@@ -12,7 +12,7 @@ class GroupRow extends Component {
   static propTypes = {
     item: PropTypes.shape({
       fields: PropTypes.array.isRequired,
-      key: PropTypes.number.isRequired,
+      order: PropTypes.number.isRequired,
       type: PropTypes.string.isRequired,
     }).isRequired,
     dragHandle: PropTypes.func.isRequired,
@@ -30,11 +30,13 @@ class GroupRow extends Component {
       <div key={item.key} className="group__block form-element">
         <div className="group__block__btns">
           {dragHandle(<button className="group__drag" type="button"><Icon icon="dragHandle" /></button>)}
-          <DeleteIcon onClick={() => deleteBlock(this.props.item.order)} small />
+          <DeleteIcon onClick={() => deleteBlock(item.order)} small />
         </div>
-        {item.fields.map((field, i) => renderOption(field, field.defaultValue || null, { onChange: (v) => { childChanged(field, v); },
+        {item.fields.map(field => renderOption(field, field.defaultValue || null, {
+          onChange: (v) => { childChanged(field, v); },
           name: `${name}[${item.order}][${field.handle}]`,
-          key: `${name}[${item.order}][${field.handle}]` }))}
+          key: `${name}[${item.order}][${field.handle}]`,
+        }))}
         <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
       </div>
     );
