@@ -12,6 +12,7 @@ router.get('/', async (req, res, next) => {
   if (!homepage) {
     return handleCompileErrorRoutes(req, res, 'no-homepage');
   }
+
   try {
     const compiled = await compile(homepage.template, homepage);
     return compiled;
