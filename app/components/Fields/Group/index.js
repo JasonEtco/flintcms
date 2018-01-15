@@ -98,9 +98,8 @@ export default class Group extends Component {
     this.setState({ blocks: newBlocks });
   }
 
-  childComponentChanged(field, v) {
-    if (v != null) field.defaultValue = v;
-  }
+  // eslint-disable-next-line
+  childComponentChanged(field, v) { if (v != null) field.defaultValue = v }
 
   addBlock(key) {
     this.setState({
@@ -123,10 +122,10 @@ export default class Group extends Component {
       ...blocks.slice(index + 1),
     ];
 
-    newBlocks.map((b, i) => { b.order = i; });
+    const withOrder = newBlocks.map((b, i) => ({ ...b, order: i }));
 
     this.setState({
-      blocks: newBlocks,
+      blocks: withOrder,
     });
   }
 
@@ -139,7 +138,11 @@ export default class Group extends Component {
       { 'form-element--required': required },
     );
 
-    const common = { ...this.props, deleteBlock: this.deleteBlock, childChanged: this.childComponentChanged };
+    const common = {
+      ...this.props,
+      deleteBlock: this.deleteBlock,
+      childChanged: this.childComponentChanged,
+    };
 
     /* eslint-disable react/no-array-index-key */
     return (
