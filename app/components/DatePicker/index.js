@@ -45,8 +45,7 @@ export default class DatePicker extends Component {
 
   constructor (props) {
     super(props)
-    const { value } = props
-    this.value = value
+    this.value = props.defaultValue ? new Date(props.defaultValue).getTime() : props.value
     const { month, year } = seperateDateObj()
 
     this.selectDate = this.selectDate.bind(this)
@@ -61,7 +60,7 @@ export default class DatePicker extends Component {
       open: false,
       month,
       year,
-      value
+      value: this.value
     }
   }
 
