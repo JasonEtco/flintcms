@@ -47,12 +47,12 @@ export default class Toggle extends Component {
 
     return (
       <div className={classes}>
-        {label && <label className='input__label' htmlFor={name}>{label}</label>}
-        {instructions && <p className='input__instructions'>{instructions}</p>}
-        <button className='toggle' role='checkbox' aria-checked={isActive} onClick={this.handleChange} type='button'>
-          <div className='toggle__marker' />
+        {label && <label className="input__label" htmlFor={name}>{label}</label>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
+        <button className="toggle" role="checkbox" aria-checked={isActive} onClick={this.handleChange} type="button">
+          <div className="toggle__marker" />
         </button>
-        <input name={name} type='checkbox' hidden readOnly value={JSON.stringify(isActive)} checked={isActive} />
+        <input name={name} type="checkbox" hidden readOnly value={JSON.stringify(isActive)} checked={isActive} />
       </div>
     )
   }

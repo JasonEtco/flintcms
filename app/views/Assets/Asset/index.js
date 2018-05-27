@@ -45,15 +45,15 @@ export default withRouter(class Asset extends Component {
     ]
 
     return (
-      <Page name='asset' links={links} onSubmit={this.onSubmit}>
+      <Page name="asset" links={links} onSubmit={this.onSubmit}>
         <TitleBar title={asset.title}>
-          <Button small type='submit'>Save</Button>
+          <Button small type="submit">Save</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Asset Title'
+              name="title"
+              label="Asset Title"
               ref={(r) => { this.title = r }}
               required
               full
@@ -62,7 +62,7 @@ export default withRouter(class Asset extends Component {
 
             <Fields.Asset.component
               label={asset.title}
-              name='asset'
+              name="asset"
               defaultValue={asset}
               readOnly
             />

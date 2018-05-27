@@ -99,14 +99,14 @@ export default withRouter(class Page extends Component {
     const { canEditPages, canDeletePages } = getUserPermissions().pages
 
     return (
-      <PageWrapper name='page' links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
+      <PageWrapper name="page" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
         <TitleBar title={title}>
-          {canEditPages && <Button small onClick={this.Submit} type='submit'>Save Page</Button>}
+          {canEditPages && <Button small onClick={this.Submit} type="submit">Save Page</Button>}
           {canDeletePages && <Button small onClick={this.deletePage}>Delete Page</Button>}
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
-            <Input label='Title' defaultValue={title} name='title' full required disabled={!canEditPages} />
+        <div className="content">
+          <div className="page__inner">
+            <Input label="Title" defaultValue={title} name="title" full required disabled={!canEditPages} />
             {fieldLayout.map(fieldId => this.renderFields(fields, fieldId))}
           </div>
 

@@ -48,17 +48,17 @@ export default class NewField extends Component {
     ]
 
     return (
-      <Page name='new-field' links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
-        <TitleBar title='New Field'>
-          <Button onClick={this.onSubmit} type='submit' small>Save</Button>
+      <Page name="new-field" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
+        <TitleBar title="New Field">
+          <Button onClick={this.onSubmit} type="submit" small>Save</Button>
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
-              instructions='This is what the field will be called in the admin dashboard.'
+              name="title"
+              label="Title"
+              instructions="This is what the field will be called in the admin dashboard."
               ref={(r) => { this.title = r }}
               required
               full
@@ -66,9 +66,9 @@ export default class NewField extends Component {
             />
 
             <Input
-              name='handle'
-              label='Template Handle'
-              instructions='The variable to use in the templates.'
+              name="handle"
+              label="Template Handle"
+              instructions="The variable to use in the templates."
               ref={(r) => { this.handle = r }}
               required
               full
@@ -78,26 +78,26 @@ export default class NewField extends Component {
             />
 
             <Input
-              name='instructions'
-              label='Instructions'
-              instructions='Text that will help the author understand content is being asked for.'
+              name="instructions"
+              label="Instructions"
+              instructions="Text that will help the author understand content is being asked for."
               ref={(r) => { this.instructions = r }}
               full
             />
 
             <Toggle.component
-              name='required'
-              label='Required'
-              instructions='Should this field be required?'
+              name="required"
+              label="Required"
+              instructions="Should this field be required?"
             />
 
             <Dropdown.component
-              name='type'
+              name="type"
               options={options}
-              label='Field Type'
+              label="Field Type"
               onChange={this.handleTypeChange}
               alphabetize
-              instructions='The kind of field presented in the dashboard.'
+              instructions="The kind of field presented in the dashboard."
               ref={(r) => { this.type = r }}
             />
 

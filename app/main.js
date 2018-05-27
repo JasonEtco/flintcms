@@ -25,12 +25,12 @@ const appWrapper = (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
-        <Route exact path='/error' component={ErrorContainer} />
-        <Route exact path='/login' component={Login} />
-        <Route exact path='/sp/:token' component={SetPassword} />
-        <Route exact path='/fp' component={ForgotPassword} />
-        <Route exact path='/install' component={Install} />
-        <Route path='/' render={props => <App {...props} />} />
+        <Route exact path="/error" component={ErrorContainer} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/sp/:token" component={SetPassword} />
+        <Route exact path="/fp" component={ForgotPassword} />
+        <Route exact path="/install" component={Install} />
+        <Route path="/" render={props => <App {...props} />} />
       </Switch>
     </ConnectedRouter>
   </Provider>

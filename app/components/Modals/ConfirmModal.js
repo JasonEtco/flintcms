@@ -38,11 +38,11 @@ export default class ConfirmModal extends Component {
     const { close, message, small } = this.props
 
     return (
-      <div className='modal--confirm'>
+      <div className="modal--confirm">
         {message}
-        <div className='modal__buttons'>
+        <div className="modal__buttons">
           <Button small={small} onClick={this.confirm}>Confirm</Button>
-          <Button small={small} onClick={close} kind='subtle'>Cancel</Button>
+          <Button small={small} onClick={close} kind="subtle">Cancel</Button>
         </div>
       </div>
     )

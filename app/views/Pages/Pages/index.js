@@ -50,12 +50,12 @@ export default class Pages extends Component {
         component: settings ? <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deletePage(props._id))}
-          message='Are you sure you want to delete this page and all entries in it?'
+          message="Are you sure you want to delete this page and all entries in it?"
         /> : null
       },
       homepage: {
         sortBy: false,
-        component: props.homepage && <Icon icon='home' />
+        component: props.homepage && <Icon icon="home" />
       }
     }))
 
@@ -65,16 +65,16 @@ export default class Pages extends Component {
     ]
 
     return (
-      <Page name='pages' links={settings ? links : null}>
-        <TitleBar title='Pages'>
-          {settings && perms.pages.canAddPages && <Link to='/settings/pages/new' className='btn btn--small'>New Page</Link>}
+      <Page name="pages" links={settings ? links : null}>
+        <TitleBar title="Pages">
+          {settings && perms.pages.canAddPages && <Link to="/settings/pages/new" className="btn btn--small">New Page</Link>}
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             {reduced.length > 0 ? <Table data={reduced} /> : (
               <Empty>
-                There are no Pages! Go ahead and <Link to='/settings/pages/new'>make one.</Link>
+                There are no Pages! Go ahead and <Link to="/settings/pages/new">make one.</Link>
               </Empty>
             )}
           </div>

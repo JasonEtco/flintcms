@@ -34,10 +34,10 @@ export default class LoginContainer extends Component {
     if (isFetching) return null
 
     return (
-      <div className='login'>
-        {siteLogo ? <img className='login__img' src={`/public/assets/${siteLogo.filename}`} alt={siteLogo.filename} /> : <FlintLogo width={140} height={40} />}
+      <div className="login">
+        {siteLogo ? <img className="login__img" src={`/public/assets/${siteLogo.filename}`} alt={siteLogo.filename} /> : <FlintLogo width={140} height={40} />}
         {children}
-        {forgot && <Link to='/fp' className='login__forgot'>Forgot your password?</Link>}
+        {forgot && <Link to="/fp" className="login__forgot">Forgot your password?</Link>}
         {siteLogo && <FlintLogo poweredBy width={100} height={25} />}
       </div>
     )

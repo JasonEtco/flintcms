@@ -36,19 +36,19 @@ export default class Settings extends Component {
     }
 
     return (
-      <Page name='settings'>
-        <TitleBar title='Settings' />
-        <div className='content'>
-          <div className='page__inner'>
+      <Page name="settings">
+        <TitleBar title="Settings" />
+        <div className="content">
+          <div className="page__inner">
             {Object.keys(sections).map((key) => {
               const sectionLinks = sections[key].filter(l => !l.hidden)
               if (sectionLinks.length === 0) return null
 
               return (
-                <section className='settings__section' key={key}>
-                  <h2 className='settings__section__title'>{key}</h2>
+                <section className="settings__section" key={key}>
+                  <h2 className="settings__section__title">{key}</h2>
                   {sectionLinks.map(l => (
-                    <Link className='settings__link' key={l.path} to={l.path}>
+                    <Link className="settings__link" key={l.path} to={l.path}>
                       <Icon icon={l.icon} width={48} height={48} />
                       {l.label}
                     </Link>))}

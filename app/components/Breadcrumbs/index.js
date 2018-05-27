@@ -14,14 +14,14 @@ export default class Breadcrumbs extends Component {
   render () {
     const { links } = this.props
     return (
-      <nav className='breadcrumbs'>
-        <ul className='breadcrumbs__list'>
+      <nav className="breadcrumbs">
+        <ul className="breadcrumbs__list">
           {links.map((l, i, arr) => {
             const isLast = i === arr.length - 1
             return (
-              <li className='breadcrumbs__list-item' key={l.path}>
+              <li className="breadcrumbs__list-item" key={l.path}>
                 <Link to={l.path}>{l.label}</Link>
-                {!isLast && <span className='breadcrumbs__list-item__separator'>&rsaquo;</span>}
+                {!isLast && <span className="breadcrumbs__list-item__separator">&rsaquo;</span>}
               </li>
             )
           })}

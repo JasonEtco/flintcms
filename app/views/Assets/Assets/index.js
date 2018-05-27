@@ -45,23 +45,23 @@ export default class Assets extends Component {
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteAsset(props._id))}
-          message='Are you sure you want to delete this asset?'
+          message="Are you sure you want to delete this asset?"
         />
       }
     }))
 
     return (
-      <Page name='assets'>
-        <TitleBar title='Assets'>
+      <Page name="assets">
+        <TitleBar title="Assets">
           <Button onClick={() => this.indexAssets()} small>Index Asset</Button>
-          <Link to='/settings/assets/new' className='btn btn--small'>New Asset</Link>
+          <Link to="/settings/assets/new" className="btn btn--small">New Asset</Link>
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             {reduced.length > 0 ? <Table data={reduced} /> : (
               <Empty>
-                There are no Assets! Go ahead and <Link to='/settings/assets/new'>upload one.</Link>
+                There are no Assets! Go ahead and <Link to="/settings/assets/new">upload one.</Link>
               </Empty>
             )}
           </div>

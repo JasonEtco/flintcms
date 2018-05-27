@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { alphabetizeSort } from 'utils/helpers'
 import './Dropdown.scss'
 
-export const DropdownChild = ({ children }) => <div className='dropdown__child'>{children}</div>
+export const DropdownChild = ({ children }) => <div className="dropdown__child">{children}</div>
 DropdownChild.propTypes = { children: any.isRequired }
 
 export default class Dropdown extends Component {
@@ -102,21 +102,21 @@ export default class Dropdown extends Component {
     )
 
     const dropper = (
-      <div className={classes} role='listbox' aria-expanded={open} aria-label={label || name}>
+      <div className={classes} role="listbox" aria-expanded={open} aria-label={label || name}>
         <button
-          className='dropdown__btn'
-          type='button'
+          className="dropdown__btn"
+          type="button"
           onClick={this.handleToggle}
           disabled={disabled}
         >{typeof options[0] === 'string' ? value : options.find(opt => opt.value === value).label}</button>
 
-        <div className='dropdown__options'>
+        <div className="dropdown__options">
           {sorted.map(opt => (
             <button
               title={opt.label || opt.value}
-              role='option'
+              role="option"
               aria-selected={value === opt.value}
-              type='button'
+              type="button"
               key={opt.value || opt}
               onClick={() => this.onClick(opt.value || opt)}
               className={value === opt.value ? 'dropdown__opt is-active' : 'dropdown__opt'}
@@ -127,11 +127,11 @@ export default class Dropdown extends Component {
     )
 
     return (
-      <div className='dropdown-wrapper form-element'>
-        {label && <span className='input__label'>{label}</span>}
-        {instructions && <p className='input__instructions'>{instructions}</p>}
-        {children ? <div className='dropdown__inner'>{dropper}{children}</div> : dropper}
-        <input type='text' name={name} value={value} readOnly hidden />
+      <div className="dropdown-wrapper form-element">
+        {label && <span className="input__label">{label}</span>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
+        {children ? <div className="dropdown__inner">{dropper}{children}</div> : dropper}
+        <input type="text" name={name} value={value} readOnly hidden />
       </div>
     )
   }

@@ -58,10 +58,10 @@ class FieldLayout extends Component {
     const { fields } = this.props
 
     return (
-      <section className='field-layout'>
-        <h3 className='field-layout__title'>Field Layout</h3>
+      <section className="field-layout">
+        <h3 className="field-layout__title">Field Layout</h3>
 
-        <div className='field-layout__inner'>
+        <div className="field-layout__inner">
           <FieldTarget
             fields={this.state.fields}
             addField={this.addField}
@@ -69,7 +69,7 @@ class FieldLayout extends Component {
             sortField={this.sortField}
           />
 
-          <div className='field-layout__fields'>
+          <div className="field-layout__fields">
             {fields.map((field, i) => (
               <FieldSource
                 key={field._id}

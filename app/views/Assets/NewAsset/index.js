@@ -42,24 +42,24 @@ export default class NewAsset extends Component {
     ]
 
     return (
-      <Page name='new-asset' links={links}>
-        <TitleBar title='New Asset'>
+      <Page name="new-asset" links={links}>
+        <TitleBar title="New Asset">
           <Button onClick={this.onSubmit} small>Save</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <form onSubmit={this.onSubmit} ref={(r) => { this.form = r }}>
               <Input
-                name='title'
-                label='Asset Title'
+                name="title"
+                label="Asset Title"
                 ref={(r) => { this.title = r }}
                 required
                 full
               />
 
               <FileInput
-                name='asset'
-                label='Choose Asset'
+                name="asset"
+                label="Choose Asset"
                 ref={(r) => { this.upload = r }}
                 required
                 full

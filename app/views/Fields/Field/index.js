@@ -60,17 +60,17 @@ export default withRouter(class Field extends Component {
     ]
 
     return (
-      <Page name='field' links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
+      <Page name="field" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
         <TitleBar title={title}>
-          <Button onClick={this.onSubmit} type='submit' small>Save Changes</Button>
+          <Button onClick={this.onSubmit} type="submit" small>Save Changes</Button>
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
-              instructions='This is what the field will be called in the admin dashboard.'
+              name="title"
+              label="Title"
+              instructions="This is what the field will be called in the admin dashboard."
               ref={(r) => { this.title = r }}
               required
               full
@@ -78,9 +78,9 @@ export default withRouter(class Field extends Component {
             />
 
             <Input
-              name='handle'
-              label='Template Handle'
-              instructions='The variable to use in the templates.'
+              name="handle"
+              label="Template Handle"
+              instructions="The variable to use in the templates."
               ref={(r) => { this.handle = r }}
               required
               full
@@ -90,29 +90,29 @@ export default withRouter(class Field extends Component {
             />
 
             <Input
-              name='instructions'
-              label='Instructions'
-              instructions='Text that will help the author understand content is being asked for.'
+              name="instructions"
+              label="Instructions"
+              instructions="Text that will help the author understand content is being asked for."
               ref={(r) => { this.instructions = r }}
               full
               defaultValue={instructions}
             />
 
             <Toggle.component
-              name='required'
-              label='Required'
-              instructions='Should this field be required?'
+              name="required"
+              label="Required"
+              instructions="Should this field be required?"
               defaultValue={required}
             />
 
             <Dropdown.component
-              name='type'
+              name="type"
               options={options}
               onChange={this.handleTypeChange}
-              label='Field Type'
+              label="Field Type"
               defaultValue={this.state.type}
               alphabetize
-              instructions='The kind of field presented in the dashboard.'
+              instructions="The kind of field presented in the dashboard."
               ref={(r) => { this.type = r }}
             />
 

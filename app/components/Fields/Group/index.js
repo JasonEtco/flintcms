@@ -26,9 +26,9 @@ class GroupRow extends Component {
     const { name, deleteBlock, childChanged } = commonProps
 
     return (
-      <div key={item.key} className='group__block form-element'>
-        <div className='group__block__btns'>
-          {dragHandle(<button className='group__drag' type='button'><Icon icon='dragHandle' /></button>)}
+      <div key={item.key} className="group__block form-element">
+        <div className="group__block__btns">
+          {dragHandle(<button className="group__drag" type="button"><Icon icon="dragHandle" /></button>)}
           <DeleteIcon onClick={() => deleteBlock(item.order)} small />
         </div>
         {item.fields.map(field => renderOption(field, field.defaultValue || null, {
@@ -36,7 +36,7 @@ class GroupRow extends Component {
           name: `${name}[${item.order}][${field.handle}]`,
           key: `${name}[${item.order}][${field.handle}]`
         }))}
-        <input type='text' name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
+        <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
       </div>
     )
   }
@@ -145,12 +145,12 @@ export default class Group extends Component {
     /* eslint-disable react/no-array-index-key */
     return (
       <div className={classes}>
-        {label && <label className='input__label' htmlFor={name}>{label}</label>}
-        {instructions && <p className='input__instructions'>{instructions}</p>}
-        <div className='group__fields form-element'>
+        {label && <label className="input__label" htmlFor={name}>{label}</label>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
+        <div className="group__fields form-element">
           <DraggableList
             list={this.state.blocks}
-            itemKey='key'
+            itemKey="key"
             template={GroupRow}
             onMoveEnd={newList => this.onListChange(newList)}
             container={() => document.body}
@@ -158,7 +158,7 @@ export default class Group extends Component {
           />
         </div>
         <div className={`group__buttons ${this.state.blocks.length > 0 ? 'form-element' : ''}`}>
-          {Object.keys(blocks).map(blk => <button key={blk} type='button' className='group__buttons__btn' onClick={() => this.addBlock(blk)}>{blk}</button>)}
+          {Object.keys(blocks).map(blk => <button key={blk} type="button" className="group__buttons__btn" onClick={() => this.addBlock(blk)}>{blk}</button>)}
         </div>
       </div>
     )

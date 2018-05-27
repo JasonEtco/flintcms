@@ -18,9 +18,9 @@ export default class Checkboxes extends Component {
     const { checkboxes, name, label, instructions } = this.props
 
     return (
-      <div className='checkbox-group form-element'>
-        <span className='checkbox-group__label'>{label}</span>
-        {instructions && <p className='input__instructions'>{instructions}</p>}
+      <div className="checkbox-group form-element">
+        <span className="checkbox-group__label">{label}</span>
+        {instructions && <p className="input__instructions">{instructions}</p>}
         {checkboxes.map(check => <Checkbox key={check.name} formElement={false} {...check} name={`${name}[${check.name}]`} />)}
       </div>
     )

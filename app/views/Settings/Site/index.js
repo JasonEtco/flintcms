@@ -35,24 +35,24 @@ export default class Site extends Component {
     const usergroupNames = usergroups.usergroups.map(u => ({ label: u.title, value: u._id }))
 
     return (
-      <Page name='site-settings' onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
-        <TitleBar title='Site Settings'>
-          <Button small type='submit'>Save Changes</Button>
+      <Page name="site-settings" onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
+        <TitleBar title="Site Settings">
+          <Button small type="submit">Save Changes</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Dropdown
-              label='Default User Group'
-              instructions='The default user group new users will be assigned'
-              name='defaultUserGroup'
+              label="Default User Group"
+              instructions="The default user group new users will be assigned"
+              name="defaultUserGroup"
               defaultValue={defaultUserGroup}
               options={usergroupNames}
               onChange={this.handleDropdownChange}
             />
-            <Checkbox ref={(r) => { this.c = r }} label='Allow Public Registration' name='allowPublicRegistration' defaultValue={allowPublicRegistration} />
-            <Input label='Site Name' required name='siteName' defaultValue={siteName} full />
-            <Input label='Site URL' required name='siteUrl' defaultValue={siteUrl} full />
-            <Fields.Asset.component label='Site Logo' name='siteLogo' defaultValue={siteLogo} />
+            <Checkbox ref={(r) => { this.c = r }} label="Allow Public Registration" name="allowPublicRegistration" defaultValue={allowPublicRegistration} />
+            <Input label="Site Name" required name="siteName" defaultValue={siteName} full />
+            <Input label="Site URL" required name="siteUrl" defaultValue={siteUrl} full />
+            <Fields.Asset.component label="Site Logo" name="siteLogo" defaultValue={siteLogo} />
           </div>
         </div>
       </Page>

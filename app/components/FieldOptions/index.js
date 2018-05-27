@@ -26,7 +26,7 @@ export default class FieldOptions extends Component {
 
     return (
       <div style={{ marginTop: '2em' }}>
-        <p className='input__label form-element'>{type} Options</p>
+        <p className="input__label form-element">{type} Options</p>
         {(optionFields).map((F) => {
           if (!field) return <F.component onChange={onChange} key={F.name} {...F} name={`options[${F.name}]`} />
           return <F.component onChange={onChange} key={F.name} {...F} {...field.options} name={`options[${F.name}]`} />

@@ -46,15 +46,15 @@ export default class NewPage extends Component {
     ]
 
     return (
-      <Page name='new-page' links={links} onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
-        <TitleBar title='New Page'>
-          <Button onClick={this.handleSubmit} small type='submit'>Save</Button>
+      <Page name="new-page" links={links} onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
+        <TitleBar title="New Page">
+          <Button onClick={this.handleSubmit} small type="submit">Save</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
+              name="title"
+              label="Title"
               ref={(r) => { this.title = r }}
               required
               full
@@ -62,9 +62,9 @@ export default class NewPage extends Component {
             />
 
             <Input
-              name='handle'
-              label='Page Handle'
-              instructions='You can use this handle to reference this specific page in a template.'
+              name="handle"
+              label="Page Handle"
+              instructions="You can use this handle to reference this specific page in a template."
               required
               full
               code
@@ -73,16 +73,16 @@ export default class NewPage extends Component {
             />
 
             <Toggle
-              name='homepage'
-              label='Homepage'
-              instructions='Is this Page the Homepage of your website?'
+              name="homepage"
+              label="Homepage"
+              instructions="Is this Page the Homepage of your website?"
               onChange={homepage => this.setState({ homepage })}
             />
 
             <Input
-              name='template'
-              label='Template'
-              instructions='This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`.'
+              name="template"
+              label="Template"
+              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`."
               ref={(r) => { this.template = r }}
               required
               full
@@ -90,14 +90,14 @@ export default class NewPage extends Component {
             />
 
             {!this.state.homepage && <Input
-              name='route'
-              label='Route'
-              instructions='What should the URL route to this page look like?'
+              name="route"
+              label="Route"
+              instructions="What should the URL route to this page look like?"
               ref={(r) => { this.route = r }}
               required
               full
               code
-              placeholder='/my-amazing-page'
+              placeholder="/my-amazing-page"
             />}
 
             <FieldLayout

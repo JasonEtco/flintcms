@@ -107,14 +107,14 @@ export default withRouter(class Entry extends Component {
     const canEdit = canEditOthersEntries || user._id === author
 
     return (
-      <Page name='entry' links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
+      <Page name="entry" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
         <TitleBar title={title}>
-          {canEdit && <Button small onClick={this.Submit} type='submit'>Save Entry</Button>}
+          {canEdit && <Button small onClick={this.Submit} type="submit">Save Entry</Button>}
           {canDeleteEntries && <Button small onClick={this.deleteEntry}>Delete Entry</Button>}
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
-            <Input label='Title' defaultValue={title} name='title' full required disabled={!canEdit} />
+        <div className="content">
+          <div className="page__inner">
+            <Input label="Title" defaultValue={title} name="title" full required disabled={!canEdit} />
             {sectionObj.fields.map(fieldId => this.renderFields(fields, fieldId, canEdit))}
           </div>
 

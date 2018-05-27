@@ -57,15 +57,15 @@ export default withRouter(class Section extends Component {
     const activeFields = fields.filter(f => this.state.fields.findIndex(i => f._id === i) !== -1)
 
     return (
-      <Page name='section' onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
+      <Page name="section" onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
         <TitleBar title={this.section.title}>
-          <Button type='submit' small>Save Section</Button>
+          <Button type="submit" small>Save Section</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
+              name="title"
+              label="Title"
               ref={(r) => { this.title = r }}
               required
               full
@@ -73,9 +73,9 @@ export default withRouter(class Section extends Component {
             />
 
             <Input
-              name='handle'
-              label='Section Handle'
-              instructions='You can use this handle to reference this specific section in a template.'
+              name="handle"
+              label="Section Handle"
+              instructions="You can use this handle to reference this specific section in a template."
               required
               full
               code
@@ -84,9 +84,9 @@ export default withRouter(class Section extends Component {
             />
 
             <Input
-              name='template'
-              label='Template'
-              instructions='This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`.'
+              name="template"
+              label="Template"
+              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`."
               ref={(r) => { this.template = r }}
               required
               full

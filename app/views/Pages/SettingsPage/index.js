@@ -64,15 +64,15 @@ export default withRouter(class SettingsPage extends Component {
     ]
 
     return (
-      <Page name='page' onSubmit={this.handleSubmit} ref={(r) => { this.pagewrapper = r }} links={links}>
+      <Page name="page" onSubmit={this.handleSubmit} ref={(r) => { this.pagewrapper = r }} links={links}>
         <TitleBar title={this.page.title}>
-          <Button type='submit' small>Save Page</Button>
+          <Button type="submit" small>Save Page</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
+              name="title"
+              label="Title"
               ref={(r) => { this.title = r }}
               required
               full
@@ -80,9 +80,9 @@ export default withRouter(class SettingsPage extends Component {
             />
 
             <Input
-              name='handle'
-              label='Page Handle'
-              instructions='You can use this handle to reference this specific page in a template.'
+              name="handle"
+              label="Page Handle"
+              instructions="You can use this handle to reference this specific page in a template."
               required
               full
               code
@@ -91,17 +91,17 @@ export default withRouter(class SettingsPage extends Component {
             />
 
             <Toggle
-              name='homepage'
-              label='Homepage'
-              instructions='Is this page the Homepage of your website?'
+              name="homepage"
+              label="Homepage"
+              instructions="Is this page the Homepage of your website?"
               defaultValue={this.page.homepage}
               onChange={homepage => this.setState({ homepage })}
             />
 
             <Input
-              name='template'
-              label='Template'
-              instructions='This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`.'
+              name="template"
+              label="Template"
+              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`."
               ref={(r) => { this.template = r }}
               required
               full
@@ -110,14 +110,14 @@ export default withRouter(class SettingsPage extends Component {
             />
 
             {!this.state.homepage && <Input
-              name='route'
-              label='Route'
-              instructions='What should the URL route to this page look like?'
+              name="route"
+              label="Route"
+              instructions="What should the URL route to this page look like?"
               ref={(r) => { this.route = r }}
               required
               full
               code
-              placeholder='/my-amazing-page'
+              placeholder="/my-amazing-page"
               defaultValue={this.page.route}
             />}
 

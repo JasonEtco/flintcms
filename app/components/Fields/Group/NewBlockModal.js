@@ -49,21 +49,21 @@ export default class NewBlockModal extends Component {
     const { close } = this.props
 
     return (
-      <div className='modal--newblock'>
+      <div className="modal--newblock">
         <Input
-          name='name'
-          label='Name'
+          name="name"
+          label="Name"
           required
           ref={(r) => { this.name = r }}
-          instructions='What this block will be called in the dashboard.'
+          instructions="What this block will be called in the dashboard."
           onChange={this.handleTitleChange}
           full
           autoFocus
           onKeyPress={this.handleKeyPress}
         />
         <Input
-          name='handle'
-          label='Handle'
+          name="handle"
+          label="Handle"
           required
           readOnly
           ref={(r) => { this.handle = r }}
@@ -72,9 +72,9 @@ export default class NewBlockModal extends Component {
           code
           value={slugify(this.state.title)}
         />
-        <div className='modal__buttons'>
+        <div className="modal__buttons">
           <Button small onClick={this.confirm}>Confirm</Button>
-          <Button small onClick={close} kind='subtle'>Cancel</Button>
+          <Button small onClick={close} kind="subtle">Cancel</Button>
         </div>
       </div>
     )

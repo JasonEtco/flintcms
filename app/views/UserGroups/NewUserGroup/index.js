@@ -39,15 +39,15 @@ export default class NewUserGroup extends Component {
     ]
 
     return (
-      <Page name='new-usergroup' links={links} onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
-        <TitleBar title='New User Group'>
-          <Button onClick={this.handleSubmit} small type='submit'>Save</Button>
+      <Page name="new-usergroup" links={links} onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
+        <TitleBar title="New User Group">
+          <Button onClick={this.handleSubmit} small type="submit">Save</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
+              name="title"
+              label="Title"
               ref={(r) => { this.title = r }}
               required
               full

@@ -18,15 +18,15 @@ export default class Home extends Component {
 
     if (!entries || !sections || sections.length === 0) {
       return (
-        <Page name='home'>
-          <TitleBar title='Home' />
+        <Page name="home">
+          <TitleBar title="Home" />
 
-          <div className='content'>
-            <div className='page__inner'>
-              <div className='home--empty'>
+          <div className="content">
+            <div className="page__inner">
+              <div className="home--empty">
                 <h1>Welcome to FlintCMS!</h1>
                 <p>
-                  You can get started by <Link to='/settings/fields/new'>creating some fields</Link> to use in sections or pages. Then, <Link to='/settings/pages/new'>create your website&apos;s homepage!</Link>
+                  You can get started by <Link to="/settings/fields/new">creating some fields</Link> to use in sections or pages. Then, <Link to="/settings/pages/new">create your website&apos;s homepage!</Link>
                 </p>
               </div>
             </div>
@@ -38,21 +38,21 @@ export default class Home extends Component {
     const newEntries = entries.slice(entries.length - 4).reverse()
 
     return (
-      <Page name='home'>
-        <TitleBar title='Home' />
+      <Page name="home">
+        <TitleBar title="Home" />
 
-        <div className='content'>
-          <div className='page__inner'>
-            <div className='home__column'>
-              <h3 className='subtitle'>Recent Entries</h3>
-              <ul className='home__list'>
+        <div className="content">
+          <div className="page__inner">
+            <div className="home__column">
+              <h3 className="subtitle">Recent Entries</h3>
+              <ul className="home__list">
                 {newEntries.map(e => (
-                  <li key={e._id} className='home__list-item'>
+                  <li key={e._id} className="home__list-item">
                     <Link to={`/entries/${getSlugFromId(sections, e.section)}/${e._id}`}>
                       <h4>{e.title}</h4>
-                      <div className='home__list-item__meta'>
-                        <span className='home__list-item__author'>{e.author.username}</span>
-                        <span className='home__list-item__date'>{formatDate(e.dateCreated)}</span>
+                      <div className="home__list-item__meta">
+                        <span className="home__list-item__author">{e.author.username}</span>
+                        <span className="home__list-item__date">{formatDate(e.dateCreated)}</span>
                       </div>
                     </Link>
                   </li>))}

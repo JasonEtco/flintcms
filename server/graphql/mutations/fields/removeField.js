@@ -29,9 +29,9 @@ module.exports = {
 
     Section.find({ fields: _id })
       .then(sections => sections
-      .forEach(sec => Section
-      .findByIdAndUpdate(sec._id, { $pull: { fields: _id } }, { new: true })
-      .then(updateSection => io.emit('update-section', updateSection))))
+        .forEach(sec => Section
+          .findByIdAndUpdate(sec._id, { $pull: { fields: _id } }, { new: true })
+          .then(updateSection => io.emit('update-section', updateSection))))
 
     /* istanbul ignore if */
     if (!removedField) throw new Error('Error removing field')

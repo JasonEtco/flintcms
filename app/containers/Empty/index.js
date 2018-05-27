@@ -10,9 +10,9 @@ export default class Empty extends Component {
     const { children } = this.props
 
     return (
-      <div className='empty'>
-        <div className='empty__inner'>
-          <Icon icon='questionMark' width={32} height={32} />
+      <div className="empty">
+        <div className="empty__inner">
+          <Icon icon="questionMark" width={32} height={32} />
           {children}
         </div>
       </div>

@@ -35,8 +35,8 @@ export default class Numeric extends Component {
 
     const input = (
       <input
-        className='input'
-        type='number'
+        className="input"
+        type="number"
         name={name}
         id={name}
         required={required}
@@ -50,8 +50,8 @@ export default class Numeric extends Component {
 
     return (
       <div className={classes}>
-        {label && <label className='input__label' htmlFor={name}>{label}</label>}
-        {instructions && <p className='input__instructions'>{instructions}</p>}
+        {label && <label className="input__label" htmlFor={name}>{label}</label>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
         {input}
       </div>
     )

@@ -150,13 +150,13 @@ export default class DatePicker extends Component {
     const inputVal = moment(value).format('MM/DD/YYYY')
 
     return (
-      <div className='datepicker-wrapper form-element'>
-        {label && <span className='input__label'>{label}</span>}
-        {instructions && <p className='input__instructions'>{instructions}</p>}
-        <div className='input-icon-wrapper'>
+      <div className="datepicker-wrapper form-element">
+        {label && <span className="input__label">{label}</span>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
+        <div className="input-icon-wrapper">
           <input
-            className='input'
-            type='text'
+            className="input"
+            type="text"
             name={name}
             value={inputVal}
             onClick={this.handleToggle}
@@ -164,34 +164,34 @@ export default class DatePicker extends Component {
             readOnly
             disabled={disabled}
           />
-          <button type='button' className='input__icon' onClick={this.handleToggle} disabled={disabled}>
-            <Icon icon='calendar' />
+          <button type="button" className="input__icon" onClick={this.handleToggle} disabled={disabled}>
+            <Icon icon="calendar" />
           </button>
         </div>
         {open &&
         <div
-          className='datepicker'
+          className="datepicker"
           aria-expanded={open}
           onClick={e => e.stopPropagation()}
           style={attachment === 'left' ? { left: 0 } : { right: 0 }}
         >
-          <div className='datepicker__inner'>
-            <div className='datepicker__controls'>
-              <button type='button' className='datepicker__controls__btn' onClick={e => this.incrementMonth(e, false)}>
-                <Icon width={10} height={10} icon='arrowLeft' />
+          <div className="datepicker__inner">
+            <div className="datepicker__controls">
+              <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e, false)}>
+                <Icon width={10} height={10} icon="arrowLeft" />
               </button>
-              <span className='datepicker__month'>{months[month]} {year}</span>
-              <button type='button' className='datepicker__controls__btn' onClick={e => this.incrementMonth(e)}>
-                <Icon width={10} height={10} icon='arrowRight' />
+              <span className="datepicker__month">{months[month]} {year}</span>
+              <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e)}>
+                <Icon width={10} height={10} icon="arrowRight" />
               </button>
             </div>
 
             {<Days />}
 
-            <div className='datepicker__dates'>
+            <div className="datepicker__dates">
               {this.renderDates()}
             </div>
-            <button className='datepicker__today' type='button' onClick={this.today}>Today</button>
+            <button className="datepicker__today" type="button" onClick={this.today}>Today</button>
           </div>
         </div>}
 

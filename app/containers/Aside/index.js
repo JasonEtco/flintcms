@@ -36,24 +36,24 @@ export default class Aside extends Component {
     const { dateCreated, children, noStatus, disabled } = this.props
 
     return (
-      <aside className='aside'>
+      <aside className="aside">
         {!noStatus && <Dropdown
           disabled={disabled}
-          name='status'
-          label='Status'
+          name="status"
+          label="Status"
           full
           defaultValue={status}
           onChange={s => this.setState({ status: s })}
           options={[
-            { label: 'Live', component: <DropdownChild>Live<StatusDot status='live' /></DropdownChild>, value: 'live' },
-            { label: 'Draft', component: <DropdownChild>Draft<StatusDot status='draft' /></DropdownChild>, value: 'draft' },
-            { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status='disabled' /></DropdownChild>, value: 'disabled' }
+            { label: 'Live', component: <DropdownChild>Live<StatusDot status="live" /></DropdownChild>, value: 'live' },
+            { label: 'Draft', component: <DropdownChild>Draft<StatusDot status="draft" /></DropdownChild>, value: 'draft' },
+            { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status="disabled" /></DropdownChild>, value: 'disabled' }
           ]}
         >
           <StatusDot status={this.state.status} />
         </Dropdown>}
 
-        <DatePicker disabled={disabled} attachment='right' name='dateCreated' label='Date Created' value={dateCreated} />
+        <DatePicker disabled={disabled} attachment="right" name="dateCreated" label="Date Created" value={dateCreated} />
 
         {children}
       </aside>

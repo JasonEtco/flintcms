@@ -20,9 +20,9 @@ const helpers = {
   slugify (str) {
     return str
       .toLowerCase()
-      .replace(/^\s+|\s+$/g, '')   // Trim leading/trailing whitespace
-      .replace(/[-\s]+/g, '-')     // Replace spaces with dashes
-      .replace(/[^a-z0-9-]/g, '')  // Remove disallowed symbols
+      .replace(/^\s+|\s+$/g, '') // Trim leading/trailing whitespace
+      .replace(/[-\s]+/g, '-') // Replace spaces with dashes
+      .replace(/[^a-z0-9-]/g, '') // Remove disallowed symbols
       .replace(/--+/g, '-')
   },
   /**
@@ -36,7 +36,7 @@ const helpers = {
   reduceToObj (arr, key, value, start = {}) {
     return arr
       .reduce((prev, curr) =>
-      Object.assign({}, prev, { [curr[key]]: curr[value] }), start)
+        Object.assign({}, prev, { [curr[key]]: curr[value] }), start)
   },
   /**
    * Capitalizes the first character of a string

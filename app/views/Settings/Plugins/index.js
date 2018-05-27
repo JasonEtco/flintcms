@@ -31,11 +31,11 @@ export default class Plugins extends Component {
     }))
 
     return (
-      <Page name='plugins'>
-        <TitleBar title='Plugins' />
-        <div className='content'>
-          <div className='page__inner'>
-            <Table data={data} sortBy='dateCreated' showSearch={false} />
+      <Page name="plugins">
+        <TitleBar title="Plugins" />
+        <div className="content">
+          <div className="page__inner">
+            <Table data={data} sortBy="dateCreated" showSearch={false} />
           </div>
         </div>
       </Page>

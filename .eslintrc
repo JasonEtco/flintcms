@@ -1,8 +1,8 @@
 {
   "parser": "babel-eslint",
-  "extends": ["standard", "standard-react"],
+  "extends": ["standard", "standard-jsx"],
   "rules": {
-    "jsx-quotes": 0,
+    "jsx-quotes": ["error", "prefer-double"],
     "react/jsx-no-bind": 0
   },
   "parserOptions": {

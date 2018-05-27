@@ -50,7 +50,7 @@ export default class Button extends Component {
     )
 
     if (type === 'submit') {
-      return <input type='submit' disabled={disabled} className={classes} value={children} />
+      return <input type="submit" disabled={disabled} className={classes} value={children} />
     }
 
     return (
