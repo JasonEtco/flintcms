@@ -1,8 +1,6 @@
 /* eslint no-console: 0 */
 
 const mongoose = require('mongoose')
-const chalk = require('chalk')
-const log = require('debug')('flint')
 const registerPlugins = require('./register-plugins')
 
 const UserGroupSchema = require('../models/UserGroupSchema')
@@ -17,7 +15,7 @@ const PluginSchema = require('../models/PluginSchema')
 const createAdminUserGroup = require('./create-admin-usergroup')
 const updateSiteConfig = require('./update-site-config')
 
-module.exports = function connectToDatabase () {
+module.exports = function connectToDatabase (log) {
   const config = {
     development: {
       database: 'flint-dev',
@@ -62,10 +60,10 @@ module.exports = function connectToDatabase () {
       mongoose.model('Site', SiteSchema, 'site')
       await updateSiteConfig()
 
-      resolve(`${chalk.green('[Mongoose]')} connection has been successfully established.`)
+      resolve('[Mongoose] connection has been successfully established.')
     })
     mongoose.connection.on('error', e =>
-      reject(new Error(`${chalk.red('[Mongoose]')} Connection error: ${e}`)))
+      reject(new Error(`[Mongoose] Connection error: ${e}`)))
   })
 }
 
@@ -73,7 +71,7 @@ module.exports = function connectToDatabase () {
 /* istanbul ignore next */
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {
-    log('Mongoose default connection disconnected')
+    console.log('Mongoose default connection disconnected')
     process.exit(0)
   })
 })

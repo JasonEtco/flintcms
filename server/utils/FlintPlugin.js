@@ -1,7 +1,5 @@
 const events = require('./events')
 const path = require('path')
-const chalk = require('chalk')
-const log = require('debug')('flint:plugin')
 
 /**
  * Flint Plugin Class
@@ -14,7 +12,7 @@ class FlintPlugin {
 
   static get uid () {
     // eslint-disable-next-line no-console
-    log(chalk.red('A plugin forgot to set a static getter for the uid. See https://flintcms.co/docs/plugins for more information.'))
+    console.error('A plugin forgot to set a static getter for the uid. See https://flintcms.co/docs/plugins for more information.')
     return false
   }
 
@@ -34,8 +32,8 @@ class FlintPlugin {
   static get model () { return {} }
 
   init () {
-    log(`Welcome to the ${this.name} plugin! You have forgotten to create your init class method. Oh well :(`)
-    log('The init method of your plugin is the entry point for Flint to know how to deal with the plugin, set up hooks and generally deal with the plugin.')
+    console.error(`Welcome to the ${this.name} plugin! You have forgotten to create your init class method. Oh well :(`)
+    console.error('The init method of your plugin is the entry point for Flint to know how to deal with the plugin, set up hooks and generally deal with the plugin.')
   }
 }
 
