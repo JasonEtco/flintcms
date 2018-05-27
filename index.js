@@ -116,19 +116,14 @@ module.exports = class Flint {
       logger.error(e)
     }
 
-    try {
-      const canCompileSass = await compileSass(logger)
-      logger.info(canCompileSass)
-    } catch (e) {
-      logger.error(e)
-    }
+    await compileSass(logger)
 
     this.server = createServer(logger)
 
     if (global.FLINT.listen !== false) {
       this.server.listen(port, () => {
         // eslint-disable-next-line no-console
-        logger.info(`[HTTP Server] Flint server running at http://localhost:${port}\n`)
+        logger.info(`[HTTP Server] Flint server running at http://localhost:${port}`)
       })
     }
 

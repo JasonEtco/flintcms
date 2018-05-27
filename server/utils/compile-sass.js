@@ -1,7 +1,6 @@
 const sass = require('node-sass')
 const path = require('path')
 const fs = require('fs')
-const chalk = require('chalk')
 const chokidar = require('chokidar')
 const scaffold = require('./scaffold')
 const { promisify } = require('util')
@@ -95,13 +94,12 @@ async function compile (log) {
       }
     }
 
-    return `${chalk.grey('[SCSS]')} Your SCSS has been compiled to ${pathToFile}`
+    log.info(`[SCSS] Your SCSS has been compiled to ${pathToFile}`)
   } catch (e) /* istanbul ignore next */ {
     log.error(`Message: ${e.message}`)
     log.error(`Line: ${e.line}`)
     log.error(`File: ${e.file}`)
-
-    return '[SCSS] There was an error compiling your SCSS.'
+    log.error('[SCSS] There was an error compiling your SCSS.')
   }
 }
 
