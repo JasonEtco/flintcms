@@ -8,12 +8,11 @@ const logger = require('./logger')
  */
 class FlintPlugin {
   constructor (schema) {
-    this.logger = logger
     this.init(schema, events)
   }
 
   static get uid () {
-    this.logger.error('A plugin forgot to set a static getter for the uid. See https://flintcms.co/docs/plugins for more information.')
+    logger.error('A plugin forgot to set a static getter for the uid. See https://flintcms.co/docs/plugins for more information.')
     return false
   }
 
@@ -33,8 +32,8 @@ class FlintPlugin {
   static get model () { return {} }
 
   init () {
-    this.logger.error(`Welcome to the ${this.name} plugin! You have forgotten to create your init class method. Oh well :(`)
-    this.logger.error('The init method of your plugin is the entry point for Flint to know how to deal with the plugin, set up hooks and generally deal with the plugin.')
+    logger.error(`Welcome to the ${this.name} plugin! You have forgotten to create your init class method. Oh well :(`)
+    logger.error('The init method of your plugin is the entry point for Flint to know how to deal with the plugin, set up hooks and generally deal with the plugin.')
   }
 }
 
