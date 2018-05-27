@@ -2,8 +2,6 @@
 
 const fs = require('fs')
 const path = require('path')
-const chalk = require('chalk')
-const log = require('debug')('flint')
 const { promisify } = require('util')
 
 const writeFileAsync = promisify(fs.writeFile)
@@ -44,7 +42,7 @@ MAIL_PASS=
  * @param {String} [cwd=''] - Path to the directory in which the `.env` sits.
  * @returns {Boolean}
  */
-async function generateEnvFile (cwd = '') {
+async function generateEnvFile (cwd = '', log) {
   const pathToEnvFile = path.resolve(cwd, '.env')
 
   // Checks if there is already a DB_HOST env variable
@@ -53,10 +51,10 @@ async function generateEnvFile (cwd = '') {
   // variables not through a file, it still works.
 
   if (!process.env.DB_HOST && !fs.existsSync(pathToEnvFile)) {
-    log(chalk.cyan('Generating .env file...'))
+    log.info('Generating .env file...')
     const secret = generateSecret()
     await writeFileAsync(pathToEnvFile, envTemplate(secret))
-    log(chalk.cyan('Finished generating .env file! Fill it with your own credentials.'))
+    log.info('Finished generating .env file! Fill it with your own credentials.')
 
     return true
   }

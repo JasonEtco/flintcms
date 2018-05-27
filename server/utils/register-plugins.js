@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
-const chalk = require('chalk')
 const { promisify } = require('util')
 const fs = require('fs')
-const log = require('debug')('flint:plugin')
 
 const readFileAsync = promisify(fs.readFile)
 
@@ -10,7 +8,7 @@ const readFileAsync = promisify(fs.readFile)
  * Registers all plugins by looping over the plugin directory,
  * adding new ones to the DB and registering them with Mongoose
  */
-function registerPlugins () {
+function registerPlugins (log) {
   const plugins = global.FLINT.plugins
   const Plugin = mongoose.model('Plugin')
 
@@ -42,14 +40,14 @@ function registerPlugins () {
       // Update the existing plugin in case its configuration (icon, name, etc) have changed.
       const updatedPlugin = Object.assign(foundPlugin, pluginData, { uid: PluginClass.uid })
       const savedPlugin = await updatedPlugin.save()
-      if (!savedPlugin) log(chalk.red(`Could not save the [${PluginClass.name}] plugin to the database.`))
+      if (!savedPlugin) log.error(`Could not save the [${PluginClass.name}] plugin to the database.`)
     } else {
       // Create a new plugin instance by including the Class model
       // The PluginSchema has { strict: false } so additions to the
       // model will work fine.
       const newPlugin = new Plugin(pluginData)
       const savedPlugin = await newPlugin.save()
-      if (!savedPlugin) log(chalk.red(`Could not save the [${PluginClass.name}] plugin to the database.`))
+      if (!savedPlugin) log.error(`Could not save the [${PluginClass.name}] plugin to the database.`)
     }
   }))
 }

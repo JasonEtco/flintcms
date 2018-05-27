@@ -1,11 +1,9 @@
 const sass = require('node-sass')
 const path = require('path')
 const fs = require('fs')
-const chalk = require('chalk')
 const chokidar = require('chokidar')
 const scaffold = require('./scaffold')
 const { promisify } = require('util')
-const log = require('debug')('flint:scss')
 const mongoose = require('mongoose')
 
 const writeFileAsync = promisify(fs.writeFile)
@@ -66,7 +64,7 @@ async function handleCacheBusting (filename) {
  * Actually compiles the SCSS
  * @returns {string}
  */
-async function compile () {
+async function compile (log) {
   /* istanbul ignore next */
   const outputStyle = process.env.NODE_ENV === 'production' ? 'compressed' : 'nested'
 
@@ -91,44 +89,42 @@ async function compile () {
       const pathToOldFile = path.join(global.FLINT.publicPath, oldFile)
       const exists = fs.existsSync(pathToOldFile)
       if (exists) {
-        log('Deleting old bundle.')
+        log.info('Deleting old bundle.')
         await unlink(pathToOldFile)
       }
     }
 
-    return `${chalk.grey('[SCSS]')} Your SCSS has been compiled to ${pathToFile}`
+    log.info(`[SCSS] Your SCSS has been compiled to ${pathToFile}`)
   } catch (e) /* istanbul ignore next */ {
-    log(`  ${chalk.grey('Message:')} ${chalk.red(e.message)}`)
-    log(`  ${chalk.grey('Line:')} ${chalk.red(e.line)}`)
-    log(`  ${chalk.grey('File:')} ${chalk.red(e.file)}`)
-
-    return `${chalk.red('[SCSS]')} There was an error compiling your SCSS.`
+    log.error(`Message: ${e.message}`)
+    log.error(`Line: ${e.line}`)
+    log.error(`File: ${e.file}`)
+    log.error('[SCSS] There was an error compiling your SCSS.')
   }
 }
 
 /* istanbul ignore next */
-function recompile () {
-  // eslint-disable-next-line no-console
-  log(chalk.cyan('Recompiling SASS...'))
-  return compile()
+function recompile (log) {
+  log.info('Recompiling SASS...')
+  return compile(log)
 }
 
 /* istanbul ignore next */
-function watch (watcher) {
+function watch (watcher, log) {
   watcher.on('add', async () => {
-    const compiled = await recompile()
-    log(compiled) // eslint-disable-line no-console
+    const compiled = await recompile(log)
+    log.debug(compiled)
   })
   watcher.on('change', async () => {
-    const compiled = await recompile()
-    log(compiled) // eslint-disable-line no-console
+    const compiled = await recompile(log)
+    log.debug(compiled)
   })
 }
 
 /**
  * Compiles SASS using the scssEntryPoint config
  */
-async function compileSass () {
+async function compileSass (log) {
   if (global.FLINT.scssEntryPoint) {
     /* istanbul ignore if */
     if (global.FLINT.debugMode) {
@@ -137,13 +133,13 @@ async function compileSass () {
         ignoreInitial: true
       })
 
-      watch(watcher)
+      watch(watcher, log)
     }
 
-    return compile()
+    return compile(log)
   }
 
-  return chalk.grey('SCSS compiling has been disabled in the site configuration.')
+  log.info('SCSS compiling has been disabled in the site configuration.')
 }
 
 module.exports = compileSass

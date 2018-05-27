@@ -2,17 +2,15 @@
 
 const express = require('express')
 const path = require('path')
-const chalk = require('chalk')
 const webpack = require('webpack')
 const webpackMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-const log = require('debug')('flint')
 
-module.exports = (app) => {
+module.exports = (app, log) => {
   const admin = express()
 
   admin.use(require('./routes/auth')())
-  admin.use('/api', require('./api')(app))
+  admin.use('/api', require('./api')(app, log))
 
   /* istanbul ignore if */
   if (process.env.BUILD_DASHBOARD) {
@@ -38,7 +36,7 @@ module.exports = (app) => {
       res.end()
     })
 
-    log(`${chalk.cyan('[App: Admin]')} initialized in Dev mode.`)
+    log.info('[App: Admin] initialized in Dev mode.')
   } else {
     const STATIC_PATH = path.join(__dirname, '..', '..', 'admin')
 
@@ -51,7 +49,7 @@ module.exports = (app) => {
       res.sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'))
     })
 
-    log(`${chalk.gray('[App: Admin]')} initialized.`)
+    log.info('[App: Admin] initialized.')
   }
 
   return admin

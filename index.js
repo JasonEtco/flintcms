@@ -4,8 +4,6 @@ const testing = process.env.NODE_ENV === 'test'
 require('dotenv').config({ path: testing ? '.env.dev' : '.env' })
 
 const path = require('path')
-const log = require('debug')('flint')
-const chalk = require('chalk')
 const { generateEnvFile } = require('./server/utils/generate-env-file')
 const nunjuckEnv = require('./server/utils/nunjucks')
 const validateEnvVariables = require('./server/utils/validate-env-variables')
@@ -15,6 +13,7 @@ const compileSass = require('./server/utils/compile-sass')
 const FlintPlugin = require('./server/utils/FlintPlugin')
 const connectToDatabase = require('./server/utils/database')
 const createServer = require('./server')
+const logger = require('./server/utils/logger')
 
 /**
  * Flint class
@@ -82,6 +81,7 @@ module.exports = class Flint {
     global.FLINT.nun = nunjuckEnv(FLINT.templatePath)
 
     this.port = process.env.PORT || 4000
+    this.startServer = this.startServer.bind(this)
   }
 
   /**
@@ -90,7 +90,6 @@ module.exports = class Flint {
    * @param {Number} [port] - Defaults to either the process.env port or 4000
    */
   async startServer (port = this.port) {
-    /* eslint-disable no-console */
     const missingEnvVariables = validateEnvVariables()
     const didGenerateEnv = await generateEnvFile()
     if (didGenerateEnv && !testing) return process.exit()
@@ -99,26 +98,32 @@ module.exports = class Flint {
 
     /* istanbul ignore if */
     if (!shouldContinue) {
-      log(chalk.red('Could not start the server.'))
+      logger.fatal('Could not start the server.')
       return process.exit(1)
     }
 
-    const connectedToDatabase = await connectToDatabase()
-    log(connectedToDatabase)
+    try {
+      const connectedToDatabase = await connectToDatabase(logger)
+      logger.info(connectedToDatabase)
+    } catch (e) {
+      logger.error(e)
+    }
 
-    const canSendEmails = await verifyNodemailer().catch(log)
-    if (canSendEmails) log(canSendEmails)
+    try {
+      const canSendEmails = await verifyNodemailer()
+      logger.info(canSendEmails)
+    } catch (e) {
+      logger.error(e)
+    }
 
-    const canCompileSass = await compileSass()
-    log(canCompileSass)
-    /* eslint-enable no-console */
+    await compileSass(logger)
 
-    this.server = createServer(port)
+    this.server = createServer(logger)
 
     if (global.FLINT.listen !== false) {
       this.server.listen(port, () => {
         // eslint-disable-next-line no-console
-        log(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`)
+        logger.info(`[HTTP Server] Flint server running at http://localhost:${port}`)
       })
     }
 
