@@ -75,6 +75,7 @@ const updateQuery = `mutation ($_id: ID!, $data: PagesInput!) {
     handle
     route
     homepage
+    fieldLayout
     fields {
       fieldId
       handle

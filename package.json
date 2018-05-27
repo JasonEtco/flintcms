@@ -25,7 +25,7 @@
     "async/await"
   ],
   "scripts": {
-    "start": "cross-env DEBUG=flint* nodemon --ignore app dev.js",
+    "start": "nodemon --ignore app dev.js",
     "lint": "eslint .",
     "test": "jest --runInBand --coverage && npm run lint",
     "test:update": "jest --runInBand -u",

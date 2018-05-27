@@ -110,7 +110,7 @@ export default class Input extends Component {
         value={value}
         onKeyPress={onKeyPress}
         onChange={event => this.handleChange(event)}
-        autoCorrect={autoCorrect}
+        autoCorrect={autoCorrect ? 'true' : 'false'}
         maxLength={maxLength}
       />
     )
