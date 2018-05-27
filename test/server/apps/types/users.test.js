@@ -310,7 +310,7 @@ describe('Users', () => {
           }
         }
       })
-        // expect(res.status).to.deep.equal(200);
+    // expect(res.status).to.deep.equal(200);
     expect(res.body).toEqual({
       data: {
         updateUser: {

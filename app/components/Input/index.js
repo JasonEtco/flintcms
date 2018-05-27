@@ -119,7 +119,7 @@ export default class Input extends Component {
       <div className={classes}>
         {label && <label className='input__label' htmlFor={name}>{label}</label>}
         {instructions &&
-          <p className='input__instructions' dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} />  // eslint-disable-line react/no-danger
+          <p className='input__instructions' dangerouslySetInnerHTML={{ __html: formatStringWithCode(instructions) }} /> // eslint-disable-line react/no-danger
         }
         {input}
         {maxLength && <span className='input__max'>{this.state.value.length}/{maxLength} characters</span>}

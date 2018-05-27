@@ -34,8 +34,8 @@ const icons = {
   paint: <svg viewBox="0 0 16 16"><path d="M16 9V3h-3V2c0-.55-.45-1-1-1H1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V4h2v4H6v2h-.5a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5H7V9h9zm-4-6H1V2h11v1z" /></svg>,
   hamburger: <svg viewBox="0 0 16 16"><rect y="13" height="2" width="16" /><rect y="1" height="2" width="16" /><rect y="7" height="2" width="16" /></svg>,
   dragVertical: <svg viewBox="0 0 16 16"><rect y="7.5" x="2" width="12" height="1" /><polygon points="8,3 5,5 11,5 " /><polygon points="8,13 5,11 11,11 " /></svg>,
-  dragHandle: <svg viewBox="0 0 16 16"><g><path d="M9,2c0-1.1-0.9-2-2-2S5,0.9,5,2c0,2,2,3,2,3S9,4,9,2z" /><path d="M12,9c1.1,0,2-0.9,2-2s-0.9-2-2-2c-2,0-3,2-3,2S10,9,12,9z" /><path d="M5,12c0,1.1,0.9,2,2,2c1.1,0,2-0.9,2-2c0-2-2-3-2-3S5,10,5,12z" /><path d="M2,5C0.9,5,0,5.9,0,7s0.9,2,2,2c2,0,3-2,3-2S4,5,2,5z" /></g></svg>,
-};
+  dragHandle: <svg viewBox="0 0 16 16"><g><path d="M9,2c0-1.1-0.9-2-2-2S5,0.9,5,2c0,2,2,3,2,3S9,4,9,2z" /><path d="M12,9c1.1,0,2-0.9,2-2s-0.9-2-2-2c-2,0-3,2-3,2S10,9,12,9z" /><path d="M5,12c0,1.1,0.9,2,2,2c1.1,0,2-0.9,2-2c0-2-2-3-2-3S5,10,5,12z" /><path d="M2,5C0.9,5,0,5.9,0,7s0.9,2,2,2c2,0,3-2,3-2S4,5,2,5z" /></g></svg>
+}
 
 export default function Icon (props) {
   const { width, height, className, title, icon } = props

@@ -122,7 +122,7 @@ export function sortArrayOfObjByString (arr, key, direction = 'ASC') {
     }
     return (
       (direction === 'DESC')
-      ? (comparison * -1) : comparison
+        ? (comparison * -1) : comparison
     )
   })
 }
@@ -148,9 +148,9 @@ export function filterObj (str, obj) {
 export function slugify (str) {
   return str
     .toLowerCase()
-    .replace(/^\s+|\s+$/g, '')   // Trim leading/trailing whitespace
-    .replace(/[-\s]+/g, '-')     // Replace spaces with dashes
-    .replace(/[^a-z0-9-]/g, '')  // Remove disallowed symbols
+    .replace(/^\s+|\s+$/g, '') // Trim leading/trailing whitespace
+    .replace(/[-\s]+/g, '-') // Replace spaces with dashes
+    .replace(/[^a-z0-9-]/g, '') // Remove disallowed symbols
     .replace(/--+/g, '-')
 }
 
@@ -276,7 +276,7 @@ export function formatDate (date) {
 export function reduceToObj (arr, key, value, start = {}) {
   return arr
     .reduce((prev, curr) =>
-    Object.assign({}, prev, { [curr[key]]: curr[value] }), start)
+      Object.assign({}, prev, { [curr[key]]: curr[value] }), start)
 }
 
 /**

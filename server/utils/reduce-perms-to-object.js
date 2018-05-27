@@ -7,7 +7,7 @@ const perms = require('./permissions.json')
  */
 function reducePermissionsToObject (reducer) {
   return Object.keys(perms).reduce((prev, curr) =>
-  Object.assign({}, prev, { [curr]: perms[curr].reduce(reducer, {}) }), {})
+    Object.assign({}, prev, { [curr]: perms[curr].reduce(reducer, {}) }), {})
 }
 
 module.exports = reducePermissionsToObject
