@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import './Loading.scss';
+import React, { Component } from 'react'
+import './Loading.scss'
 
 export default class Loading extends Component {
-  render() {
+  render () {
     return (
-      <div className="loading">Loading...</div>
-    );
+      <div className='loading'>Loading...</div>
+    )
   }
 }

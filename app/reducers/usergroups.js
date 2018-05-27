@@ -1,21 +1,20 @@
-import update from 'immutability-helper';
+import update from 'immutability-helper'
 import {
   REQUEST_USERGROUPS,
   RECEIVE_USERGROUPS,
   NEW_USERGROUP,
   DELETE_USERGROUP,
-  UPDATE_USERGROUP,
-} from 'actions/usergroupActions';
+  UPDATE_USERGROUP
+} from 'actions/usergroupActions'
 
-export default function users(state = {}, action) {
+export default function users (state = {}, action) {
   switch (action.type) {
-
     case REQUEST_USERGROUPS: {
       return {
         ...state,
         isFetching: true,
-        didInvalidate: false,
-      };
+        didInvalidate: false
+      }
     }
 
     case RECEIVE_USERGROUPS: {
@@ -24,8 +23,8 @@ export default function users(state = {}, action) {
         usergroups: action.usergroups,
         isFetching: false,
         didInvalidate: false,
-        lastUpdated: action.receivedAt,
-      };
+        lastUpdated: action.receivedAt
+      }
     }
 
     case NEW_USERGROUP: {
@@ -33,40 +32,40 @@ export default function users(state = {}, action) {
         ...state,
         usergroups: [
           ...state.usergroups,
-          action.addUserGroup,
-        ],
-      };
+          action.addUserGroup
+        ]
+      }
     }
 
     case DELETE_USERGROUP: {
-      const usergroupIndex = state.usergroups.findIndex(usergroup => usergroup._id === action.id);
-      if (usergroupIndex === -1) return state;
+      const usergroupIndex = state.usergroups.findIndex(usergroup => usergroup._id === action.id)
+      if (usergroupIndex === -1) return state
 
       return {
         ...state,
         usergroups: [
           ...state.usergroups.slice(0, usergroupIndex),
-          ...state.usergroups.slice(usergroupIndex + 1),
-        ],
-      };
+          ...state.usergroups.slice(usergroupIndex + 1)
+        ]
+      }
     }
 
     case UPDATE_USERGROUP: {
-      const { _id } = action.updateUserGroup;
-      const usergroupIndex = state.usergroups.findIndex(usergroup => usergroup._id === _id);
-      if (usergroupIndex === -1) return state;
+      const { _id } = action.updateUserGroup
+      const usergroupIndex = state.usergroups.findIndex(usergroup => usergroup._id === _id)
+      if (usergroupIndex === -1) return state
 
       return {
         ...state,
         usergroups: [
           ...state.usergroups.slice(0, usergroupIndex),
           update(state.usergroups[usergroupIndex], { $merge: action.updateUserGroup }),
-          ...state.usergroups.slice(usergroupIndex + 1),
-        ],
-      };
+          ...state.usergroups.slice(usergroupIndex + 1)
+        ]
+      }
     }
 
     default:
-      return state;
+      return state
   }
 }

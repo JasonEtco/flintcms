@@ -1,39 +1,39 @@
-const { slugify, reduceToObj, capitalizeFirstChar } = require('../../../server/utils/helpers');
+const { slugify, reduceToObj, capitalizeFirstChar } = require('../../../server/utils/helpers')
 
 describe('helpers', () => {
   describe('slugify', () => {
     it('should convert a string to kebab-case', () => {
-      expect(slugify('This is a test!')).toBe('this-is-a-test');
-    });
-  });
+      expect(slugify('This is a test!')).toBe('this-is-a-test')
+    })
+  })
 
   describe('reduceToObj', () => {
     const obj = [
       { foo: 'one', bar: 'two' },
-      { foo: 'three', bar: 'four' },
-    ];
+      { foo: 'three', bar: 'four' }
+    ]
     it(
       'should create and an object of the keys in an array of objects',
       () => {
         expect(reduceToObj(obj, 'foo', 'bar')).toEqual({
           one: 'two',
-          three: 'four',
-        });
-      },
-    );
-  });
+          three: 'four'
+        })
+      }
+    )
+  })
 
   describe('capitalizeFirstChar', () => {
     it('should capitalize the first character in a string', () => {
-      const str = 'this is a string';
-      expect(capitalizeFirstChar(str)).toBe('This is a string');
-    });
+      const str = 'this is a string'
+      expect(capitalizeFirstChar(str)).toBe('This is a string')
+    })
     it('should return the same string if already capitalized', () => {
-      const str = 'This is a string';
-      expect(capitalizeFirstChar(str)).toBe('This is a string');
-    });
-  });
-});
+      const str = 'This is a string'
+      expect(capitalizeFirstChar(str)).toBe('This is a string')
+    })
+  })
+})
 
 // describe('loggedIn', function () {
 //   const next = f => f;

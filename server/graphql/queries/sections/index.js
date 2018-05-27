@@ -1,7 +1,7 @@
-const section = require('./single');
-const sections = require('./multiple');
+const section = require('./single')
+const sections = require('./multiple')
 
 module.exports = {
   section,
-  sections,
-};
+  sections
+}

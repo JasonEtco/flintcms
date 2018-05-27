@@ -1,5 +1,5 @@
-const plugins = require('./multiple');
+const plugins = require('./multiple')
 
 module.exports = {
-  plugins,
-};
+  plugins
+}

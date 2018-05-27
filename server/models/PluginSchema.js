@@ -1,44 +1,44 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const PluginSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   title: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   uid: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   icon: {
     path: {
       type: String,
       required: true,
-      default: 'icon.png',
+      default: 'icon.png'
     },
     buffer: {
       type: Buffer,
-      required: true,
-    },
+      required: true
+    }
   },
   dateInstalled: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   version: {
     type: String,
-    required: true,
-  },
-}, { strict: false });
+    required: true
+  }
+}, { strict: false })
 
-PluginSchema.name = 'Plugin';
+PluginSchema.name = 'Plugin'
 
-module.exports = PluginSchema;
+module.exports = PluginSchema

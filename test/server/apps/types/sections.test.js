@@ -1,15 +1,15 @@
-const mocks = require('../../../mocks');
-const common = require('../common');
-const mongoose = require('mongoose');
+const mocks = require('../../../mocks')
+const common = require('../common')
+const mongoose = require('mongoose')
 
 describe('Sections', () => {
-  let agent;
+  let agent
 
   beforeAll(async () => {
-    agent = await common.before();
-  });
+    agent = await common.before()
+  })
 
-  afterAll(() => mongoose.disconnect());
+  afterAll(() => mongoose.disconnect())
 
   it('returns a list of sections', async () => {
     const res = await agent
@@ -26,14 +26,14 @@ describe('Sections', () => {
             dateCreated
             fields
           }
-        }`,
-      });
+        }`
+      })
     expect(res.body).toEqual({
       data: {
-        sections: mocks.sections,
-      },
-    });
-  });
+        sections: mocks.sections
+      }
+    })
+  })
 
   it('can query for a specific section by _id', async () => {
     const res = await agent
@@ -45,14 +45,14 @@ describe('Sections', () => {
             _id
           }
         }`,
-        variables: { _id: mocks.sections[0]._id },
-      });
+        variables: { _id: mocks.sections[0]._id }
+      })
     expect(res.body).toEqual({
       data: {
-        section: { _id: mocks.sections[0]._id },
-      },
-    });
-  });
+        section: { _id: mocks.sections[0]._id }
+      }
+    })
+  })
 
   it('can delete a section from the database', async () => {
     const res = await agent
@@ -64,14 +64,14 @@ describe('Sections', () => {
             _id
           }
         }`,
-        variables: { _id: mocks.sections[0]._id },
-      });
+        variables: { _id: mocks.sections[0]._id }
+      })
     expect(res.body).toEqual({
       data: {
-        removeSection: { _id: mocks.sections[0]._id },
-      },
-    });
-  });
+        removeSection: { _id: mocks.sections[0]._id }
+      }
+    })
+  })
 
   it('can save a section to the database', async () => {
     const res = await agent
@@ -87,18 +87,18 @@ describe('Sections', () => {
           data: {
             title: mocks.sections[0].title,
             template: mocks.sections[0].template,
-            fields: [mocks.fields[0]._id],
-          },
-        },
-      });
+            fields: [mocks.fields[0]._id]
+          }
+        }
+      })
     expect(res.body).toEqual({
       data: {
         addSection: {
-          title: mocks.sections[0].title,
-        },
-      },
-    });
-  });
+          title: mocks.sections[0].title
+        }
+      }
+    })
+  })
 
   it(
     'returns an error when saving a section without any fields',
@@ -116,15 +116,15 @@ describe('Sections', () => {
             data: {
               title: 'Hello!',
               template: mocks.sections[0].template,
-              fields: [],
-            },
-          },
-        });
+              fields: []
+            }
+          }
+        })
       expect(res.body.errors).toContainEqual(expect.objectContaining({
-        message: 'You must include at least one field.',
-      }));
-    },
-  );
+        message: 'You must include at least one field.'
+      }))
+    }
+  )
 
   it(
     'returns an error when saving a section without a title',
@@ -142,15 +142,15 @@ describe('Sections', () => {
             data: {
               title: '',
               template: mocks.sections[0].template,
-              fields: [mocks.fields[0]._id],
-            },
-          },
-        });
+              fields: [mocks.fields[0]._id]
+            }
+          }
+        })
       expect(res.body.errors).toContainEqual(expect.objectContaining({
-        message: 'You must include a title.',
-      }));
-    },
-  );
+        message: 'You must include a title.'
+      }))
+    }
+  )
 
   it('can update a section in the database', async () => {
     const res = await agent
@@ -167,16 +167,16 @@ describe('Sections', () => {
           data: {
             title: 'New title',
             template: mocks.sections[1].template,
-            fields: [mocks.fields[0]._id],
-          },
-        },
-      });
+            fields: [mocks.fields[0]._id]
+          }
+        }
+      })
     expect(res.body).toEqual({
       data: {
         updateSection: {
-          title: 'New title',
-        },
-      },
-    });
-  });
-});
+          title: 'New title'
+        }
+      }
+    })
+  })
+})

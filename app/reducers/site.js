@@ -1,18 +1,17 @@
 import {
   REQUEST_SITE,
   RECEIVE_SITE,
-  UPDATE_SITE,
-} from 'actions/siteActions';
+  UPDATE_SITE
+} from 'actions/siteActions'
 
-export default function site(state = {}, action) {
+export default function site (state = {}, action) {
   switch (action.type) {
-
     case REQUEST_SITE: {
       return {
         ...state,
         isFetching: true,
-        didInvalidate: false,
-      };
+        didInvalidate: false
+      }
     }
 
     case RECEIVE_SITE: {
@@ -21,18 +20,18 @@ export default function site(state = {}, action) {
         ...action.site,
         isFetching: false,
         didInvalidate: false,
-        lastUpdated: action.receivedAt,
-      };
+        lastUpdated: action.receivedAt
+      }
     }
 
     case UPDATE_SITE: {
       return {
         ...state,
-        ...action.updateSite,
-      };
+        ...action.updateSite
+      }
     }
 
     default:
-      return state;
+      return state
   }
 }

@@ -1,41 +1,41 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { openModal } from 'actions/uiActions';
-import Icon from 'utils/icons';
-import store from 'utils/store';
-import ConfirmModal from '../Modals/ConfirmModal';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { openModal } from 'actions/uiActions'
+import Icon from 'utils/icons'
+import store from 'utils/store'
+import ConfirmModal from '../Modals/ConfirmModal'
 
 export default class DeleteIcon extends Component {
   static propTypes = {
     onClick: PropTypes.func.isRequired,
     message: PropTypes.string,
-    small: PropTypes.bool,
+    small: PropTypes.bool
   }
 
   static defaultProps = {
     message: undefined,
-    small: false,
+    small: false
   }
 
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
+  constructor (props) {
+    super(props)
+    this.onClick = this.onClick.bind(this)
   }
 
-  onClick() {
-    const { onClick, message, small } = this.props;
+  onClick () {
+    const { onClick, message, small } = this.props
     store.dispatch(openModal(
       <ConfirmModal
         confirm={onClick}
         message={message}
         small={small}
-      />),
-    );
+      />)
+    )
   }
 
-  render() {
+  render () {
     return (
-      <button type="button" className="table__delete" onClick={this.onClick}><Icon icon="circleWithLine" /></button>
-    );
+      <button type='button' className='table__delete' onClick={this.onClick}><Icon icon='circleWithLine' /></button>
+    )
   }
 }

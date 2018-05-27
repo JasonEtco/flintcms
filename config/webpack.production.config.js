@@ -1,37 +1,37 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-const autoprefixer = require('autoprefixer');
-const { browsers, resolve, vendor } = require('./constants');
+const autoprefixer = require('autoprefixer')
+const { browsers, resolve, vendor } = require('./constants')
 
 module.exports = {
   entry: {
     main: [
       'babel-polyfill',
-      path.resolve(__dirname, '..', 'app', 'main.js'),
+      path.resolve(__dirname, '..', 'app', 'main.js')
     ],
-    vendor,
+    vendor
   },
   output: {
     path: path.join(__dirname, '..', 'admin'),
     filename: '[name]-[chunkhash].min.js',
     chunkFilename: '[name]-[chunkhash].min.js',
-    publicPath: '/admin',
+    publicPath: '/admin'
   },
   resolve,
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '..', 'app', 'index.tpl.html'),
       inject: 'body',
-      filename: 'index.html',
+      filename: 'index.html'
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      openAnalyzer: false,
+      openAnalyzer: false
     }),
     new webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin('[name]-[hash].min.css'),
@@ -41,14 +41,14 @@ module.exports = {
         context: path.join(__dirname, '..', 'app'),
         from: 'assets',
         to: 'assets',
-        ignore: ['fonts/**/*'],
-      },
+        ignore: ['fonts/**/*']
+      }
     ]),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor', 'manifest'], // vendor libs + extracted manifest
-      minChunks: Infinity,
+      minChunks: Infinity
     }),
-    new webpack.HashedModuleIdsPlugin(),
+    new webpack.HashedModuleIdsPlugin()
   ],
   module: {
     rules: [{
@@ -63,20 +63,20 @@ module.exports = {
               debug: false,
               loose: true,
               modules: false,
-              useBuiltIns: true,
+              useBuiltIns: true
             }],
-            'react',
+            'react'
           ],
           plugins: [
             [
               'transform-object-rest-spread',
-              { useBuiltIns: true },
+              { useBuiltIns: true }
             ],
             'transform-runtime',
-            'transform-class-properties',
-          ],
-        },
-      },
+            'transform-class-properties'
+          ]
+        }
+      }
     }, {
       test: /\.scss$/,
       use: ExtractTextPlugin.extract({
@@ -85,25 +85,25 @@ module.exports = {
           loader: 'postcss-loader',
           options: {
             sourceMap: true,
-            plugins: () => [autoprefixer(browsers)],
-          },
+            plugins: () => [autoprefixer(browsers)]
+          }
         }, {
           loader: 'sass-loader',
           options: {
             sourceMap: true,
             data: '@import "tools";',
             includePaths: [
-              path.resolve(__dirname, '../app/scss/tools'),
-            ],
-          },
-        }],
-      }),
+              path.resolve(__dirname, '../app/scss/tools')
+            ]
+          }
+        }]
+      })
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
       use: [
         'url-loader?limit=10000',
-        'img-loader',
-      ],
-    }],
-  },
-};
+        'img-loader'
+      ]
+    }]
+  }
+}

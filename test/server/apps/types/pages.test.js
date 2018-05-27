@@ -1,15 +1,15 @@
-const mocks = require('../../../mocks');
-const common = require('../common');
-const mongoose = require('mongoose');
+const mocks = require('../../../mocks')
+const common = require('../common')
+const mongoose = require('mongoose')
 
 describe('Pages', () => {
-  let agent;
+  let agent
 
   beforeAll(async () => {
-    agent = await common.before();
-  });
+    agent = await common.before()
+  })
 
-  afterAll(() => mongoose.disconnect());
+  afterAll(() => mongoose.disconnect())
 
   it('returns a list of pages', async () => {
     const res = await agent
@@ -33,14 +33,14 @@ describe('Pages', () => {
             slug
             template
           }
-        }`,
-      });
+        }`
+      })
     expect(res.body).toEqual({
       data: {
-        pages: mocks.pages,
-      },
-    });
-  });
+        pages: mocks.pages
+      }
+    })
+  })
 
   it('can query for a specific page by _id', async () => {
     const res = await agent
@@ -52,14 +52,14 @@ describe('Pages', () => {
             _id
           }
         }`,
-        variables: { _id: mocks.pages[0]._id },
-      });
+        variables: { _id: mocks.pages[0]._id }
+      })
     expect(res.body).toEqual({
       data: {
-        page: { _id: mocks.pages[0]._id },
-      },
-    });
-  });
+        page: { _id: mocks.pages[0]._id }
+      }
+    })
+  })
 
   it('can delete a page from the database', async () => {
     const res = await agent
@@ -71,14 +71,14 @@ describe('Pages', () => {
             _id
           }
         }`,
-        variables: { _id: mocks.pages[0]._id },
-      });
+        variables: { _id: mocks.pages[0]._id }
+      })
     expect(res.body).toEqual({
       data: {
-        removePage: { _id: mocks.pages[0]._id },
-      },
-    });
-  });
+        removePage: { _id: mocks.pages[0]._id }
+      }
+    })
+  })
 
   it('can save a page to the database', async () => {
     const res = await agent
@@ -95,18 +95,18 @@ describe('Pages', () => {
             title: mocks.pages[0].title,
             template: mocks.pages[0].template,
             fieldLayout: [mocks.fields[0]._id],
-            homepage: false,
-          },
-        },
-      });
+            homepage: false
+          }
+        }
+      })
     expect(res.body).toEqual({
       data: {
         addPage: {
-          title: mocks.pages[0].title,
-        },
-      },
-    });
-  });
+          title: mocks.pages[0].title
+        }
+      }
+    })
+  })
 
   it('can update a page in the database', async () => {
     const res = await agent
@@ -123,18 +123,18 @@ describe('Pages', () => {
           data: {
             title: 'New title',
             template: mocks.pages[1].template,
-            route: mocks.pages[1].route,
-          },
-        },
-      });
+            route: mocks.pages[1].route
+          }
+        }
+      })
     expect(res.body).toEqual({
       data: {
         updatePage: {
-          title: 'New title',
-        },
-      },
-    });
-  });
+          title: 'New title'
+        }
+      }
+    })
+  })
 
   it('sets a new homepage\'s route to `/`', async () => {
     const res = await agent
@@ -152,18 +152,18 @@ describe('Pages', () => {
             homepage: true,
             route: '/pizza',
             template: mocks.pages[0].template,
-            fieldLayout: [mocks.fields[0]._id],
-          },
-        },
-      });
+            fieldLayout: [mocks.fields[0]._id]
+          }
+        }
+      })
     expect(res.body).toEqual({
       data: {
         addPage: {
-          route: '/',
-        },
-      },
-    });
-  });
+          route: '/'
+        }
+      }
+    })
+  })
 
   it('can overwrite an existing homepage', async () => {
     const res = await agent
@@ -181,18 +181,18 @@ describe('Pages', () => {
             homepage: true,
             route: '/',
             template: mocks.pages[0].template,
-            fieldLayout: [mocks.fields[0]._id],
-          },
-        },
-      });
+            fieldLayout: [mocks.fields[0]._id]
+          }
+        }
+      })
     expect(res.body).toEqual({
       data: {
         addPage: {
-          title: 'Newer Homepage',
-        },
-      },
-    });
-  });
+          title: 'Newer Homepage'
+        }
+      }
+    })
+  })
 
   it(
     'overwrites the last homepage when a new homepage is saved',
@@ -204,13 +204,13 @@ describe('Pages', () => {
             pages {
               homepage
             }
-          }`,
-        });
-      const { data } = res.body;
-      expect(data.pages).toContainEqual({ homepage: true });
-      expect(data.pages.filter(p => p.homepage).length).toBe(1);
-    },
-  );
+          }`
+        })
+      const { data } = res.body
+      expect(data.pages).toContainEqual({ homepage: true })
+      expect(data.pages.filter(p => p.homepage).length).toBe(1)
+    }
+  )
 
   test(
     'returns the correct error for a page with an existing slug',
@@ -229,15 +229,15 @@ describe('Pages', () => {
               title: mocks.pages[0].title,
               route: '/pizza',
               template: mocks.pages[0].template,
-              fieldLayout: [mocks.fields[0]._id],
-            },
-          },
-        });
+              fieldLayout: [mocks.fields[0]._id]
+            }
+          }
+        })
       expect(res.body.errors).toContainEqual(expect.objectContaining({
-        message: 'There is already a page with that slug.',
-      }));
-    },
-  );
+        message: 'There is already a page with that slug.'
+      }))
+    }
+  )
 
   it('returns the correct error without a fieldLayout', async () => {
     const res = await agent
@@ -254,14 +254,14 @@ describe('Pages', () => {
             title: 'New Page',
             route: '/pizza',
             template: mocks.pages[0].template,
-            fieldLayout: [],
-          },
-        },
-      });
+            fieldLayout: []
+          }
+        }
+      })
     expect(res.body.errors).toContainEqual(expect.objectContaining({
-      message: 'You must include at least one field.',
-    }));
-  });
+      message: 'You must include at least one field.'
+    }))
+  })
 
   it('returns the correct error without a title', async () => {
     const res = await agent
@@ -278,14 +278,14 @@ describe('Pages', () => {
             title: '',
             route: '/pizza',
             template: mocks.pages[0].template,
-            fieldLayout: [mocks.fields[0]._id],
-          },
-        },
-      });
+            fieldLayout: [mocks.fields[0]._id]
+          }
+        }
+      })
     expect(res.body.errors).toContainEqual(expect.objectContaining({
-      message: 'You must include a title.',
-    }));
-  });
+      message: 'You must include a title.'
+    }))
+  })
 
   test(
     'returns the correct error for a route starting with /admin',
@@ -304,18 +304,18 @@ describe('Pages', () => {
               title: 'Admin page',
               route: '/admin/pizza',
               template: mocks.pages[0].template,
-              fieldLayout: [mocks.fields[0]._id],
-            },
-          },
-        });
+              fieldLayout: [mocks.fields[0]._id]
+            }
+          }
+        })
       expect(res.body.errors).toContainEqual(expect.objectContaining({
-        message: 'Routes starting with `/admin` are reserved for Flint.',
-      }));
-    },
-  );
+        message: 'Routes starting with `/admin` are reserved for Flint.'
+      }))
+    }
+  )
 
   describe('Permissions', () => {
-    beforeAll(async () => common.setNonAdmin(agent));
+    beforeAll(async () => common.setNonAdmin(agent))
 
     it('returns an error when adding a page', async () => {
       const res = await agent
@@ -332,14 +332,14 @@ describe('Pages', () => {
               title: 'New page',
               route: '/pizza',
               template: mocks.pages[0].template,
-              fieldLayout: [mocks.fields[0]._id],
-            },
-          },
-        });
+              fieldLayout: [mocks.fields[0]._id]
+            }
+          }
+        })
       expect(res.body.errors[0]).toMatchObject({
-        message: 'You do not have permission to create a new Page.',
-      });
-    });
+        message: 'You do not have permission to create a new Page.'
+      })
+    })
 
     it('returns an error when editing a page', async () => {
       const res = await agent
@@ -357,14 +357,14 @@ describe('Pages', () => {
               title: 'New page',
               route: '/pizza',
               template: mocks.pages[0].template,
-              fieldLayout: [mocks.fields[0]._id],
-            },
-          },
-        });
+              fieldLayout: [mocks.fields[0]._id]
+            }
+          }
+        })
       expect(res.body.errors[0]).toMatchObject({
-        message: 'You do not have permission to edit Pages.',
-      });
-    });
+        message: 'You do not have permission to edit Pages.'
+      })
+    })
 
     it('returns an error when deleting a page', async () => {
       const res = await agent
@@ -377,14 +377,14 @@ describe('Pages', () => {
             }
           }`,
           variables: {
-            _id: mocks.pages[0]._id,
-          },
-        });
+            _id: mocks.pages[0]._id
+          }
+        })
       expect(res.body.errors[0]).toMatchObject({
-        message: 'You do not have permission to delete Pages.',
-      });
-    });
+        message: 'You do not have permission to delete Pages.'
+      })
+    })
 
-    afterAll(common.setAdmin);
-  });
-});
+    afterAll(common.setAdmin)
+  })
+})

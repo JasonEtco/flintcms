@@ -1,26 +1,26 @@
-const Flint = require('../../../index.js');
-const supertest = require('supertest');
-const mongoose = require('mongoose');
+const Flint = require('../../../index.js')
+const supertest = require('supertest')
+const mongoose = require('mongoose')
 
 describe('publicRegistration', () => {
-  let server;
-  let agent;
-  const signupRoute = '/p/signup';
-  const loginRoute = '/p/login';
+  let server
+  let agent
+  const signupRoute = '/p/signup'
+  const loginRoute = '/p/login'
 
   beforeAll(async () => {
     const flintServer = new Flint({
       listen: false,
       signupRoute,
-      loginRoute,
-    });
+      loginRoute
+    })
 
-    server = await flintServer.startServer();
-    agent = supertest.agent(server);
+    server = await flintServer.startServer()
+    agent = supertest.agent(server)
 
-    const Site = mongoose.model('Site');
-    await Site.findOneAndUpdate({}, { $set: { allowPublicRegistration: true } }).exec();
-  });
+    const Site = mongoose.model('Site')
+    await Site.findOneAndUpdate({}, { $set: { allowPublicRegistration: true } }).exec()
+  })
 
   it('can sign up a new user', async () => {
     await agent
@@ -28,26 +28,26 @@ describe('publicRegistration', () => {
       .send({
         username: 'exampler',
         email: 'example@example.com',
-        password: 'password',
-      });
+        password: 'password'
+      })
 
-    const User = mongoose.model('User');
-    const foundNewUser = await User.findOne({ username: 'exampler' }).exec();
+    const User = mongoose.model('User')
+    const foundNewUser = await User.findOne({ username: 'exampler' }).exec()
 
-    expect(typeof foundNewUser).toBe('object');
-  });
+    expect(typeof foundNewUser).toBe('object')
+  })
 
   it('can log in that new user', async () => {
     const res = await agent
       .post(loginRoute)
       .send({
         email: 'example@example.com',
-        password: 'password',
-      });
+        password: 'password'
+      })
 
-    expect(res.status).toBe(302);
-    expect(res.header).toHaveProperty('location', '/admin');
-  });
+    expect(res.status).toBe(302)
+    expect(res.header).toHaveProperty('location', '/admin')
+  })
 
-  afterAll(() => mongoose.disconnect());
-});
+  afterAll(() => mongoose.disconnect())
+})

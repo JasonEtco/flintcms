@@ -1,52 +1,52 @@
-const mongoose = require('mongoose');
-const camelcase = require('camelcase');
-const h = require('../utils/helpers');
+const mongoose = require('mongoose')
+const camelcase = require('camelcase')
+const h = require('../utils/helpers')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const FieldSchema = new Schema({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   slug: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   handle: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   instructions: {
-    type: String,
+    type: String
   },
   type: {
     type: String,
-    required: true,
+    required: true
   },
   required: {
     type: Boolean,
-    required: true,
+    required: true
   },
   options: {
-    type: Schema.Types.Mixed,
+    type: Schema.Types.Mixed
   },
   dateCreated: {
     type: Date,
-    default: Date.now,
-  },
-});
+    default: Date.now
+  }
+})
 
-FieldSchema.name = 'Field';
+FieldSchema.name = 'Field'
 
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 FieldSchema.pre('validate', function (next) {
-  this.slug = h.slugify(this.title);
-  this.handle = camelcase(this.title);
-  next();
-});
+  this.slug = h.slugify(this.title)
+  this.handle = camelcase(this.title)
+  next()
+})
 
-module.exports = FieldSchema;
+module.exports = FieldSchema

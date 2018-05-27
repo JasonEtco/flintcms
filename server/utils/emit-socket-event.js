@@ -6,9 +6,9 @@
  * @param {String} event
  * @param {Any} payload
  */
-function emitSocketEvent({ io, req }, event, payload) {
-  const socket = io.sockets.connected[req.body.socket];
-  if (socket) socket.broadcast.emit(event, payload);
+function emitSocketEvent ({ io, req }, event, payload) {
+  const socket = io.sockets.connected[req.body.socket]
+  if (socket) socket.broadcast.emit(event, payload)
 }
 
-module.exports = emitSocketEvent;
+module.exports = emitSocketEvent

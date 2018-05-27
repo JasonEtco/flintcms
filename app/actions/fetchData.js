@@ -1,16 +1,16 @@
-import { push } from 'react-router-redux';
-import permissionsQuery from 'utils/permissionsQuery';
-import graphFetcher from 'utils/graphFetcher';
-import store from 'utils/store';
-import { RECEIVE_ENTRIES } from './entryActions';
-import { RECEIVE_SECTIONS } from './sectionActions';
-import { RECEIVE_PAGES } from './pageActions';
-import { RECEIVE_FIELDS } from './fieldActions';
-import { RECEIVE_USER, RECEIVE_USERS } from './userActions';
-import { RECEIVE_USERGROUPS } from './usergroupActions';
-import { RECEIVE_ASSETS } from './assetActions';
-import { RECEIVE_SITE } from './siteActions';
-import { RECEIVE_PLUGINS } from './pluginActions';
+import { push } from 'react-router-redux'
+import permissionsQuery from 'utils/permissionsQuery'
+import graphFetcher from 'utils/graphFetcher'
+import store from 'utils/store'
+import { RECEIVE_ENTRIES } from './entryActions'
+import { RECEIVE_SECTIONS } from './sectionActions'
+import { RECEIVE_PAGES } from './pageActions'
+import { RECEIVE_FIELDS } from './fieldActions'
+import { RECEIVE_USER, RECEIVE_USERS } from './userActions'
+import { RECEIVE_USERGROUPS } from './usergroupActions'
+import { RECEIVE_ASSETS } from './assetActions'
+import { RECEIVE_SITE } from './siteActions'
+import { RECEIVE_PLUGINS } from './pluginActions'
 
 const query = `{
   site {
@@ -124,22 +124,22 @@ const query = `{
     }
     dateInstalled
   }
-}`;
+}`
 
-export default async function bigFetch() {
-  const { dispatch } = store;
-  const { data, errors } = await graphFetcher(query);
+export default async function bigFetch () {
+  const { dispatch } = store
+  const { data, errors } = await graphFetcher(query)
 
   if (data.status === 401) {
     if (location.pathname === '/admin') {
-      dispatch(push('/login'));
+      dispatch(push('/login'))
     } else {
-      dispatch(push(`/login?p=${location.pathname}`));
+      dispatch(push(`/login?p=${location.pathname}`))
     }
-    return;
+    return
   }
 
-  if (errors) throw new Error('Error!', errors);
+  if (errors) throw new Error('Error!', errors)
 
   const {
     sections,
@@ -151,8 +151,8 @@ export default async function bigFetch() {
     usergroups,
     site,
     plugins,
-    pages,
-  } = data.data;
+    pages
+  } = data.data
 
   const dispatchers = [
     { type: RECEIVE_SECTIONS, sections },
@@ -164,9 +164,9 @@ export default async function bigFetch() {
     { type: RECEIVE_USERS, users },
     { type: RECEIVE_USERGROUPS, usergroups },
     { type: RECEIVE_SITE, site },
-    { type: RECEIVE_PLUGINS, plugins },
-  ];
+    { type: RECEIVE_PLUGINS, plugins }
+  ]
 
-  const receivedAt = Date.now();
-  dispatchers.forEach(obj => dispatch({ ...obj, receivedAt }));
+  const receivedAt = Date.now()
+  dispatchers.forEach(obj => dispatch({ ...obj, receivedAt }))
 }

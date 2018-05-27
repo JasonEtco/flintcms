@@ -1,5 +1,5 @@
-import store from 'utils/store';
+import store from 'utils/store'
 
-export default function getUserPermissions() {
-  return store.getState().user.usergroup.permissions;
+export default function getUserPermissions () {
+  return store.getState().user.usergroup.permissions
 }

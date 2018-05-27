@@ -1,5 +1,5 @@
-import { bool, number, string, shape, arrayOf, oneOf, oneOfType } from 'prop-types';
-import p from '../../server/utils/permissions.json';
+import { bool, number, string, shape, arrayOf, oneOf, oneOfType } from 'prop-types'
+import p from '../../server/utils/permissions.json'
 
 // Reduces the master permissions object
 // into an format easily consumable by `prop-types`
@@ -8,15 +8,15 @@ const permissions = Object.keys(p)
     ...prev,
     [curr]: shape(p[curr].reduce((previ, c) => ({
       ...previ,
-      [c.name]: bool.isRequired,
-    }), {})).isRequired,
-  }), {});
+      [c.name]: bool.isRequired
+    }), {})).isRequired
+  }), {})
 
 const commonProps = {
   isFetching: bool.isRequired,
   didInvalidate: bool,
-  lastUpdated: number,
-};
+  lastUpdated: number
+}
 
 const types = {
   entries: shape({
@@ -26,8 +26,8 @@ const types = {
       title: string.isRequired,
       slug: string.isRequired,
       status: oneOf(['live', 'draft', 'disabled']).isRequired,
-      dateCreated: number.isRequired,
-    })).isRequired,
+      dateCreated: number.isRequired
+    })).isRequired
   }),
 
   fields: shape({
@@ -40,8 +40,8 @@ const types = {
       dateCreated: number.isRequired,
       slug: string.isRequired,
       handle: string.isRequired,
-      required: bool,
-    })).isRequired,
+      required: bool
+    })).isRequired
   }),
 
   assets: shape({
@@ -53,8 +53,8 @@ const types = {
       dateCreated: number.isRequired,
       size: number.isRequired,
       width: number.isRequired,
-      height: number.isRequired,
-    })).isRequired,
+      height: number.isRequired
+    })).isRequired
   }),
 
   sections: shape({
@@ -63,8 +63,8 @@ const types = {
       _id: string.isRequired,
       title: string.isRequired,
       slug: string.isRequired,
-      dateCreated: number.isRequired,
-    })).isRequired,
+      dateCreated: number.isRequired
+    })).isRequired
   }),
 
   pages: shape({
@@ -76,8 +76,8 @@ const types = {
       handle: string.isRequired,
       dateCreated: number.isRequired,
       homepage: bool.isRequired,
-      route: string.isRequired,
-    })).isRequired,
+      route: string.isRequired
+    })).isRequired
   }),
 
   site: shape({
@@ -92,12 +92,12 @@ const types = {
       dateCreated: string,
       size: string,
       width: string,
-      height: string,
+      height: string
     }),
     style: string,
     debugMode: bool,
     scssEntryPoint: oneOfType([string, bool]),
-    allowPublicRegistration: bool,
+    allowPublicRegistration: bool
   }),
 
   user: shape({
@@ -106,7 +106,7 @@ const types = {
     username: string,
     name: shape({
       first: string,
-      last: string,
+      last: string
     }),
     dateCreated: number,
     image: string,
@@ -116,8 +116,8 @@ const types = {
       title: string,
       slug: string,
       dateCreated: number,
-      permissions: shape(permissions),
-    }),
+      permissions: shape(permissions)
+    })
   }),
 
   users: shape({
@@ -127,11 +127,11 @@ const types = {
       username: string.isRequired,
       name: shape({
         first: string,
-        last: string,
+        last: string
       }),
       dateCreated: number.isRequired,
-      image: string,
-    })).isRequired,
+      image: string
+    })).isRequired
   }),
 
   usergroups: shape({
@@ -141,16 +141,16 @@ const types = {
       title: string.isRequired,
       slug: string.isRequired,
       dateCreated: number.isRequired,
-      permissions: shape(permissions).isRequired,
-    })),
+      permissions: shape(permissions).isRequired
+    }))
   }),
 
   plugins: shape({
     ...commonProps,
     plugins: arrayOf(shape({
-      _id: string.isRequired,
-    })).isRequired,
-  }),
-};
+      _id: string.isRequired
+    })).isRequired
+  })
+}
 
-export default types;
+export default types

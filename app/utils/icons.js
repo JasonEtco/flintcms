@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const icons = {
   warning: <svg viewBox="0 0 16 16"><path d="M8 1.45l6.705 13.363H1.296L8.001 1.45zM8 0c-.345 0-.69.233-.951.698L.22 14.309C-.303 15.239.142 16 1.209 16h13.583c1.067 0 1.512-.761.989-1.691L8.952.698C8.69.233 8.346 0 8.001 0z" /><path d="M9 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM8 11a1 1 0 0 1-1-1V7a1 1 0 0 1 2 0v3a1 1 0 0 1-1 1z" /></svg>,
@@ -37,8 +37,8 @@ const icons = {
   dragHandle: <svg viewBox="0 0 16 16"><g><path d="M9,2c0-1.1-0.9-2-2-2S5,0.9,5,2c0,2,2,3,2,3S9,4,9,2z" /><path d="M12,9c1.1,0,2-0.9,2-2s-0.9-2-2-2c-2,0-3,2-3,2S10,9,12,9z" /><path d="M5,12c0,1.1,0.9,2,2,2c1.1,0,2-0.9,2-2c0-2-2-3-2-3S5,10,5,12z" /><path d="M2,5C0.9,5,0,5.9,0,7s0.9,2,2,2c2,0,3-2,3-2S4,5,2,5z" /></g></svg>,
 };
 
-export default function Icon(props) {
-  const { width, height, className, title, icon } = props;
+export default function Icon (props) {
+  const { width, height, className, title, icon } = props
 
   return {
     ...icons[icon],
@@ -48,19 +48,19 @@ export default function Icon(props) {
       width,
       height,
       title,
-      className: className ? `icon ${className}` : 'icon',
-    },
-  };
+      className: className ? `icon ${className}` : 'icon'
+    }
+  }
 }
 
 Icon.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   className: PropTypes.string,
-  title: PropTypes.string,
-};
+  title: PropTypes.string
+}
 
 Icon.defaultProps = {
   width: 16,
-  height: 16,
-};
+  height: 16
+}

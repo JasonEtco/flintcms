@@ -1,6 +1,6 @@
-const { GraphQLScalarType } = require('graphql/type');
-const { GraphQLError } = require('graphql/error');
-const { Kind } = require('graphql/language');
+const { GraphQLScalarType } = require('graphql/type')
+const { GraphQLError } = require('graphql/error')
+const { Kind } = require('graphql/language')
 
 const ObjectType = new GraphQLScalarType({
   name: 'ObjectType',
@@ -9,10 +9,10 @@ const ObjectType = new GraphQLScalarType({
   parseLiteral: (ast) => {
     /* istanbul ignore if */
     if (ast.kind !== Kind.OBJECT) {
-      throw new GraphQLError(`Query error: Can only parse object but got a: ${ast.kind}, ${[ast]}`);
+      throw new GraphQLError(`Query error: Can only parse object but got a: ${ast.kind}, ${[ast]}`)
     }
-    return ast.value;
-  },
-});
+    return ast.value
+  }
+})
 
-module.exports = ObjectType;
+module.exports = ObjectType

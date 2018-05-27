@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
-const { graphql } = require('graphql');
-const schema = require('../graphql');
+const { graphql } = require('graphql')
+const schema = require('../graphql')
 
 /**
  * Query the database for the Entry data
@@ -10,7 +10,7 @@ const schema = require('../graphql');
  * @param {String} entry.section
  * @returns {Object|Boolean} Entry object or `false` if there is no Entry
  */
-async function getEntryData({ slug, section }) {
+async function getEntryData ({ slug, section }) {
   const query = `query ($slug: String!, $status: String!, $sectionSlug: String!) {
     entry (slug: $slug, status: $status, sectionSlug: $sectionSlug) {
       _id
@@ -33,21 +33,21 @@ async function getEntryData({ slug, section }) {
         value
       }
     }
-  }`;
+  }`
 
   const variables = {
     slug,
     status: 'live',
-    sectionSlug: section,
-  };
-
-  const { data } = await graphql(schema, query, null, null, variables);
-
-  if (data.entry === undefined || data.entry === null) {
-    return false;
+    sectionSlug: section
   }
 
-  return data.entry;
+  const { data } = await graphql(schema, query, null, null, variables)
+
+  if (data.entry === undefined || data.entry === null) {
+    return false
+  }
+
+  return data.entry
 }
 
-module.exports = getEntryData;
+module.exports = getEntryData

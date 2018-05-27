@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import './Button.scss';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import './Button.scss'
 
 export default class Button extends Component {
   static propTypes = {
@@ -13,7 +13,7 @@ export default class Button extends Component {
     small: PropTypes.bool,
     big: PropTypes.bool,
     formElement: PropTypes.bool,
-    className: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -24,10 +24,10 @@ export default class Button extends Component {
     small: false,
     big: false,
     formElement: false,
-    className: null,
+    className: null
   }
 
-  render() {
+  render () {
     const {
       kind,
       type,
@@ -37,8 +37,8 @@ export default class Button extends Component {
       small,
       big,
       formElement,
-      className,
-    } = this.props;
+      className
+    } = this.props
 
     const classes = classnames(
       'btn',
@@ -46,11 +46,11 @@ export default class Button extends Component {
       { 'btn--small': small },
       { 'btn--big': big },
       { 'form-element': formElement },
-      className,
-    );
+      className
+    )
 
     if (type === 'submit') {
-      return <input type="submit" disabled={disabled} className={classes} value={children} />;
+      return <input type='submit' disabled={disabled} className={classes} value={children} />
     }
 
     return (
@@ -62,6 +62,6 @@ export default class Button extends Component {
       >
         {children}
       </button>
-    );
+    )
   }
 }

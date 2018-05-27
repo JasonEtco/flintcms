@@ -1,37 +1,37 @@
-const { Kind } = require('graphql/language');
-const { GraphQLScalarType } = require('graphql');
+const { Kind } = require('graphql/language')
+const { GraphQLScalarType } = require('graphql')
 
-function serializeDate(value) {
+function serializeDate (value) {
   if (value instanceof Date) {
-    return value.getTime();
+    return value.getTime()
   } else if (typeof value === 'number') {
-    return Math.trunc(value);
+    return Math.trunc(value)
   } else if (typeof value === 'string') {
-    return Date.parse(value);
+    return Date.parse(value)
   }
-  return null;
+  return null
 }
 
-function parseDate(value) {
+function parseDate (value) {
   if (value === null) {
-    return null;
+    return null
   }
 
   try {
-    return new Date(value);
+    return new Date(value)
   } catch (err) {
-    return null;
+    return null
   }
 }
 
-function parseDateFromLiteral(ast) {
+function parseDateFromLiteral (ast) {
   if (ast.kind === Kind.INT) {
-    const num = parseInt(ast.value, 10);
-    return new Date(num);
+    const num = parseInt(ast.value, 10)
+    return new Date(num)
   } else if (ast.kind === Kind.STRING) {
-    return parseDate(ast.value);
+    return parseDate(ast.value)
   }
-  return null;
+  return null
 }
 
 module.exports = new GraphQLScalarType({
@@ -39,5 +39,5 @@ module.exports = new GraphQLScalarType({
   description: 'The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.',
   serialize: serializeDate,
   parseValue: parseDate,
-  parseLiteral: parseDateFromLiteral,
-});
+  parseLiteral: parseDateFromLiteral
+})

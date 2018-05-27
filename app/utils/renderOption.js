@@ -1,5 +1,5 @@
-import React from 'react';
-import Fields from 'components/Fields';
+import React from 'react'
+import Fields from 'components/Fields'
 
 /**
  * Returns a React component of the relevant Field
@@ -7,8 +7,8 @@ import Fields from 'components/Fields';
  * @param {Any} [value]
  * @param {Object} betterProps - Props to overwrite with
  */
-export default function renderOption(field, value, betterProps) {
-  const fieldType = Fields[field.type];
+export default function renderOption (field, value, betterProps) {
+  const fieldType = Fields[field.type]
 
   const props = {
     key: field._id,
@@ -18,10 +18,10 @@ export default function renderOption(field, value, betterProps) {
     defaultValue: value || (field.options ? field.options.defaultValue : ''),
     ...field.options,
     ...fieldType.props,
-    ...betterProps,
-  };
+    ...betterProps
+  }
 
-  const Component = fieldType.component;
+  const Component = fieldType.component
 
-  return <Component {...props} />;
+  return <Component {...props} />
 }

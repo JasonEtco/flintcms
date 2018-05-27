@@ -1,9 +1,9 @@
-const EventEmitter = require('events');
+const EventEmitter = require('events')
 
-EventEmitter.defaultMaxListeners = 40;
+EventEmitter.defaultMaxListeners = 40
 
 class FlintEmitter extends EventEmitter {}
 
-const flintEmitter = new FlintEmitter();
+const flintEmitter = new FlintEmitter()
 
-module.exports = flintEmitter;
+module.exports = flintEmitter

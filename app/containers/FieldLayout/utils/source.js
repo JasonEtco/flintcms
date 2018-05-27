@@ -1,11 +1,11 @@
 const fieldSource = {
-  beginDrag(props) {
+  beginDrag (props) {
     return {
       index: props.index,
       field: props.field,
-      isNew: props.isNew,
-    };
-  },
-};
+      isNew: props.isNew
+    }
+  }
+}
 
-export default fieldSource;
+export default fieldSource

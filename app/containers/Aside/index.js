@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import StatusDot from 'components/StatusDot';
-import Dropdown, { DropdownChild } from 'components/Fields/Dropdown';
-import DatePicker from 'components/DatePicker';
-import './Aside.scss';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import StatusDot from 'components/StatusDot'
+import Dropdown, { DropdownChild } from 'components/Fields/Dropdown'
+import DatePicker from 'components/DatePicker'
+import './Aside.scss'
 
 export default class Aside extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ export default class Aside extends Component {
     status: PropTypes.oneOf(['live', 'draft', 'disabled']),
     dateCreated: PropTypes.number,
     children: PropTypes.any,
-    disabled: PropTypes.bool,
+    disabled: PropTypes.bool
   }
 
   static defaultProps = {
@@ -19,44 +19,44 @@ export default class Aside extends Component {
     status: 'draft',
     dateCreated: undefined,
     children: null,
-    disabled: false,
+    disabled: false
   }
 
-  constructor(props) {
-    super(props);
-    this.state = { status: props.status };
+  constructor (props) {
+    super(props)
+    this.state = { status: props.status }
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState({ status: newProps.status });
+  componentWillReceiveProps (newProps) {
+    this.setState({ status: newProps.status })
   }
 
-  render() {
-    const { status } = this.state;
-    const { dateCreated, children, noStatus, disabled } = this.props;
+  render () {
+    const { status } = this.state
+    const { dateCreated, children, noStatus, disabled } = this.props
 
     return (
-      <aside className="aside">
+      <aside className='aside'>
         {!noStatus && <Dropdown
           disabled={disabled}
-          name="status"
-          label="Status"
+          name='status'
+          label='Status'
           full
           defaultValue={status}
           onChange={s => this.setState({ status: s })}
           options={[
-            { label: 'Live', component: <DropdownChild>Live<StatusDot status="live" /></DropdownChild>, value: 'live' },
-            { label: 'Draft', component: <DropdownChild>Draft<StatusDot status="draft" /></DropdownChild>, value: 'draft' },
-            { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status="disabled" /></DropdownChild>, value: 'disabled' },
+            { label: 'Live', component: <DropdownChild>Live<StatusDot status='live' /></DropdownChild>, value: 'live' },
+            { label: 'Draft', component: <DropdownChild>Draft<StatusDot status='draft' /></DropdownChild>, value: 'draft' },
+            { label: 'Disabled', component: <DropdownChild>Disabled<StatusDot status='disabled' /></DropdownChild>, value: 'disabled' }
           ]}
         >
           <StatusDot status={this.state.status} />
         </Dropdown>}
 
-        <DatePicker disabled={disabled} attachment="right" name="dateCreated" label="Date Created" value={dateCreated} />
+        <DatePicker disabled={disabled} attachment='right' name='dateCreated' label='Date Created' value={dateCreated} />
 
         {children}
       </aside>
-    );
+    )
   }
 }

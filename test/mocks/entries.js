@@ -6,7 +6,7 @@ module.exports = [
     section: '58b787fd28044618a8f7a737',
     author: '589a12b5a08e0c2f24ece4e8',
     dateCreated: 1488853901010,
-    fields: [],
+    fields: []
   },
   {
     _id: '57be1b901810931d043d9fc6',
@@ -16,7 +16,7 @@ module.exports = [
     author: '589a12b5a08e0c2f24ece4e8',
     dateCreated: 1488853902010,
     status: 'live',
-    fields: [],
+    fields: []
   },
   {
     _id: '58be1b901810931d043d9fc1',
@@ -25,7 +25,7 @@ module.exports = [
     author: '589a12b5a08e0c2f24ece4e8',
     dateCreated: 1488853903010,
     status: 'draft',
-    fields: [],
+    fields: []
   },
   {
     _id: '59be1b901810931d043d9fc1',
@@ -35,7 +35,7 @@ module.exports = [
     author: '59383c903e13393788eb01b2',
     dateCreated: 1488853904010,
     status: 'live',
-    fields: [],
+    fields: []
   },
   {
     _id: '591e63abe8e41f00113de131',
@@ -48,7 +48,7 @@ module.exports = [
     fields: [{
       fieldId: '59376a4feef58d4a74e2fdcd',
       handle: 'simpleText',
-      value: 'I am working!',
-    }],
-  },
-];
+      value: 'I am working!'
+    }]
+  }
+]

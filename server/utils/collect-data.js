@@ -1,15 +1,15 @@
-const { graphql } = require('graphql');
-const schema = require('../graphql');
-const h = require('./helpers');
-const perms = require('../utils/permissions.json');
+const { graphql } = require('graphql')
+const schema = require('../graphql')
+const h = require('./helpers')
+const perms = require('../utils/permissions.json')
 
 /**
  * Adds organized key/value field pairs onto entries
  * @param {Object[]} entries - Array of Entry objects
  * @returns {Object[]}
  */
-async function formatEntryFields(arr, target = 'fields') {
-  return arr.map(doc => Object.assign({}, doc, h.reduceToObj(doc[target], 'handle', 'value')));
+async function formatEntryFields (arr, target = 'fields') {
+  return arr.map(doc => Object.assign({}, doc, h.reduceToObj(doc[target], 'handle', 'value')))
 }
 
 /**
@@ -18,12 +18,12 @@ async function formatEntryFields(arr, target = 'fields') {
  * @param {Object[]} entries - Array of Entry objects
  * @returns {Object}
  */
-function addNextPrevious(entry, entries, target = 'fields') {
-  const i = entries.findIndex(e => e._id === entry._id);
+function addNextPrevious (entry, entries, target = 'fields') {
+  const i = entries.findIndex(e => e._id === entry._id)
   return Object.assign({}, entry, h.reduceToObj(entry[target], 'handle', 'value'), {
     previous: entries[i - 1] ? entries[i - 1] : null,
-    next: entries[i + 1] ? entries[i + 1] : null,
-  });
+    next: entries[i + 1] ? entries[i + 1] : null
+  })
 }
 
 /**
@@ -38,31 +38,30 @@ function addNextPrevious(entry, entries, target = 'fields') {
  *
  * @returns {Section}
  */
-async function sectionEntries(dataSections, entries) {
+async function sectionEntries (dataSections, entries) {
   // Organizes sections by _id/slug
-  const sections = await h.reduceToObj(dataSections, '_id', 'handle');
+  const sections = await h.reduceToObj(dataSections, '_id', 'handle')
 
   // Get just the _ids from the new sections object
-  const sectionKeys = Object.keys(sections);
+  const sectionKeys = Object.keys(sections)
 
   const sectionedEntries = await sectionKeys.reduce((prev, curr) => {
-    const filtered = entries.filter(entry => entry.section === curr);
-    const secDetails = dataSections.find(sec => sec._id === curr);
+    const filtered = entries.filter(entry => entry.section === curr)
+    const secDetails = dataSections.find(sec => sec._id === curr)
 
     return Object.assign({}, prev, {
-      [sections[curr]]: Object.assign({}, secDetails, { entries: filtered }),
-    });
-  }, {});
+      [sections[curr]]: Object.assign({}, secDetails, { entries: filtered })
+    })
+  }, {})
 
-  return sectionedEntries;
+  return sectionedEntries
 }
-
 
 const permissions = `
   permissions {
     ${Object.keys(perms).map(key => `${key} {\n${perms[key].map(({ name }) => `\t${name}`).join('\n')}\n}`).join('\n')}
   }
-`;
+`
 
 /**
  * Collects all of the entries, sections, users and fields
@@ -70,7 +69,7 @@ const permissions = `
  * @param {Object} entryData
  * @returns {Object} An object containg the specific entry data and all the other collected data
  */
-async function collectData(entry) {
+async function collectData (entry) {
   const query = `{
     assets {
       _id
@@ -174,35 +173,35 @@ async function collectData(entry) {
       enableCacheBusting
       cssHash
     }
-  }`;
+  }`
 
-  const { data, errors } = await graphql(schema, query);
-  if (errors) throw new Error(errors);
+  const { data, errors } = await graphql(schema, query)
+  if (errors) throw new Error(errors)
 
   const [formattedEntries, formattedPages] = await Promise.all([
     formatEntryFields(data.entries),
-    formatEntryFields(data.pages),
-  ]);
+    formatEntryFields(data.pages)
+  ])
 
-  const sections = await sectionEntries(data.sections, formattedEntries);
+  const sections = await sectionEntries(data.sections, formattedEntries)
   const flint = Object.assign({}, data, {
     pages: formattedPages,
-    page(page) {
-      return this.pages.find(p => p.handle === page);
+    page (page) {
+      return this.pages.find(p => p.handle === page)
     },
-    section(section) {
-      return sections[section];
-    },
-  });
+    section (section) {
+      return sections[section]
+    }
+  })
 
   if (entry) {
     return {
       this: addNextPrevious(entry, formattedEntries),
-      flint,
-    };
+      flint
+    }
   }
 
-  return { flint };
+  return { flint }
 }
 
-module.exports = collectData;
+module.exports = collectData

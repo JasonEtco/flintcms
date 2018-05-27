@@ -9,7 +9,7 @@ const names = {
   username: 'Username',
   name: 'Name',
   type: 'Type',
-  handle: 'Handle',
-};
+  handle: 'Handle'
+}
 
-export default names;
+export default names

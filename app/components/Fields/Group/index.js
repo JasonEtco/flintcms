@@ -1,48 +1,46 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import renderOption from 'utils/renderOption';
-import Icon from 'utils/icons';
-import DeleteIcon from 'components/DeleteIcon';
-import DraggableList from 'react-draggable-list';
-import './Group.scss';
-
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import renderOption from 'utils/renderOption'
+import Icon from 'utils/icons'
+import DeleteIcon from 'components/DeleteIcon'
+import DraggableList from 'react-draggable-list'
+import './Group.scss'
 
 class GroupRow extends Component {
   static propTypes = {
     item: PropTypes.shape({
       fields: PropTypes.array.isRequired,
       order: PropTypes.number.isRequired,
-      type: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired
     }).isRequired,
     dragHandle: PropTypes.func.isRequired,
     commonProps: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      deleteBlock: PropTypes.func.isRequired,
-    }).isRequired,
+      deleteBlock: PropTypes.func.isRequired
+    }).isRequired
   }
 
-  render() {
-    const { dragHandle, item, commonProps } = this.props;
-    const { name, deleteBlock, childChanged } = commonProps;
+  render () {
+    const { dragHandle, item, commonProps } = this.props
+    const { name, deleteBlock, childChanged } = commonProps
 
     return (
-      <div key={item.key} className="group__block form-element">
-        <div className="group__block__btns">
-          {dragHandle(<button className="group__drag" type="button"><Icon icon="dragHandle" /></button>)}
+      <div key={item.key} className='group__block form-element'>
+        <div className='group__block__btns'>
+          {dragHandle(<button className='group__drag' type='button'><Icon icon='dragHandle' /></button>)}
           <DeleteIcon onClick={() => deleteBlock(item.order)} small />
         </div>
         {item.fields.map(field => renderOption(field, field.defaultValue || null, {
-          onChange: (v) => { childChanged(field, v); },
+          onChange: (v) => { childChanged(field, v) },
           name: `${name}[${item.order}][${field.handle}]`,
-          key: `${name}[${item.order}][${field.handle}]`,
+          key: `${name}[${item.order}][${field.handle}]`
         }))}
-        <input type="text" name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
+        <input type='text' name={`${name}[${item.order}][type]`} value={item.type} hidden readOnly />
       </div>
-    );
+    )
   }
 }
-
 
 export default class Group extends Component {
   static propTypes = {
@@ -55,53 +53,53 @@ export default class Group extends Component {
         handle: PropTypes.string,
         title: PropTypes.string,
         type: PropTypes.string,
-        instructions: PropTypes.string,
-      })),
+        instructions: PropTypes.string
+      }))
     })).isRequired,
-    defaultValue: PropTypes.array,
+    defaultValue: PropTypes.array
   }
 
   static defaultProps = {
     instructions: null,
     required: false,
-    defaultValue: [],
+    defaultValue: []
   }
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     const formattedFields = props.defaultValue.map((blockObj, i) => {
-      const { type, ...fields } = blockObj;
-      const block = props.blocks[type];
+      const { type, ...fields } = blockObj
+      const block = props.blocks[type]
       const formatted = block.fields.map(f => ({
         ...f,
-        defaultValue: fields[f.handle],
-      }));
+        defaultValue: fields[f.handle]
+      }))
 
       return {
         ...block,
         key: i,
         order: i,
         type,
-        fields: formatted,
-      };
-    });
+        fields: formatted
+      }
+    })
 
-    this.addBlock = this.addBlock.bind(this);
-    this.deleteBlock = this.deleteBlock.bind(this);
+    this.addBlock = this.addBlock.bind(this)
+    this.deleteBlock = this.deleteBlock.bind(this)
 
-    this.state = { blocks: formattedFields };
+    this.state = { blocks: formattedFields }
   }
 
-  onListChange(blocks) {
-    const newBlocks = blocks.map((block, i) => ({ ...block, order: i }));
-    this.setState({ blocks: newBlocks });
+  onListChange (blocks) {
+    const newBlocks = blocks.map((block, i) => ({ ...block, order: i }))
+    this.setState({ blocks: newBlocks })
   }
 
   // eslint-disable-next-line
   childComponentChanged(field, v) { if (v != null) field.defaultValue = v }
 
-  addBlock(key) {
+  addBlock (key) {
     this.setState({
       blocks: [
         ...this.state.blocks,
@@ -109,50 +107,50 @@ export default class Group extends Component {
           type: key,
           order: this.state.blocks.length,
           key: this.state.blocks.length,
-          ...(JSON.parse(JSON.stringify(this.props.blocks[key]))),
-        },
-      ],
-    });
+          ...(JSON.parse(JSON.stringify(this.props.blocks[key])))
+        }
+      ]
+    })
   }
 
-  deleteBlock(index) {
-    const { blocks } = this.state;
+  deleteBlock (index) {
+    const { blocks } = this.state
     const newBlocks = [
       ...blocks.slice(0, index),
-      ...blocks.slice(index + 1),
-    ];
+      ...blocks.slice(index + 1)
+    ]
 
-    const withOrder = newBlocks.map((b, i) => ({ ...b, order: i }));
+    const withOrder = newBlocks.map((b, i) => ({ ...b, order: i }))
 
     this.setState({
-      blocks: withOrder,
-    });
+      blocks: withOrder
+    })
   }
 
-  render() {
-    const { required, name, instructions, label, blocks } = this.props;
+  render () {
+    const { required, name, instructions, label, blocks } = this.props
 
     const classes = classnames(
       'group-wrapper',
       'form-element',
-      { 'form-element--required': required },
-    );
+      { 'form-element--required': required }
+    )
 
     const common = {
       ...this.props,
       deleteBlock: this.deleteBlock,
-      childChanged: this.childComponentChanged,
-    };
+      childChanged: this.childComponentChanged
+    }
 
     /* eslint-disable react/no-array-index-key */
     return (
       <div className={classes}>
-        {label && <label className="input__label" htmlFor={name}>{label}</label>}
-        {instructions && <p className="input__instructions">{instructions}</p>}
-        <div className="group__fields form-element">
+        {label && <label className='input__label' htmlFor={name}>{label}</label>}
+        {instructions && <p className='input__instructions'>{instructions}</p>}
+        <div className='group__fields form-element'>
           <DraggableList
             list={this.state.blocks}
-            itemKey="key"
+            itemKey='key'
             template={GroupRow}
             onMoveEnd={newList => this.onListChange(newList)}
             container={() => document.body}
@@ -160,9 +158,9 @@ export default class Group extends Component {
           />
         </div>
         <div className={`group__buttons ${this.state.blocks.length > 0 ? 'form-element' : ''}`}>
-          {Object.keys(blocks).map(blk => <button key={blk} type="button" className="group__buttons__btn" onClick={() => this.addBlock(blk)}>{blk}</button>)}
+          {Object.keys(blocks).map(blk => <button key={blk} type='button' className='group__buttons__btn' onClick={() => this.addBlock(blk)}>{blk}</button>)}
         </div>
       </div>
-    );
+    )
   }
 }

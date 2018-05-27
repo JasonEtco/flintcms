@@ -1,40 +1,40 @@
-const { GraphQLNonNull, GraphQLID } = require('graphql');
-const mongoose = require('mongoose');
-const { outputType } = require('../../types/Users');
-const getProjection = require('../../get-projection');
+const { GraphQLNonNull, GraphQLID } = require('graphql')
+const mongoose = require('mongoose')
+const { outputType } = require('../../types/Users')
+const getProjection = require('../../get-projection')
 
-const User = mongoose.model('User');
+const User = mongoose.model('User')
 
 module.exports = {
   type: outputType,
   args: {
     _id: {
       name: '_id',
-      type: new GraphQLNonNull(GraphQLID),
-    },
+      type: new GraphQLNonNull(GraphQLID)
+    }
   },
-  async resolve({ events, perms, socketEvent }, { _id }, ctx, ast) {
-    if (_id === ctx.user._id) throw new Error('You cannot delete your own account.');
+  async resolve ({ events, perms, socketEvent }, { _id }, ctx, ast) {
+    if (_id === ctx.user._id) throw new Error('You cannot delete your own account.')
 
     if (!perms.users.canDeleteUsers) {
-      throw new Error('You do not have permission to delete Users.');
+      throw new Error('You do not have permission to delete Users.')
     }
 
-    const foundUser = await User.findById(_id).exec();
-    if (!foundUser) throw new Error('There is no User with that id.');
+    const foundUser = await User.findById(_id).exec()
+    if (!foundUser) throw new Error('There is no User with that id.')
 
-    const projection = getProjection(ast);
-    events.emit('pre-delete-User', _id);
+    const projection = getProjection(ast)
+    events.emit('pre-delete-User', _id)
 
     const removedUser = await User
       .findByIdAndRemove(_id, { select: projection })
-      .exec();
+      .exec()
 
     /* istanbul ignore if */
-    if (!removedUser) throw new Error('Error removing User');
+    if (!removedUser) throw new Error('Error removing User')
 
-    events.emit('post-delete-user', removedUser);
-    socketEvent('delete-user', removedUser);
-    return removedUser;
-  },
-};
+    events.emit('post-delete-user', removedUser)
+    socketEvent('delete-user', removedUser)
+    return removedUser
+  }
+}

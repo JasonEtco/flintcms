@@ -1,26 +1,26 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import Icon from 'utils/icons';
-import DayTile from './DayTile';
-import Days from './Days';
-import './DatePicker.scss';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import moment from 'moment'
+import Icon from 'utils/icons'
+import DayTile from './DayTile'
+import Days from './Days'
+import './DatePicker.scss'
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-function daysInMonth(month, year) {
-  return new Date(year, month + 1, 0).getDate();
+function daysInMonth (month, year) {
+  return new Date(year, month + 1, 0).getDate()
 }
 
-function seperateDateObj(dateObj = new Date()) {
+function seperateDateObj (dateObj = new Date()) {
   return {
     month: dateObj.getMonth(),
     year: dateObj.getFullYear(),
     day: dateObj.getDate(),
-    value: dateObj.toLocaleString(),
-  };
+    value: dateObj.toLocaleString()
+  }
 }
 
 export default class DatePicker extends Component {
@@ -31,7 +31,7 @@ export default class DatePicker extends Component {
     instructions: PropTypes.string,
     attachment: PropTypes.oneOf(['right', 'left']),
     disabled: PropTypes.bool,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
@@ -40,86 +40,86 @@ export default class DatePicker extends Component {
     instructions: null,
     attachment: 'left',
     disabled: false,
-    onChange: f => f,
+    onChange: f => f
   }
 
-  constructor(props) {
-    super(props);
-    const { value } = props;
-    this.value = value;
-    const { month, year } = seperateDateObj();
+  constructor (props) {
+    super(props)
+    const { value } = props
+    this.value = value
+    const { month, year } = seperateDateObj()
 
-    this.selectDate = this.selectDate.bind(this);
-    this.incrementMonth = this.incrementMonth.bind(this);
-    this.hide = this.hide.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
-    this.isActive = this.isActive.bind(this);
-    this.today = this.today.bind(this);
-    this.renderDates = this.renderDates.bind(this);
+    this.selectDate = this.selectDate.bind(this)
+    this.incrementMonth = this.incrementMonth.bind(this)
+    this.hide = this.hide.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
+    this.isActive = this.isActive.bind(this)
+    this.today = this.today.bind(this)
+    this.renderDates = this.renderDates.bind(this)
 
     this.state = {
       open: false,
       month,
       year,
-      value,
-    };
-  }
-
-  componentDidMount() { window.addEventListener('click', this.hide); }
-  componentWillUnmount() { window.removeEventListener('click', this.hide); }
-
-  selectDate({ year, month, day }) {
-    const value = new Date(year, month, day).getTime();
-    this.props.onChange(moment(value).format('MM/DD/YYYY'));
-    this.setState({ value, open: false });
-  }
-
-  incrementMonth(e, forwards = true) {
-    e.stopPropagation();
-    const { month, year } = this.state;
-    if (forwards) {
-      if (month === 11) {
-        this.setState({ month: 0, year: year + 1 });
-      } else {
-        this.setState({ month: month + 1 });
-      }
-    } else if (month === 0) {
-      this.setState({ month: 11, year: year - 1 });
-    } else {
-      this.setState({ month: month - 1 });
+      value
     }
   }
 
-  hide() {
-    this.setState({ open: false });
+  componentDidMount () { window.addEventListener('click', this.hide) }
+  componentWillUnmount () { window.removeEventListener('click', this.hide) }
+
+  selectDate ({ year, month, day }) {
+    const value = new Date(year, month, day).getTime()
+    this.props.onChange(moment(value).format('MM/DD/YYYY'))
+    this.setState({ value, open: false })
   }
 
-  handleToggle(e) {
-    if (this.props.disabled) return;
-
-    e.stopPropagation();
-    this.setState({ open: !this.state.open });
+  incrementMonth (e, forwards = true) {
+    e.stopPropagation()
+    const { month, year } = this.state
+    if (forwards) {
+      if (month === 11) {
+        this.setState({ month: 0, year: year + 1 })
+      } else {
+        this.setState({ month: month + 1 })
+      }
+    } else if (month === 0) {
+      this.setState({ month: 11, year: year - 1 })
+    } else {
+      this.setState({ month: month - 1 })
+    }
   }
 
-  isActive(date) {
-    const { year, month, day } = seperateDateObj(new Date(this.state.value));
-    return year === date.year && month === date.month && day === date.day;
+  hide () {
+    this.setState({ open: false })
   }
 
-  today() {
-    const today = new Date();
-    const { year, month, value } = seperateDateObj(today);
-    this.setState({ value, month, year });
+  handleToggle (e) {
+    if (this.props.disabled) return
+
+    e.stopPropagation()
+    this.setState({ open: !this.state.open })
   }
 
-  renderDates() {
-    const { year, month } = this.state;
+  isActive (date) {
+    const { year, month, day } = seperateDateObj(new Date(this.state.value))
+    return year === date.year && month === date.month && day === date.day
+  }
 
-    const lastMonthDays = daysInMonth(month - 1, year);
-    const thisMonthDays = daysInMonth(month, year);
+  today () {
+    const today = new Date()
+    const { year, month, value } = seperateDateObj(today)
+    this.setState({ value, month, year })
+  }
 
-    const { day: offset } = seperateDateObj(new Date(year, month));
-    const dates = [];
+  renderDates () {
+    const { year, month } = this.state
+
+    const lastMonthDays = daysInMonth(month - 1, year)
+    const thisMonthDays = daysInMonth(month, year)
+
+    const { day: offset } = seperateDateObj(new Date(year, month))
+    const dates = []
 
     for (let i = 0; i < thisMonthDays + offset; i++) {
       if (i < offset) {
@@ -129,73 +129,73 @@ export default class DatePicker extends Component {
             day={(lastMonthDays - offset) + 1 + i}
             isActive={false}
             disabled
-          />);
+          />)
       } else {
-        const day = (i - offset) + 1;
+        const day = (i - offset) + 1
         dates.push(
           <DayTile
             key={i}
             day={day}
             isActive={this.isActive({ year, month, day })}
             onClick={() => this.selectDate({ year, month, day })}
-          />);
+          />)
       }
     }
-    return dates;
+    return dates
   }
 
-  render() {
-    const { label, instructions, name, attachment, disabled } = this.props;
-    const { month, year, value, open } = this.state;
-    const inputVal = moment(value).format('MM/DD/YYYY');
+  render () {
+    const { label, instructions, name, attachment, disabled } = this.props
+    const { month, year, value, open } = this.state
+    const inputVal = moment(value).format('MM/DD/YYYY')
 
     return (
-      <div className="datepicker-wrapper form-element">
-        {label && <span className="input__label">{label}</span>}
-        {instructions && <p className="input__instructions">{instructions}</p>}
-        <div className="input-icon-wrapper">
+      <div className='datepicker-wrapper form-element'>
+        {label && <span className='input__label'>{label}</span>}
+        {instructions && <p className='input__instructions'>{instructions}</p>}
+        <div className='input-icon-wrapper'>
           <input
-            className="input"
-            type="text"
+            className='input'
+            type='text'
             name={name}
             value={inputVal}
             onClick={this.handleToggle}
-            ref={(r) => { this.input = r; }}
+            ref={(r) => { this.input = r }}
             readOnly
             disabled={disabled}
           />
-          <button type="button" className="input__icon" onClick={this.handleToggle} disabled={disabled}>
-            <Icon icon="calendar" />
+          <button type='button' className='input__icon' onClick={this.handleToggle} disabled={disabled}>
+            <Icon icon='calendar' />
           </button>
         </div>
         {open &&
         <div
-          className="datepicker"
+          className='datepicker'
           aria-expanded={open}
           onClick={e => e.stopPropagation()}
           style={attachment === 'left' ? { left: 0 } : { right: 0 }}
         >
-          <div className="datepicker__inner">
-            <div className="datepicker__controls">
-              <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e, false)}>
-                <Icon width={10} height={10} icon="arrowLeft" />
+          <div className='datepicker__inner'>
+            <div className='datepicker__controls'>
+              <button type='button' className='datepicker__controls__btn' onClick={e => this.incrementMonth(e, false)}>
+                <Icon width={10} height={10} icon='arrowLeft' />
               </button>
-              <span className="datepicker__month">{months[month]} {year}</span>
-              <button type="button" className="datepicker__controls__btn" onClick={e => this.incrementMonth(e)}>
-                <Icon width={10} height={10} icon="arrowRight" />
+              <span className='datepicker__month'>{months[month]} {year}</span>
+              <button type='button' className='datepicker__controls__btn' onClick={e => this.incrementMonth(e)}>
+                <Icon width={10} height={10} icon='arrowRight' />
               </button>
             </div>
 
             {<Days />}
 
-            <div className="datepicker__dates">
+            <div className='datepicker__dates'>
               {this.renderDates()}
             </div>
-            <button className="datepicker__today" type="button" onClick={this.today}>Today</button>
+            <button className='datepicker__today' type='button' onClick={this.today}>Today</button>
           </div>
         </div>}
 
       </div>
-    );
+    )
   }
 }

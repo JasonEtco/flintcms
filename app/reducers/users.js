@@ -1,21 +1,20 @@
-import update from 'immutability-helper';
+import update from 'immutability-helper'
 import {
   REQUEST_USERS,
   RECEIVE_USERS,
   NEW_USER,
   UPDATE_USER,
-  DELETE_USER,
-} from 'actions/userActions';
+  DELETE_USER
+} from 'actions/userActions'
 
-export default function users(state = {}, action) {
+export default function users (state = {}, action) {
   switch (action.type) {
-
     case REQUEST_USERS: {
       return {
         ...state,
         isFetching: true,
-        didInvalidate: false,
-      };
+        didInvalidate: false
+      }
     }
 
     case RECEIVE_USERS: {
@@ -24,8 +23,8 @@ export default function users(state = {}, action) {
         users: action.users,
         isFetching: false,
         didInvalidate: false,
-        lastUpdated: action.receivedAt,
-      };
+        lastUpdated: action.receivedAt
+      }
     }
 
     case NEW_USER: {
@@ -33,39 +32,39 @@ export default function users(state = {}, action) {
         ...state,
         users: [
           ...state.users,
-          action.addUser,
-        ],
-      };
+          action.addUser
+        ]
+      }
     }
 
     case DELETE_USER: {
-      const { _id } = action;
-      const index = state.users.findIndex(u => u._id === _id);
+      const { _id } = action
+      const index = state.users.findIndex(u => u._id === _id)
       return {
         ...state,
         users: [
           ...state.users.slice(0, index),
-          ...state.users.slice(index + 1),
-        ],
-      };
+          ...state.users.slice(index + 1)
+        ]
+      }
     }
 
     case UPDATE_USER: {
-      const { _id } = action.updateUser;
-      const userIndex = state.users.findIndex(u => u._id === _id);
-      if (userIndex === -1) return state;
+      const { _id } = action.updateUser
+      const userIndex = state.users.findIndex(u => u._id === _id)
+      if (userIndex === -1) return state
 
       return {
         ...state,
         users: [
           ...state.users.slice(0, userIndex),
           update(state.users[userIndex], { $merge: { ...action.updateUser, full: true } }),
-          ...state.users.slice(userIndex + 1),
-        ],
-      };
+          ...state.users.slice(userIndex + 1)
+        ]
+      }
     }
 
     default:
-      return state;
+      return state
   }
 }

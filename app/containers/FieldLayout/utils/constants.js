@@ -1,5 +1,5 @@
 const ItemTypes = {
-  FIELD: 'field',
-};
+  FIELD: 'field'
+}
 
-export default ItemTypes;
+export default ItemTypes

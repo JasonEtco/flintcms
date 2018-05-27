@@ -1,46 +1,46 @@
-const mongoose = require('mongoose');
-const camelcase = require('camelcase');
-const h = require('../utils/helpers');
+const mongoose = require('mongoose')
+const camelcase = require('camelcase')
+const h = require('../utils/helpers')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const SectionSchema = new Schema({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   slug: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   handle: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   template: {
     type: String,
-    required: true,
+    required: true
   },
   dateCreated: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   fields: [{
     type: Schema.Types.ObjectId,
-    ref: 'Field',
-  }],
-});
+    ref: 'Field'
+  }]
+})
 
-SectionSchema.name = 'Section';
+SectionSchema.name = 'Section'
 
 // Can't use arrow function because of (this) binding
 // eslint-disable-next-line func-names
 SectionSchema.pre('validate', function (next) {
-  this.slug = h.slugify(this.title);
-  this.handle = camelcase(this.title);
-  next();
-});
+  this.slug = h.slugify(this.title)
+  this.handle = camelcase(this.title)
+  next()
+})
 
-module.exports = SectionSchema;
+module.exports = SectionSchema

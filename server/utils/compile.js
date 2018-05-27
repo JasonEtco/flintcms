@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const collectData = require('./collect-data');
+const fs = require('fs')
+const path = require('path')
+const collectData = require('./collect-data')
 
 /**
  * Compiles template/data with Nunjucks into an HTML string
@@ -8,21 +8,21 @@ const collectData = require('./collect-data');
  * @param {Object} data
  * @returns {String} HTML String
  */
-async function compile(template, data) {
+async function compile (template, data) {
   // Ensure that template has the .njk file extension
-  const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`;
-  const templatePath = path.join(global.FLINT.templatePath, templateWithFormat);
+  const templateWithFormat = template.endsWith('.njk') ? template : `${template}.njk`
+  const templatePath = path.join(global.FLINT.templatePath, templateWithFormat)
 
   // Check that the template file actually exists
-  if (!fs.existsSync(templatePath)) return 'no-template';
+  if (!fs.existsSync(templatePath)) return 'no-template'
 
   // Collect site's data (entries, pages, sections, users, etc)
-  const compiledData = await collectData(data).catch(console.log); // eslint-disable-line no-console
+  const compiledData = await collectData(data).catch(console.log) // eslint-disable-line no-console
 
-  let html = await global.FLINT.nun.render(templatePath, compiledData);
+  let html = await global.FLINT.nun.render(templatePath, compiledData)
 
   /* istanbul ignore if */
-  if (!html) return 'no-html';
+  if (!html) return 'no-html'
 
   if (global.FLINT.debugMode) {
     const scr = `
@@ -38,12 +38,12 @@ async function compile(template, data) {
       console.table(${JSON.stringify(compiledData.flint.sections)});
       console.table(${JSON.stringify(compiledData.flint.fields)});
     console.groupEnd();
-    `;
+    `
 
-    html = await html.replace('</body>', `<script>${scr}</script></body>`);
+    html = await html.replace('</body>', `<script>${scr}</script></body>`)
   }
 
-  return html;
+  return html
 }
 
-module.exports = compile;
+module.exports = compile

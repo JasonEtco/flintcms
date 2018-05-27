@@ -1,20 +1,20 @@
-const Flint = require('../../../');
-const mocks = require('../../mocks');
-const populateDB = require('../../populatedb');
-const supertest = require('supertest');
-const mongoose = require('mongoose');
+const Flint = require('../../../')
+const mocks = require('../../mocks')
+const populateDB = require('../../populatedb')
+const supertest = require('supertest')
+const mongoose = require('mongoose')
 
-exports.before = async function before(plugins = []) {
-  const flintServer = new Flint({ listen: false, plugins });
-  const server = await flintServer.startServer();
-  const agent = supertest.agent(server);
+exports.before = async function before (plugins = []) {
+  const flintServer = new Flint({ listen: false, plugins })
+  const server = await flintServer.startServer()
+  const agent = supertest.agent(server)
 
-  await populateDB();
+  await populateDB()
 
-  return agent;
-};
+  return agent
+}
 
-exports.setNonAdmin = async function setNonAdmin(agent) {
+exports.setNonAdmin = async function setNonAdmin (agent) {
   const res = await agent
     .post('/graphql')
     .send({
@@ -31,25 +31,25 @@ exports.setNonAdmin = async function setNonAdmin(agent) {
         data: {
           email: mocks.users[0].email,
           username: mocks.users[0].username,
-          usergroup: mocks.usergroups[2]._id,
-        },
-      },
-    });
+          usergroup: mocks.usergroups[2]._id
+        }
+      }
+    })
   expect(res.body).toEqual({
     data: {
       updateUser: {
         usergroup: {
           _id: mocks.usergroups[2]._id,
-          slug: mocks.usergroups[2].slug,
-        },
-      },
-    },
-  });
-};
+          slug: mocks.usergroups[2].slug
+        }
+      }
+    }
+  })
+}
 
-exports.setAdmin = function setAdmin() {
-  const User = mongoose.model('User');
+exports.setAdmin = function setAdmin () {
+  const User = mongoose.model('User')
   return User.findByIdAndUpdate(mocks.users[0]._id, {
-    $set: { usergroup: mocks.usergroups[0]._id },
-  }).exec();
-};
+    $set: { usergroup: mocks.usergroups[0]._id }
+  }).exec()
+}

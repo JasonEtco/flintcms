@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 
 exports.browsers = [
   'last 2 versions',
@@ -6,8 +6,8 @@ exports.browsers = [
   'ie >= 10',
   'chrome >= 49',
   'firefox >= 49',
-  '> 1%',
-];
+  '> 1%'
+]
 
 exports.resolve = {
   alias: {
@@ -16,9 +16,9 @@ exports.resolve = {
     views: path.join(__dirname, '..', 'app', 'views'),
     actions: path.join(__dirname, '..', 'app', 'actions'),
     utils: path.join(__dirname, '..', 'app', 'utils'),
-    assets: path.join(__dirname, '..', 'app', 'assets'),
-  },
-};
+    assets: path.join(__dirname, '..', 'app', 'assets')
+  }
+}
 
 exports.vendor = [
   'react',
@@ -45,5 +45,5 @@ exports.vendor = [
   'react-dnd',
   'react-dnd-html5-backend',
   'core-js',
-  'react-rte',
-];
+  'react-rte'
+]

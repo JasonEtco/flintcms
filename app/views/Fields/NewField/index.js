@@ -1,75 +1,75 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import serialize from 'form-serialize';
-import { newField } from 'actions/fieldActions';
-import Page from 'containers/Page';
-import Fields from 'components/Fields';
-import Input from 'components/Input';
-import Button from 'components/Button';
-import TitleBar from 'components/TitleBar';
-import camelcase from 'utils/camelcase';
-import FieldOptions from 'components/FieldOptions';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import serialize from 'form-serialize'
+import { newField } from 'actions/fieldActions'
+import Page from 'containers/Page'
+import Fields from 'components/Fields'
+import Input from 'components/Input'
+import Button from 'components/Button'
+import TitleBar from 'components/TitleBar'
+import camelcase from 'utils/camelcase'
+import FieldOptions from 'components/FieldOptions'
 
 export default class NewField extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
+  constructor (props) {
+    super(props)
+    this.onSubmit = this.onSubmit.bind(this)
+    this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.handleTypeChange = this.handleTypeChange.bind(this)
   }
 
   state = { title: '', type: 'Asset' }
 
-  onSubmit(e) {
-    e.preventDefault();
-    const data = serialize(this.page.form, { hash: true });
-    this.props.dispatch(newField(data));
+  onSubmit (e) {
+    e.preventDefault()
+    const data = serialize(this.page.form, { hash: true })
+    this.props.dispatch(newField(data))
   }
 
-  handleTitleChange(title) {
-    this.setState({ title });
+  handleTitleChange (title) {
+    this.setState({ title })
   }
 
-  handleTypeChange(type) {
-    this.setState({ type });
+  handleTypeChange (type) {
+    this.setState({ type })
   }
 
-  render() {
-    const { Dropdown, Toggle } = Fields;
-    const options = Object.keys(Fields).map(n => ({ label: n, value: n }));
+  render () {
+    const { Dropdown, Toggle } = Fields
+    const options = Object.keys(Fields).map(n => ({ label: n, value: n }))
 
     const links = [
       { label: 'Settings', path: '/settings' },
-      { label: 'Fields', path: '/settings/fields' },
-    ];
+      { label: 'Fields', path: '/settings/fields' }
+    ]
 
     return (
-      <Page name="new-field" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r; }}>
-        <TitleBar title="New Field">
-          <Button onClick={this.onSubmit} type="submit" small>Save</Button>
+      <Page name='new-field' links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
+        <TitleBar title='New Field'>
+          <Button onClick={this.onSubmit} type='submit' small>Save</Button>
         </TitleBar>
 
-        <div className="content">
-          <div className="page__inner">
+        <div className='content'>
+          <div className='page__inner'>
             <Input
-              name="title"
-              label="Title"
-              instructions="This is what the field will be called in the admin dashboard."
-              ref={(r) => { this.title = r; }}
+              name='title'
+              label='Title'
+              instructions='This is what the field will be called in the admin dashboard.'
+              ref={(r) => { this.title = r }}
               required
               full
               onChange={this.handleTitleChange}
             />
 
             <Input
-              name="handle"
-              label="Template Handle"
-              instructions="The variable to use in the templates."
-              ref={(r) => { this.handle = r; }}
+              name='handle'
+              label='Template Handle'
+              instructions='The variable to use in the templates.'
+              ref={(r) => { this.handle = r }}
               required
               full
               code
@@ -78,33 +78,33 @@ export default class NewField extends Component {
             />
 
             <Input
-              name="instructions"
-              label="Instructions"
-              instructions="Text that will help the author understand content is being asked for."
-              ref={(r) => { this.instructions = r; }}
+              name='instructions'
+              label='Instructions'
+              instructions='Text that will help the author understand content is being asked for.'
+              ref={(r) => { this.instructions = r }}
               full
             />
 
             <Toggle.component
-              name="required"
-              label="Required"
-              instructions="Should this field be required?"
+              name='required'
+              label='Required'
+              instructions='Should this field be required?'
             />
 
             <Dropdown.component
-              name="type"
+              name='type'
               options={options}
-              label="Field Type"
+              label='Field Type'
               onChange={this.handleTypeChange}
               alphabetize
-              instructions="The kind of field presented in the dashboard."
-              ref={(r) => { this.type = r; }}
+              instructions='The kind of field presented in the dashboard.'
+              ref={(r) => { this.type = r }}
             />
 
             <FieldOptions fields={Fields} type={this.state.type || options[0].label} />
           </div>
         </div>
       </Page>
-    );
+    )
   }
 }

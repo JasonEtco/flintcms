@@ -8,7 +8,7 @@ module.exports = [{
   homepage: true,
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
-  dateCreated: 1497819235747,
+  dateCreated: 1497819235747
 }, {
   _id: '5946e863bd887652381edfe9',
   handle: 'noTemplate',
@@ -19,7 +19,7 @@ module.exports = [{
   homepage: false,
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
-  dateCreated: 1497819235847,
+  dateCreated: 1497819235847
 }, {
   _id: '5946e863bd887652382edfe9',
   slug: 'page-with-vars',
@@ -30,5 +30,5 @@ module.exports = [{
   homepage: false,
   fields: [],
   fieldLayout: ['5946e850bd887652381ecfe8'],
-  dateCreated: 1497819235947,
-}];
+  dateCreated: 1497819235947
+}]

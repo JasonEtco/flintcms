@@ -1,1 +1,1 @@
-process.env.DEBUG = 'none';
+process.env.DEBUG = 'none'

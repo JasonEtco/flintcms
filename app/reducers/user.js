@@ -1,17 +1,16 @@
 import {
   REQUEST_USER,
-  RECEIVE_USER,
-} from 'actions/userActions';
+  RECEIVE_USER
+} from 'actions/userActions'
 
-export default function user(state = {}, action) {
+export default function user (state = {}, action) {
   switch (action.type) {
-
     case REQUEST_USER: {
       return {
         ...state,
         isFetching: true,
-        didInvalidate: false,
-      };
+        didInvalidate: false
+      }
     }
 
     case RECEIVE_USER: {
@@ -20,11 +19,11 @@ export default function user(state = {}, action) {
         ...action.user,
         isFetching: false,
         didInvalidate: false,
-        lastUpdated: action.receivedAt,
-      };
+        lastUpdated: action.receivedAt
+      }
     }
 
     default:
-      return state;
+      return state
   }
 }

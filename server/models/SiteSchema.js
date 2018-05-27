@@ -1,27 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const SiteSchema = new Schema({
   defaultUserGroup: {
     type: Schema.Types.ObjectId,
-    ref: 'UserGroup',
+    ref: 'UserGroup'
   },
   siteName: {
     type: String,
-    default: 'Flint Site Name',
+    default: 'Flint Site Name'
   },
   siteUrl: {
     type: String,
-    default: 'https://flintcms.io',
+    default: 'https://flintcms.io'
   },
   siteLogo: {
-    type: Schema.Types.Mixed,
+    type: Schema.Types.Mixed
   },
   style: String,
   allowPublicRegistration: {
     type: Boolean,
-    default: false,
+    default: false
   },
   templatePath: String,
   scssPath: String,
@@ -30,15 +30,15 @@ const SiteSchema = new Schema({
   pluginPath: String,
   scssEntryPoint: {
     type: String,
-    default: 'main.scss',
+    default: 'main.scss'
   },
   enableCacheBusting: {
     type: Boolean,
-    default: false,
+    default: false
   },
-  cssHash: String,
-}, { strict: false });
+  cssHash: String
+}, { strict: false })
 
-SiteSchema.name = 'Site';
+SiteSchema.name = 'Site'
 
-module.exports = SiteSchema;
+module.exports = SiteSchema
