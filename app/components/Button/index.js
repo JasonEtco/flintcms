@@ -17,7 +17,7 @@ export default class Button extends Component {
   }
 
   static defaultProps = {
-    onClick: () => {},
+    onClick: f => f,
     type: 'button',
     kind: null,
     disabled: false,

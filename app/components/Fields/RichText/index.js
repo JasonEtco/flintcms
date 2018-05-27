@@ -13,14 +13,16 @@ export default class RichText extends Component {
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
     defaultValue: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
     instructions: null,
     defaultValue: null,
     contentState: null,
-    required: false
+    required: false,
+    onChange: f => f
   }
 
   static validate (val) {
@@ -38,7 +40,10 @@ export default class RichText extends Component {
     }
 
     this.focus = () => this[props.name].focus()
-    this.onChange = value => this.setState({ value })
+    this.onChange = (value) => {
+      this.setState({ value })
+      this.props.onChange(value.toString('html'))
+    }
   }
 
   render () {

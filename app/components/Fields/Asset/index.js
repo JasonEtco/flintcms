@@ -12,13 +12,15 @@ export default class Asset extends Component {
     name: PropTypes.string.isRequired,
     instructions: PropTypes.string,
     defaultValue: PropTypes.object,
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
     instructions: null,
     defaultValue: null,
-    readOnly: false
+    readOnly: false,
+    onChange: f => f
   }
 
   constructor (props) {
@@ -30,6 +32,7 @@ export default class Asset extends Component {
 
   onSelect (value) {
     this.setState({ value })
+    this.props.onChange(value)
   }
 
   toggle () {

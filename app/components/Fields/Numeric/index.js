@@ -11,7 +11,8 @@ export default class Numeric extends Component {
     defaultValue: PropTypes.number,
     max: PropTypes.number,
     min: PropTypes.number,
-    step: PropTypes.number
+    step: PropTypes.number,
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
@@ -20,7 +21,8 @@ export default class Numeric extends Component {
     required: false,
     max: null,
     min: null,
-    step: null
+    step: null,
+    onChange: f => f
   }
 
   render () {
@@ -42,6 +44,7 @@ export default class Numeric extends Component {
         max={max}
         min={min}
         step={step}
+        onChange={e => this.props.onChange(e.target.value)}
       />
     )
 
