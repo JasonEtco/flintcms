@@ -139,7 +139,7 @@ async function compileSass (log) {
     return compile(log)
   }
 
-  return 'SCSS compiling has been disabled in the site configuration.'
+  log.info('SCSS compiling has been disabled in the site configuration.')
 }
 
 module.exports = compileSass

@@ -22,21 +22,28 @@ describe('generateSecret', () => {
 
 describe('generateEnvFile', () => {
   const oldHost = process.env.DB_HOST
+  let logger
 
   beforeAll(async () => {
     const pathToEnv = path.join(__dirname, '..', '..', 'fixtures', '.env')
     fs.unlink(pathToEnv, f => f)
   })
 
+  beforeEach(() => {
+    logger = {
+      info: jest.fn()
+    }
+  })
+
   it('should not generate a new .env file without DB_HOST', async () => {
     process.env.DB_HOST = 'example'
-    const generatedFile = await generateEnvFile()
+    const generatedFile = await generateEnvFile('', logger)
     return expect(generatedFile).toBe(false)
   })
 
   it('should generate a new .env file', async () => {
     delete process.env.DB_HOST
-    const generatedFile = await generateEnvFile(path.join(__dirname, '..', '..', 'fixtures'))
+    const generatedFile = await generateEnvFile(path.join(__dirname, '..', '..', 'fixtures'), logger)
     return expect(generatedFile).toBe(true)
   })
 

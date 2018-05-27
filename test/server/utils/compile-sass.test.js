@@ -9,6 +9,8 @@ const readFile = promisify(fs.readFile)
 const rimraf = promisify(require('rimraf'))
 
 describe('Compile SCSS', () => {
+  let logger
+
   beforeAll(() => {
     global.FLINT = {
       publicPath: path.join(__dirname, '..', '..', 'temp', 'public'),
@@ -18,11 +20,18 @@ describe('Compile SCSS', () => {
     }
   })
 
+  beforeEach(() => {
+    logger = {
+      info: jest.fn(),
+      error: jest.fn()
+    }
+  })
+
   afterEach(() => rimraf('test/temp/public'))
 
   it('compiles scss', async () => {
-    const result = await compileSass()
-    expect(result).toContain('Your SCSS has been compiled to')
+    await compileSass(logger)
+    expect(logger.info.mock.calls[0][0].startsWith('[SCSS] Your SCSS has been compiled to')).toBe(true)
 
     const fixture = await readFile(path.join(__dirname, '..', '..', 'fixtures', 'scss', 'main.css'), 'utf-8')
     const compiled = await readFile(path.join(__dirname, '..', '..', 'temp', 'public', 'main.css'), 'utf-8')
@@ -35,8 +44,8 @@ describe('Compile SCSS', () => {
     })
 
     it('does not compile scss', async () => {
-      const result = await compileSass()
-      expect(result).toContain('SCSS compiling has been disabled in the site configuration.')
+      await compileSass(logger)
+      expect(logger.info).toHaveBeenCalledWith('SCSS compiling has been disabled in the site configuration.')
       const pathToMainCSS = path.join(__dirname, '..', '..', 'temp', 'public', 'main.css')
       return expect(fs.existsSync(pathToMainCSS)).toBe(false)
     })
@@ -44,6 +53,15 @@ describe('Compile SCSS', () => {
 })
 
 describe('Cache busting', () => {
+  let logger
+
+  beforeEach(() => {
+    logger = {
+      info: jest.fn(),
+      error: jest.fn()
+    }
+  })
+
   beforeAll(async () => {
     const flintServer = new Flint({
       scssPath: 'test/fixtures/scss',
@@ -56,9 +74,7 @@ describe('Cache busting', () => {
   })
 
   it('compiles scss with cache busting', async () => {
-    const result = await compileSass()
-    expect(result).toContain('Your SCSS has been compiled to')
-    expect(result).not.toContain('main.css')
+    await compileSass(logger)
 
     const Site = mongoose.model('Site')
     const site = await Site.findOne().select('cssHash').exec()
