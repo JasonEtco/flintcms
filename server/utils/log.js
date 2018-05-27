@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-
+const logger = require('./logger')
 const pathToLog = path.join(global.FLINT.logsPath, 'flint.log')
 const stream = fs.createWriteStream(pathToLog, { flags: 'a' })
 
@@ -14,9 +14,8 @@ function log (str, prependTimestamp = true) {
   /* istanbul ignore else */
   if (process.env.NODE_ENV === 'test') {
     return str
-    // eslint-disable-next-line no-else-return
   } else {
-    console.log(str) // eslint-disable-line no-console
+    logger.info(str)
     let string = str
 
     if (prependTimestamp) {
