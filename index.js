@@ -14,6 +14,8 @@ const FlintPlugin = require('./server/utils/FlintPlugin')
 const connectToDatabase = require('./server/utils/database')
 const createServer = require('./server')
 const logger = require('./server/utils/logger')
+const boxen = require('boxen')
+const chalk = require('chalk')
 
 /**
  * Flint class
@@ -123,7 +125,17 @@ module.exports = class Flint {
     if (global.FLINT.listen !== false) {
       this.server.listen(port, () => {
         // eslint-disable-next-line no-console
-        logger.info(`[HTTP Server] Flint server running at http://localhost:${port}`)
+        console.log(boxen(`${chalk.green.bold('Welcome to your FlintCMS server!')}
+
+You can access it here: ${chalk.cyan(`http://localhost:${port}`)}
+Setting up your server for the first time? Go here: ${chalk.cyan(`http://localhost:${port}/admin/install`)}`,
+        {
+          padding: 1,
+          margin: 1,
+          borderStyle: 'round',
+          borderColor: 'green',
+          align: 'center'
+        }))
       })
     }
 
