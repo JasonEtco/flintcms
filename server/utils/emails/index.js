@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer')
-const chalk = require('chalk')
 
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST || 'smtp.gmail.com',
@@ -18,13 +17,13 @@ function verifyNodemailer () {
         switch (error.code) {
           case 'ECONNECTION':
             /* istanbul ignore next */
-            reject(new Error(`${chalk.red('[Email Service]')} Connection could not be established, you may be offline.`))
+            reject(new Error('[Email Service] Connection could not be established, you may be offline.'))
             break
           default:
             reject(error)
         }
       }
-      resolve(`${chalk.grey('[Email Service]')} Server can send emails!`)
+      resolve('[Email Service] Server can send emails!')
     })
   })
 }

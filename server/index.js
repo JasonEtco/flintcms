@@ -13,7 +13,7 @@ const { Server } = require('http')
 const io = require('socket.io')
 const shutter = require('http-shutdown')
 
-module.exports = () => {
+module.exports = (log) => {
   require('./utils/passport')(passport)
 
   const app = express()
@@ -50,9 +50,9 @@ module.exports = () => {
 
   app.use(global.FLINT.publicUrl, express.static(global.FLINT.publicPath))
   // app.use('/manifest.json', express.static(path.join(__dirname, '..', 'manifest.json')));
-  app.use('/admin', require('./apps/admin')(app))
-  app.use('/graphql', require('./apps/graphql')(app))
-  app.use(require('./utils/public-registration')())
+  app.use('/admin', require('./apps/admin')(app, log))
+  app.use('/graphql', require('./apps/graphql')(app, log))
+  app.use(require('./utils/public-registration')(log))
 
   // ===== Template Routes
 

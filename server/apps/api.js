@@ -1,7 +1,6 @@
 /* eslint-disable global-require */
 
 const express = require('express')
-const chalk = require('chalk')
 
 module.exports = (app, log) => {
   const api = express()
@@ -10,6 +9,6 @@ module.exports = (app, log) => {
   api.use(require('./routes/site')(log))
   api.use(require('./routes/logs')(log))
 
-  log(`${chalk.gray('[App: API]')} initialized.`)
+  log.info('[App: API] initialized.')
   return api
 }

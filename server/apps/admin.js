@@ -10,7 +10,7 @@ module.exports = (app, log) => {
   const admin = express()
 
   admin.use(require('./routes/auth')())
-  admin.use('/api', require('./api')(app))
+  admin.use('/api', require('./api')(app, log))
 
   /* istanbul ignore if */
   if (process.env.BUILD_DASHBOARD) {

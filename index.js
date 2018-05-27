@@ -4,8 +4,6 @@ const testing = process.env.NODE_ENV === 'test'
 require('dotenv').config({ path: testing ? '.env.dev' : '.env' })
 
 const path = require('path')
-const bunyan = require('bunyan')
-const chalk = require('chalk')
 const { generateEnvFile } = require('./server/utils/generate-env-file')
 const nunjuckEnv = require('./server/utils/nunjucks')
 const validateEnvVariables = require('./server/utils/validate-env-variables')
@@ -15,6 +13,7 @@ const compileSass = require('./server/utils/compile-sass')
 const FlintPlugin = require('./server/utils/FlintPlugin')
 const connectToDatabase = require('./server/utils/database')
 const createServer = require('./server')
+const logger = require('./server/utils/logger')
 
 /**
  * Flint class
@@ -69,8 +68,6 @@ module.exports = class Flint {
       debugMode
     })
 
-    this.logger = bunyan.createLogger({ name: 'flintcms' })
-
     global.FLINT = FLINT
 
     Promise.all([
@@ -101,25 +98,37 @@ module.exports = class Flint {
 
     /* istanbul ignore if */
     if (!shouldContinue) {
-      this.logger.error('Could not start the server.')
+      logger.fatal('Could not start the server.')
       return process.exit(1)
     }
 
-    const connectedToDatabase = await connectToDatabase()
-    this.logger.info(connectedToDatabase)
+    try {
+      const connectedToDatabase = await connectToDatabase(logger)
+      logger.info(connectedToDatabase)
+    } catch (e) {
+      logger.error(e)
+    }
 
-    const canSendEmails = await verifyNodemailer().catch(this.logger.error)
-    if (canSendEmails) this.logger.info(canSendEmails)
+    try {
+      const canSendEmails = await verifyNodemailer()
+      logger.info(canSendEmails)
+    } catch (e) {
+      logger.error(e)
+    }
 
-    const canCompileSass = await compileSass()
-    this.logger.info(canCompileSass)
+    try {
+      const canCompileSass = await compileSass(logger)
+      logger.info(canCompileSass)
+    } catch (e) {
+      logger.error(e)
+    }
 
-    this.server = createServer(port)
+    this.server = createServer(logger)
 
     if (global.FLINT.listen !== false) {
       this.server.listen(port, () => {
         // eslint-disable-next-line no-console
-        this.logger.info(`\n${chalk.green('[HTTP Server]')} Flint server running at http://localhost:${port}\n`)
+        logger.info(`[HTTP Server] Flint server running at http://localhost:${port}\n`)
       })
     }
 

@@ -101,13 +101,12 @@ async function compile (log) {
     log.error(`Line: ${e.line}`)
     log.error(`File: ${e.file}`)
 
-    return `${chalk.red('[SCSS]')} There was an error compiling your SCSS.`
+    return '[SCSS] There was an error compiling your SCSS.'
   }
 }
 
 /* istanbul ignore next */
 function recompile (log) {
-  // eslint-disable-next-line no-console
   log.info('Recompiling SASS...')
   return compile(log)
 }
