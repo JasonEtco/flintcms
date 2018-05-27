@@ -42,22 +42,22 @@ export default class Sections extends Component {
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteSection(props._id))}
-          message='Are you sure you want to delete this section and all entries in it?'
+          message="Are you sure you want to delete this section and all entries in it?"
         />
       }
     }))
 
     return (
-      <Page name='sections'>
-        <TitleBar title='Sections'>
-          <Link to='/settings/sections/new' className='btn btn--small'>New Section</Link>
+      <Page name="sections">
+        <TitleBar title="Sections">
+          <Link to="/settings/sections/new" className="btn btn--small">New Section</Link>
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             {reduced.length > 0 ? <Table data={reduced} /> : (
               <Empty>
-                There are no Sections! Go ahead and <Link to='/settings/sections/new'>make one.</Link>
+                There are no Sections! Go ahead and <Link to="/settings/sections/new">make one.</Link>
               </Empty>
             )}
           </div>

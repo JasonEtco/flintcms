@@ -49,7 +49,7 @@ export default class Modals extends Component {
     return (
       <CSSTransition
         className={modalClasses}
-        classNames='modal'
+        classNames="modal"
         in={modalIsOpen}
         appear
         enter={false}
@@ -57,14 +57,14 @@ export default class Modals extends Component {
         timeout={500}
       >
         <div className={modalClasses}>
-          <div className='modal' style={{ zIndex: 9999 }} key='modal'>
-            <button className='modal__close' onClick={this.closeModals}><Icon icon='cross' width={14} height={14} /></button>
+          <div className="modal" style={{ zIndex: 9999 }} key="modal">
+            <button className="modal__close" onClick={this.closeModals}><Icon icon="cross" width={14} height={14} /></button>
             {React.cloneElement(currentModal, { close: () => this.closeModals() })}
           </div>
 
           <div // eslint-disable-line
-            className='modal-overlay'
-            key='modalOverlay'
+            className="modal-overlay"
+            key="modalOverlay"
             onClick={this.closeModals}
           />
         </div>

@@ -16,7 +16,7 @@ const THead = ({ sortBy, column, direction, has, onClick, shouldTruncate }) => {
 
   if (has) return <th key={column} />
   return (
-    <th className='table__header' key={column}>
+    <th className="table__header" key={column}>
       <button
         className={btnClass}
         onClick={onClick}

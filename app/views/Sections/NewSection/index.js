@@ -44,15 +44,15 @@ export default class NewSection extends Component {
     ]
 
     return (
-      <Page name='new-section' links={links} onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
-        <TitleBar title='New Section'>
-          <Button onClick={this.handleSubmit} small type='submit'>Save</Button>
+      <Page name="new-section" links={links} onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
+        <TitleBar title="New Section">
+          <Button onClick={this.handleSubmit} small type="submit">Save</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
+              name="title"
+              label="Title"
               ref={(r) => { this.title = r }}
               required
               full
@@ -60,9 +60,9 @@ export default class NewSection extends Component {
             />
 
             <Input
-              name='handle'
-              label='Section Handle'
-              instructions='You can use this handle to reference this specific section in a template.'
+              name="handle"
+              label="Section Handle"
+              instructions="You can use this handle to reference this specific section in a template."
               required
               full
               code
@@ -71,9 +71,9 @@ export default class NewSection extends Component {
             />
 
             <Input
-              name='template'
-              label='Template'
-              instructions='This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`.'
+              name="template"
+              label="Template"
+              instructions="This is a route to the template you want to use, relative to the configured `templates` folder. Does not need to end in `.njk`."
               ref={(r) => { this.template = r }}
               required
               full

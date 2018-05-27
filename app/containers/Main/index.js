@@ -87,57 +87,57 @@ export default class Main extends Component {
     if (isFetching) return null
 
     return (
-      <main className='main'>
-        <button className='nav__toggle' type='button' onClick={() => this.setState({ navIsOpen: !navIsOpen })}><Icon icon='hamburger' /></button>
+      <main className="main">
+        <button className="nav__toggle" type="button" onClick={() => this.setState({ navIsOpen: !navIsOpen })}><Icon icon="hamburger" /></button>
         <MainNav siteName={site.siteName} user={user} open={navIsOpen} closeNav={this.closeNav} />
 
         <Switch>
-          <Route exact path='/' render={props => <Home {...props} {...this.props} />} />
-          <Route exact path='/users' render={props => <Users {...props} {...this.props} />} />
-          <Route exact path='/users/new' render={props => <NewUser {...props} {...this.props} />} />
-          <Route path='/users/:id' render={props => <User {...props} {...this.props} />} />
+          <Route exact path="/" render={props => <Home {...props} {...this.props} />} />
+          <Route exact path="/users" render={props => <Users {...props} {...this.props} />} />
+          <Route exact path="/users/new" render={props => <NewUser {...props} {...this.props} />} />
+          <Route path="/users/:id" render={props => <User {...props} {...this.props} />} />
 
-          <Route path='/entries/:section/new' render={props => <NewEntry {...props} {...this.props} />} />
-          <Route path='/entries/:section/:id' render={props => <Entry {...props} {...this.props} />} />
-          <Route path='/entries/:section?' render={props => <Entries {...props} {...this.props} />} />
+          <Route path="/entries/:section/new" render={props => <NewEntry {...props} {...this.props} />} />
+          <Route path="/entries/:section/:id" render={props => <Entry {...props} {...this.props} />} />
+          <Route path="/entries/:section?" render={props => <Entries {...props} {...this.props} />} />
 
-          <Route exact path='/settings' render={props => <Settings {...props} {...this.props} />} />
-          <Route exact path='/settings/sections' render={props => <Sections {...props} {...this.props} />} />
-          <Route exact path='/settings/sections/new' render={props => <NewSection {...props} {...this.props} />} />
-          <Route path='/settings/sections/:slug' render={props => <Section {...props} {...this.props} />} />
+          <Route exact path="/settings" render={props => <Settings {...props} {...this.props} />} />
+          <Route exact path="/settings/sections" render={props => <Sections {...props} {...this.props} />} />
+          <Route exact path="/settings/sections/new" render={props => <NewSection {...props} {...this.props} />} />
+          <Route path="/settings/sections/:slug" render={props => <Section {...props} {...this.props} />} />
 
-          <Route exact path='/pages/:id' render={props => <Page {...props} {...this.props} />} />
-          <Route exact path='/pages' render={props => <Pages settings={false} {...props} {...this.props} />} />
-          <Route exact path='/settings/pages' render={props => <Pages {...props} {...this.props} />} />
-          <Route exact path='/settings/pages/new' render={props => <NewPage {...props} {...this.props} />} />
-          <Route path='/settings/pages/:slug' render={props => <SettingsPage {...props} {...this.props} />} />
+          <Route exact path="/pages/:id" render={props => <Page {...props} {...this.props} />} />
+          <Route exact path="/pages" render={props => <Pages settings={false} {...props} {...this.props} />} />
+          <Route exact path="/settings/pages" render={props => <Pages {...props} {...this.props} />} />
+          <Route exact path="/settings/pages/new" render={props => <NewPage {...props} {...this.props} />} />
+          <Route path="/settings/pages/:slug" render={props => <SettingsPage {...props} {...this.props} />} />
 
-          <Route exact path='/settings/usergroups' render={props => <UserGroups {...props} {...this.props} />} />
-          <Route exact path='/settings/usergroups/new' render={props => <NewUserGroup {...props} {...this.props} />} />
-          <Route path='/settings/usergroups/:slug' render={props => <UserGroup {...props} {...this.props} />} />
+          <Route exact path="/settings/usergroups" render={props => <UserGroups {...props} {...this.props} />} />
+          <Route exact path="/settings/usergroups/new" render={props => <NewUserGroup {...props} {...this.props} />} />
+          <Route path="/settings/usergroups/:slug" render={props => <UserGroup {...props} {...this.props} />} />
 
-          <Route exact path='/settings/fields' render={props => <Fields {...props} {...this.props} />} />
-          <Route exact path='/settings/fields/new' render={props => <NewField {...props} {...this.props} />} />
-          <Route path='/settings/fields/:id' render={props => <Field {...props} {...this.props} />} />
+          <Route exact path="/settings/fields" render={props => <Fields {...props} {...this.props} />} />
+          <Route exact path="/settings/fields/new" render={props => <NewField {...props} {...this.props} />} />
+          <Route path="/settings/fields/:id" render={props => <Field {...props} {...this.props} />} />
 
-          <Route exact path='/settings/assets' render={props => <Assets {...props} {...this.props} />} />
-          <Route exact path='/settings/assets/new' render={props => <NewAsset {...props} {...this.props} />} />
-          <Route path='/settings/assets/:id' render={props => <Asset {...props} {...this.props} />} />
+          <Route exact path="/settings/assets" render={props => <Assets {...props} {...this.props} />} />
+          <Route exact path="/settings/assets/new" render={props => <NewAsset {...props} {...this.props} />} />
+          <Route path="/settings/assets/:id" render={props => <Asset {...props} {...this.props} />} />
 
-          <Route path='/settings/general' render={props => <Site {...props} {...this.props} />} />
-          <Route path='/settings/styles' render={props => <Styles {...props} {...this.props} />} />
-          <Route path='/settings/plugins' render={props => <Plugins {...props} {...this.props} />} />
-          <Route path='/settings/logs' render={props => <Logs {...props} {...this.props} />} />
+          <Route path="/settings/general" render={props => <Site {...props} {...this.props} />} />
+          <Route path="/settings/styles" render={props => <Styles {...props} {...this.props} />} />
+          <Route path="/settings/plugins" render={props => <Plugins {...props} {...this.props} />} />
+          <Route path="/settings/logs" render={props => <Logs {...props} {...this.props} />} />
 
-          <Route path='*' component={FourOhFour} />
+          <Route path="*" component={FourOhFour} />
         </Switch>
 
-        <div className='toasts'>
+        <div className="toasts">
           {ui.toasts.map(toast => <Toast dispatch={dispatch} key={toast.dateCreated} {...toast} />)}
         </div>
 
         <div // eslint-disable-line jsx-a11y/no-static-element-interactions
-          className='nav__toggle-overlay'
+          className="nav__toggle-overlay"
           onClick={() => this.setState({ navIsOpen: false })}
         />
         <Modals {...this.props} />

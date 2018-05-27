@@ -52,15 +52,15 @@ export default withRouter(class UserGroup extends Component {
     }), {})
 
     return (
-      <Page name='usergroup' onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
+      <Page name="usergroup" onSubmit={this.handleSubmit} ref={(r) => { this.page = r }}>
         <TitleBar title={this.usergroup.title}>
-          <Button type='submit' small>Save User Group</Button>
+          <Button type="submit" small>Save User Group</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
+              name="title"
+              label="Title"
               ref={(r) => { this.title = r }}
               required
               full

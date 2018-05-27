@@ -36,19 +36,19 @@ export default class UserGroups extends Component {
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteUserGroup(props._id))}
-          message='Are you sure you want to delete this user group?'
+          message="Are you sure you want to delete this user group?"
         />
       } : ''
     }))
 
     return (
-      <Page name='usergroups'>
-        <TitleBar title='User Groups'>
-          {perms.usergroups.canAddUserGroups && <Link to='/settings/usergroups/new' className='btn btn--small'>New User Group</Link>}
+      <Page name="usergroups">
+        <TitleBar title="User Groups">
+          {perms.usergroups.canAddUserGroups && <Link to="/settings/usergroups/new" className="btn btn--small">New User Group</Link>}
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             {reduced.length > 0 ? <Table formElement data={reduced} /> : <h3>No user groups!</h3>}
           </div>
         </div>

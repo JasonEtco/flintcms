@@ -115,15 +115,15 @@ export default class Table extends Component {
           <Input
             onChange={this.handleChange}
             ref={(r) => { this.search = r }}
-            placeholder='Search'
+            placeholder="Search"
             full
-            name='search'
-            className='table__search'
+            name="search"
+            className="table__search"
           />
         }
         <table className={`table ${className}`}>
           <thead>
-            <tr className='table__row'>
+            <tr className="table__row">
               {columns.map((column) => {
                 const first = data.find(c => c[column])
                 const has = first[column] && typeof first[column].sortBy === 'boolean' && first[column].sortBy === false
@@ -144,7 +144,7 @@ export default class Table extends Component {
           </thead>
           <tbody>
             {sorted.map(tr => (
-              <tr className='table__row' key={tr.key} onClick={() => this.handleRowClick(tr.key)}>{columns.map(column =>
+              <tr className="table__row" key={tr.key} onClick={() => this.handleRowClick(tr.key)}>{columns.map(column =>
                 <Cell key={column} column={column}>{tr[column]}</Cell>)}
               </tr>
             ))}

@@ -21,23 +21,23 @@ export default class Logs extends Component {
     if (isFetching) return null
 
     return (
-      <Page name='logs'>
-        <TitleBar title='Logs' />
+      <Page name="logs">
+        <TitleBar title="Logs" />
 
-        <div className='content'>
-          <div className='page__inner' style={{ width: '100%' }}>
-            <section className='logs__section'>
+        <div className="content">
+          <div className="page__inner" style={{ width: '100%' }}>
+            <section className="logs__section">
               <h2>Flint Logs</h2>
-              <pre className='logs__pre'>
+              <pre className="logs__pre">
                 <code>
                   {data.flint.map(s => `${s}\n`)}
                 </code>
               </pre>
             </section>
 
-            <section className='logs__section'>
+            <section className="logs__section">
               <h2>HTTP Logs</h2>
-              <pre className='logs__pre'>
+              <pre className="logs__pre">
                 <code>
                   {data.http.map(s => `${s}\n`)}
                 </code>

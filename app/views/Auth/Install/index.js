@@ -48,20 +48,20 @@ export default class Install extends Component {
   render () {
     const { error, same } = this.state
     return (
-      <div className='install'>
-        <div className='install__inner'>
-          <div className='install__col'>
+      <div className="install">
+        <div className="install__inner">
+          <div className="install__col">
             <FlintLogo />
             <p>Seeing this page means that you&apos;ve
             just started your Flint site for the first time and need to make a user account.</p>
           </div>
-          <form className='install__form' onSubmit={this.handleSubmit}>
-            {error && <Notification type='error'>An error occured!</Notification>}
-            {!same && <Notification type='error'>Your passwords are not the same!</Notification>}
-            <Input autoFocus full required ref={(r) => { this.email = r }} name='email' placeholder='Email' type='email' />
-            <Input full required ref={(r) => { this.username = r }} name='username' placeholder='Username' />
-            <Input full required ref={(r) => { this.password = r }} name='password' placeholder='Password' type='password' />
-            <Button type='submit' formElement>Create Account</Button>
+          <form className="install__form" onSubmit={this.handleSubmit}>
+            {error && <Notification type="error">An error occured!</Notification>}
+            {!same && <Notification type="error">Your passwords are not the same!</Notification>}
+            <Input autoFocus full required ref={(r) => { this.email = r }} name="email" placeholder="Email" type="email" />
+            <Input full required ref={(r) => { this.username = r }} name="username" placeholder="Username" />
+            <Input full required ref={(r) => { this.password = r }} name="password" placeholder="Password" type="password" />
+            <Button type="submit" formElement>Create Account</Button>
           </form>
         </div>
       </div>

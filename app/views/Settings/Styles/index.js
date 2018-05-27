@@ -63,14 +63,14 @@ export default class Styles extends Component {
     ]
 
     return (
-      <Page name='styles' links={links} onSubmit={this.saveFile}>
-        <TitleBar title='Custom Styles'>
-          <Button small type='submit' disabled={!canSave}>Save changes</Button>
+      <Page name="styles" links={links} onSubmit={this.saveFile}>
+        <TitleBar title="Custom Styles">
+          <Button small type="submit" disabled={!canSave}>Save changes</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
-            <p className='input__instructions'>You can use this area to write custom styles that will be useable in every template. You can use the <code>{'{{ flint.site.style }}'}</code> tag to render the styles you write below into your templates.</p>
-            <div className='style-editor__editor'>
+        <div className="content">
+          <div className="page__inner">
+            <p className="input__instructions">You can use this area to write custom styles that will be useable in every template. You can use the <code>{'{{ flint.site.style }}'}</code> tag to render the styles you write below into your templates.</p>
+            <div className="style-editor__editor">
               <CodeMirror value={contents} onChange={this.updateCode} options={options} />
             </div>
           </div>

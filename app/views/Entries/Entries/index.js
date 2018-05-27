@@ -54,13 +54,13 @@ export default withRouter(class Entries extends Component {
 
     if (sections.length === 0) {
       return (
-        <Page name='entries'>
-          <TitleBar title='Entries' />
+        <Page name="entries">
+          <TitleBar title="Entries" />
 
-          <div className='content'>
-            <div className='page__inner'>
+          <div className="content">
+            <div className="page__inner">
               <Empty>
-                <p>You will need to make a <Link to='/settings/sections/new'>section</Link> before making any entries.</p>
+                <p>You will need to make a <Link to="/settings/sections/new">section</Link> before making any entries.</p>
               </Empty>
             </div>
           </div>
@@ -95,7 +95,7 @@ export default withRouter(class Entries extends Component {
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteEntry(props._id))}
-          message='Are you sure you want to delete this entry?'
+          message="Are you sure you want to delete this entry?"
         />
       }
     }))
@@ -103,21 +103,21 @@ export default withRouter(class Entries extends Component {
     const dropdownLinks = sections.map(sec => ({ label: sec.title, to: `/entries/${sec.slug}/new` }))
 
     return (
-      <Page name='entries'>
-        <TitleBar title='Entries'>
+      <Page name="entries">
+        <TitleBar title="Entries">
           {getUserPermissions().entries.canAddEntries && !!section
-            ? <Link to={`/entries/${section}/new`} className='btn btn--small'>New Entry</Link>
+            ? <Link to={`/entries/${section}/new`} className="btn btn--small">New Entry</Link>
             : <DropdownButton links={dropdownLinks}>New Entry</DropdownButton>
           }
         </TitleBar>
 
-        <div className='content'>
+        <div className="content">
           <SecondaryNav links={navLinks}>
-            <Link to='/entries' className={section === undefined && 'is-active'} onClick={() => localStorage.removeItem(localStorageKey)}>All</Link>
+            <Link to="/entries" className={section === undefined && 'is-active'} onClick={() => localStorage.removeItem(localStorageKey)}>All</Link>
           </SecondaryNav>
 
-          <div className='page__inner'>
-            {filtered.length > 0 ? <Table data={reduced} sortBy='dateCreated' /> : (
+          <div className="page__inner">
+            {filtered.length > 0 ? <Table data={reduced} sortBy="dateCreated" /> : (
               <Empty>
                 There are no Entries! {section && <span>Go ahead and <Link to={`/entries/${section}/new`}>make one.</Link></span>}
               </Empty>

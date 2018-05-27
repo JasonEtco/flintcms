@@ -35,7 +35,7 @@ export default class DeleteIcon extends Component {
 
   render () {
     return (
-      <button type='button' className='table__delete' onClick={this.onClick}><Icon icon='circleWithLine' /></button>
+      <button type="button" className="table__delete" onClick={this.onClick}><Icon icon="circleWithLine" /></button>
     )
   }
 }

@@ -25,9 +25,9 @@ export default class TitleBar extends Component {
   render () {
     const { title, children } = this.props
     return (
-      <header className='title-bar'>
-        <h1 className='title-bar__title'>{truncate(title, 40)}</h1>
-        <div className='title-bar__children'>
+      <header className="title-bar">
+        <h1 className="title-bar__title">{truncate(title, 40)}</h1>
+        <div className="title-bar__children">
           {children}
         </div>
       </header>

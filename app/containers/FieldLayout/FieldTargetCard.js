@@ -28,14 +28,14 @@ class FieldTargetCard extends Component {
     } = this.props
 
     return connectDragSource(connectDropTarget(
-      <li ref={(r) => { this.targ = r }} key={field._id} className='field-layout__target__field' style={{ opacity: isDragging ? 0 : 1 }}>
-        <span className='field-layout__target__field__title'>{field.title}</span>
-        <input type='text' name={`fields[${index}]`} value={field._id} readOnly hidden />
+      <li ref={(r) => { this.targ = r }} key={field._id} className="field-layout__target__field" style={{ opacity: isDragging ? 0 : 1 }}>
+        <span className="field-layout__target__field__title">{field.title}</span>
+        <input type="text" name={`fields[${index}]`} value={field._id} readOnly hidden />
         <button
-          className='field-layout__target__field__btn'
-          type='button'
+          className="field-layout__target__field__btn"
+          type="button"
           onClick={() => removeField(field._id)}
-        ><Icon icon='cross' width={10} height={10} /></button>
+        ><Icon icon="cross" width={10} height={10} /></button>
       </li>
     ))
   }

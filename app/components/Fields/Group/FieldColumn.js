@@ -53,7 +53,7 @@ export default class FieldColumn extends Component {
     dispatch(openModal(
       <ConfirmModal
         confirm={deleteField}
-        message='Are you sure you want to delete this field?'
+        message="Are you sure you want to delete this field?"
       />)
     )
   }
@@ -67,11 +67,11 @@ export default class FieldColumn extends Component {
     const { field, canDelete } = this.props
 
     return (
-      <form className='panel__col__inner' ref={(r) => { this.form = r }} onBlur={this.props.save} onMouseLeave={this.props.save}>
+      <form className="panel__col__inner" ref={(r) => { this.form = r }} onBlur={this.props.save} onMouseLeave={this.props.save}>
         <Input
-          name='title'
-          label='Title'
-          instructions='This is what the field will be called in the admin dashboard.'
+          name="title"
+          label="Title"
+          instructions="This is what the field will be called in the admin dashboard."
           required
           full
           defaultValue={field.title}
@@ -80,9 +80,9 @@ export default class FieldColumn extends Component {
         />
 
         <Input
-          name='handle'
-          label='Template Handle'
-          instructions='The variable to use in the templates.'
+          name="handle"
+          label="Template Handle"
+          instructions="The variable to use in the templates."
           required
           full
           code
@@ -91,27 +91,27 @@ export default class FieldColumn extends Component {
         />
 
         <Input
-          name='instructions'
-          label='Instructions'
-          instructions='Text that will help the author understand content is being asked for.'
+          name="instructions"
+          label="Instructions"
+          instructions="Text that will help the author understand content is being asked for."
           defaultValue={field.instructions}
           full
         />
 
         <Toggle.component
-          name='required'
-          label='Required'
-          instructions='Should this field be required?'
+          name="required"
+          label="Required"
+          instructions="Should this field be required?"
           defaultValue={field.required}
         />
 
         <Dropdown.component
-          name='type'
+          name="type"
           options={options}
-          label='Field Type'
+          label="Field Type"
           onChange={this.handleTypeChange}
           alphabetize
-          instructions='The kind of field presented in the dashboard.'
+          instructions="The kind of field presented in the dashboard."
           defaultValue={field.type}
         />
 
@@ -121,7 +121,7 @@ export default class FieldColumn extends Component {
           fields={Fields}
         />
 
-        {canDelete && <Button small kind='subtle' className='panel__delete' onClick={this.delete}>Delete</Button>}
+        {canDelete && <Button small kind="subtle" className="panel__delete" onClick={this.delete}>Delete</Button>}
       </form>
     )
   }

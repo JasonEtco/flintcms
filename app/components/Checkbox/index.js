@@ -58,12 +58,12 @@ export default class Checkbox extends Component {
 
     return (
       <div className={wrapperClasses}>
-        <button type='button' id={name} role='checkbox' aria-checked={checked} onClick={this.toggle} className={boxClasses}>
-          <Icon width={9} height={9} icon='checkmark' />
+        <button type="button" id={name} role="checkbox" aria-checked={checked} onClick={this.toggle} className={boxClasses}>
+          <Icon width={9} height={9} icon="checkmark" />
         </button>
-        {label && <label className='input__label' htmlFor={name}>{label}</label>}
-        {instructions && <p className='input__instructions'>{instructions}</p>}
-        <input name={name} type='checkbox' hidden readOnly value={checked} checked={checked} />
+        {label && <label className="input__label" htmlFor={name}>{label}</label>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
+        <input name={name} type="checkbox" hidden readOnly value={checked} checked={checked} />
       </div>
     )
   }

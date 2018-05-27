@@ -13,7 +13,7 @@ export default function GroupTile ({ onClick, label, handle, isActive, onDelete 
       className={`panel__col__tile ${isActive ? 'is-active' : ''}`}
     >
       {label}
-      {handle && <span className='panel__col__handle'>{handle}</span>}
+      {handle && <span className="panel__col__handle">{handle}</span>}
       {onDelete && <DeleteIcon onClick={() => onDelete(label)} dispatch={dispatch} />}
     </a>
   )

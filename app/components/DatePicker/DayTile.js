@@ -11,7 +11,7 @@ const DayTile = ({ day, isActive, disabled, onClick }) => {
 
   return (
     <button
-      type='button'
+      type="button"
       disabled={disabled}
       className={classes}
       onClick={onClick}

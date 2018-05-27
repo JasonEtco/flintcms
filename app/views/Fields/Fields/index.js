@@ -39,22 +39,22 @@ export default class Fields extends Component {
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteField(props._id))}
-          message='Are you sure you want to delete this asset?'
+          message="Are you sure you want to delete this asset?"
         />
       }
     }))
 
     return (
-      <Page name='sections'>
-        <TitleBar title='Fields'>
-          <Link to='/settings/fields/new' className='btn btn--small'>New Field</Link>
+      <Page name="sections">
+        <TitleBar title="Fields">
+          <Link to="/settings/fields/new" className="btn btn--small">New Field</Link>
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             {reduced.length > 0 ? <Table data={reduced} /> : (
               <Empty>
-                There are no Fields! Go ahead and <Link to='/settings/fields/new'>make one.</Link>
+                There are no Fields! Go ahead and <Link to="/settings/fields/new">make one.</Link>
               </Empty>
             )}
           </div>

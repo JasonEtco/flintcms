@@ -41,7 +41,7 @@ export default class Users extends Component {
         component: <DeleteIcon
           dispatch={dispatch}
           onClick={() => dispatch(deleteUser(props._id))}
-          message='Are you sure you want to delete this user?'
+          message="Are you sure you want to delete this user?"
         />
       } : null
     }))
@@ -49,14 +49,14 @@ export default class Users extends Component {
     const perms = getUserPermissions()
 
     return (
-      <Page name='users'>
-        <TitleBar title='Users'>
-          {perms.users.canAddUsers && <Link to='/users/new' className='btn btn--small'>New User</Link>}
+      <Page name="users">
+        <TitleBar title="Users">
+          {perms.users.canAddUsers && <Link to="/users/new" className="btn btn--small">New User</Link>}
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
-            {reduced.length > 0 ? <Table data={reduced} sortBy='username' /> : <h3>No users!</h3>}
+        <div className="content">
+          <div className="page__inner">
+            {reduced.length > 0 ? <Table data={reduced} sortBy="username" /> : <h3>No users!</h3>}
           </div>
         </div>
       </Page>

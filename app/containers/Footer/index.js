@@ -16,13 +16,13 @@ export default class Footer extends Component {
 
   render () {
     const { emojis, i } = this.state
-    const btn = <button type='button' className='footer__emoji' onClick={() => this.randomizeEmoji()}>{emojis[i]}</button>
+    const btn = <button type="button" className="footer__emoji" onClick={() => this.randomizeEmoji()}>{emojis[i]}</button>
     return (
-      <footer className='footer'>
-        <span className='footer__made-with'>Made with {btn} on 🌏 by <a href='https://github.com/JasonEtco'>Jason Etcovitch</a>
+      <footer className="footer">
+        <span className="footer__made-with">Made with {btn} on 🌏 by <a href="https://github.com/JasonEtco">Jason Etcovitch</a>
         </span>
         <FlintLogo />
-        <a className='footer__made-with' href='https://github.com/JasonEtco/flintcms' target='_blank' rel='noopener noreferrer'>Version {version}</a>
+        <a className="footer__made-with" href="https://github.com/JasonEtco/flintcms" target="_blank" rel="noopener noreferrer">Version {version}</a>
       </footer>
     )
   }

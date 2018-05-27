@@ -36,12 +36,12 @@ export default class ForgotPassword extends Component {
     return (
       <LoginContainer>
         {success
-          ? <div className='login__inner'>The email has been sent; check your inbox!</div>
-          : <form className='login__inner' onSubmit={this.handleSubmit}>
-            {error && <Notification type='error'>There was an error, please try again later.</Notification>}
-            <legend className='login__title'>Forgot your password?</legend>
-            <Input required onChange={this.checkInputs} ref={(r) => { this.email = r }} name='email' autoFocus big placeholder='Email' type='email' />
-            <Button type='submit' disabled={this.state.disableButton}>Reset Password</Button>
+          ? <div className="login__inner">The email has been sent; check your inbox!</div>
+          : <form className="login__inner" onSubmit={this.handleSubmit}>
+            {error && <Notification type="error">There was an error, please try again later.</Notification>}
+            <legend className="login__title">Forgot your password?</legend>
+            <Input required onChange={this.checkInputs} ref={(r) => { this.email = r }} name="email" autoFocus big placeholder="Email" type="email" />
+            <Button type="submit" disabled={this.state.disableButton}>Reset Password</Button>
           </form>
         }
       </LoginContainer>

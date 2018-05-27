@@ -64,23 +64,23 @@ export default class Color extends Component {
 
     return (
       <div className={classes}>
-        {label && <span className='input__label'>{label}</span>}
-        {instructions && <p className='input__instructions'>{instructions}</p>}
+        {label && <span className="input__label">{label}</span>}
+        {instructions && <p className="input__instructions">{instructions}</p>}
         <button
           onClick={this.handleToggle}
-          className='color__btn'
-          type='button'
+          className="color__btn"
+          type="button"
           style={{ backgroundColor: color }}
         />
         <div className={`color__picker ${open ? 'is-open' : ''}`}>
-          <div className='color__overlay' onClick={this.hide} />
+          <div className="color__overlay" onClick={this.hide} />
           <ChromePicker
             color={color}
             onChangeComplete={this.handleChangeComplete}
           />
         </div>
 
-        <input type='text' name={name} value={color} readOnly hidden />
+        <input type="text" name={name} value={color} readOnly hidden />
       </div>
     )
   }

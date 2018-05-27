@@ -48,40 +48,40 @@ export default class NewUser extends Component {
     const formattedUsergroups = orderedUsergroups.map(u => ({ label: u.title, value: u._id }))
 
     return (
-      <Page name='new-user' links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
-        <TitleBar title='New User'>
+      <Page name="new-user" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
+        <TitleBar title="New User">
           <Button onClick={this.onSubmit} small>Save</Button>
         </TitleBar>
 
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='email'
-              label='Email'
-              type='email'
+              name="email"
+              label="Email"
+              type="email"
               ref={(r) => { this.email = r }}
               required
               full
             />
 
             <Input
-              name='username'
-              label='Username'
+              name="username"
+              label="Username"
               ref={(r) => { this.username = r }}
               required
               full
             />
 
             <Input
-              name='first'
-              label='First Name'
+              name="first"
+              label="First Name"
               ref={(r) => { this.first = r }}
               full
             />
 
             <Input
-              name='last'
-              label='Last Name'
+              name="last"
+              label="Last Name"
               ref={(r) => { this.last = r }}
               full
             />
@@ -89,8 +89,8 @@ export default class NewUser extends Component {
 
           <Aside noStatus>
             <Dropdown
-              label='Usergroup'
-              name='usergroup'
+              label="Usergroup"
+              name="usergroup"
               full
               ref={(r) => { this.usergroup = r }}
               options={formattedUsergroups}

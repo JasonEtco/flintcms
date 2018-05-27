@@ -62,15 +62,15 @@ export default withRouter(class NewEntry extends Component {
     ]
 
     return (
-      <Page name='new-entry' links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
-        <TitleBar title='New Entry'>
-          <Button onClick={this.onSubmit} small type='submit'>Save</Button>
+      <Page name="new-entry" links={links} onSubmit={this.onSubmit} ref={(r) => { this.page = r }}>
+        <TitleBar title="New Entry">
+          <Button onClick={this.onSubmit} small type="submit">Save</Button>
         </TitleBar>
-        <div className='content'>
-          <div className='page__inner'>
+        <div className="content">
+          <div className="page__inner">
             <Input
-              name='title'
-              label='Title'
+              name="title"
+              label="Title"
               ref={(r) => { this.title = r }}
               required
               full
@@ -78,9 +78,9 @@ export default withRouter(class NewEntry extends Component {
             />
 
             <Input
-              name='handle'
-              label='Entry Handle'
-              instructions='You can use this handle to reference this specific entry in a template.'
+              name="handle"
+              label="Entry Handle"
+              instructions="You can use this handle to reference this specific entry in a template."
               ref={(r) => { this.handle = r }}
               required
               full

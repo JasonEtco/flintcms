@@ -193,10 +193,10 @@ class Panel extends Component {
     const field = block && block.fields.length > 0 ? block.fields[currentField] : {}
 
     return (
-      <div className='panel'>
-        <div className='panel__col'>
-          <h3 className='panel__col__title'>Block Types</h3>
-          <div className='panel__col__inner'>
+      <div className="panel">
+        <div className="panel__col">
+          <h3 className="panel__col__title">Block Types</h3>
+          <div className="panel__col__inner">
             {Object.keys(blocks).length > 0 && Object.keys(blocks).map(blockKey => (
               <GroupTile
                 key={blockKey}
@@ -209,9 +209,9 @@ class Panel extends Component {
           </div>
         </div>
 
-        <div className='panel__col'>
-          <h3 className='panel__col__title'>Fields</h3>
-          <div className='panel__col__inner'>
+        <div className="panel__col">
+          <h3 className="panel__col__title">Fields</h3>
+          <div className="panel__col__inner">
             {currentBlock !== null &&
               <div>
                 {block.fields.map((f, i) => (
@@ -228,8 +228,8 @@ class Panel extends Component {
           </div>
         </div>
 
-        <div className='panel__field-layout'>
-          <h3 className='panel__col__title'>Fields</h3>
+        <div className="panel__field-layout">
+          <h3 className="panel__col__title">Fields</h3>
           {currentBlock !== null && currentField !== null && (
             <FieldColumn
               key={currentField}
@@ -254,7 +254,7 @@ class Panel extends Component {
                     return (
                       <input
                         key={key}
-                        type='text'
+                        type="text"
                         hidden
                         readOnly
                         name={`${fieldName}[${b}][fields][${i}][${key}]`}
