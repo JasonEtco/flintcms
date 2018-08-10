@@ -55,7 +55,7 @@ module.exports = () => {
       return
     }
 
-    const user = await User.findOne({ token }).exec()
+    const user = await User.findOne({ token: token.toString() }).exec()
     if (!user) {
       res.status(400).json({ message: 'Cannot find user.' })
       return
@@ -77,7 +77,7 @@ module.exports = () => {
 
   router.post('/forgotpassword', async (req, res) => {
     const { email } = req.body
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email: email.toString() })
 
     if (!user) {
       res.status(400).end('There is no user with that email.')
@@ -101,7 +101,7 @@ module.exports = () => {
   })
 
   router.get('/verify', async (req, res) => {
-    const token = req.query.t
+    const token = req.query.t.toString()
     const user = await User.findOne({ token })
 
     if (!user) {
