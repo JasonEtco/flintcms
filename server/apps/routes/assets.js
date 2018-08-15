@@ -45,64 +45,60 @@ module.exports = (app) => {
   const upload = multer({ storage })
 
   router.post('/assets', upload.single('file'), async (req, res) => {
-    process.nextTick(async () => {
-      scaffold(path.join(global.FLINT.publicPath, 'assets'))
-      const vars = await processReq(req)
+    scaffold(path.join(global.FLINT.publicPath, 'assets'))
+    const vars = await processReq(req)
 
-      const query = `mutation ($data: AssetInput!) {
-        addAsset(data: $data) {
-         _id
-         title
-         filename
-         size
-         mimetype
-         width
-         height
-         extension
-       }
-      }`
-
-      const { errors, data } = await graphql(schema, query, { io }, null, vars)
-
-      /* istanbul ignore next */
-      if (errors !== undefined && errors.length > 0) {
-        res.status(500).json(errors)
-      } else {
-        res.status(200).json(data)
+    const query = `mutation ($data: AssetInput!) {
+      addAsset(data: $data) {
+        _id
+        title
+        filename
+        size
+        mimetype
+        width
+        height
+        extension
       }
-    })
+    }`
+
+    const { errors, data } = await graphql(schema, query, { io }, null, vars)
+
+    /* istanbul ignore next */
+    if (errors !== undefined && errors.length > 0) {
+      res.status(500).json(errors)
+    } else {
+      res.status(200).json(data)
+    }
   })
 
   router.put('/assets/:_id', upload.single('file'), async (req, res) => {
-    process.nextTick(async () => {
-      scaffold(path.join(global.FLINT.publicPath, 'assets'))
-      const processedVars = await processReq(req)
+    scaffold(path.join(global.FLINT.publicPath, 'assets'))
+    const processedVars = await processReq(req)
 
-      const query = `mutation ($data: AssetInput!, $_id: ID!) {
-        updateAsset(data: $data, _id: $_id) {
-         _id
-         title
-         filename
-         size
-         mimetype
-         width
-         height
-         extension
-       }
-      }`
-
-      const vars = {
-        _id: req.params._id,
-        data: processedVars.data
+    const query = `mutation ($data: AssetInput!, $_id: ID!) {
+      updateAsset(data: $data, _id: $_id) {
+        _id
+        title
+        filename
+        size
+        mimetype
+        width
+        height
+        extension
       }
+    }`
 
-      const { errors, data } = await graphql(schema, query, { io }, null, vars)
-      if (errors !== undefined && errors.length > 0) {
-        res.status(500).json(errors)
-      } else {
-        res.status(200).json(data)
-      }
-    })
+    const vars = {
+      _id: req.params._id,
+      data: processedVars.data
+    }
+
+    const { errors, data } = await graphql(schema, query, { io }, null, vars)
+    if (errors !== undefined && errors.length > 0) {
+      res.status(500).json(errors)
+    } else {
+      res.status(200).json(data)
+    }
   })
 
   return router

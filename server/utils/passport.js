@@ -22,19 +22,17 @@ module.exports = (passport) => {
     })
   })
 
-  passport.use('local-signup', new LocalStrategy(strategyOptions, (req, email, password, done) => {
-    process.nextTick(async () => {
-      const foundUser = await User.findOne({ email })
-      if (foundUser) return done(null, false)
+  passport.use('local-signup', new LocalStrategy(strategyOptions, async (req, email, password, done) => {
+    const foundUser = await User.findOne({ email })
+    if (foundUser) return done(null, false)
 
-      const newUser = new User(req.body)
+    const newUser = new User(req.body)
 
-      newUser.password = newUser.generateHash(password)
+    newUser.password = newUser.generateHash(password)
 
-      const savedUser = await newUser.save()
-      if (!savedUser) throw new Error('Could not save the user!')
-      return done(null, savedUser)
-    })
+    const savedUser = await newUser.save()
+    if (!savedUser) throw new Error('Could not save the user!')
+    return done(null, savedUser)
   }))
 
   passport.use('local-login', new LocalStrategy(strategyOptions, async (req, email, password, done) => {
