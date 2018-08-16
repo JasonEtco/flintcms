@@ -1,13 +1,5 @@
 node_modules
-/admin
-/templates
-/public
-/scss
-.env
-admin
-flint
+.*
 coverage
-public
-.nyc_output
-.DS_Store
 *.log
+dist
