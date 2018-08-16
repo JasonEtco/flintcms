@@ -16,6 +16,7 @@ app.post('/graphql', graphqlHTTP({
 }))
 
 app.use('/admin', require('./admin')(app, logger))
+app.use(require('./templates')(app, logger))
 
 app.listen(3000, () => {
   console.log('http://localhost:3000')
