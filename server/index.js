@@ -2,9 +2,7 @@ const express = require('express')
 const graphqlHTTP = require('express-graphql')
 const bodyParser = require('body-parser')
 const schema = require('./schema')
-
-// TODO: Replace with bunyan
-const logger = console
+const logger = require('./utils/logger')
 
 const app = express()
 app.use(bodyParser.json())
@@ -19,5 +17,5 @@ app.use('/admin', require('./admin')(app, logger))
 app.use(require('./templates')(app, logger))
 
 app.listen(3000, () => {
-  console.log('http://localhost:3000')
+  logger.info('http://localhost:3000')
 })
