@@ -14,7 +14,7 @@ module.exports = (app, db, logger) => {
   nun.express(templates)
 
   templates.get('/new', async (req, res) => {
-    const entry = await new db.models.Entry({
+    const entry = new db.models.Entry({
       title: 'Test',
       slug: 'test'
     })
