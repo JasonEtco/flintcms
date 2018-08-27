@@ -18,10 +18,9 @@ module.exports = (app, db) => {
   })
 
   templates.get('/', async (req, res) => {
-    const entries = await db.models.Entry.find()
-    console.log(entries)
-    const query = `{ hello }`
+    const query = `{ entries { title } }`
     const result = await graphql(schema, query)
+    console.log(result)
     res.render('index.njk', result.data)
   })
 
