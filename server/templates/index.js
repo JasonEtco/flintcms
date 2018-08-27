@@ -3,7 +3,13 @@ const nun = require('./nunjucks')
 const { graphql } = require('graphql')
 const schema = require('../schema')
 
-module.exports = (app, db) => {
+/**
+ * This Express sub-app handles the general templating
+ * system for user-provided templates.
+ * @param {object} app - Express App
+ * @param {object} logger - Bunyan-esque logger
+ */
+module.exports = (app, db, logger) => {
   const templates = express()
   nun.express(templates)
 
