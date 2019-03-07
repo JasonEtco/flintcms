@@ -6,7 +6,7 @@ It's a CMS that is built for those who want to fully design the front-end of the
 
 ## Why?
 
-Every content management system falls into one of two categories: can be customized a ton but is very cumbersome to work with, or can be customized too little but is very straightforward. Only a few seem to find that perfect balance; [CraftCMS](https://craftcms.com), which Flint is ultimately inspired by, is a great example. However, there are very few systems that take advantage of the performance of newer, "sexier" stacks using Node.js. Flint is really fast and is written using modern web standards so that newer developers can jump in, plus it's open source so more and more people can help make it better.
+Every content management system falls into one of two categories: can be customized a ton but is very cumbersome to work with, or can be customized too little but is very straightforward. Only a few seem to find that perfect balance; [CraftCMS](https://craftcms.com), which Flint is ultimately inspired by, is a great example. However, there are very few systems that take advantage of the performance and ecosystem of Node.js. Flint is really fast and is written using modern web standards so that newer developers can jump in, plus it's open source so more and more people can help make it better.
 
 ## Getting Started
 
