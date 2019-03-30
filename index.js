@@ -92,7 +92,7 @@ module.exports = class Flint {
    * @param {Number} [port] - Defaults to either the process.env port or 4000
    */
   async startServer (port = this.port) {
-    const missingEnvVariables = validateEnvVariables()
+    const missingEnvVariables = validateEnvVariables({ log: logger })
     const didGenerateEnv = await generateEnvFile()
     if (didGenerateEnv && !testing) return process.exit()
 

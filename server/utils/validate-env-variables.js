@@ -8,7 +8,7 @@ const variables = [
  * @param {String[]} vars - process.env variables to check for
  * @returns {String[]} - Array of keys that *are not* defined in process.env
  */
-function validateEnvVariables (vars = variables, log) {
+function validateEnvVariables ({ vars = variables, log }) {
   const missingEnvVariables = vars.filter(v => process.env[v] === undefined || process.env[v] === '')
 
   missingEnvVariables.forEach(v => log.error(`Missing the ${v} variable in your .env file!`))
