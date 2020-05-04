@@ -1,3 +1,7 @@
+FlintCMS is no longer under active development. You can still use it as-is, but there won't be any feature or security changes. Have a nice day! :sunny:
+
+---
+
 # [FlintCMS](https://flintcms.co) &middot; [![npm version](https://img.shields.io/npm/v/flintcms.svg?style=flat)](https://www.npmjs.com/package/flintcms) [![Build Status](https://img.shields.io/travis/JasonEtco/flintcms/master.svg)](https://travis-ci.org/JasonEtco/flintcms) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md) [![Codecov](https://img.shields.io/codecov/c/github/JasonEtco/flintcms.svg)](https://codecov.io/gh/JasonEtco/flintcms/)
 
 Flint is a CMS built to be easy to use and super flexible. Your content needs to fit into more layouts and environments than anyone but you can plan for, so Flint enables you to make the templates you need and fill it with your content.
