@@ -1,4 +1,6 @@
-FlintCMS is no longer under active development. You can still use it as-is, but there won't be any feature or security changes. Have a nice day! :sunny:
+### FlintCMS is no longer under active development.
+
+You can still use it as-is, but there won't be any feature or security changes. Have a nice day! :sunny:
 
 ---
 
